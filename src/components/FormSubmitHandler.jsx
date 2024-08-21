@@ -1,10 +1,11 @@
 import axios from 'axios';
+const apiUrl = import.meta.env.VITE_BACKEND_URL; 
 
 const FormSubmitHandler = async ({ method = 'post', url, params = {}, data = {} }) => {
   try {
     const response = await axios({
       method,
-      url,
+      url: `${apiUrl}${url}`,
       params,
       data,
     });

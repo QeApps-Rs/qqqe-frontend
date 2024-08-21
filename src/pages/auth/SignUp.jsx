@@ -5,6 +5,7 @@ import Logo from "../../images/favicon.png";
 import { useForm } from "react-hook-form";
 import PhoneIcon from '../../images/svg-icons/phone.svg';
 import DropDown from "../../components/higherOrderComponent/Dropdown/Dropdown";
+import FormSubmitHandler from "../../components/FormSubmitHandler";
 // import EmailIcon from '../../images/svg-icons/email.svg';
 
 const SignUp = () => {
@@ -53,10 +54,23 @@ const SignUp = () => {
     });
   }
 
-  const submitRegister = () => {
-    window.open('https://apps.qeapps.com/ecom_apps_n/production/qqqe/?shop=100demo.myshopify.com', '_blank');
-    setRegisterField(defaultFields);
-  }
+  const submitRegister = async () => {
+    try {
+      console.log(['registerField', registerField]);
+      
+      const result = await FormSubmitHandler({
+        method: "post",
+        url: "register",
+        data: registerField,
+      });
+      console.log("result", result);
+      window.open('https://apps.qeapps.com/ecom_apps_n/production/qqqe/?shop=100demo.myshopify.com', '_blank');
+      setRegisterField(defaultFields);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
 
   return (
     <>
@@ -189,12 +203,16 @@ const SignUp = () => {
 
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Enter Domain
+                    Enter Domain <span style={{ color: "red"}}>NOTE: YOU NEED TO ENTER FULL DOMAIN NAME</span>
                   </label>
                   <div className="relative">
                     <input
                       {...register('domain', {
                         required: "Domain is required",
+                        pattern: {
+                          value: /^[a-zA-Z0-9]+\.myshopify\.com$/,
+                          message: "Invalid domain"
+                        },
                         minLength: {
                           value: 1,
                           message: "Domain must be at least 1 characters"
