@@ -8,6 +8,16 @@ const DropDown = ({ jsonData }) => {
     setIsOptionSelected(true);
   };
 
+  const validationProps = jsonData.validationLogic ? jsonData.validationLogic(jsonData) : {};
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setSelectedOption(value);
+    changeTextColor();
+    if (jsonData.onChange) {
+      jsonData.onChange(value);
+    }
+  };
+
   return (
     <div className="mb-4.5">
       <label className="mb-2.5 block text-black dark:text-white font-semibold">
@@ -16,14 +26,13 @@ const DropDown = ({ jsonData }) => {
 
       <div className="relative z-20 bg-transparent dark:bg-form-input">
         <select
+          {...validationProps}
+          name={jsonData.name}
+          id={jsonData.id}
           value={selectedOption}
-          onChange={(e) => {
-            setSelectedOption(e.target.value);
-            changeTextColor();
-          }}
-          className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${
-            isOptionSelected ? 'text-black dark:text-white' : ''
-          }`}
+          onChange={handleChange}
+          className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${isOptionSelected ? 'text-black dark:text-white' : ''
+            }`}
         >
           <option value="" disabled className="text-body dark:text-bodydark">
             {jsonData.placeholder || 'Select your subject'}
@@ -34,7 +43,7 @@ const DropDown = ({ jsonData }) => {
             </option>
           ))}
         </select>
-
+        {jsonData.errors[jsonData.name] && <span className="text-red-500 text-xs italic">{jsonData.errors[jsonData.name].message}</span>}
         <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
           <svg
             className="fill-current"
