@@ -1,15 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import FormSubmitHandler from "../FormSubmitHandler";
+import toast from "react-hot-toast";
 
-const GeneralInfo = () => {
+const GeneralInfo = ({ userData }) => {
   const {
+    reset: resetPersonalInfo,
     register: registerPersonalInfo,
     handleSubmit: handleSubmitPersonalInfo,
     formState: { errors: errorsPersonalInfo },
   } = useForm();
 
+  useEffect(() => {
+    if (userData) {
+      resetPersonalInfo({
+        name: userData.name || "",
+        phone: userData.phone || "",
+      });
+    }
+  }, [userData, resetPersonalInfo]);
+
   const {
+    reset: resetPassword,
     register: registerPassword,
     handleSubmit: handleSubmitPassword,
     formState: { errors: errorsPassword },
@@ -21,35 +33,49 @@ const GeneralInfo = () => {
   };
 
   const onSubmitPersonalInfo = async (data) => {
-    console.log("Personal Info:", data);
-    const result = await FormSubmitHandler({
-      method: "post",
-      url: "http://localhost:6052/user/update",
-      data: data,
-    });
-    console.log("result", result);
-  };
+    try {
+      console.log("Personal Info:", data);
+      const resultOfPersonalInfo = await FormSubmitHandler({
+        method: "post",
+        url: "user/update",
+        data: data,
+      });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await FormSubmitHandler({
-          method: "get",
-          url: "http://localhost:6052/user",
-        });
-        console.log("result", result);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      if (resultOfPersonalInfo.success) {
+        toast.success(resultOfPersonalInfo.message);
+      } else {
+        toast.error(resultOfPersonalInfo.message);
       }
-    };
-
-    fetchData();
-  }, []);
-
-  const onSubmitPassword = (data) => {
-    console.log("Password:", data);
+    } catch (error) {
+      console.error("Error updating personal info:", error);
+      toast.error(
+        "An error occurred while updating your personal information."
+      );
+    }
   };
 
+  const onSubmitPassword = async (data) => {
+    try {
+      console.log("Password:", data);
+      const resultOfSubmitPassword = await FormSubmitHandler({
+        method: "post",
+        url: "change-password",
+        data: data,
+      });
+      console.log('resultOfSubmitPassword', resultOfSubmitPassword)
+      if (resultOfSubmitPassword.success) {
+        toast.success(resultOfSubmitPassword.message);
+      } else {
+        toast.error(resultOfSubmitPassword.data.message);
+      }
+      resetPassword();
+    } catch (error) {
+      console.error("Error changing password:", error);
+      toast.error("An error occurred while changing your password.");
+    }
+  };
+
+ 
   return (
     <React.Fragment>
       <div className="mt-8">
@@ -88,15 +114,21 @@ const GeneralInfo = () => {
               Phone
             </label>
             <input
-              {...registerPersonalInfo("phone", { required: true })}
+              {...registerPersonalInfo("phone", {
+                required: "Phone number is required",
+                pattern: {
+                  value: /^[0-9]+$/,
+                  message: "Phone number must contain only numbers",
+                },
+              })}
               className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
               id="phone"
-              type="text"
+              type="tel"
               placeholder="Enter Phone"
             />
             {errorsPersonalInfo.phone && (
               <span className="text-red-500 text-xs italic">
-                Phone is required.
+                {errorsPersonalInfo.phone.message}
               </span>
             )}
           </div>
@@ -117,38 +149,41 @@ const GeneralInfo = () => {
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="currentPassword"
+              htmlFor="old_password"
             >
               Current Password
             </label>
             <input
-              {...registerPassword("currentPassword", { required: true })}
+              {...registerPassword("old_password", {
+                required: true,
+              })}
               className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-              id="currentPassword"
+              id="old_password"
               type="password"
               placeholder="Enter current password"
             />
-            {errorsPassword.currentPassword && (
+            {errorsPassword.old_password && (
               <span className="text-red-500 text-xs italic">
-                Current password is required.
+                {errorsPassword.old_password.message ||
+                  "Current password is required."}
               </span>
             )}
           </div>
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="newPassword"
+              htmlFor="new_password"
             >
               New Password
             </label>
             <input
-              {...registerPassword("newPassword", { required: true })}
+              {...registerPassword("new_password", { required: true })}
               className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-              id="newPassword"
+              id="new_password"
               type="password"
               placeholder="Enter new password"
             />
-            {errorsPassword.newPassword && (
+            {errorsPassword.new_password && (
               <span className="text-red-500 text-xs italic">
                 New password is required.
               </span>
