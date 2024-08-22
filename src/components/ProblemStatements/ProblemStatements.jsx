@@ -22,7 +22,7 @@ const ProblemStatements = () => {
       try {
         const resultOfLevelOneQuestionList = await FormSubmitHandler({
           method: "get",
-          url: "/level1/question/list",
+          url: "level1/question/list",
         });
         // console.log(
         //   "resultOfLevelOneQuestionList",

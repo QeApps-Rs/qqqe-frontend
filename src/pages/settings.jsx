@@ -13,7 +13,7 @@ const SettingsPage = () => {
       try {
         const result = await FormSubmitHandler({
           method: "get",
-          url: "/user",
+          url: "user",
         });
         if (result.data) {
           setUserData(result.data);

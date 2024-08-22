@@ -37,7 +37,7 @@ const GeneralInfo = ({ userData }) => {
       console.log("Personal Info:", data);
       const resultOfPersonalInfo = await FormSubmitHandler({
         method: "post",
-        url: "/user/update",
+        url: "user/update",
         data: data,
       });
 
@@ -59,7 +59,7 @@ const GeneralInfo = ({ userData }) => {
       console.log("Password:", data);
       const resultOfSubmitPassword = await FormSubmitHandler({
         method: "post",
-        url: "/change-password",
+        url: "change-password",
         data: data,
       });
       console.log('resultOfSubmitPassword', resultOfSubmitPassword)
