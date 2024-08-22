@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import ContactUs from "./ContactUs";
 import About from "./About";
@@ -18,6 +18,7 @@ import Problem from "./pages/Problem";
 import Suggestion from "./pages/suggestion";
 import MasterForm from "./pages/forms/MasterForm";
 import Template from "./pages/template";
+import ForgotPassword from "./pages/auth/ForgotPassword";
 import { Toaster } from "react-hot-toast";
 
 const App = () => {
@@ -73,6 +74,7 @@ const App = () => {
               <Route path="/about" element={<About />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/auth/signup" element={<SignUp />} />
+              <Route path="/auth/forgot-password" element={<ForgotPassword />} />
               <Route path="/preference-survey" element={<PreferenceSurvey />} />
             </Route>
             <Route element={<DefaultLayout />}>
