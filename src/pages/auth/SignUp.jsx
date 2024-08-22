@@ -210,7 +210,7 @@ const SignUp = () => {
                       {...register('domain', {
                         required: "Domain is required",
                         pattern: {
-                          value: /^[a-zA-Z0-9]+\.myshopify\.com$/,
+                          value: /^[a-zA-Z0-9-]+\.myshopify\.com$/,
                           message: "Invalid domain"
                         },
                         minLength: {
