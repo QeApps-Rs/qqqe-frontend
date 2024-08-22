@@ -54,7 +54,7 @@ const SignUp = () => {
   }
 
   const submitRegister = () => {
-    window.open('https://apps.qeapps.com/ecom_apps_n/production/qqqe/?shop=100demo.myshopify.com', '_blank');
+    window.open(`https://apps.qeapps.com/ecom_apps_n/production/qqqe/?shop=${registerField.domain}`, '_blank');
     setRegisterField(defaultFields);
   }
 

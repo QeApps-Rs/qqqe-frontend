@@ -18,6 +18,7 @@ import Problem from "./pages/Problem";
 import Suggestion from "./pages/suggestion";
 import MasterForm from "./pages/forms/MasterForm";
 import Template from "./pages/template";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -47,6 +48,9 @@ const App = () => {
     <Router>
       <div className="App">
         <header className="App-header">
+          <div>
+            <Toaster position="bottom-center" reverseOrder={false} />
+          </div>
           <nav>
             <ul>
               <li>
