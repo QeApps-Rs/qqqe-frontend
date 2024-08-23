@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import PersonSvg from "./images/logo/person.svg";
+import PhoneIcon from './images/svg-icons/phone.svg';
 import SmsSvg from "./images/logo/SmsSvg.jsx";
 import LockSvg from "./images/logo/lockSvg.jsx";
 import { useForm } from "react-hook-form";
@@ -41,7 +41,7 @@ const SignIn = () => {
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="py-17.5 px-26 text-center">
               <span className="mt-15 inline-block">
-                <img src={PersonSvg} alt="" />
+                <img src={PhoneIcon} alt="" />
               </span>
             </div>
           </div>
