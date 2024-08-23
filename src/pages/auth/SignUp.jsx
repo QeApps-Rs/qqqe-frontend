@@ -116,7 +116,7 @@ const SignUp = () => {
         url: "register",
         data: registerField,
       });
-      window.open('https://apps.qeapps.com/ecom_apps_n/production/qqqe/?shop=100demo.myshopify.com', '_blank');
+      window.open(`https://apps.qeapps.com/ecom_apps_n/production/qqqe/?shop=${registerField.domain}`, '_blank');
       setRegisterField(defaultFields);
     } catch (error) {
       console.error("Error submitting form:", error);

@@ -9,19 +9,20 @@ const DashboardCard = ({
   cardProcess,
   cardUrl,
   chart,
+  priorityCount,
 }) => {
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
       <div className="badge space-x-2 rounded-full float-right -mt-5">
         <div className="flex flex-row p-1">
           <div className="badge h-5 w-5 rounded-full flex items-center justify-center bg-red-500 text-white">
-            <span>7</span>
+            <span>{priorityCount.Critical ?? 0}</span>
           </div>
           <div className="badge h-5 w-5 rounded-full flex items-center justify-center bg-warning text-white">
-            <span>2</span>
+            <span>{priorityCount.Average ?? 0}</span>
           </div>
           <div className="badge h-5 w-5 rounded-full flex items-center justify-center bg-success text-white">
-            <span>2</span>
+            <span>{priorityCount.Minor ?? 0}</span>
           </div>
         </div>
       </div>
