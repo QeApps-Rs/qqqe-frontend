@@ -20,6 +20,7 @@ import MasterForm from "./pages/forms/MasterForm";
 import Template from "./pages/template";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import { Toaster } from "react-hot-toast";
+import ResetPassword from "./pages/auth/ResetPassword";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -27,7 +28,7 @@ const App = () => {
 
   useEffect(() => {
     if (buttonRef.current) {
-      buttonRef.current.click();
+      // buttonRef.current.click();
     }
   }, [loading]);
 
@@ -75,6 +76,7 @@ const App = () => {
               <Route path="/signin" element={<SignIn />} />
               <Route path="/auth/signup" element={<SignUp />} />
               <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/preference-survey" element={<PreferenceSurvey />} />
             </Route>
             <Route element={<DefaultLayout />}>

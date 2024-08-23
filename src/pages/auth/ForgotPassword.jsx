@@ -1,7 +1,7 @@
 
 
 import { Link } from 'react-router-dom';
-import PersonSvg from "../../images/logo/person.svg";
+import PhoneIcon from "../../images/svg-icons/phone.svg";
 import SmsSvg from "../../images/logo/SmsSvg.jsx";
 import { useState } from 'react';
 import FormSubmitHandler from '../../components/FormSubmitHandler.jsx';
@@ -49,7 +49,7 @@ const ForgotPassword = () => {
                     <div className="hidden w-full xl:block xl:w-1/2">
                         <div className="py-17.5 px-26 text-center">
                             <span className="mt-15 inline-block">
-                                <img src={PersonSvg} alt="" />
+                                <img src={PhoneIcon} alt="" />
                             </span>
                         </div>
                     </div>
@@ -88,7 +88,7 @@ const ForgotPassword = () => {
                                 <div className="mb-5 mt-4">
                                     <input
                                         type="submit"
-                                        value="Continue"
+                                        value="Send Password Reset Link"
                                         className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                                     />
                                 </div>
