@@ -21,6 +21,7 @@ import Template from "./pages/template";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import { Toaster } from "react-hot-toast";
 import ResetPassword from "./pages/auth/ResetPassword";
+import ProtectedRoute from "./ProtectedRoute";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -77,7 +78,8 @@ const App = () => {
               <Route path="/auth/signup" element={<SignUp />} />
               <Route path="/auth/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/preference-survey" element={<PreferenceSurvey />} />
+              <Route path="/preference-survey" element={<ProtectedRoute element={PreferenceSurvey} />} />
+              
             </Route>
             <Route element={<DefaultLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />
