@@ -48,7 +48,8 @@ const App = () => {
   // eslint-disable-next-line react/prop-types
   const ProtectedRedirect = ({ element: Component }) => {
     const token = localStorage.getItem("token");
-    return token ? <Navigate to="/preference-survey" /> : <Component />;
+    const route = localStorage.getItem("setup-preference") ? "dashboard" : "preference-survey";
+    return token ? <Navigate to={`/${route}`} /> : <Component />;
   };
 
   return loading ? (
@@ -80,14 +81,14 @@ const App = () => {
               <Route path="/" element={<ProtectedRedirect element={SignIn} />} />
               <Route path="/contact-us" element={<ContactUs />} />
               <Route path="/about" element={<About />} />
-              <Route path="/signin" element={<SignIn />} />
+              <Route path="/signin" element={<ProtectedRedirect element={SignIn} />} />
               <Route path="/auth/signup" element={<SignUp />} />
               <Route path="/auth/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/preference-survey" element={<ProtectedRoute element={PreferenceSurvey} />} />
             </Route>
             <Route element={<DefaultLayout />}>
-              <Route path="/dashboard"  element={<ProtectedRoute element={Dashboard} />} />
+              <Route path="/dashboard" element={<ProtectedRoute element={Dashboard} />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/people-problem" element={<Problem />} />
               <Route path="/templates" element={<Templates />} />
