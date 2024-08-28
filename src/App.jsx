@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link, Navigate } from "react-router-dom";
 import ContactUs from "./ContactUs";
 import About from "./About";
 import "./App.css";
@@ -45,6 +45,12 @@ const App = () => {
     console.log("Button was clicked!");
   };
 
+  // eslint-disable-next-line react/prop-types
+  const ProtectedRedirect = ({ element: Component }) => {
+    const token = localStorage.getItem("token");
+    return token ? <Navigate to="/preference-survey" /> : <Component />;
+  };
+
   return loading ? (
     <Loader />
   ) : (
@@ -71,7 +77,7 @@ const App = () => {
 
           <Routes>
             <Route element={<AuthLayout />}>
-              <Route path="/" element={<SignIn />} />
+              <Route path="/" element={<ProtectedRedirect element={SignIn} />} />
               <Route path="/contact-us" element={<ContactUs />} />
               <Route path="/about" element={<About />} />
               <Route path="/signin" element={<SignIn />} />
@@ -79,10 +85,9 @@ const App = () => {
               <Route path="/auth/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/preference-survey" element={<ProtectedRoute element={PreferenceSurvey} />} />
-              
             </Route>
             <Route element={<DefaultLayout />}>
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard"  element={<ProtectedRoute element={Dashboard} />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/people-problem" element={<Problem />} />
               <Route path="/templates" element={<Templates />} />
