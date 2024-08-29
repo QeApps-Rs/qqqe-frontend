@@ -11,40 +11,7 @@ const TemplateCard = ({
 }) => {
   return (
     <div className="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-4">
-      {/* <div className="flex justify-end">
-        <div
-          id="dropdown"
-          className="absolute hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700"
-        >
-          <ul className="py-2" aria-labelledby="dropdownButton">
-            <li>
-              <a
-                href="/"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-              >
-                Edit
-              </a>
-            </li>
-            <li>
-              <a
-                href="/"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-              >
-                Export Data
-              </a>
-            </li>
-            <li>
-              <a
-                href="/"
-                className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-              >
-                Delete
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div> */}
-
+     
       <div className="flex flex-col items-center pb-10">
         <img
           className="mb-3 shadow-lg rounded-full w-24 h-24"

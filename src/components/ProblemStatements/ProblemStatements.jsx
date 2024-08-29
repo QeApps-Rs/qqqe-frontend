@@ -53,12 +53,12 @@ const ProblemStatements = () => {
             {questionData && questionData.length > 0
               ? questionData.map((data) => (
                   <div
-                    key={data.id} // Use a unique identifier from the data instead of index
+                    key={data.id} 
                     className="border-b border-slate-150 py-3 dark:border-navy-500 cursor-pointer"
                   >
                     <div className="flex items-center space-x-5 sm:space-x-3">
                       <div className="flex justify-between w-full flex-row space-x-2">
-                        <Link to="/suggestion/list/2">
+                        <Link to={`/suggestion/list/${data.id}`}>
                           <div className="ml-2 border-current pb-0.5 font-medium outline-none transition-colors duration-300 hover:text-primary/70 focus:text-primary/70 dark:text-accent-light dark:hover:text-accent-light/70 dark:focus:text-accent-light/70">
                             {data.problem_statement}
                           </div>
