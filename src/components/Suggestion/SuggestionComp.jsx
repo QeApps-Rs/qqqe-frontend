@@ -35,7 +35,6 @@ const SuggestionComp = () => {
   }, []);
 
   const toggleModal = (content) => {
-    console.log("content", content);
     setSettingContent(content);
     setIsModalOpen(true);
   };
@@ -138,7 +137,7 @@ const SuggestionComp = () => {
                         const rowId = `${statement.id}-${index}`;
                         return (
                           <>
-                            <tr key={rowId} data-id={expandedRows[rowId]}>
+                            <tr key={rowId}>
                               <td className="flex px-4 py-5 border-b border-[#eee] dark:border-strokedark">
                                 <button
                                   type="button"
@@ -226,7 +225,10 @@ const SuggestionComp = () => {
                             </tr>
                             {selectedOptions[rowId] === "Product" &&
                               expandedRows[rowId] == true && (
-                                <tr className="border-y border-transparent border-b-slate-200 dark:border-b-navy-500">
+                                <tr
+                                  key={rowId}
+                                  className="border-y border-transparent border-b-slate-200 dark:border-b-navy-500"
+                                >
                                   <td
                                     className="p-0"
                                     colSpan={8}
@@ -336,7 +338,10 @@ const SuggestionComp = () => {
                               )}
                             {selectedOptions[rowId] === "Customer" &&
                               expandedRows[rowId] == true && (
-                                <tr className="border-y border-transparent border-b-slate-200 dark:border-b-navy-500">
+                                <tr
+                                  key={rowId}
+                                  className="border-y border-transparent border-b-slate-200 dark:border-b-navy-500"
+                                >
                                   <td
                                     className="p-0"
                                     colSpan={8}
