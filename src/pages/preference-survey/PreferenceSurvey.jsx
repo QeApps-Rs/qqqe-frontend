@@ -42,19 +42,24 @@ const PreferenceSurvey = () => {
     };
 
     const storePreference = async () => {
-        setLoading(true);
-        await FormSubmitHandler({
-            method: 'post',
-            url: 'preference/store',
-            data: answers
-        }).then(res => {
-            toast.success(res.message);
-            localStorage.setItem("setup-preference", true);
-        }).catch(err => {
-            toast.error(err.message);
-        }).finally(() => {
-            setLoading(false);
-        });
+        if (answers.length > 0) {
+            setLoading(true);
+            await FormSubmitHandler({
+                method: 'post',
+                url: 'preference/store',
+                data: answers
+            }).then(res => {
+                toast.success(res.message);
+                localStorage.setItem("setup-preference", true);
+                navigate('/dashboard');
+            }).catch(err => {
+                toast.error(err.message);
+            }).finally(() => {
+                setLoading(false);
+            });
+        } else {
+            toast.error('You need to select at least one preference.');
+        }
     }
 
     const handleChange = (qid, aid) => {
@@ -84,7 +89,6 @@ const PreferenceSurvey = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         storePreference();
-        navigate('/dashboard');
     };
 
     useEffect(() => {

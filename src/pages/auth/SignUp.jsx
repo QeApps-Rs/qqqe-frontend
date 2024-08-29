@@ -102,7 +102,11 @@ const SignUp = () => {
     maxLength: {
       value: 15,
       message: "Password should not exceed 15 characters"
-    }
+    },
+    pattern: {
+      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      message: "Minimum length of this field must be equal or greater than 8 symbols. One uppercase and one lowercase letter and one symbol, Leading and trailing spaces will be ignored."
+    },
   }
   const confirmPasswordValidationType = {
     required: "Please confirm your password",

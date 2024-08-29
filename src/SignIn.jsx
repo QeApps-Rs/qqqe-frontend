@@ -28,7 +28,7 @@ const SignIn = () => {
 
             toast.success(res.message);
             setLoginField(defaultFields);
-            const route = localStorage.getItem("setup-preference") ? "dashboard" : "/preference-survey";
+            const route = localStorage.getItem("setup-preference") ? "/dashboard" : "/preference-survey";
             navigate(route);
         }).catch(err => {
             toast.error(err.message);
@@ -66,7 +66,11 @@ const SignIn = () => {
         maxLength: {
             value: 15,
             message: "Password should not exceed 15 characters"
-        }
+        },
+        pattern: {
+            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+            message: "Minimum length of this field must be equal or greater than 8 symbols. One uppercase and one lowercase letter and one symbol, Leading and trailing spaces will be ignored."
+        },
     }
 
     return (
