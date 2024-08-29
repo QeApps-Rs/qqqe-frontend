@@ -22,6 +22,7 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import { Toaster } from "react-hot-toast";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ProtectedRoute from "./ProtectedRoute";
+const env_type = import.meta.env.VITE_ENV;
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -29,7 +30,9 @@ const App = () => {
 
   useEffect(() => {
     if (buttonRef.current) {
-      // buttonRef.current.click();
+      if (env_type == 'production') {
+        buttonRef.current.click();
+      }
     }
   }, [loading]);
 
