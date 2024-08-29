@@ -28,7 +28,8 @@ const SignIn = () => {
 
             toast.success(res.message);
             setLoginField(defaultFields);
-            navigate("/preference-survey");
+            const route = localStorage.getItem("setup-preference") ? "dashboard" : "/preference-survey";
+            navigate(route);
         }).catch(err => {
             toast.error(err.message);
         }).finally(() => {
