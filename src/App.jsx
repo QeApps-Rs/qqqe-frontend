@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { BrowserRouter as Router, Route, Routes, Link, Navigate } from "react-router-dom";
 import ContactUs from "./ContactUs";
 import About from "./About";
 import "./App.css";
@@ -18,6 +18,10 @@ import Problem from "./pages/Problem";
 import Suggestion from "./pages/suggestion";
 import MasterForm from "./pages/forms/MasterForm";
 import Template from "./pages/template";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import { Toaster } from "react-hot-toast";
+import ResetPassword from "./pages/auth/ResetPassword";
+import ProtectedRoute from "./ProtectedRoute";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -25,7 +29,7 @@ const App = () => {
 
   useEffect(() => {
     if (buttonRef.current) {
-      buttonRef.current.click();
+      // buttonRef.current.click();
     }
   }, [loading]);
 
@@ -41,12 +45,22 @@ const App = () => {
     console.log("Button was clicked!");
   };
 
+  // eslint-disable-next-line react/prop-types
+  const ProtectedRedirect = ({ element: Component }) => {
+    const token = localStorage.getItem("token");
+    const route = localStorage.getItem("setup-preference") ? "dashboard" : "preference-survey";
+    return token ? <Navigate to={`/${route}`} /> : <Component />;
+  };
+
   return loading ? (
     <Loader />
   ) : (
     <Router>
       <div className="App">
         <header className="App-header">
+          <div>
+            <Toaster position="bottom-center" reverseOrder={false} />
+          </div>
           <nav>
             <ul>
               <li>
@@ -64,15 +78,17 @@ const App = () => {
 
           <Routes>
             <Route element={<AuthLayout />}>
-              <Route path="/" element={<SignIn />} />
+              <Route path="/" element={<ProtectedRedirect element={SignIn} />} />
               <Route path="/contact-us" element={<ContactUs />} />
               <Route path="/about" element={<About />} />
-              <Route path="/signin" element={<SignIn />} />
+              <Route path="/signin" element={<ProtectedRedirect element={SignIn} />} />
               <Route path="/auth/signup" element={<SignUp />} />
-              <Route path="/preference-survey" element={<PreferenceSurvey />} />
+              <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/preference-survey" element={<ProtectedRoute element={PreferenceSurvey} />} />
             </Route>
             <Route element={<DefaultLayout />}>
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard" element={<ProtectedRoute element={Dashboard} />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/people-problem" element={<Problem />} />
               <Route path="/templates" element={<Templates />} />

@@ -5,9 +5,9 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 const DefaultLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [isShowback, setShowback] = useState(false)
-  const location = useLocation();
-  const { pathname } = location;
+  const [isShowBack, setShowBack] = useState(false)
+ 
+  const { pathname } = useLocation();
 
   const noSidebarOrHeaderPaths = [
     '/signin',
@@ -19,10 +19,10 @@ const DefaultLayout = () => {
 
   useEffect(() => {
     if (pathname === '/master-form') {
-      setShowback(true)
+      setShowBack(true)
       setSidebarOpen(false)
     } else {
-      setShowback(false)
+      setShowBack(false)
       setSidebarOpen(true)
     }
   }, [pathname])
@@ -43,7 +43,7 @@ const DefaultLayout = () => {
         <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
           {/* <!-- ===== Header Start ===== --> */}
           {showSidebarAndHeader &&
-            (<Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} isShowback={isShowback} />
+            (<Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} isShowBack={isShowBack} />
             )}
           {/* <!-- ===== Header End ===== --> */}
 
