@@ -54,7 +54,6 @@ export default {
         success: '#219653',
         danger: '#D34053',
         warning: '#FFA70B',
-        customGray: 'rgb(114, 105, 105)',
       },
       fontSize: {
         'title-xxl': ['44px', '55px'],
