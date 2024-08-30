@@ -57,7 +57,7 @@ const DropDown = ({ jsonData }) => {
         </select>
         {jsonData.errors && (
           <span className="text-red-500 text-xs italic">
-            {jsonData.errors[jsonData.name].message}
+            {jsonData.errors && jsonData.errors[jsonData.name] && jsonData.errors[jsonData.name].message}
           </span>
         )}
         <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">

@@ -6,6 +6,7 @@ import ColorPicker from "../../components/higherOrderComponent/ColorPicker/Color
 import DropDown from "../../components/higherOrderComponent/Dropdown/Dropdown";
 
 const MasterForm = () => {
+
   const [checkedItems, setCheckedItems] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [frequency, setFrequency] = useState(5);
@@ -15,6 +16,16 @@ const MasterForm = () => {
   const [notShowUrl, setNotShow] = useState(false)
   const [showLocation, setLocation] = useState(false)
   const [notShowlocation, setNotShowLocation] = useState(false);
+  const [borderStyle, setBorderStyle] = useState("solid");
+  const [padding, setPadding] = useState({
+    top: null,
+    bottom: null,
+    left: null,
+    right: null,
+  });
+  const [selectFont, setSelectedFont] = useState('')
+  const [fontWight, setFontWeight] = useState('')
+
 
   const toggleAccordion = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -46,6 +57,29 @@ const MasterForm = () => {
       { value: "Show to specific profiles in a list or segment", label: "Show to specific profiles in a list or segment" },
     ],
   };
+
+  const formTypeDropdown = {
+    label: "Form Type",
+    placeholder: "Select form type",
+    options: [
+      { value: "popup", label: "Popup" },
+      { value: "full page", label: "Full page" },
+      { value: "flyout", label: "Flyout" },
+      { value: "embed", label: "Embed" },
+      { value: "banner", label: "Banner" },
+    ],
+  };
+
+  const widthDropdown = {
+    label: "Form width",
+    placeholder: "Select form width",
+    options: [
+      { value: "small", label: "Small" },
+      { value: "medium", label: "Medium" },
+      { value: "large", label: "Large" },
+    ],
+  };
+
   const timingOptions = [
     { value: "Immediately", label: "Immediately" },
     { value: "Based on rules", label: "Based on rules" },
@@ -57,6 +91,26 @@ const MasterForm = () => {
     { value: "Desktop only", label: "Desktop only" },
     { value: "Mobile only", label: "Mobile only" },
   ];
+
+  const onborderStyleSelect = (e) => {
+    setBorderStyle(e.target.value)
+  }
+
+  const handleChange = (e, side) => {
+    const value = e.target.value ? parseInt(e.target.value, 10) : 0;
+    setPadding((prevPadding) => ({
+      ...prevPadding,
+      [side]: value,
+    }));
+  };
+
+  const onFontChange = (e) => {
+    setSelectedFont(e.target.value)
+  }
+
+  const onFontWeightChange = (e) => {
+    setFontWeight(e.target.value)
+  }
 
   return (
     <>
@@ -585,7 +639,7 @@ const MasterForm = () => {
                 },
                 {
                   title: "Add blocks",
-                  subtitle: "Comming soon",
+                  subtitle: "coming soon",
                   content:
                     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
                   tag: 'block'
@@ -633,7 +687,7 @@ const MasterForm = () => {
                                   </div> */}
                                   <form action="#">
                                     <div className="p-3">
-                                      <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
+                                      {/* <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                                         <div className="w-full xl:w-1/2">
                                           <label className="mb-2.5 block text-black dark:text-white">
                                             First name
@@ -655,7 +709,7 @@ const MasterForm = () => {
                                             className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                           />
                                         </div>
-                                      </div>
+                                      </div> */}
 
                                       <div className="mb-4.5">
                                         <label className="mb-2.5 block text-black dark:text-white">
@@ -668,7 +722,7 @@ const MasterForm = () => {
                                           className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                         />
                                       </div>
-                                      <div className="mb-6">
+                                      {/* <div className="mb-6">
                                         <label className="mb-2.5 block text-black dark:text-white">
                                           Number
                                         </label>
@@ -676,8 +730,24 @@ const MasterForm = () => {
                                           type="number"
                                           className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                         />
+                                      </div> */}
+                                      <div className="mb-6">
+                                        <label className="mb-2.5 block">
+                                          <div className="mb-6">
+                                            <DropDown jsonData={formTypeDropdown} />
+                                          </div>
+                                        </label>
+
                                       </div>
                                       <div className="mb-6">
+                                        <label className="mb-2.5 block">
+                                          <div className="mb-6">
+                                            <DropDown jsonData={widthDropdown} />
+                                          </div>
+                                        </label>
+
+                                      </div>
+                                      {/* <div className="mb-6">
                                         <label className="mb-2.5 block text-black dark:text-white">
                                           Color Picker
                                         </label>
@@ -725,6 +795,236 @@ const MasterForm = () => {
                                           type="file"
                                           className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:py-3 file:px-5 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
                                         />
+                                      </div> */}
+                                      <div className="mb-4.5 border-b border-black pb-4">
+                                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                                          Form Background
+                                        </label>
+                                        <div className="mt-3 flex justify-between flex-row items-center">
+                                          <span>
+                                            Background color:
+                                          </span>
+                                          <ColorPicker />
+                                        </div>
+                                        <div className="mt-3 flex justify-between flex-row ">
+                                          <span>
+                                            Overlay color:
+                                          </span>
+                                          <ColorPicker />
+                                        </div>
+                                      </div>
+                                      <div className="mb-4.5 border-b border-black pb-4">
+                                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                                          Form Styles
+                                        </label>
+                                        <div className="mt-3 flex justify-between flex-row items-center">
+                                          <span>
+                                            Corner Radius(px):
+                                          </span>
+                                          <input
+                                            id="border-radius"
+                                            type="number"
+                                            className=" w-32 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                          />
+                                        </div>
+                                        <div className="mt-3 flex justify-between flex-row items-center">
+                                          <span>
+                                            Border style:
+                                          </span>
+                                          <select onChange={(e) => onborderStyleSelect(e)} value={borderStyle} className="w-32 h-12 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                                            <option value="none">None</option>
+                                            <option value="solid">Solid</option>
+                                            <option value="dashed">Dashed</option>
+                                            <option value="dotted">Dotted</option>
+                                          </select>
+                                        </div>
+                                        {borderStyle != 'none' &&
+                                          <>
+                                            <div className="mt-3 flex justify-between flex-row ">
+                                              <span>
+                                                Border color:
+                                              </span>
+                                              <ColorPicker />
+                                            </div>
+                                            <div className="mt-3 flex justify-between flex-row ">
+                                              <span>
+                                                Border Thickness:
+                                              </span>
+                                              <input
+                                                id="border-thickness"
+                                                type="number"
+                                                className=" w-32 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                              />
+                                            </div>
+                                          </>}
+                                        <div className="flex flex-col">
+                                          <label className="mb-2">Padding(px):</label>
+                                          <div className="flex gap-4 justify-end">
+                                            <div className="flex flex-col">
+                                              <label className="mb-1">Top</label>
+                                              <div className="flex items-center">
+                                                <input
+                                                  type="number"
+                                                  value={padding.top}
+                                                  onChange={(e) => handleChange(e, 'top')}
+                                                  className="w-22 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                                  placeholder="px"
+                                                />
+                                                {/* <span className="ml-1">px</span> */}
+                                              </div>
+                                            </div>
+                                            <div className="flex flex-col">
+                                              <label className="mb-1">Bottom</label>
+                                              <div className="flex items-center">
+                                                <input
+                                                  type="number"
+                                                  value={padding.bottom}
+                                                  onChange={(e) => handleChange(e, 'bottom')}
+                                                  className="w-22 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                                  placeholder="px"
+                                                />
+                                                {/* <span className="ml-1">px</span> */}
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="flex gap-4 mt-4 justify-end">
+                                            <div className="flex flex-col">
+                                              <label className="mb-1">Left</label>
+                                              <div className="flex items-center">
+                                                <input
+                                                  type="number"
+                                                  value={padding.left}
+                                                  onChange={(e) => handleChange(e, 'left')}
+                                                  className="w-22 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                                  placeholder="px"
+                                                />
+                                                {/* <span className="ml-1">px</span> */}
+                                              </div>
+                                            </div>
+                                            <div className="flex flex-col">
+                                              <label className="mb-1">Right</label>
+                                              <div className="flex items-center">
+                                                <input
+                                                  type="number"
+                                                  value={padding.right}
+                                                  onChange={(e) => handleChange(e, 'right')}
+                                                  className="w-22 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                                  placeholder="px"
+                                                />
+                                                {/* <span className="ml-1">px</span> */}
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div className="mb-4.5 border-b border-black pb-4">
+                                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                                          Input Field Text Styles
+                                        </label>
+                                        <div className="mt-3 flex justify-between flex-row items-center">
+                                          <span>
+                                            Font:
+                                          </span>
+                                          <select onChange={(e) => onFontChange(e)} value={selectFont} className="w-38 h-12 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                                            <option value="arial">Arial</option>
+                                            <option value="arial-black">Arial Black</option>
+                                            <option value="century-gothic">Century Gothic</option>
+                                            <option value="comic-sans-ms">Comic Sans MS</option>
+                                            <option value="courier">Courier</option>
+                                            <option value="georgia">Georgia</option>
+                                            <option value="genva">Geneva</option>
+                                          </select>
+                                          <input
+                                            id="border-thickness"
+                                            type="number"
+                                            className=" w-24 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                            placeholder="px"
+                                          />
+                                        </div>
+                                        <div className="mt-3 flex justify-between flex-row items-center">
+                                          <span>
+                                            Font weight:
+                                          </span>
+                                          <select onChange={(e) => onFontWeightChange(e)} value={fontWight} className="w-36 h-12 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                                            <option value="bold">Bold</option>
+                                            <option value="normal">Normal</option>
+                                          </select>
+                                        </div>
+                                        <div className="mt-3 flex justify-between flex-row items-center">
+                                          <span>
+                                            Letter Spacing(px):
+                                          </span>
+                                          <input
+                                            id="letter-spacing"
+                                            type="number"
+                                            className=" w-32 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                            placeholder="px"
+                                          />
+                                        </div>
+                                        <div className="mt-3 flex justify-between flex-row ">
+                                          <span>
+                                            Label Color:
+                                          </span>
+                                          <ColorPicker />
+                                        </div>
+                                        <div className="mt-3 flex justify-between flex-row ">
+                                          <span>
+                                            Text Color:
+                                          </span>
+                                          <ColorPicker />
+                                        </div>
+                                        <div className="mt-3 flex justify-between flex-row ">
+                                          <span>
+                                            Placeholder:
+                                          </span>
+                                          <ColorPicker />
+                                        </div>
+                                      </div>
+                                      <div className="mb-4.5 border-b border-black pb-4">
+                                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                                          Input Field Styles
+                                        </label>
+                                        <div className="mt-3 flex justify-between flex-row items-center">
+                                          <span>
+                                            Background color:
+                                          </span>
+                                          <ColorPicker />
+                                        </div>
+                                        <div className="mt-3 flex justify-between flex-row items-center">
+                                          <span>
+                                            Border color:
+                                          </span>
+                                          <ColorPicker />
+                                        </div>
+                                        <div className="mt-3 flex justify-between flex-row items-center">
+                                          <span>
+                                            Focus Border color:
+                                          </span>
+                                          <ColorPicker />
+                                        </div>
+                                        {/* <div className="mt-3 flex justify-between flex-row items-center">
+                                          <span>
+                                            Corner Radius(px):
+                                          </span>
+                                          <input
+                                            id="letter-spacing"
+                                            type="number"
+                                            className=" w-32 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                            placeholder="px"
+                                          />
+                                        </div>
+                                        <div className="mt-3 flex justify-between flex-row items-center">
+                                          <span>
+                                            Input Field Height(px):
+                                          </span>
+                                          <input
+                                            id="letter-spacing"
+                                            type="number"
+                                            className=" w-32 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                            placeholder="px"
+                                          />
+                                        </div> */}
                                       </div>
                                       <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
                                         Send Message
