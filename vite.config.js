@@ -6,7 +6,7 @@ import autoprefixer from 'autoprefixer';
 
 export default defineConfig({
   plugins: [react()],
-  // base: 'https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/dist',
+  base: 'https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/dist',
   css: {
     postcss: {
       plugins: [tailwindcss, autoprefixer],
