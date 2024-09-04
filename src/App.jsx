@@ -62,7 +62,7 @@ const App = () => {
       <div className="App">
         <header className="App-header">
           <div>
-            <Toaster position="bottom-center" reverseOrder={false} />
+            <Toaster position="top-center" reverseOrder={false} />
           </div>
           <nav>
             <ul>

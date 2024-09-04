@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 
-const Radio = ({ jsonData }) => {
+const Radio = ({ jsonData,onChange }) => {
   const [selectedValue, setSelectedValue] = useState("");
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
+    onChange(event.target.value)
   };
 
   return (
