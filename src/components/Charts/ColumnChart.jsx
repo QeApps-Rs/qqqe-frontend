@@ -1,44 +1,34 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react/prop-types */
 import Apexcharts from '../apexChart/ApexChart';
 
-const ColumnChart = ({ columnChart }) => {
-    const [state, setState] = useState({
-        columnSeries: [],
-    });
-
-    useEffect(() => {
-        if (columnChart) {
-            setState({
-                columnSeries: columnChart.columnSeries,
-            });
-        }
-    }, [columnChart]);
-
+const ColumnChart = ({ chartData }) => {
     const options = {
         chart: {
             type: 'bar',
+            toolbar: {
+                show: false
+            }
         },
         plotOptions: {
             bar: {
                 horizontal: false,
                 columnWidth: '50%',
+                distributed: true, 
             },
         },
         xaxis: {
-            type: 'Default Type',
-            categories: columnChart?.xaxis?.categories || [],
+            categories: chartData?.categories || [],
             title: {
-                text: columnChart?.xaxis?.title?.text || 'X Axis'
+                text: chartData.xtitle || 'X Axis'
             }
 
         },
         yaxis: {
-            max: columnChart?.yaxis?.max || 300,
             labels: {
                 formatter: (val) => `${val}`,
             },
             title: {
-                text: columnChart?.yaxis?.title?.text || 'Y Axis'
+                text: chartData.ytitle || 'Y Axis'
             },
         },
         tooltip: {
@@ -59,11 +49,12 @@ const ColumnChart = ({ columnChart }) => {
                 strokeWidth: 0,
             },
         },
+        colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'],
     };
 
     return (
         <div>
-            <Apexcharts options={options} series={state.columnSeries} type="bar" height={350} />
+            <Apexcharts options={options} series={chartData?.seriesData || []} type="bar" height={350} />
         </div>
     );
 };
