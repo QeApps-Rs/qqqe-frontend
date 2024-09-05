@@ -17,6 +17,9 @@ const ColumnChart = ({ columnChart }) => {
     const options = {
         chart: {
             type: 'bar',
+            toolbar: {
+                show: false,  
+            },
         },
         plotOptions: {
             bar: {

@@ -5,6 +5,9 @@ const LineChart = ({ lineChart }) => {
     const options1 = {
         chart: {
             type: 'line',
+            toolbar: {
+                show: false,
+            },
         },
         dataLabels: {
             enabled: true,
