@@ -113,6 +113,23 @@ const Dashboard = () => {
           chart={chart}
         /> */}
       </div>
+      <div className="chart-card bg-white p-4 ">
+        <h3 className="chart-title">Line Chart
+        </h3>
+        <LineChartWithLabels />
+      </div>
+
+      <div className="chart-card bg-white p-4 ">
+        <h3 className="chart-title">Column Chart
+        </h3>
+        <ColumnChart />
+      </div>
+
+      <div className="chart-card bg-white p-4 ">
+        <h3 className="chart-title">Pie Chart
+        </h3>
+        <DonutChart />
+      </div>
     </React.Fragment>
   );
 };
