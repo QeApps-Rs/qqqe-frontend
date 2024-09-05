@@ -47,6 +47,69 @@ const chart = {
   },
 };
 
+const columnChart = {
+  columnSeries: [
+    {
+      name: 'Series 1',
+      data: [36, 245, 55, 62, 10, 7, 3],
+      color: "#b1399e",
+    },
+  ],
+  xaxis: {
+    type: "category",
+    categories: [
+      "iPhone",
+      "X11",
+      "Windows NT 10.0",
+      "Linux",
+      "Macintosh",
+      "Windows NT 6.1",
+      "iPad",
+    ],
+    title: {
+      text: 'Category',
+    },
+    axisBorder: { show: false },  // Hides extra borders
+    axisTicks: { show: false },   // Hides extra ticks
+  },
+  yaxis: {
+    title: {
+      text: 'Amount',
+    },
+    max: 300
+  },
+}
+const lineChart = {
+  lineSeries: [
+    {
+      name: 'Series 1',
+      data: [0, 5, 60, 15, 8, 2, 30],
+      color: "#b1399e",
+    },
+  ],
+  xaxis: {
+    type: "category",
+    categories: ['2023-01', '2023-04', '2023-07', '2023-10', '2024-01', '2024-04', '2024-07'],
+    title: {
+      text: 'Quarter',
+    },
+    axisBorder: { show: false },  // Hides extra borders
+    axisTicks: { show: false },   // Hides extra ticks
+  },
+  yaxis: {
+    title: {
+      text: 'Customer',
+    },
+    max: 300
+  },
+}
+
+const pieChart = {
+  labels: ['Most Purchased Products', 'Un-sold Products', 'Best Selling Products'],
+  pieSeries: [267, 1125, 200],
+}
+
+
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
   const [priorityCount, setPriorityCount] = useState({});
@@ -90,6 +153,9 @@ const Dashboard = () => {
           cardUrl="people-problem"
           chart={chart}
           priorityCount={priorityCount}
+          columnChart={columnChart}
+          lineChart={lineChart}
+          pieChart={pieChart}
         />
         {/* <DashboardCard
           cardTitle="Product"
@@ -98,11 +164,6 @@ const Dashboard = () => {
           cardTextDesc="1 out of 11 suggestions has been implemented"
           chart={chart}
         />
-        <DashboardCard
-          cardTitle="Price(Sales)"
-          color="bg-purple-300"
-          cardProcess = {false}
-          cardTextDesc="2 out of 9 suggestions has been implemented"
           chart={chart}
         />
         <DashboardCard
@@ -113,23 +174,7 @@ const Dashboard = () => {
           chart={chart}
         /> */}
       </div>
-      <div className="chart-card bg-white p-4 ">
-        <h3 className="chart-title">Line Chart
-        </h3>
-        <LineChartWithLabels />
-      </div>
 
-      <div className="chart-card bg-white p-4 ">
-        <h3 className="chart-title">Column Chart
-        </h3>
-        <ColumnChart />
-      </div>
-
-      <div className="chart-card bg-white p-4 ">
-        <h3 className="chart-title">Pie Chart
-        </h3>
-        <DonutChart />
-      </div>
     </React.Fragment>
   );
 };
