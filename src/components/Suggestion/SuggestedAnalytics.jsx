@@ -67,10 +67,10 @@ const SuggestedAnalytics = ({ id, content }) => {
       <p className="mb-4 ml-2 font-medium">{content}</p>
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-        <div className="col-span-12 rounded-sm border border-stroke bg-white px-4 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-6">
-          <div className="flex bg-red-300 h-16">
-            <p className="mt-3 text-black font-medium flex h-8 items-center justify-between px-4 sm:px-5 text-sm">
-              Impliment the discount of 20% in women category on below 5 product
+        <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+          <div className="bg-red-300 h-16">
+            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+              {content}
               <span className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
                 Suggested
               </span>
