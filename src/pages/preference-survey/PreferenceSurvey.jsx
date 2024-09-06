@@ -51,7 +51,7 @@ const PreferenceSurvey = () => {
             }).then(res => {
                 toast.success(res.message);
                 localStorage.setItem("setup-preference", true);
-                navigate('/dashboard');
+                navigate('/analytics');
             }).catch(err => {
                 toast.error(err.message);
             }).finally(() => {
