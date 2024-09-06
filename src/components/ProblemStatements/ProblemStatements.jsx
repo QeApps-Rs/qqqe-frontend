@@ -83,10 +83,7 @@ const ProblemStatements = () => {
                         >
                           {data.priority}
                         </div>
-                        <div
-                          title="35% of customer abandoned cart in last year."
-                          className=""
-                        >
+                        <div title={data.tooltip_text} className="">
                           <i className="fa fa-info-circle text-[19px] text-[#6495ED]" aria-hidden="true"></i>
                         </div>
                       </div>
