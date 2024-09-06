@@ -1,51 +1,53 @@
 import React from 'react';
-import Apexcharts from '../apexChart/ApexChart';
+import ReactApexChart from 'react-apexcharts';
 
-const LineChart = ({ lineChart }) => {
-    const options1 = {
-        chart: {
-            type: 'line',
-            toolbar: {
-                show: false,
-            },
-        },
-        dataLabels: {
-            enabled: true,
-            formatter: (val) => `${val}`,
-            style: {
-                fontSize: '12px',
-                colors: ['#fff'],
-                background: '#fff',
-                borderRadius: 5,
-            },
-            background: {
-                enabled: true,
-                foreColor: '#b1399e',
-                padding: 4,
-                borderRadius: 10,
-                borderWidth: 3,
-                borderColor: '#b1399e',
-                opacity: 1,
-            },
-        },
-        xaxis: {
-            categories: lineChart?.xaxis?.categories || [],
-            title: {
-                text: lineChart?.xaxis?.title?.text || 'X Axis'
-            },
-        },
-        yaxis: {
-            title: {
-                text: lineChart?.yaxis?.title?.text || 'Y Axis'
-            },
-        },
-    };
+const LineChart = ({ series, title, categories }) => {
+  const options = {
+    chart: {
+      type: 'line',
+      height: 350,
+      toolbar: {
+        show: false,
+      },
+    },
+    dataLabels: {
+      enabled: true,
+    },
+    title: {
+      text: title,
+      align: 'left',
+    },
+    stroke: {
+      curve: 'smooth',
+    },
+    xaxis: {
+      categories: categories || [],
+      title: {
+        text: 'Title',
+      },
+    },
+    yaxis: {
+      title: {
+        text: 'Views',
+      },
+    },
+    colors: ['#FF5733', '#33FF57', '#3357FF'],
+    tooltip: {
+      shared: true,
+      intersect: false,
+    },
+  };
 
-    return (
-        <div>
-            <Apexcharts options={options1} series={lineChart?.lineSeries} type="line" height={350} />
-        </div>
-    );
+  return (
+    <div>
+      <ReactApexChart
+        options={options}
+        series={series}
+        type="line"
+        height={350}
+      />
+    </div>
+  );
 };
 
 export default LineChart;

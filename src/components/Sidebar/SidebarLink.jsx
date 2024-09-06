@@ -26,12 +26,12 @@ const SidebarLink = ({
         onClick={() => navigate(href)}
         title={label}
       >
-        <span className=''>{iconType === 'home' ? <i class="fa fa-home bg-[#4680ff] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-lg" aria-hidden="true"></i> :
-          iconType === 'people' ? <i class="fa fa-users bg-[#fc6180] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base" aria-hidden="true"></i> :
-            iconType === 'product' ? <i class="fa fa-shopping-bag bg-[#7aa13f] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-sm" aria-hidden="true"></i> :
-              iconType === 'price' ? <i class="fa fa-usd bg-[#f7ac3f] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base" aria-hidden="true"></i> :
-                iconType === 'promotion' ? <i class="fa fa-gift bg-[#963ce5] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base" aria-hidden="true"></i> : 
-                iconType === 'analytics' ? <i class="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center" aria-hidden="true"></i> : ''}
+        <span className=''>{iconType === 'home' ? <i className="fa fa-home bg-[#4680ff] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-lg" aria-hidden="true"></i> :
+          iconType === 'people' ? <i className="fa fa-users bg-[#fc6180] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base" aria-hidden="true"></i> :
+            iconType === 'product' ? <i className="fa fa-shopping-bag bg-[#7aa13f] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-sm" aria-hidden="true"></i> :
+              iconType === 'price' ? <i className="fa fa-usd bg-[#f7ac3f] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base" aria-hidden="true"></i> :
+                iconType === 'promotion' ? <i className="fa fa-gift bg-[#963ce5] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base" aria-hidden="true"></i> : 
+                iconType === 'analytics' ? <i className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center" aria-hidden="true"></i> : ''}
         </span>
         {/* <span className={`icon ${iconType} 'mr-0' `} /> */}
         <span className="lg:block hidden">{sidebarOpen ? label : ''}</span>
