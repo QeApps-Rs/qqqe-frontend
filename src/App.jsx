@@ -23,6 +23,10 @@ import { Toaster } from "react-hot-toast";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ProtectedRoute from "./ProtectedRoute";
 import Analytics from "./pages/analytics";
+import Peoplepage from "./pages/Peoplepage";
+import PromotionPage from "./pages/PromotionPage";
+import PricePage from "./pages/PricePage";
+import Productpage from "./pages/Productpage";
 const env_type = import.meta.env.VITE_ENV;
 
 const App = () => {
@@ -100,6 +104,10 @@ const App = () => {
               <Route path="/suggestion/list/:id" element={<Suggestion />} />
               <Route path="/template/list/:id" element={<Template />} />
               <Route path="/master-form" element={<MasterForm />} />
+              <Route path="/people-dashboard" element={<Peoplepage />} />
+              <Route path="/product-dashboard" element={<Productpage />} />
+              <Route path="/price-dashboard" element={<PricePage />} />
+              <Route path="/promotion-dashboard" element={<PromotionPage />} />
             </Route>
           </Routes>
         </header>
