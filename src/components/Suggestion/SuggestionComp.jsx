@@ -4,9 +4,13 @@ import "react-tippy/dist/tippy.css";
 import Modal from "../higherOrderComponent/Model/model";
 import SuggestedAnalytics from "./SuggestedAnalytics";
 import FormSubmitHandler from "../FormSubmitHandler";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { BackIcon } from "../custIcon/svgIcon";
+import Support from "../Support/Support";
 
 const SuggestionComp = () => {
+
+  const navigate = useNavigate()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isShowAnalyticsModal, setAnalyticsModal] = useState(false);
   const { id } = useParams();
@@ -105,11 +109,13 @@ const SuggestionComp = () => {
       <div>
         <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__">
           <h2 className="text-lg text-title-md2 font-semibold text-black dark:text-white">
-            Level 2: Action Prompts (People)
+            Discover the Solution
           </h2>
+          <span onClick={() => navigate(-1)} className="flex items-center gap-x-1 cursor-pointer bg-white border border-gray-300 pt-1.5 pb-1.5 pl-2.5 pr-2.5 text-[15px] rounded-md"><BackIcon />Back</span>
         </div>
+        <span className="p-2 text-sm text-black mb-3">Find effective strategies to solve these challenges.</span>
 
-        <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+        <div className="rounded-sm border mt-4 border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
           <p className="text-md text-lg font-medium text-gray-900 leading-relaxed mb-2">
             {problemStatement.problem_statement}
           </p>
@@ -159,11 +165,10 @@ const SuggestionComp = () => {
                                   {["Product", "Customer"].map((option) => (
                                     <label
                                       key={option}
-                                      className={`${
-                                        selectedOptions[rowId] === option
+                                      className={`${selectedOptions[rowId] === option
                                           ? "bg-slate-300"
                                           : ""
-                                      } rounded`}
+                                        } rounded`}
                                     >
                                       <input
                                         type="radio"
@@ -178,11 +183,10 @@ const SuggestionComp = () => {
                                         className="hidden"
                                       />
                                       <div
-                                        className={`px-4 py-2 rounded-md cursor-pointer ${
-                                          selectedOptions[rowId] === option
+                                        className={`px-4 py-2 rounded-md cursor-pointer ${selectedOptions[rowId] === option
                                             ? "bg-gray-400"
                                             : "bg-gray-200"
-                                        }`}
+                                          }`}
                                       >
                                         {option}
                                       </div>
@@ -196,11 +200,10 @@ const SuggestionComp = () => {
                                 className="border-b border-[#eee] dark:border-strokedark"
                               >
                                 <span
-                                  className={`${
-                                    suggestion.is_applied
+                                  className={`${suggestion.is_applied
                                       ? "bg-green-100 text-green-800"
                                       : "bg-red-100 text-red-800"
-                                  } text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300`}
+                                    } text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300`}
                                 >
                                   {suggestion.is_applied
                                     ? "Applied"
@@ -235,11 +238,10 @@ const SuggestionComp = () => {
                                     aria-label="Column header"
                                   >
                                     <div
-                                      className={`w-full transition-all duration-300 ease-in-out ${
-                                        expandedRows[rowId] != true
+                                      className={`w-full transition-all duration-300 ease-in-out ${expandedRows[rowId] != true
                                           ? "h-0 opacity-0"
                                           : "h-auto opacity-100"
-                                      }`}
+                                        }`}
                                     >
                                       <div className="relative mx-auto my-4 flex w-full flex-col bg-clip-border text-gray-700 ">
                                         <table className="is-hoverable">
@@ -348,11 +350,10 @@ const SuggestionComp = () => {
                                     aria-label="Column header"
                                   >
                                     <div
-                                      className={`w-full transition-all duration-300 ease-in-out ${
-                                        expandedRows[rowId] != true
+                                      className={`w-full transition-all duration-300 ease-in-out ${expandedRows[rowId] != true
                                           ? "h-0 opacity-0"
                                           : "h-auto opacity-100"
-                                      }`}
+                                        }`}
                                     >
                                       <div className="relative mx-auto my-4 flex w-full flex-col bg-clip-border text-gray-700 ">
                                         <table className="is-hoverable">
@@ -427,12 +428,15 @@ const SuggestionComp = () => {
               }
               btnClose="Discard"
               btnSubmit="Confirm"
-              mdlTitle="Level 2: Action Prompts (People)"
+              mdlTitle="Action Prompts (People)"
               showFooter={false}
               isAnalytics={true}
             />
           )}
         </div>
+
+        <Support />
+
       </div>
     </>
   );

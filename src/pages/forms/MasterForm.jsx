@@ -154,8 +154,8 @@ const MasterForm = () => {
     <>
       <aside className="w-1/4 bg-white fixed left-[4.7rem] p-4 shadow-lg h-screen overflow-auto top-20">
         <div className="flex justify-between items-center border-b pb-3 mb-4">
-          <p className="font-semibold text-lg">Overview</p>
-          <span className="text-sm text-gray-500">Created by / Kadam</span>
+          <p className="font-semibold text-lg">Template Editor</p>
+          <span className="text-sm text-gray-500">Created by</span>
         </div>
 
         <ul className="space-y-4">
@@ -176,7 +176,7 @@ const MasterForm = () => {
             },
             {
               title: "Add blocks",
-              subtitle: "coming soon",
+              subtitle: "Coming Soon",
               content:
                 "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
               tag: 'block'
@@ -194,10 +194,10 @@ const MasterForm = () => {
                 onClick={() => toggleAccordion(index)}
               >
                 <span>
-                  <i
+                  {/* <i
                     className="fa fa-pencil-square-o mr-2"
                     aria-hidden="true"
-                  ></i>{" "}
+                  ></i>{" "} */}
                   {item.title}
                 </span>
                 <span className="text-sm font-normal">{item.subtitle}</span>

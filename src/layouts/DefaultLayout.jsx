@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '../components/Header/index';
 import Sidebar from '../components/Sidebar/index';
 import { Outlet, useLocation } from 'react-router-dom';
+import Footer from '../components/Footer/Footer';
 
 const DefaultLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -49,10 +50,11 @@ const DefaultLayout = () => {
 
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>
-            <div className={ pathname == '/master-form' ? '':`mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10`}>
+            <div className={ pathname == '/master-form' ? '':`mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10 `}>
               <Outlet />
             </div>
           </main>
+          { pathname != '/master-form' ? <Footer sidebarOpen={sidebarOpen}/> : null}
           {/* <!-- ===== Main Content End ===== --> */}
         </div>
         {/* <!-- ===== Content Area End ===== --> */}
