@@ -31,11 +31,11 @@ const DashboardCard = ({
           <h2 className="text-base font-medium text-slate-700 dark:text-navy-100">
             <Link
               to={"/" + cardUrl}
-              className="border-b border-dotted border-current pb-0.5 font-medium outline-none transition-colors duration-300 hover:text-primary/70 focus:text-primary/70 dark:text-accent-light dark:hover:text-accent-light/70 dark:focus:text-accent-light/70"
+              className="border-current pb-0.5 font-medium outline-none transition-colors duration-300 hover:text-primary/70 focus:text-primary/70 dark:text-accent-light dark:hover:text-accent-light/70 dark:focus:text-accent-light/70"
             >
               {cardTitle}
               <i
-                className="fa fa-lg fa-external-link-square"
+                className="fa fa-lg fa-external-link-square ml-1"
                 aria-hidden="true"
               />
             </Link>
