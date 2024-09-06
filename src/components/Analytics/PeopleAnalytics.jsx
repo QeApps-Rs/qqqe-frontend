@@ -11,6 +11,7 @@ import { getWeekData } from "./GetDataVisitCustomer";
 import ColumnChart from "../Charts/ColumnChart";
 import PieChart from "../Charts/PieChart";
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
+import Loader from "../../common/Loader";
 
 const testData = {
   "United States": 63,
@@ -32,6 +33,7 @@ const testData = {
 };
 
 const PeopleAnalytics = ({ id, content }) => {
+  const [loading, setLoading] = useState(false);
   const [countryData, setCountryData] = useState({
     apiStatus: false,
     apiData: {},
@@ -224,6 +226,7 @@ const PeopleAnalytics = ({ id, content }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        setLoading(true);
         const resultOfLevelOneQuestionList = await FormSubmitHandler({
           method: "get",
           url: "getCustomerJourneyData",
@@ -342,6 +345,7 @@ const PeopleAnalytics = ({ id, content }) => {
                 (item) => item.title
               )]
           );
+          setLoading(false);
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -551,379 +555,380 @@ const PeopleAnalytics = ({ id, content }) => {
     </table>
   );
 
-
-  console.log("product Data +++++++++++++ ", productData);
   return (
-    <main className="main-content todo-app w-full px-[var(--margin-x)] pb-8">
-      <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
-      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-        {/* HARSHIL CREATED CHARTS START */}
-        {
-          orderSaleCount.status && (
-            <>
-              {
-                orderSalesData.map((orderSaleTitle, key) => (
-                  <div key={key} className="col-span-12 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark  xl:col-span-4 h-29 align-center flex flex justify-center items-center">
-                    <div className="block">
-                      <h2 className="block text-3xl ">{orderSaleTitle}</h2>
-                      <span className="block text-center text-1xl  font-extrabold">
-                        {orderSaleTitle == 'Order Sales' && '$'} {orderSaleValue[key]}
-                      </span>
+    <>
+      {loading && <Loader />}
+      <main className="main-content todo-app w-full px-[var(--margin-x)] pb-8">
+        <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
+        <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+          {/* HARSHIL CREATED CHARTS START */}
+          {
+            orderSaleCount.status && (
+              <>
+                {
+                  orderSalesData.map((orderSaleTitle, key) => (
+                    <div key={key} className="col-span-12 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark  xl:col-span-4 h-29 align-center flex flex justify-center items-center">
+                      <div className="block">
+                        <h2 className="block text-3xl ">{orderSaleTitle}</h2>
+                        <span className="block text-center text-1xl  font-extrabold">
+                          {orderSaleTitle == 'Order Sales' && '$'} {orderSaleValue[key]}
+                        </span>
+                      </div>
                     </div>
+                  ))
+                }
+                <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-12">
+                  <div className="bg-green-300 h-16">
+                    <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                      Order Sales
+                    </p>
                   </div>
-                ))
-              }
-              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-12">
+
+                  <ColumnChart chartData={orderSaleCount.data} />
+                </div>
+              </>
+            )
+          }
+          {
+            orderCountDeviceWise.status && (
+              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
                 <div className="bg-green-300 h-16">
                   <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                    Order Sales
+                    Order Count By Device
                   </p>
                 </div>
 
-                <ColumnChart chartData={orderSaleCount.data} />
+                <ColumnChart chartData={orderCountDeviceWise.data} />
               </div>
-            </>
-          )
-        }
-        {
-          orderCountDeviceWise.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Order Count By Device
-                </p>
-              </div>
+            )
+          }
+          {
+            orderCountCountryWise.status && (
+              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+                <div className="bg-green-300 h-16">
+                  <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                    Order Count By Country
+                  </p>
+                </div>
 
-              <ColumnChart chartData={orderCountDeviceWise.data} />
-            </div>
-          )
-        }
-        {
-          orderCountCountryWise.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Order Count By Country
-                </p>
+                <ColumnChart chartData={orderCountCountryWise.data} />
               </div>
+            )
+          }
+          {
+            productSoldUnSoldCount.status && (
+              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+                <div className="bg-green-300 h-16">
+                  <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                    Product Chart
+                  </p>
+                </div>
+                <PieChart chartData={productSoldUnSoldCount.data} />
+              </div>
+            )
+          }
+          {
+            productSoldUnSoldCount.status && (
+              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+                <div className="bg-green-300 h-16">
+                  <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                    Product Categories
+                  </p>
+                </div>
+                <div className="container mx-auto p-4">
+                  <Tabs selectedIndex={activeTab} onSelect={(index) => setActiveTab(index)}>
+                    <TabList>
+                      <Tab style={{ backgroundColor: "#078bf0" }}>Most Purchased Products</Tab>
+                      <Tab style={{ backgroundColor: "#04e590" }}>Un-Sold Products</Tab>
+                      <Tab style={{ backgroundColor: "#feb130" }}>Top 7 Products</Tab>
+                    </TabList>
 
-              <ColumnChart chartData={orderCountCountryWise.data} />
-            </div>
-          )
-        }
-        {
-          productSoldUnSoldCount.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Product Chart
-                </p>
-              </div>
-              <PieChart chartData={productSoldUnSoldCount.data} />
-            </div>
-          )
-        }
-        {
-          productSoldUnSoldCount.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Product Categories
-                </p>
-              </div>
-              <div className="container mx-auto p-4">
-                <Tabs selectedIndex={activeTab} onSelect={(index) => setActiveTab(index)}>
-                  <TabList>
-                    <Tab style={{ backgroundColor: "#078bf0" }}>Most Purchased Products</Tab>
-                    <Tab style={{ backgroundColor: "#04e590" }}>Un-Sold Products</Tab>
-                    <Tab style={{ backgroundColor: "#feb130" }}>Top 7 Products</Tab>
-                  </TabList>
-
-                  <TabPanel>
-                    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-                      <div className="max-w-full overflow-x-auto">
-                        {renderTable(mostPurchasedProduct)}
+                    <TabPanel>
+                      <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+                        <div className="max-w-full overflow-x-auto">
+                          {renderTable(mostPurchasedProduct)}
+                        </div>
                       </div>
-                    </div>
-                  </TabPanel>
+                    </TabPanel>
 
-                  <TabPanel>
-                    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-                      <div className="max-w-full overflow-x-auto">
-                        {renderTable(unsoldProduct)}
+                    <TabPanel>
+                      <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+                        <div className="max-w-full overflow-x-auto">
+                          {renderTable(unsoldProduct)}
+                        </div>
                       </div>
-                    </div>
-                  </TabPanel>
+                    </TabPanel>
 
-                  <TabPanel>
-                    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-                      <div className="max-w-full overflow-x-auto">
-                        {renderTable(top7Product)}
+                    <TabPanel>
+                      <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+                        <div className="max-w-full overflow-x-auto">
+                          {renderTable(top7Product)}
+                        </div>
                       </div>
-                    </div>
-                  </TabPanel>
-                </Tabs>
-              </div>
-            </div>
-          )
-        }
-        {
-          customerCountCountryWise.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Customer Count By Country
-                </p>
-              </div>
-
-              <ColumnChart chartData={customerCountCountryWise.data} />
-            </div>
-          )
-        }
-        {
-          customerTopOrderList.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Customer Top Orders
-                </p>
-              </div>
-              <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-                <div className="max-w-full overflow-x-auto">
-                  {renderCustomerTopOrderTable(customerTopOrderList.data)}
+                    </TabPanel>
+                  </Tabs>
                 </div>
               </div>
-            </div>
-          )
-        }
-        {
-          customerCount.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Customer Chart
-                </p>
+            )
+          }
+          {
+            customerCountCountryWise.status && (
+              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+                <div className="bg-green-300 h-16">
+                  <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                    Customer Count By Country
+                  </p>
+                </div>
+
+                <ColumnChart chartData={customerCountCountryWise.data} />
               </div>
-              <PieChart chartData={customerCount.data} />
+            )
+          }
+          {
+            customerTopOrderList.status && (
+              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+                <div className="bg-green-300 h-16">
+                  <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                    Customer Top Orders
+                  </p>
+                </div>
+                <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+                  <div className="max-w-full overflow-x-auto">
+                    {renderCustomerTopOrderTable(customerTopOrderList.data)}
+                  </div>
+                </div>
+              </div>
+            )
+          }
+          {
+            customerCount.status && (
+              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+                <div className="bg-green-300 h-16">
+                  <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                    Customer Chart
+                  </p>
+                </div>
+                <PieChart chartData={customerCount.data} />
+              </div>
+            )
+          }
+          {/* HARSHIL CREATED CHARTS END */}
+          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+            <div className="bg-green-300 h-16">
+              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
+                assumenda.
+                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                Customized
+              </span> */}
+              </p>
             </div>
-          )
-        }
-        {/* HARSHIL CREATED CHARTS END */}
-        <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-          <div className="bg-green-300 h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-              assumenda.
-              {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+
+            {pagesData.apiStatus && (
+              <DonutChart
+                chartData={pagesData.apiData}
+                name="Visited Pages"
+                title="Customer Distribution by Visited Pages"
+                isHorizontal={true}
+                dataLabelStatus={false}
+              />
+            )}
+          </div>
+          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+            <div className="bg-green-300 h-16">
+              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
+                assumenda.
+                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
                 Customized
               </span> */}
-            </p>
+              </p>
+            </div>
+
+            {entryPagesData.apiStatus && (
+              <SlopeChart
+                chartData={entryPagesData.apiData}
+                name="Visited Pages"
+                title="Customer Distribution by Visited Pages"
+                isHorizontal={true}
+                dataLabelStatus={false}
+              />
+            )}
+          </div>
+          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+            <div className="bg-green-300 h-16">
+              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae,
+                aspernatur.
+                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                Customized
+              </span> */}
+              </p>
+            </div>
+            {countryData.apiStatus && (
+              <BarChart
+                chartData={countryData.apiData}
+                name="Country"
+                title="Customer Distribution by Country"
+                isHorizontal={false}
+                dataLabelStatus={true}
+                colors={["#00C49F", "#FFBB28"]}
+              />
+            )}
+          </div>
+          {/* =============================Sencond Graph ========================== */}
+          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+            <div className="bg-green-300 h-16">
+              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
+                assumenda.
+                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                Customized
+              </span> */}
+              </p>
+            </div>
+
+            {browserData.apiStatus && (
+              <BarChart
+                chartData={browserData.apiData}
+                name="IP Address"
+                title="Customer Distribution by IP Address"
+                isHorizontal={true}
+                dataLabelStatus={false}
+              />
+            )}
           </div>
 
-          {pagesData.apiStatus && (
-            <DonutChart
-              chartData={pagesData.apiData}
-              name="Visited Pages"
-              title="Customer Distribution by Visited Pages"
-              isHorizontal={true}
-              dataLabelStatus={false}
-            />
-          )}
-        </div>
-        <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-          <div className="bg-green-300 h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-              assumenda.
-              {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-12">
+            <div className="bg-green-300 h-16">
+              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
+                assumenda.
+                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
                 Customized
               </span> */}
-            </p>
+              </p>
+            </div>
+
+            <LineChart
+              series={combinedSeries}
+              title="Combined Top Views (Products, Categories, Pages)"
+              categories={combinedCategories}
+            />
           </div>
 
-          {entryPagesData.apiStatus && (
-            <SlopeChart
-              chartData={entryPagesData.apiData}
-              name="Visited Pages"
-              title="Customer Distribution by Visited Pages"
-              isHorizontal={true}
-              dataLabelStatus={false}
-            />
-          )}
-        </div>
-        <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-          <div className="bg-green-300 h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae,
-              aspernatur.
-              {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4">
+            <div className="bg-green-300 h-16">
+              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
+                assumenda.
+                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
                 Customized
               </span> */}
-            </p>
+              </p>
+            </div>
+            {productData.apiStatus && (
+              <LineChart
+                series={productSeries}
+                title="Top Viewed Products"
+                categories={productCategories}
+              />
+            )}
           </div>
-          {countryData.apiStatus && (
-            <BarChart
-              chartData={countryData.apiData}
-              name="Country"
-              title="Customer Distribution by Country"
+          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4">
+            <div className="bg-green-300 h-16">
+              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
+                assumenda.
+                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                Customized
+              </span> */}
+              </p>
+            </div>
+            {categoriesData.apiStatus && (
+              <LineChart
+                series={categoriesSeries}
+                title="Top Viewed Categories"
+                categories={categoriesCategories}
+              />
+            )}
+          </div>
+          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4">
+            <div className="bg-green-300 h-16">
+              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
+                assumenda.
+                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                Customized
+              </span> */}
+              </p>
+            </div>
+            {visitedPagesData.apiStatus && (
+              <LineChart
+                series={visitedPagesSeries}
+                title="Top Viewed Pages"
+                categories={visitedPagesVisitedPages}
+              />
+            )}
+          </div>
+          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+            <div className="bg-green-300 h-16">
+              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
+                assumenda.
+                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                Customized
+              </span> */}
+              </p>
+            </div>
+
+            <StepLineChart
+              data={topKeywords}
+              title="Top Keywords by Search Count"
+            />
+          </div>
+          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+            <div className="bg-green-300 h-16">
+              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
+                assumenda.
+                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                Customized
+              </span> */}
+              </p>
+            </div>
+
+            <BarChartCustomer
+              chartData={oneTimeVisit}
+              name="One-Time Visits"
+              title={`One-Time Visits for Weeks ${weekNumber}`}
               isHorizontal={false}
               dataLabelStatus={true}
-              colors={["#00C49F", "#FFBB28"]}
+              barColors={["#FFBB28"]}
             />
-          )}
-        </div>
-        {/* =============================Sencond Graph ========================== */}
-        <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-          <div className="bg-green-300 h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-              assumenda.
-              {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+          </div>
+          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+            <div className="bg-green-300 h-16">
+              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
+                assumenda.
+                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
                 Customized
               </span> */}
-            </p>
-          </div>
+              </p>
+            </div>
 
-          {browserData.apiStatus && (
-            <BarChart
-              chartData={browserData.apiData}
-              name="IP Address"
-              title="Customer Distribution by IP Address"
-              isHorizontal={true}
-              dataLabelStatus={false}
+            <BarChartCustomer
+              chartData={multiTimeVisit}
+              name="Multi-Time Visits"
+              title={`Multi-Time Visits for Weeks ${weekNumber}`}
+              isHorizontal={false}
+              dataLabelStatus={true}
             />
-          )}
-        </div>
-
-        <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-12">
-          <div className="bg-green-300 h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-              assumenda.
-              {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-            </p>
           </div>
-
-          <LineChart
-            series={combinedSeries}
-            title="Combined Top Views (Products, Categories, Pages)"
-            categories={combinedCategories}
-          />
         </div>
-
-        <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4">
-          <div className="bg-green-300 h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-              assumenda.
-              {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-            </p>
-          </div>
-          {productData.apiStatus && (
-            <LineChart
-              series={productSeries}
-              title="Top Viewed Products"
-              categories={productCategories}
-            />
-          )}
-        </div>
-        <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4">
-          <div className="bg-green-300 h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-              assumenda.
-              {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-            </p>
-          </div>
-          {categoriesData.apiStatus && (
-            <LineChart
-              series={categoriesSeries}
-              title="Top Viewed Categories"
-              categories={categoriesCategories}
-            />
-          )}
-        </div>
-        <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4">
-          <div className="bg-green-300 h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-              assumenda.
-              {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-            </p>
-          </div>
-          {visitedPagesData.apiStatus && (
-            <LineChart
-              series={visitedPagesSeries}
-              title="Top Viewed Pages"
-              categories={visitedPagesVisitedPages}
-            />
-          )}
-        </div>
-        <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-          <div className="bg-green-300 h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-              assumenda.
-              {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-            </p>
-          </div>
-
-          <StepLineChart
-            data={topKeywords}
-            title="Top Keywords by Search Count"
-          />
-        </div>
-        <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-          <div className="bg-green-300 h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-              assumenda.
-              {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-            </p>
-          </div>
-
-          <BarChartCustomer
-            chartData={oneTimeVisit}
-            name="One-Time Visits"
-            title={`One-Time Visits for Weeks ${weekNumber}`}
-            isHorizontal={false}
-            dataLabelStatus={true}
-            barColors={["#FFBB28"]}
-          />
-        </div>
-        <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-          <div className="bg-green-300 h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-              assumenda.
-              {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-            </p>
-          </div>
-
-          <BarChartCustomer
-            chartData={multiTimeVisit}
-            name="Multi-Time Visits"
-            title={`Multi-Time Visits for Weeks ${weekNumber}`}
-            isHorizontal={false}
-            dataLabelStatus={true}
-          />
-        </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 };
 
