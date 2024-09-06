@@ -28,12 +28,12 @@ const Modal = ({
           &#8203;
         </span>
         <div
-          className={`${isAnalytics ? 'w-8/12' : 'w-4/12'} inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle`}
+          className={`${isAnalytics ? 'w-6/12' : 'w-4/12'} inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle`}
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-headline"
         >
-          <div className="bg-white px-4 pt-5 pb-4 max-h-[600px] overflow-auto">
+          <div className="bg-white px-4 pt-5 pb-4 max-h-[500px] overflow-x-hidden overflow-y-auto">
             <div className="sm:flex sm:items-start">
               <div className="text-center sm:mt-0 sm:text-left">
                 <div className="p-1 border-b rounded-t dark:border-gray-600">

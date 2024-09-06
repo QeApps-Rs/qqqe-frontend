@@ -8,8 +8,8 @@ const FilterBar = () => {
                 <div className="flex space-x-6 ml-4">
                     <div className="relative">
                         <select className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                            <option>By difficulty</option>
-                            <option>Esay</option>
+                            <option>By Difficulty</option>
+                            <option>Easy</option>
                             <option>Intermediate</option>
                             <option>Advance</option>
                         </select>
@@ -34,7 +34,7 @@ const FilterBar = () => {
                     </div>
                     <div className="relative">
                         <select className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                            <option>By industry</option>
+                            <option>By Industry</option>
                             <option>Ecommerce</option>
                             <option>Saas</option>
                             <option>Service</option>
@@ -61,7 +61,7 @@ const FilterBar = () => {
                     </div>
                     <div className="relative">
                         <select className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                            <option>By goal</option>
+                            <option>By Goal</option>
                             <option>Build your list</option>
                             <option>Boost conversions</option>
                             <option>Increase sales</option>
@@ -86,9 +86,9 @@ const FilterBar = () => {
                         </div>
                     </div>
                 </div>
-                <button className="ml-auto bg-gray-100 rounded-lg text-gray-600 px-4 py-2 text-cyan-50 border border-gray-300 hover:bg-gray-200 bg-blue-700">
+                {/* <button className="ml-auto bg-gray-100 rounded-lg text-gray-600 px-4 py-2 text-cyan-50 border border-gray-300 hover:bg-gray-200 bg-blue-700">
                     Clear all
-                </button>
+                </button> */}
             </div>
         </div>
     );

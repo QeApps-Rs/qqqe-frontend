@@ -34,7 +34,7 @@ const DashboardCard = ({
                         >
                             {cardTitle}
                             <i
-                                className="fa fa-lg fa-external-link-square"
+                                className="fa fa-lg fa-external-link-square ml-1"
                                 aria-hidden="true"
                             />
                         </Link>
