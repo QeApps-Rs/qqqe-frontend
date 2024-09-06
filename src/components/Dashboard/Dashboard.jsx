@@ -87,9 +87,12 @@ const Dashboard = () => {
     const [unsoldProduct, setUnsoldProduct] = useState([]);
     const [top7Product, setTop7Product] = useState([]);
 
-
+    const [customerTopOrderList, setCustomerTopOrderList] = useState({ status: false, data: [] });
     const [customerCountCountryWise, setCustomerCountCountryWise] = useState({ status: false, data: {} });
     const [customerCount, setCustomerCount] = useState({ status: false, data: {} });
+    const [orderSaleCount, setOrderSaleCount] = useState({ status: false, data: {} });
+    const orderSalesData = ["Order count", "Order sales", "Order average"];
+    const [orderSaleValue, setOrderSaleValue] = useState([0, 0, 0]);
 
     const [priorityCount, setPriorityCount] = useState({});
     useEffect(() => {
@@ -214,6 +217,10 @@ const Dashboard = () => {
                     const repeatedCustomer = response.data.customer.repeated_customer;
                     const nonRepeatedCustomer = response.data.customer.non_repeated_customer;
                     const customerTopOrders = response.data.customer.customer_top_orders;
+                    setCustomerTopOrderList({
+                        status: true,
+                        data: customerTopOrders.slice(0, 5)
+                    })
 
                     setCustomerCount({
                         status: true,
@@ -237,16 +244,44 @@ const Dashboard = () => {
             }
         };
 
+        const fetchOrderSalesChartCount = async () => {
+            const response = await FormSubmitHandler({
+                method: "get",
+                url: "order/sales/count?start_date=2024-07-07&end_date=2024-07-23",
+            });
+            if (response.data) {
+                const orderValues = [
+                    response.data.order_count,
+                    response.data.order_sales,
+                    response.data.order_average,
+                ];
+                setOrderSaleCount({
+                    status: true,
+                    data: {
+                        categories: orderSalesData,
+                        seriesData: [{
+                            name: 'Order Count',
+                            data: orderValues,
+                            color: "#b1399e",
+                        }],
+                        xtitle: "Order sales report",
+                        ytitle: "Number",
+                    }
+                });
+                setOrderSaleValue(orderValues);
+            }
+        }
+
         fetchUserData();
         fetchOrderCountDeviceCountryWise();
         fetchCustomerChartCount();
+        fetchOrderSalesChartCount();
     }, []);
 
     const renderTable = (data) => (
         <table className="w-full table-auto">
             <thead>
                 <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                    <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">Variant Id</th>
                     <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Title</th>
                 </tr>
             </thead>
@@ -254,9 +289,6 @@ const Dashboard = () => {
                 {
                     data.map((item, key) => (
                         <tr key={key}>
-                            <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
-                                <h5 className="font-medium text-black dark:text-white">{item.variant_id}</h5>
-                            </td>
                             <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                 <p className="text-black dark:text-white">{item.title}</p>
                             </td>
@@ -266,6 +298,30 @@ const Dashboard = () => {
             </tbody>
         </table>
     );
+    const renderCustomerTopOrderTable = (data) => (
+        <table className="w-full table-auto">
+            <thead>
+                <tr className="bg-gray-2 text-left dark:bg-meta-4">
+                    <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Name</th>
+                    <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Order Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {data.map((item, key) => (
+                    <tr key={key}>
+
+                        <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                            <p className="text-black dark:text-white">{item.name}</p>
+                        </td>
+                        <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                            <p className="text-black dark:text-white">{item.orders_count}</p>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+
     return (
         <React.Fragment>
             <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
@@ -346,9 +402,9 @@ const Dashboard = () => {
                             <div className="container mx-auto p-4">
                                 <Tabs selectedIndex={activeTab} onSelect={(index) => setActiveTab(index)}>
                                     <TabList>
-                                        <Tab>Most Purchased Products</Tab>
-                                        <Tab>Un-sold Products</Tab>
-                                        <Tab>Top 7 Products</Tab>
+                                        <Tab style={{ backgroundColor: "#078bf0" }}>Most Purchased Products</Tab>
+                                        <Tab style={{ backgroundColor: "#04e590" }}>Un-sold Products</Tab>
+                                        <Tab style={{ backgroundColor: "#feb130" }}>Top 7 Products</Tab>
                                     </TabList>
 
                                     <TabPanel>
@@ -393,6 +449,22 @@ const Dashboard = () => {
                     )
                 }
                 {
+                    customerTopOrderList.status && (
+                        <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+                            <div className="bg-green-300 h-16">
+                                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                                    Customer Top Orders
+                                </p>
+                            </div>
+                            <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+                                <div className="max-w-full overflow-x-auto">
+                                    {renderCustomerTopOrderTable(customerTopOrderList.data)}
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+                {
                     customerCount.status && (
                         <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
                             <div className="bg-green-300 h-16">
@@ -404,9 +476,44 @@ const Dashboard = () => {
                         </div>
                     )
                 }
+                <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+                    <div className="bg-green-300 h-16">
+                        <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                            Customer chart
+                        </p>
+                    </div>
+                    <LineChart lineChart={lineChart} />
+                </div>
+                {
+                    orderSaleCount && (
+                        <>
+                            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-12">
+                                <div className="bg-green-300 h-16">
+                                    <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                                        Order sales
+                                    </p>
+                                </div>
+
+                                <ColumnChart chartData={orderSaleCount.data} />
+                            </div>
+                            {
+                                orderSalesData.map((orderSaleTitle, key) => (
+                                    <div key={key} className="col-span-12 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark  xl:col-span-4 h-29 align-center flex flex justify-center items-center">
+                                        <div className="block">
+                                            <h2 className="block text-3xl ">{orderSaleTitle}</h2>
+                                            <span className="block text-center text-1xl  font-extrabold">
+                                                {orderSaleValue[key]}
+                                            </span>
+                                        </div>
+                                    </div>
+                                ))
+                            }
+                        </>
+                    )
+                }
+
+
             </div>
-
-
         </React.Fragment>
     );
 };
