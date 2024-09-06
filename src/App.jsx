@@ -22,6 +22,7 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import { Toaster } from "react-hot-toast";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ProtectedRoute from "./ProtectedRoute";
+import Analytics from "./pages/analytics";
 const env_type = import.meta.env.VITE_ENV;
 
 const App = () => {
@@ -93,6 +94,7 @@ const App = () => {
             <Route element={<DefaultLayout />}>
               <Route path="/dashboard" element={<ProtectedRoute element={Dashboard} />} />
               <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/analytics" element={<Analytics />} />
               <Route path="/people-problem" element={<Problem />} />
               <Route path="/templates" element={<Templates />} />
               <Route path="/suggestion/list/:id" element={<Suggestion />} />
