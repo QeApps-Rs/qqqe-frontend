@@ -217,7 +217,7 @@ const PeopleAnalytics = ({ id, content }) => {
   const [customerCountCountryWise, setCustomerCountCountryWise] = useState({ status: false, data: {} });
   const [customerCount, setCustomerCount] = useState({ status: false, data: {} });
   const [orderSaleCount, setOrderSaleCount] = useState({ status: false, data: {} });
-  const orderSalesData = ["Order count", "Order sales", "Order average"];
+  const orderSalesData = ["Order Count", "Order Sales", "Order Average"];
   const [orderSaleValue, setOrderSaleValue] = useState([0, 0, 0]);
   // HARSHIL CREATED STATES END
 
@@ -492,7 +492,7 @@ const PeopleAnalytics = ({ id, content }) => {
               data: orderValues,
               color: "#b1399e",
             }],
-            xtitle: "Order sales report",
+            xtitle: "Order Sales Report",
             ytitle: "Number",
           }
         });
@@ -509,57 +509,206 @@ const PeopleAnalytics = ({ id, content }) => {
 
   const renderTable = (data) => (
     <table className="w-full table-auto">
-        <thead>
-            <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Title</th>
+      <thead>
+        <tr className="bg-gray-2 text-left dark:bg-meta-4">
+          <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Title</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          data.map((item, key) => (
+            <tr key={key}>
+              <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                <p className="text-black dark:text-white">{item.title}</p>
+              </td>
             </tr>
-        </thead>
-        <tbody>
-            {
-                data.map((item, key) => (
-                    <tr key={key}>
-                        <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                            <p className="text-black dark:text-white">{item.title}</p>
-                        </td>
-                    </tr>
-                ))
-            }
-        </tbody>
+          ))
+        }
+      </tbody>
     </table>
-);
+  );
 
-const renderCustomerTopOrderTable = (data) => (
+  const renderCustomerTopOrderTable = (data) => (
     <table className="w-full table-auto">
-        <thead>
-            <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Name</th>
-                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Order Count</th>
-            </tr>
-        </thead>
-        <tbody>
-            {data.map((item, key) => (
-                <tr key={key}>
-
-                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                        <p className="text-black dark:text-white">{item.name}</p>
-                    </td>
-                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                        <p className="text-black dark:text-white">{item.orders_count}</p>
-                    </td>
-                </tr>
-            ))}
-        </tbody>
+      <thead>
+        <tr className="bg-gray-2 text-left dark:bg-meta-4">
+          <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Name</th>
+          <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Order Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((item, key) => (
+          <tr key={key}>
+            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+              <p className="text-black dark:text-white">{item.name}</p>
+            </td>
+            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+              <p className="text-black dark:text-white">{item.orders_count}</p>
+            </td>
+          </tr>
+        ))}
+      </tbody>
     </table>
-);
+  );
 
 
   console.log("product Data +++++++++++++ ", productData);
   return (
     <main className="main-content todo-app w-full px-[var(--margin-x)] pb-8">
       <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
-      <p className="mb-4 ml-2 font-medium">This is Content</p>
-
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+        {/* HARSHIL CREATED CHARTS START */}
+        {
+          orderSaleCount.status && (
+            <>
+              {
+                orderSalesData.map((orderSaleTitle, key) => (
+                  <div key={key} className="col-span-12 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark  xl:col-span-4 h-29 align-center flex flex justify-center items-center">
+                    <div className="block">
+                      <h2 className="block text-3xl ">{orderSaleTitle}</h2>
+                      <span className="block text-center text-1xl  font-extrabold">
+                        {orderSaleTitle == 'Order Sales' && '$'} {orderSaleValue[key]}
+                      </span>
+                    </div>
+                  </div>
+                ))
+              }
+              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-12">
+                <div className="bg-green-300 h-16">
+                  <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                    Order Sales
+                  </p>
+                </div>
+
+                <ColumnChart chartData={orderSaleCount.data} />
+              </div>
+            </>
+          )
+        }
+        {
+          orderCountDeviceWise.status && (
+            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+              <div className="bg-green-300 h-16">
+                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                  Order Count By Device
+                </p>
+              </div>
+
+              <ColumnChart chartData={orderCountDeviceWise.data} />
+            </div>
+          )
+        }
+        {
+          orderCountCountryWise.status && (
+            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+              <div className="bg-green-300 h-16">
+                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                  Order Count By Country
+                </p>
+              </div>
+
+              <ColumnChart chartData={orderCountCountryWise.data} />
+            </div>
+          )
+        }
+        {
+          productSoldUnSoldCount.status && (
+            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+              <div className="bg-green-300 h-16">
+                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                  Product Chart
+                </p>
+              </div>
+              <PieChart chartData={productSoldUnSoldCount.data} />
+            </div>
+          )
+        }
+        {
+          productSoldUnSoldCount.status && (
+            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+              <div className="bg-green-300 h-16">
+                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                  Product Categories
+                </p>
+              </div>
+              <div className="container mx-auto p-4">
+                <Tabs selectedIndex={activeTab} onSelect={(index) => setActiveTab(index)}>
+                  <TabList>
+                    <Tab style={{ backgroundColor: "#078bf0" }}>Most Purchased Products</Tab>
+                    <Tab style={{ backgroundColor: "#04e590" }}>Un-Sold Products</Tab>
+                    <Tab style={{ backgroundColor: "#feb130" }}>Top 7 Products</Tab>
+                  </TabList>
+
+                  <TabPanel>
+                    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+                      <div className="max-w-full overflow-x-auto">
+                        {renderTable(mostPurchasedProduct)}
+                      </div>
+                    </div>
+                  </TabPanel>
+
+                  <TabPanel>
+                    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+                      <div className="max-w-full overflow-x-auto">
+                        {renderTable(unsoldProduct)}
+                      </div>
+                    </div>
+                  </TabPanel>
+
+                  <TabPanel>
+                    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+                      <div className="max-w-full overflow-x-auto">
+                        {renderTable(top7Product)}
+                      </div>
+                    </div>
+                  </TabPanel>
+                </Tabs>
+              </div>
+            </div>
+          )
+        }
+        {
+          customerCountCountryWise.status && (
+            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+              <div className="bg-green-300 h-16">
+                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                  Customer Count By Country
+                </p>
+              </div>
+
+              <ColumnChart chartData={customerCountCountryWise.data} />
+            </div>
+          )
+        }
+        {
+          customerTopOrderList.status && (
+            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+              <div className="bg-green-300 h-16">
+                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                  Customer Top Orders
+                </p>
+              </div>
+              <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+                <div className="max-w-full overflow-x-auto">
+                  {renderCustomerTopOrderTable(customerTopOrderList.data)}
+                </div>
+              </div>
+            </div>
+          )
+        }
+        {
+          customerCount.status && (
+            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+              <div className="bg-green-300 h-16">
+                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                  Customer Chart
+                </p>
+              </div>
+              <PieChart chartData={customerCount.data} />
+            </div>
+          )
+        }
+        {/* HARSHIL CREATED CHARTS END */}
         <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
           <div className="bg-green-300 h-16">
             <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
@@ -773,159 +922,6 @@ const renderCustomerTopOrderTable = (data) => (
             dataLabelStatus={true}
           />
         </div>
-
-        {/* HARSHIL CREATED CHARTS START */}
-        {
-          orderCountDeviceWise.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Order Count By Device
-                </p>
-              </div>
-
-              <ColumnChart chartData={orderCountDeviceWise.data} />
-            </div>
-          )
-        }
-        {
-          orderCountCountryWise.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Order Count By Country
-                </p>
-              </div>
-
-              <ColumnChart chartData={orderCountCountryWise.data} />
-            </div>
-          )
-        }
-        {
-          productSoldUnSoldCount.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Product chart
-                </p>
-              </div>
-              <PieChart chartData={productSoldUnSoldCount.data} />
-            </div>
-          )
-        }
-        {
-          productSoldUnSoldCount.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Product categories
-                </p>
-              </div>
-              <div className="container mx-auto p-4">
-                <Tabs selectedIndex={activeTab} onSelect={(index) => setActiveTab(index)}>
-                  <TabList>
-                    <Tab style={{ backgroundColor: "#078bf0" }}>Most Purchased Products</Tab>
-                    <Tab style={{ backgroundColor: "#04e590" }}>Un-sold Products</Tab>
-                    <Tab style={{ backgroundColor: "#feb130" }}>Top 7 Products</Tab>
-                  </TabList>
-
-                  <TabPanel>
-                    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-                      <div className="max-w-full overflow-x-auto">
-                        {renderTable(mostPurchasedProduct)}
-                      </div>
-                    </div>
-                  </TabPanel>
-
-                  <TabPanel>
-                    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-                      <div className="max-w-full overflow-x-auto">
-                        {renderTable(unsoldProduct)}
-                      </div>
-                    </div>
-                  </TabPanel>
-
-                  <TabPanel>
-                    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-                      <div className="max-w-full overflow-x-auto">
-                        {renderTable(top7Product)}
-                      </div>
-                    </div>
-                  </TabPanel>
-                </Tabs>
-              </div>
-            </div>
-          )
-        }
-        {
-          customerCountCountryWise.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Customer Count By Country
-                </p>
-              </div>
-
-              <ColumnChart chartData={customerCountCountryWise.data} />
-            </div>
-          )
-        }
-        {
-          customerTopOrderList.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Customer Top Orders
-                </p>
-              </div>
-              <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-                <div className="max-w-full overflow-x-auto">
-                  {renderCustomerTopOrderTable(customerTopOrderList.data)}
-                </div>
-              </div>
-            </div>
-          )
-        }
-        {
-          customerCount.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Customer chart
-                </p>
-              </div>
-              <PieChart chartData={customerCount.data} />
-            </div>
-          )
-        }
-        {
-          orderSaleCount.status && (
-            <>
-              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-12">
-                <div className="bg-green-300 h-16">
-                  <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                    Order sales
-                  </p>
-                </div>
-
-                <ColumnChart chartData={orderSaleCount.data} />
-              </div>
-              {
-                orderSalesData.map((orderSaleTitle, key) => (
-                  <div key={key} className="col-span-12 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark  xl:col-span-4 h-29 align-center flex flex justify-center items-center">
-                    <div className="block">
-                      <h2 className="block text-3xl ">{orderSaleTitle}</h2>
-                      <span className="block text-center text-1xl  font-extrabold">
-                        {orderSaleValue[key]}
-                      </span>
-                    </div>
-                  </div>
-                ))
-              }
-            </>
-          )
-        }
-        {/* HARSHIL CREATED CHARTS END */}
       </div>
     </main>
   );

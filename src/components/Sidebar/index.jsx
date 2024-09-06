@@ -21,13 +21,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
 
   const sidebarLinks = [
-    { href: '/dashboard', iconType: 'home', label: 'Dashboard' },
     {
       href: '/analytics',
       iconType: 'analytics',
       label: 'Analytics',
     },
-    { href: '/people-dashboard', iconType: 'people', label: 'People' },
+    { href: '/dashboard', iconType: 'home', label: 'People' },
+    // { href: '/people-dashboard', iconType: 'people', label: 'People' },
     { href: '/product-dashboard', iconType: 'product', label: 'Product' },
     { href: '/price-dashboard', iconType: 'price', label: 'Price(Sales)' },
     {
@@ -57,9 +57,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
         <nav className="mt-5 py-4 lg:mt-4">
           {/* <!-- Menu Group --> */}
-          {sidebarOpen && <h3 className={`mb-4 ml-12 text-sm font-semibold text-bodydark2 ${sidebarOpen ? 'ml-4' : 'mt-5'}`}>
-            Navigation
-          </h3>}
           <div>
             {/* <ul className="mb-6 flex flex-col gap-1.5"> */}
             {/* <!-- Menu Item Dashboard --> */}
