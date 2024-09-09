@@ -75,20 +75,20 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         {sidebarOpen && <div className="container fixed bottom-0 p-4 bg-black w-full flex justify-center">
           <p className="text-sm">
             <Link to='https://web.whatsapp.com/' className="ml-1 mr-1" target="#">
-              <i class="fa fa-whatsapp text-white" aria-hidden="true"></i>
+              <i className="fa fa-whatsapp text-white" aria-hidden="true"></i>
             </Link>{" "}
             <span className="text-white">|</span>{" "}
             <Link to='https://calendly.com/' className="ml-1 mr-1" target="#">
-              <i class="fa fa-calendar-check-o text-white" aria-hidden="true"></i>
+              <i className="fa fa-calendar-check-o text-white" aria-hidden="true"></i>
             </Link>{" "}
             <span className="text-white">|</span>{" "}
             <Link to='https://www.tawk.to/' className="ml-1 mr-1" target="#">
-              <i class="fa fa-commenting text-white" aria-hidden="true"></i>
+              <i className="fa fa-commenting text-white" aria-hidden="true"></i>
             </Link>
             {" "}
             <span className="text-white">|</span>{" "}
             <Link to='https://www.calrik.com/' className="ml-1" target="#">
-              <i class="fa fa-phone text-white" aria-hidden="true"></i>
+              <i className="fa fa-phone text-white" aria-hidden="true"></i>
             </Link>
           </p>
         </div>}
