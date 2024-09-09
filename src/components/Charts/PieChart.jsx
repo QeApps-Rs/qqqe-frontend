@@ -6,6 +6,7 @@ const PieChart = ({ chartData }) => {
         chart: {
             type: 'donut',
         },
+        colors: chartData.colors,
         labels: chartData.labels,
         legend: {
             show: true,
