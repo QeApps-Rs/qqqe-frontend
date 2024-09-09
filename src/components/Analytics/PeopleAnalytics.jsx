@@ -10,7 +10,7 @@ import BarChartCustomer from "../Charts/BarChartCustomer";
 import { getWeekData } from "./GetDataVisitCustomer";
 import ColumnChart from "../Charts/ColumnChart";
 import PieChart from "../Charts/PieChart";
-import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
+import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 import Loader from "../../common/Loader";
 
 const PeopleAnalytics = () => {
@@ -54,40 +54,20 @@ const PeopleAnalytics = () => {
 
   const [combinedSeries, setCombinedSeries] = useState([]); // State for combinedSeries series
   const [combinedCategories, setCombinedCategories] = useState([]);
+
+
+  const [topKeywords, setTopKeywords] = useState([]);
   ///Mansi Patel////
 
 
-  //  Top Search Keyword Count
-  const searchData = [
-    { keyword: "snowboard", count: 5 },
-    { keyword: "jacket", count: 7 },
-    { keyword: "gloves", count: 2 },
-    { keyword: "Shoes", count: 8 },
-    { keyword: "hat", count: 3 },
-    { keyword: "heels", count: 2 },
-    { keyword: "Baby & Toddler Shoesat", count: 10 },
-    { keyword: "Slippers", count: 3 },
-    { keyword: "heels", count: 9 },
-    { keyword: "hat", count: 3 },
-    { keyword: "gloves", count: 2 },
-    { keyword: "Athletic Shoes", count: 6 },
-    { keyword: "hat", count: 1 },
-    { keyword: "Flats", count: 7 },
-    { keyword: "Trousers", count: 8 },
-    { keyword: "Cargo Pants", count: 12 },
-    { keyword: "Jeans", count: 10 },
-    { keyword: "Glue Guns", count: 15 },
-  ];
 
-  const getTopNKeywords = (n) => {
+  const getTopNKeywords = (n, searchData) => {
     const sortedKeywords = searchData
       .sort((a, b) => b.count - a.count)
       .slice(0, n);
 
     return sortedKeywords;
   };
-
-  const topKeywords = getTopNKeywords(10);
 
   //visited customers data
   const [weekNumber, setWeekNumber] = useState(1);
@@ -96,20 +76,40 @@ const PeopleAnalytics = () => {
 
   ////////////////////////////
 
-
   // HARSHIL CREATED STATES START
-  const [orderCountDeviceWise, setOrderCountDeviceWise] = useState({ status: false, data: {} });
-  const [orderCountCountryWise, setOrderCountCountryWise] = useState({ status: false, data: {} });
-  const [productSoldUnSoldCount, setProductSoldUnSoldCount] = useState({ status: false, data: {} });
+  const [orderCountDeviceWise, setOrderCountDeviceWise] = useState({
+    status: false,
+    data: {},
+  });
+  const [orderCountCountryWise, setOrderCountCountryWise] = useState({
+    status: false,
+    data: {},
+  });
+  const [productSoldUnSoldCount, setProductSoldUnSoldCount] = useState({
+    status: false,
+    data: {},
+  });
   const [activeTab, setActiveTab] = useState(0);
   const [mostPurchasedProduct, setMostPurchasedProduct] = useState([]);
   const [unsoldProduct, setUnsoldProduct] = useState([]);
   const [top7Product, setTop7Product] = useState([]);
 
-  const [customerTopOrderList, setCustomerTopOrderList] = useState({ status: false, data: [] });
-  const [customerCountCountryWise, setCustomerCountCountryWise] = useState({ status: false, data: {} });
-  const [customerCount, setCustomerCount] = useState({ status: false, data: {} });
-  const [orderSaleCount, setOrderSaleCount] = useState({ status: false, data: {} });
+  const [customerTopOrderList, setCustomerTopOrderList] = useState({
+    status: false,
+    data: [],
+  });
+  const [customerCountCountryWise, setCustomerCountCountryWise] = useState({
+    status: false,
+    data: {},
+  });
+  const [customerCount, setCustomerCount] = useState({
+    status: false,
+    data: {},
+  });
+  const [orderSaleCount, setOrderSaleCount] = useState({
+    status: false,
+    data: {},
+  });
   const orderSalesData = ["Order Count", "Order Sales", "Order Average"];
   const [orderSaleValue, setOrderSaleValue] = useState([0, 0, 0]);
   const [activeButton, setActiveButton] = useState("day");
@@ -218,7 +218,6 @@ const PeopleAnalytics = () => {
           );
 
           setCombinedSeries([
-
             {
               name: "Products",
               data: resultOfLevelOneQuestionList.viewProductCount.map(
@@ -238,17 +237,19 @@ const PeopleAnalytics = () => {
               ),
             },
           ]);
-          setCombinedCategories(
-            [
-              ...resultOfLevelOneQuestionList.viewProductCount.map(
-                (item) => item.title
-              ),
-              ...resultOfLevelOneQuestionList.viewCollectionCount.map(
-                (item) => item.title
-              ),
-              ...resultOfLevelOneQuestionList.viewPagesCount.map(
-                (item) => item.title
-              )]
+          setCombinedCategories([
+            ...resultOfLevelOneQuestionList.viewProductCount.map(
+              (item) => item.title
+            ),
+            ...resultOfLevelOneQuestionList.viewCollectionCount.map(
+              (item) => item.title
+            ),
+            ...resultOfLevelOneQuestionList.viewPagesCount.map(
+              (item) => item.title
+            ),
+          ]);
+          setTopKeywords(
+            getTopNKeywords(5, resultOfLevelOneQuestionList.searchDataCount)
           );
           setLoading(false);
         }
@@ -271,14 +272,16 @@ const PeopleAnalytics = () => {
             status: true,
             data: {
               categories: Object.keys(deviceCount),
-              seriesData: [{
-                name: 'Series 1',
-                data: Object.values(deviceCount),
-                color: "#b1399e",
-              }],
+              seriesData: [
+                {
+                  name: "Series 1",
+                  data: Object.values(deviceCount),
+                  color: "#b1399e",
+                },
+              ],
               xtitle: "Device",
               ytitle: "Order Count",
-            }
+            },
           });
           /* DEVICE WISE ORDER COUNT END */
 
@@ -288,14 +291,16 @@ const PeopleAnalytics = () => {
             status: true,
             data: {
               categories: Object.keys(countryCount),
-              seriesData: [{
-                name: 'Series 1',
-                data: Object.values(countryCount),
-                color: "#b1399e",
-              }],
+              seriesData: [
+                {
+                  name: "Series 1",
+                  data: Object.values(countryCount),
+                  color: "#b1399e",
+                },
+              ],
               xtitle: "Country",
               ytitle: "Order Count",
-            }
+            },
           });
           /* COUNTRY WISE ORDER COUNT END */
 
@@ -304,13 +309,17 @@ const PeopleAnalytics = () => {
           setProductSoldUnSoldCount({
             status: true,
             data: {
-              labels: ['Most Purchased Products', 'Un-sold Products', 'Top Selling Products'],
+              labels: [
+                "Most Purchased Products",
+                "Un-sold Products",
+                "Top Selling Products",
+              ],
               pieSeries: [
                 response.data.most_purchase_product_count,
                 response.data.unsold_product_count,
                 top_7ProductsList.length,
               ],
-            }
+            },
           });
           setMostPurchasedProduct(top_7ProductsList);
           setUnsoldProduct(response.data.unsold_product_list);
@@ -329,7 +338,7 @@ const PeopleAnalytics = () => {
           url: "customer/count",
         });
         if (response.data) {
-          console.log(['customer', response.data]);
+          console.log(["customer", response.data]);
 
           /* COUNTRY WISE CUSTOMER COUNT START */
           const countryCount = response.data.countries;
@@ -337,14 +346,16 @@ const PeopleAnalytics = () => {
             status: true,
             data: {
               categories: Object.keys(countryCount),
-              seriesData: [{
-                name: 'Series 1',
-                data: Object.values(countryCount),
-                color: "#b1399e",
-              }],
+              seriesData: [
+                {
+                  name: "Series 1",
+                  data: Object.values(countryCount),
+                  color: "#b1399e",
+                },
+              ],
               xtitle: "Country",
               ytitle: "Customer Count",
-            }
+            },
           });
           /* COUNTRY WITH CUSTOMER COUNT END */
 
@@ -352,18 +363,23 @@ const PeopleAnalytics = () => {
           const customerWithOrder = response.data.customer_with_order;
           const customerWithoutOrder = response.data.customer_without_order;
           const repeatedCustomer = response.data.customer.repeated_customer;
-          const nonRepeatedCustomer = response.data.customer.non_repeated_customer;
+          const nonRepeatedCustomer =
+            response.data.customer.non_repeated_customer;
           const customerTopOrders = response.data.customer.customer_top_orders;
           setCustomerTopOrderList({
             status: true,
-            data: customerTopOrders.slice(0, 5)
-          })
+            data: customerTopOrders.slice(0, 5),
+          });
 
           setCustomerCount({
             status: true,
             data: {
               labels: [
-                'Customer with order', 'Customer without order', 'Repeated customer', 'Non repeated customer', 'Customer top orders'
+                "Customer with order",
+                "Customer without order",
+                "Repeated customer",
+                "Non repeated customer",
+                "Customer top orders",
               ],
               pieSeries: [
                 customerWithOrder,
@@ -372,7 +388,7 @@ const PeopleAnalytics = () => {
                 nonRepeatedCustomer,
                 customerTopOrders.length,
               ],
-            }
+            },
           });
           /* CUSTOMER WITH ORDER COUNT END */
         }
@@ -403,18 +419,20 @@ const PeopleAnalytics = () => {
           status: true,
           data: {
             categories: orderSalesData,
-            seriesData: [{
-              name: 'Order Count',
-              data: orderValues,
-              color: "#b1399e",
-            }],
+            seriesData: [
+              {
+                name: "Order Count",
+                data: orderValues,
+                color: "#b1399e",
+              },
+            ],
             xtitle: "Order Sales Report",
             ytitle: "Number",
-          }
+          },
         });
         setOrderSaleValue(orderValues);
       }
-    }
+    };
 
     fetchOrderSalesChartCount();
   }, [activeButton]);
@@ -423,19 +441,19 @@ const PeopleAnalytics = () => {
     <table className="w-full table-auto">
       <thead>
         <tr className="bg-gray-2 text-left dark:bg-meta-4">
-          <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Title</th>
+          <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+            Title
+          </th>
         </tr>
       </thead>
       <tbody>
-        {
-          data.map((item, key) => (
-            <tr key={key}>
-              <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <p className="text-black dark:text-white">{item.title}</p>
-              </td>
-            </tr>
-          ))
-        }
+        {data.map((item, key) => (
+          <tr key={key}>
+            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+              <p className="text-black dark:text-white">{item.title}</p>
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );
@@ -444,8 +462,12 @@ const PeopleAnalytics = () => {
     <table className="w-full table-auto">
       <thead>
         <tr className="bg-gray-2 text-left dark:bg-meta-4">
-          <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Name</th>
-          <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Order Count</th>
+          <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+            Name
+          </th>
+          <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+            Order Count
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -542,120 +564,116 @@ const PeopleAnalytics = () => {
                   </p>
                 </div>
 
-                <ColumnChart chartData={orderCountDeviceWise.data} />
+              <ColumnChart chartData={orderCountDeviceWise.data} />
+            </div>
+          )}
+          {orderCountCountryWise.status && (
+            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+              <div className="bg-green-300 h-16">
+                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                  Order Count By Country
+                </p>
               </div>
-            )
-          }
-          {
-            orderCountCountryWise.status && (
-              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-                <div className="bg-green-300 h-16">
-                  <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                    Order Count By Country
-                  </p>
-                </div>
 
-                <ColumnChart chartData={orderCountCountryWise.data} />
+              <ColumnChart chartData={orderCountCountryWise.data} />
+            </div>
+          )}
+          {productSoldUnSoldCount.status && (
+            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+              <div className="bg-green-300 h-16">
+                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                  Product Chart
+                </p>
               </div>
-            )
-          }
-          {
-            productSoldUnSoldCount.status && (
-              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-                <div className="bg-green-300 h-16">
-                  <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                    Product Chart
-                  </p>
-                </div>
-                <PieChart chartData={productSoldUnSoldCount.data} />
+              <PieChart chartData={productSoldUnSoldCount.data} />
+            </div>
+          )}
+          {productSoldUnSoldCount.status && (
+            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+              <div className="bg-green-300 h-16">
+                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                  Product Categories
+                </p>
               </div>
-            )
-          }
-          {
-            productSoldUnSoldCount.status && (
-              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-                <div className="bg-green-300 h-16">
-                  <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                    Product Categories
-                  </p>
-                </div>
-                <div className="container mx-auto p-4">
-                  <Tabs selectedIndex={activeTab} onSelect={(index) => setActiveTab(index)}>
-                    <TabList>
-                      <Tab style={{ backgroundColor: "#078bf0" }}>Most Purchased Products</Tab>
-                      <Tab style={{ backgroundColor: "#04e590" }}>Un-Sold Products</Tab>
-                      <Tab style={{ backgroundColor: "#feb130" }}>Top 7 Products</Tab>
-                    </TabList>
+              <div className="container mx-auto p-4">
+                <Tabs
+                  selectedIndex={activeTab}
+                  onSelect={(index) => setActiveTab(index)}
+                >
+                  <TabList>
+                    <Tab style={{ backgroundColor: "#078bf0" }}>
+                      Most Purchased Products
+                    </Tab>
+                    <Tab style={{ backgroundColor: "#04e590" }}>
+                      Un-Sold Products
+                    </Tab>
+                    <Tab style={{ backgroundColor: "#feb130" }}>
+                      Top 7 Products
+                    </Tab>
+                  </TabList>
 
-                    <TabPanel>
-                      <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-                        <div className="max-w-full overflow-x-auto">
-                          {renderTable(mostPurchasedProduct)}
-                        </div>
+                  <TabPanel>
+                    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+                      <div className="max-w-full overflow-x-auto">
+                        {renderTable(mostPurchasedProduct)}
                       </div>
-                    </TabPanel>
+                    </div>
+                  </TabPanel>
 
-                    <TabPanel>
-                      <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-                        <div className="max-w-full overflow-x-auto">
-                          {renderTable(unsoldProduct)}
-                        </div>
+                  <TabPanel>
+                    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+                      <div className="max-w-full overflow-x-auto">
+                        {renderTable(unsoldProduct)}
                       </div>
-                    </TabPanel>
+                    </div>
+                  </TabPanel>
 
-                    <TabPanel>
-                      <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-                        <div className="max-w-full overflow-x-auto">
-                          {renderTable(top7Product)}
-                        </div>
+                  <TabPanel>
+                    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+                      <div className="max-w-full overflow-x-auto">
+                        {renderTable(top7Product)}
                       </div>
-                    </TabPanel>
-                  </Tabs>
-                </div>
+                    </div>
+                  </TabPanel>
+                </Tabs>
               </div>
-            )
-          }
-          {
-            customerCountCountryWise.status && (
-              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-                <div className="bg-green-300 h-16">
-                  <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                    Customer Count By Country
-                  </p>
-                </div>
+            </div>
+          )}
+          {customerCountCountryWise.status && (
+            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+              <div className="bg-green-300 h-16">
+                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                  Customer Count By Country
+                </p>
+              </div>
 
-                <ColumnChart chartData={customerCountCountryWise.data} />
+              <ColumnChart chartData={customerCountCountryWise.data} />
+            </div>
+          )}
+          {customerTopOrderList.status && (
+            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+              <div className="bg-green-300 h-16">
+                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                  Customer Top Orders
+                </p>
               </div>
-            )
-          }
-          {
-            customerTopOrderList.status && (
-              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-                <div className="bg-green-300 h-16">
-                  <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                    Customer Top Orders
-                  </p>
-                </div>
-                <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-                  <div className="max-w-full overflow-x-auto">
-                    {renderCustomerTopOrderTable(customerTopOrderList.data)}
-                  </div>
+              <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+                <div className="max-w-full overflow-x-auto">
+                  {renderCustomerTopOrderTable(customerTopOrderList.data)}
                 </div>
               </div>
-            )
-          }
-          {
-            customerCount.status && (
-              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-                <div className="bg-green-300 h-16">
-                  <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                    Customer Chart
-                  </p>
-                </div>
-                <PieChart chartData={customerCount.data} />
+            </div>
+          )}
+          {customerCount.status && (
+            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+              <div className="bg-green-300 h-16">
+                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                  Customer Chart
+                </p>
               </div>
-            )
-          }
+              <PieChart chartData={customerCount.data} />
+            </div>
+          )}
           {/* HARSHIL CREATED CHARTS END */}
           <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
             <div className="bg-green-300 h-16">
