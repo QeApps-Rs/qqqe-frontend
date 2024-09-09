@@ -956,7 +956,7 @@ const MasterForm = () => {
               </form>
             </div>
           </div>
-        </div> : isView === 'Mobile' && <div className="bg-black/75 h-full p-2 flex items-center justify-center min-h-[785px] bg-no-repeat bg-top bg-center" style={{ backgroundImage: "url('../../../src/images/mobile_bg.png')" }}>
+        </div> : isView === 'Mobile' && <div className="bg-black/75 h-full p-2 flex items-center justify-center min-h-[785px] bg-no-repeat bg-top bg-center" style={{ backgroundImage: "url('https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/src/images/mobile_bg.png')" }}>
           <div className="max-h-[586px] overflow-auto p-[30px_2px_10px_0px] items-center">
             <div className="bg-white w-[356px] rounded-md shadow-lg overflow-hidden flex flex-wrap">
               <div className="w-full">
