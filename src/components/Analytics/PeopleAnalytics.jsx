@@ -12,7 +12,7 @@ import ColumnChart from "../Charts/ColumnChart";
 import PieChart from "../Charts/PieChart";
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import Loader from "../../common/Loader";
-
+import GraphCard from "./GraphCard";
 const PeopleAnalytics = () => {
   const [loading, setLoading] = useState(false);
   const [countryData, setCountryData] = useState({
@@ -488,7 +488,7 @@ const PeopleAnalytics = () => {
 
   return (
     <>
-      {loading && <Loader />}
+      {!loading && <Loader />}
       <main className="main-content todo-app w-full px-[var(--margin-x)] pb-8">
         <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
         <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
@@ -699,14 +699,26 @@ const PeopleAnalytics = () => {
               />
             )}
           </div>
-          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+          <GraphCard title=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae, aspernatur." colSpanClass="col-span-12 xl:col-span-6">
+            {countryData.apiStatus && (
+              <BarChart
+                chartData={countryData.apiData}
+                name="Country"
+                title="Customer Distribution by Country"
+                isHorizontal={false}
+                dataLabelStatus={true}
+                colors={["#00C49F", "#FFBB28"]}
+              />
+            )}
+          </GraphCard>
+          {/* <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
             <div className="bg-green-300 h-16">
               <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae,
                 aspernatur.
-                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
                 Customized
-              </span> */}
+              </span>
               </p>
             </div>
             {countryData.apiStatus && (
@@ -719,7 +731,7 @@ const PeopleAnalytics = () => {
                 colors={["#00C49F", "#FFBB28"]}
               />
             )}
-          </div>
+          </div> */}
           {/* =============================Sencond Graph ========================== */}
           <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
             <div className="bg-green-300 h-16">
