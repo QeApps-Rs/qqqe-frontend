@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import BarChart from "../Charts/BarChart";
 
 import FormSubmitHandler from "../FormSubmitHandler";
@@ -13,9 +13,7 @@ import PieChart from "../Charts/PieChart";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 import Loader from "../../common/Loader";
 
-
-
-const PeopleAnalytics = ({ id, content }) => {
+const PeopleAnalytics = () => {
   const [loading, setLoading] = useState(false);
   const [countryData, setCountryData] = useState({
     apiStatus: false,
@@ -61,48 +59,6 @@ const PeopleAnalytics = ({ id, content }) => {
   const [topKeywords, setTopKeywords] = useState([]);
   ///Mansi Patel////
 
-  //TOP 5 products, categories, pages
-
-  // Top N number cat Added
-  const cartData = [
-    { productTitle: "product1", quantity: 2 },
-    { productTitle: "product2", quantity: 5 },
-    { productTitle: "product1", quantity: 1 },
-    { productTitle: "product3", quantity: 7 },
-    { productTitle: "product4", quantity: 3 },
-    { productTitle: "product2", quantity: 2 },
-    { productTitle: "product3", quantity: 7 },
-    { productTitle: "product5", quantity: 2 },
-    { productTitle: "product6", quantity: 1 },
-    { productTitle: "product7", quantity: 9 },
-    { productTitle: "product8", quantity: 2 },
-    { productTitle: "product4", quantity: 7 },
-    { productTitle: "product2", quantity: 1 },
-    { productTitle: "product8", quantity: 2 },
-    { productTitle: "product9", quantity: 10 },
-  ];
-
-  const aggregateData = cartData.reduce((acc, { productTitle, quantity }) => {
-    acc[productTitle] = (acc[productTitle] || 0) + quantity;
-    return acc;
-  }, {});
-
-  const sortedProducts = Object.entries(aggregateData)
-    .map(([productTitle, quantity]) => ({ productTitle, quantity }))
-    .sort((a, b) => b.quantity - a.quantity);
-
-  const getTopNProducts = (n) => sortedProducts.slice(0, n);
-
-  const topProducts = getTopNProducts(5);
-
-  const series = [
-    {
-      name: "Top Products",
-      data: topProducts.map((product) => product.quantity),
-    },
-  ];
-
-  const categories = topProducts.map((product) => product.productTitle);
 
   const getTopNKeywords = (n, searchData) => {
     const sortedKeywords = searchData
@@ -155,6 +111,20 @@ const PeopleAnalytics = ({ id, content }) => {
   });
   const orderSalesData = ["Order Count", "Order Sales", "Order Average"];
   const [orderSaleValue, setOrderSaleValue] = useState([0, 0, 0]);
+  const [activeButton, setActiveButton] = useState("day");
+
+  const handleButtonClick = (id) => {
+    setActiveButton(id);
+  };
+
+  const getButtonClasses = (id) => {
+    const baseClasses = "px-4 py-2 font-semibold rounded focus:outline-none focus:ring";
+    const activeClasses = "bg-blue-500 text-white hover:bg-blue-600";
+    const inactiveClasses = "bg-gray-200 text-gray-700 hover:bg-gray-300";
+
+    return id === activeButton ? `${baseClasses} ${activeClasses}` : `${baseClasses} ${inactiveClasses}`;
+  };
+
   // HARSHIL CREATED STATES END
 
   useEffect(() => {
@@ -426,10 +396,17 @@ const PeopleAnalytics = ({ id, content }) => {
       }
     };
 
+    fetchUserData();
+    fetchOrderCountDeviceCountryWise();
+    fetchCustomerChartCount();
+  }, []);
+
+  useEffect(() => {
     const fetchOrderSalesChartCount = async () => {
+      const param = getDateRangeParams(activeButton);
       const response = await FormSubmitHandler({
         method: "get",
-        url: "order/sales/count?start_date=2024-07-07&end_date=2024-07-23",
+        url: `order/sales/count?${param}`,
       });
       if (response.data) {
         const orderValues = [
@@ -456,11 +433,8 @@ const PeopleAnalytics = ({ id, content }) => {
       }
     };
 
-    fetchUserData();
-    fetchOrderCountDeviceCountryWise();
-    fetchCustomerChartCount();
     fetchOrderSalesChartCount();
-  }, []);
+  }, [activeButton]);
 
   const renderTable = (data) => (
     <table className="w-full table-auto">
@@ -510,6 +484,29 @@ const PeopleAnalytics = ({ id, content }) => {
     </table>
   );
 
+  const getDateRangeParams = (filterType) => {
+    let startDate, endDate;
+    const today = new Date();
+
+    if (filterType === "year") {
+      startDate = new Date(`${today.getFullYear()}-01-01`);
+      endDate = new Date(`${today.getFullYear()}-12-31`);
+    } else if (filterType === "month") {
+      const year = today.getFullYear();
+      const month = today.getMonth() + 1;
+      startDate = new Date(`${year}-${month.toString().padStart(2, '0')}-01`);
+      endDate = new Date(year, month, 0);
+      endDate.setHours(23, 59, 59, 999);
+    } else if (filterType === "day") {
+      startDate = endDate = today;
+    }
+
+    const formattedStartDate = startDate.toISOString().split('T')[0];
+    const formattedEndDate = endDate.toISOString().split('T')[0];
+
+    return `start_date=${formattedStartDate}&end_date=${formattedEndDate}`;
+  };
+
   return (
     <>
       {loading && <Loader />}
@@ -517,40 +514,54 @@ const PeopleAnalytics = ({ id, content }) => {
         <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
         <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
           {/* HARSHIL CREATED CHARTS START */}
-          {orderSaleCount.status && (
-            <>
-              {orderSalesData.map((orderSaleTitle, key) => (
-                <div
-                  key={key}
-                  className="col-span-12 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark  xl:col-span-4 h-29 align-center flex flex justify-center items-center"
-                >
-                  <div className="block">
-                    <h2 className="block text-3xl ">{orderSaleTitle}</h2>
-                    <span className="block text-center text-1xl  font-extrabold">
-                      {orderSaleTitle == "Order Sales" && "$"}{" "}
-                      {orderSaleValue[key]}
-                    </span>
-                  </div>
-                </div>
-              ))}
+          {
+            orderSaleCount && (
               <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-12">
-                <div className="bg-green-300 h-16">
-                  <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                    Order Sales
-                  </p>
+                <div className="toolbar flex space-x-2 pt-4 justify-end">
+                  <button className={getButtonClasses("day")} onClick={() => handleButtonClick("day")}>
+                    Day
+                  </button>
+                  <button className={getButtonClasses("month")} onClick={() => handleButtonClick("month")}>
+                    Month
+                  </button>
+                  <button className={getButtonClasses("year")} onClick={() => handleButtonClick("year")}>
+                    Year
+                  </button>
                 </div>
 
-                <ColumnChart chartData={orderSaleCount.data} />
+                <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+                  {
+                    orderSalesData.map((orderSaleTitle, key) => (
+                      <div key={key} className="col-span-12 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark  xl:col-span-4 h-29 align-center flex flex justify-center items-center">
+                        <div className="block">
+                          <h2 className="block text-3xl ">{orderSaleTitle}</h2>
+                          <span className="block text-center text-1xl  font-extrabold">
+                            {orderSaleValue[key]}
+                          </span>
+                        </div>
+                      </div>
+                    ))
+                  }
+                </div>
+                <div>
+                  <div className="bg-green-300 h-16">
+                    <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                      Order Sales
+                    </p>
+                  </div>
+                  <ColumnChart chartData={orderSaleCount.data} />
+                </div>
               </div>
-            </>
-          )}
-          {orderCountDeviceWise.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Order Count By Device
-                </p>
-              </div>
+            )
+          }
+          {
+            orderCountDeviceWise.status && (
+              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
+                <div className="bg-green-300 h-16">
+                  <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
+                    Order Count By Device
+                  </p>
+                </div>
 
               <ColumnChart chartData={orderCountDeviceWise.data} />
             </div>
