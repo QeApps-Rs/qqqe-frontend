@@ -72,26 +72,26 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             ))}
           </div>
         </nav>
-        {sidebarOpen && <div className="container fixed bottom-0 p-4 bg-black w-full flex justify-center">
+       <div className={`container fixed bottom-0 p-4 bg-black w-full flex justify-center}`}>
           <p className="text-sm">
-            <Link to='https://web.whatsapp.com/' className="ml-1 mr-1" target="#">
-              <i className="fa fa-whatsapp text-white" aria-hidden="true"></i>
+            <Link to='https://web.whatsapp.com/' className={`${sidebarOpen  ? 'ml-1 mr-1'  : 'inline-block w-full text-center mb-1'}`} target="#">
+              <i class="fa fa-whatsapp text-green-500 text-[17px]" aria-hidden="true"></i>
             </Link>{" "}
-            <span className="text-white">|</span>{" "}
-            <Link to='https://calendly.com/' className="ml-1 mr-1" target="#">
-              <i className="fa fa-calendar-check-o text-white" aria-hidden="true"></i>
+            {/* <span className="text-white">|</span>{" "} */}
+            <Link to='https://calendly.com/' className={`${sidebarOpen  ? 'ml-1 mr-1'  : 'inline-block w-full text-center mb-1'}`} target="#">
+              <i class="fa fa-calendar-check-o text-blue-400 text-[17px]" aria-hidden="true"></i>
             </Link>{" "}
-            <span className="text-white">|</span>{" "}
-            <Link to='https://www.tawk.to/' className="ml-1 mr-1" target="#">
-              <i className="fa fa-commenting text-white" aria-hidden="true"></i>
+            {/* <span className="text-white">|</span>{" "} */}
+            <Link to='https://www.tawk.to/' className={`${sidebarOpen  ? 'ml-1 mr-1'  : 'inline-block w-full text-center mb-1'}`} target="#">
+              <i class="fa fa-commenting text-[17px] text-pink-400" aria-hidden="true"></i>
             </Link>
             {" "}
-            <span className="text-white">|</span>{" "}
-            <Link to='https://www.calrik.com/' className="ml-1" target="#">
-              <i className="fa fa-phone text-white" aria-hidden="true"></i>
+            {/* <span className="text-white">|</span>{" "} */}
+            <Link to='https://www.calrik.com/' className={`${sidebarOpen  ? 'ml-1 '  : 'inline-block w-full text-center'}`} target="#">
+              <i class="fa fa-phone text-[17px] text-cyan-300" aria-hidden="true"></i>
             </Link>
           </p>
-        </div>}
+        </div>
       </div>
     </aside>
   );

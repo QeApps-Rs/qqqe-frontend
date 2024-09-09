@@ -16,7 +16,7 @@ const Account = ({ userData }) => {
   return (
     <React.Fragment>
       <div className="p-6">
-        <div className="mb-4 mt-5 bg-slate-100">
+        {/* <div className="mb-4 mt-5 bg-slate-100">
           <div
             className="flex justify-between items-center border-b border-gray-400 pb-2 mb-2 cursor-pointer"
             onClick={() => onToggle(isShow)}
@@ -61,13 +61,13 @@ const Account = ({ userData }) => {
           <button className="mt-2 ml-2 rounded-md bg-blue-500 text-white px-4 py-4">
             Invite
           </button>
-        </div>
+        </div> */}
         <div className="mb-4">
           <h3 className="text-lg font-bold">Connect your website</h3>
           <p>Connect your website to make your campaign live</p>
           <div className="mt-2">
-            <span>amazon.in</span>
-            <button className="ml-4 text-blue-500">Change</button>
+            <span className="font-medium text-blue-400">https://dyori.com</span>
+            {/* <button className="ml-4 text-blue-500">Change</button> */}
           </div>
           <div className="mt-4">
             <label className="block text-gray-700 mb-2">
