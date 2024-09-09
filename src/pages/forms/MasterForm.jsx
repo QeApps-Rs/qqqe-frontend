@@ -5,10 +5,12 @@ import Radio from "../../components/higherOrderComponent/Radios/Radio";
 import ColorPicker from "../../components/higherOrderComponent/ColorPicker/ColorPicker";
 import DropDown from "../../components/higherOrderComponent/Dropdown/Dropdown";
 import popup_img from '../../../src/images/newsletter_left_img.png';
+import { useNavigate } from "react-router-dom";
 // import mobile_img from '../../../src/images/mobile_bg.png'
 
 const MasterForm = () => {
 
+  const navigate = useNavigate()
   const [checkedItems, setCheckedItems] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [frequency, setFrequency] = useState(5);
@@ -18,7 +20,7 @@ const MasterForm = () => {
   const [notShowUrl, setNotShow] = useState(false)
   const [showLocation, setLocation] = useState(false)
   const [notShowlocation, setNotShowLocation] = useState(false);
-  const [borderStyle, setBorderStyle] = useState("solid");
+  const [borderStyle, setBorderStyle] = useState("none");
   const [padding, setPadding] = useState({
     top: null,
     bottom: null,
@@ -150,12 +152,16 @@ const MasterForm = () => {
     setTiming(value)
   }
 
+  const onPublish = () => {
+    navigate('/dashboard')
+  }
+
   return (
     <>
       <aside className="w-1/4 bg-white fixed left-[4.7rem] p-4 shadow-lg h-screen overflow-auto top-20">
         <div className="flex justify-between items-center border-b pb-3 mb-4">
           <p className="font-semibold text-lg">Template Editor</p>
-          <span className="text-sm text-gray-500">Created by</span>
+          {/* <span className="text-sm text-gray-500">Created by</span> */}
         </div>
 
         <ul className="space-y-4">
@@ -294,7 +300,7 @@ const MasterForm = () => {
                                       className=" w-32 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                     />
                                   </div>
-                                  <div className="mt-3 ">show on</div>
+                                  <div className="mt-3 fonr font-semibold text-black">Show On</div>
                                   <div className="flex items-center space-x-2 bg-slate-100 p-2 rounded-md">
                                     {tabs.map((tab) => (
                                       <button
@@ -367,13 +373,13 @@ const MasterForm = () => {
                                       <span>
                                         Background color:
                                       </span>
-                                      <ColorPicker />
+                                      <ColorPicker backgroundColor= {true}  />
                                     </div>
                                     <div className="mt-3 flex justify-between flex-row ">
                                       <span>
                                         Overlay color:
                                       </span>
-                                      <ColorPicker />
+                                      <ColorPicker overlay={true} />
                                     </div>
                                   </div>
                                   <div className="mb-4.5 border-b border-black pb-4">
@@ -529,19 +535,19 @@ const MasterForm = () => {
                                       <span>
                                         Label Color:
                                       </span>
-                                      <ColorPicker />
+                                      <ColorPicker label=  {true} />
                                     </div>
                                     <div className="mt-3 flex justify-between flex-row ">
                                       <span>
                                         Text Color:
                                       </span>
-                                      <ColorPicker />
+                                      <ColorPicker textColor= {true} />
                                     </div>
                                     <div className="mt-3 flex justify-between flex-row ">
                                       <span>
                                         Placeholder:
                                       </span>
-                                      <ColorPicker />
+                                      <ColorPicker placeholderColor= {true} />
                                     </div>
                                   </div>
                                   <div className="mb-4.5 border-b border-black pb-4">
@@ -552,7 +558,7 @@ const MasterForm = () => {
                                       <span>
                                         Background color:
                                       </span>
-                                      <ColorPicker />
+                                      <ColorPicker inputBgColor= {true} />
                                     </div>
                                     <div className="mt-3 flex justify-between flex-row items-center">
                                       <span>
@@ -564,7 +570,7 @@ const MasterForm = () => {
                                       <span>
                                         Focus Border color:
                                       </span>
-                                      <ColorPicker />
+                                      <ColorPicker focusColor={true} />
                                     </div>
                                     {/* <div className="mt-3 flex justify-between flex-row items-center">
                                           <span>
@@ -590,7 +596,7 @@ const MasterForm = () => {
                                         </div> */}
                                   </div>
                                   <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-                                    Send Message
+                                    Save
                                   </button>
                                 </div>
                               </form>
@@ -836,9 +842,9 @@ const MasterForm = () => {
 
                             <div className="mb-4 border-b border-black">
                               <h3 className="text-lg font-semibold">URLS</h3>
-                              <div className="flex items-center mt-3">
+                              {/* <div className="flex items-center mt-3">
                                 <div className="text-black">Use * as a wild card</div>
-                              </div>
+                              </div> */}
                               <div className="mb-4.5 mt-6">
                                 <Checkbox
                                   key={2}
@@ -903,7 +909,7 @@ const MasterForm = () => {
 
       <div className="w-3/4 float-right p-0 h-[83.90vh]">
         <div className="flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-          <div>
+          <div className="w-[85%] flex justify-center">
             <a className="border border-[#323359] inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative bg-white" href="#">
               Teaser
             </a>
@@ -911,7 +917,9 @@ const MasterForm = () => {
               Success
             </a>
           </div>
+          
           <div className="flex">
+            <button type="submit" onClick={() => onPublish()} className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black">Publish</button>
             <a className={`rounded-l-md  ${isView === 'Desktop' ? 'bg-[#d0d5d9]' : ''}  p-1.5 px-2.5 text-base border border-[#ccc] -ml-px text-black leading-[22px]`} href="#" onClick={() => setView('Desktop')}>
               <i className="fa fa-desktop" aria-hidden="true"></i>
             </a>

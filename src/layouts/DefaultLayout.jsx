@@ -5,7 +5,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Footer from '../components/Footer/Footer';
 
 const DefaultLayout = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isShowBack, setShowBack] = useState(false)
  
   const { pathname } = useLocation();
@@ -22,10 +22,7 @@ const DefaultLayout = () => {
     if (pathname === '/master-form') {
       setShowBack(true)
       setSidebarOpen(false)
-    } else {
-      setShowBack(false)
-      setSidebarOpen(true)
-    }
+    } 
   }, [pathname])
 
   const showSidebarAndHeader = !noSidebarOrHeaderPaths.includes(pathname);

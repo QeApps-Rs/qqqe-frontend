@@ -259,7 +259,7 @@ const SuggestionComp = () => {
                                               </th>
 
                                               <th className={labelClass}>
-                                                Actual Product price
+                                                Actual Product price($)
                                               </th>
                                               <th className={labelClass}>
                                                 Discounted product price (20%)
