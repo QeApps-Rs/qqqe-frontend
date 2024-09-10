@@ -10,7 +10,7 @@ import BarChartCustomer from "../Charts/BarChartCustomer";
 import { getWeekData } from "./GetDataVisitCustomer";
 import ColumnChart from "../Charts/ColumnChart";
 import PieChart from "../Charts/PieChart";
-import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
+import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 import Loader from "../../common/Loader";
 import { GraphCard, TabCard } from "./GraphCard";
 
@@ -39,32 +39,14 @@ const PeopleAnalytics = () => {
 
   const [combinedSeries, setCombinedSeries] = useState([]); // State for combinedSeries series
   const [combinedCategories, setCombinedCategories] = useState([]);
+
+
+  const [topKeywords, setTopKeywords] = useState([]);
   ///Mansi Patel////
 
 
-  //  Top Search Keyword Count
-  const searchData = [
-    { keyword: "snowboard", count: 5 },
-    { keyword: "jacket", count: 7 },
-    { keyword: "gloves", count: 2 },
-    { keyword: "Shoes", count: 8 },
-    { keyword: "hat", count: 3 },
-    { keyword: "heels", count: 2 },
-    { keyword: "Baby & Toddler Shoesat", count: 10 },
-    { keyword: "Slippers", count: 3 },
-    { keyword: "heels", count: 9 },
-    { keyword: "hat", count: 3 },
-    { keyword: "gloves", count: 2 },
-    { keyword: "Athletic Shoes", count: 6 },
-    { keyword: "hat", count: 1 },
-    { keyword: "Flats", count: 7 },
-    { keyword: "Trousers", count: 8 },
-    { keyword: "Cargo Pants", count: 12 },
-    { keyword: "Jeans", count: 10 },
-    { keyword: "Glue Guns", count: 15 },
-  ];
 
-  const getTopNKeywords = (n) => {
+  const getTopNKeywords = (n, searchData) => {
     const sortedKeywords = searchData
       .sort((a, b) => b.count - a.count)
       .slice(0, n);
@@ -72,15 +54,12 @@ const PeopleAnalytics = () => {
     return sortedKeywords;
   };
 
-  const topKeywords = getTopNKeywords(10);
-
   //visited customers data
   const [weekNumber, setWeekNumber] = useState(1);
 
   const { oneTimeVisit, multiTimeVisit } = getWeekData(weekNumber);
 
   ////////////////////////////
-
 
   // HARSHIL CREATED STATES START
   const [orderCountDeviceWise, setOrderCountDeviceWise] = useState(initialState);
@@ -199,7 +178,6 @@ const PeopleAnalytics = () => {
           );
 
           setCombinedSeries([
-
             {
               name: "Products",
               data: resultOfLevelOneQuestionList.viewProductCount.map(
@@ -219,17 +197,19 @@ const PeopleAnalytics = () => {
               ),
             },
           ]);
-          setCombinedCategories(
-            [
-              ...resultOfLevelOneQuestionList.viewProductCount.map(
-                (item) => item.title
-              ),
-              ...resultOfLevelOneQuestionList.viewCollectionCount.map(
-                (item) => item.title
-              ),
-              ...resultOfLevelOneQuestionList.viewPagesCount.map(
-                (item) => item.title
-              )]
+          setCombinedCategories([
+            ...resultOfLevelOneQuestionList.viewProductCount.map(
+              (item) => item.title
+            ),
+            ...resultOfLevelOneQuestionList.viewCollectionCount.map(
+              (item) => item.title
+            ),
+            ...resultOfLevelOneQuestionList.viewPagesCount.map(
+              (item) => item.title
+            ),
+          ]);
+          setTopKeywords(
+            getTopNKeywords(5, resultOfLevelOneQuestionList.searchDataCount)
           );
           setLoading(false);
         }
@@ -252,14 +232,16 @@ const PeopleAnalytics = () => {
             apiStatus: true,
             apiData: {
               categories: Object.keys(deviceCount),
-              seriesData: [{
-                name: 'Series 1',
-                data: Object.values(deviceCount),
-                color: "#b1399e",
-              }],
+              seriesData: [
+                {
+                  name: "Series 1",
+                  data: Object.values(deviceCount),
+                  color: "#b1399e",
+                },
+              ],
               xtitle: "Device",
               ytitle: "Order Count",
-            }
+            },
           });
           /* DEVICE WISE ORDER COUNT END */
 
@@ -269,14 +251,16 @@ const PeopleAnalytics = () => {
             apiStatus: true,
             apiData: {
               categories: Object.keys(countryCount),
-              seriesData: [{
-                name: 'Series 1',
-                data: Object.values(countryCount),
-                color: "#b1399e",
-              }],
+              seriesData: [
+                {
+                  name: "Series 1",
+                  data: Object.values(countryCount),
+                  color: "#b1399e",
+                },
+              ],
               xtitle: "Country",
               ytitle: "Order Count",
-            }
+            },
           });
           /* COUNTRY WISE ORDER COUNT END */
 
@@ -291,7 +275,7 @@ const PeopleAnalytics = () => {
                 response.data.unsold_product_count,
                 top_7ProductsList.length,
               ],
-            }
+            },
           });
           setMostPurchasedProduct(top_7ProductsList);
           setUnsoldProduct(response.data.unsold_product_list);
@@ -310,7 +294,7 @@ const PeopleAnalytics = () => {
           url: "customer/count",
         });
         if (response.data) {
-          console.log(['customer', response.data]);
+          console.log(["customer", response.data]);
 
           /* COUNTRY WISE CUSTOMER COUNT START */
           const countryCount = response.data.countries;
@@ -318,14 +302,16 @@ const PeopleAnalytics = () => {
             apiStatus: true,
             apiData: {
               categories: Object.keys(countryCount),
-              seriesData: [{
-                name: 'Series 1',
-                data: Object.values(countryCount),
-                color: "#b1399e",
-              }],
+              seriesData: [
+                {
+                  name: "Series 1",
+                  data: Object.values(countryCount),
+                  color: "#b1399e",
+                },
+              ],
               xtitle: "Country",
               ytitle: "Customer Count",
-            }
+            },
           });
           /* COUNTRY WITH CUSTOMER COUNT END */
 
@@ -333,7 +319,8 @@ const PeopleAnalytics = () => {
           const customerWithOrder = response.data.customer_with_order;
           const customerWithoutOrder = response.data.customer_without_order;
           const repeatedCustomer = response.data.customer.repeated_customer;
-          const nonRepeatedCustomer = response.data.customer.non_repeated_customer;
+          const nonRepeatedCustomer =
+            response.data.customer.non_repeated_customer;
           const customerTopOrders = response.data.customer.customer_top_orders;
           setCustomerTopOrderList({
             apiStatus: true,
@@ -344,7 +331,11 @@ const PeopleAnalytics = () => {
             apiStatus: true,
             apiData: {
               labels: [
-                'Customer with order', 'Customer without order', 'Repeated customer', 'Non repeated customer', 'Customer top orders'
+                "Customer with order",
+                "Customer without order",
+                "Repeated customer",
+                "Non repeated customer",
+                "Customer top orders",
               ],
               pieSeries: [
                 customerWithOrder,
@@ -353,7 +344,7 @@ const PeopleAnalytics = () => {
                 nonRepeatedCustomer,
                 customerTopOrders.length,
               ],
-            }
+            },
           });
           /* CUSTOMER WITH ORDER COUNT END */
         }
@@ -384,18 +375,20 @@ const PeopleAnalytics = () => {
           apiStatus: true,
           apiData: {
             categories: orderSalesData,
-            seriesData: [{
-              name: 'Order Count',
-              data: orderValues,
-              color: "#b1399e",
-            }],
+            seriesData: [
+              {
+                name: "Order Count",
+                data: orderValues,
+                color: "#b1399e",
+              },
+            ],
             xtitle: "Order Sales Report",
             ytitle: "Number",
-          }
+          },
         });
         setOrderSaleValue(orderValues);
       }
-    }
+    };
 
     fetchOrderSalesChartCount();
   }, [activeButton]);
@@ -404,19 +397,19 @@ const PeopleAnalytics = () => {
     <table className="w-full table-auto">
       <thead>
         <tr className="bg-gray-2 text-left dark:bg-meta-4">
-          <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Title</th>
+          <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+            Title
+          </th>
         </tr>
       </thead>
       <tbody>
-        {
-          data.map((item, key) => (
-            <tr key={key}>
-              <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <p className="text-black dark:text-white">{item.title}</p>
-              </td>
-            </tr>
-          ))
-        }
+        {data.map((item, key) => (
+          <tr key={key}>
+            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+              <p className="text-black dark:text-white">{item.title}</p>
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );
@@ -425,8 +418,12 @@ const PeopleAnalytics = () => {
     <table className="w-full table-auto">
       <thead>
         <tr className="bg-gray-2 text-left dark:bg-meta-4">
-          <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Name</th>
-          <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">Order Count</th>
+          <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+            Name
+          </th>
+          <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+            Order Count
+          </th>
         </tr>
       </thead>
       <tbody>
