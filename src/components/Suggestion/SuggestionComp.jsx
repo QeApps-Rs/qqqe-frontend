@@ -210,12 +210,12 @@ const SuggestionComp = () => {
                               >
                                 <span
                                   className={`${
-                                    suggestion.is_applied
+                                    statement.is_applied
                                       ? "bg-green-100 text-green-800"
                                       : "bg-red-100 text-red-800"
                                   } text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300`}
                                 >
-                                  {suggestion.is_applied
+                                  {statement.is_applied 
                                     ? "Applied"
                                     : "Not Applied"}
                                 </span>

@@ -154,7 +154,7 @@ const MasterForm = () => {
   }
 
   const onPublish = () => {
-    navigate('/dashboard')
+    navigate('/suggestion/list/1')
   }
 
   return (

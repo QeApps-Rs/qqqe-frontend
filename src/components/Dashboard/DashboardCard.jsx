@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import ChartOne from "../Charts/ChartOne";
 import { Link } from "react-router-dom";
 
@@ -10,8 +11,17 @@ const DashboardCard = ({
   chart,
   priorityCount,
 }) => {
-  const totalSuggestionCount =
-    priorityCount?.Critical + priorityCount?.Average + priorityCount?.Minor;
+  const [totalSuggestion, setTotalSuggestion] = useState(0);
+
+  useEffect(() => {
+    // Calculate totalSuggestion only when priorityCount changes
+    const totalSuggestionCount =
+      (priorityCount?.Critical ?? 0) +
+      (priorityCount?.Average ?? 0) +
+      (priorityCount?.Minor ?? 0);
+    setTotalSuggestion(totalSuggestionCount);
+  }, [priorityCount]); // Dependency array to run useEffect when priorityCount changes
+
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
       <div className="badge space-x-2 rounded-full float-right -mt-5">
@@ -42,7 +52,7 @@ const DashboardCard = ({
             </Link>
           </h2>
           <div className="text-black font-bold space-x-2 text-slate-800">
-            {totalSuggestionCount ?? 0} Suggestions
+            {totalSuggestion} Suggestions
           </div>
         </div>
         <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5">
