@@ -123,7 +123,7 @@ const SuggestionComp = () => {
         </span>
 
         <div className="rounded-sm border mt-4 border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-          <p className="text-md text-lg font-medium text-gray-900 leading-relaxed mb-2">
+          <p className="text-md text-lg font-bold text-gray-900 leading-relaxed mb-2">
             {problemStatement.problem_statement}
           </p>
           <div className="max-w-full overflow-x-auto">
@@ -135,7 +135,7 @@ const SuggestionComp = () => {
                   </th>
                   <th></th>
                   <th className="px-4 py-4 text-left font-medium text-black dark:text-white">
-                    Applied
+                    Status
                   </th>
                   <th className="px-4 py-4 font-medium text-black dark:text-white">
                     Actions
@@ -197,7 +197,7 @@ const SuggestionComp = () => {
                                             : "bg-gray-200"
                                         }`}
                                       >
-                                        {option}
+                                        {option == 'Product' ?'Product List':'Customer List'}
                                       </div>
                                     </label>
                                   ))}
@@ -217,7 +217,7 @@ const SuggestionComp = () => {
                                 >
                                   {suggestion.is_applied
                                     ? "Applied"
-                                    : "UnApplied"}
+                                    : "Not Applied"}
                                 </span>
                               </td>
 
@@ -422,7 +422,7 @@ const SuggestionComp = () => {
               }
               btnClose="Discard"
               btnSubmit="Confirm"
-              mdlTitle="Please select the percentage"
+              mdlTitle="Please confirm the changes"
               showFooter={true}
               isAnalytics={false}
             />
@@ -440,7 +440,7 @@ const SuggestionComp = () => {
               }
               btnClose="Discard"
               btnSubmit="Confirm"
-              mdlTitle="Action Prompts (People)"
+              mdlTitle="Action Prompts"
               showFooter={false}
               isAnalytics={true}
             />

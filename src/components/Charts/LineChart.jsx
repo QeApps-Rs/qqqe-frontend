@@ -22,9 +22,9 @@ const LineChart = ({ series, title, categories }) => {
     },
     xaxis: {
       categories: categories || [],
-      title: {
-        text: 'Title',
-      },
+      // title: {
+      //   text: 'Title',
+      // },
     },
     yaxis: {
       title: {
