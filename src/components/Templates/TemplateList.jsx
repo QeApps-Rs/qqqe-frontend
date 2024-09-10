@@ -62,7 +62,7 @@ const TemplateList = () => {
                     /> */}
                 {/* <div className='grid-cols-3'> */}
                 <div>
-                    <Link to='/master-form'>
+                    <Link to='/master-form/1'>
                         <img
                             className="mb-3 shadow-lg border border-slate-300 rounded-md w-full"
                             src={popup1}
