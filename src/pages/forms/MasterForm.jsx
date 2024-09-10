@@ -911,10 +911,10 @@ const MasterForm = () => {
       <div className="w-3/4 float-right p-0 h-[83.90vh]">
         <div className="flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
           <div className="w-[70%] flex justify-center">
-            <div className="border border-[#323359] inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative bg-white cursor-pointer" onClick={() => setSucess(false)}>
+            <div className={`border border-[#323359] ${ !sucess ? 'bg-[#d0d5d9]' : 'bg-white'}  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`} onClick={() => setSucess(false)}>
               Teaser
             </div>
-            <div className="border border-[#323359] inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative bg-white cursor-pointer" onClick={() => setSucess(true)}>
+            <div className={`border border-[#323359] ${ sucess ? 'bg-[#d0d5d9]' : 'bg-white'} inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`} onClick={() => setSucess(true)}>
               Success
             </div>
           </div>
