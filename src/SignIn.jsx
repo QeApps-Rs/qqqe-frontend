@@ -10,24 +10,22 @@ import Loader from "./common/Loader/index.jsx";
 
 const SignIn = () => {
     const [loading, setLoading] = useState(false);
-    const defaultFields = { email: '', password: '' };
-    const [loginField, setLoginField] = useState(defaultFields);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({});
     const navigate = useNavigate();
 
-    const handleLogin = async () => {
+    const handleLogin = async (data) => {
         setLoading(true);
         await FormSubmitHandler({
             method: 'post',
             url: 'login',
-            data: loginField
+            data: data
         }).then(res => {
             const { token, ...user } = res.data;
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
 
             toast.success(res.message);
-            setLoginField(defaultFields);
+            reset()
             const route = localStorage.getItem("setup-preference") ? "/analytics" : "/preference-survey";
             navigate(route);
         }).catch(err => {
@@ -36,14 +34,6 @@ const SignIn = () => {
             setLoading(false);
         });
     };
-
-    const handleInput = (e) => {
-        const { name, value } = e.target;
-        setLoginField({
-            ...loginField,
-            [name]: value
-        });
-    }
 
     const emailValidationType = {
         required: "Email is required",
@@ -103,10 +93,7 @@ const SignIn = () => {
                                         <input
                                             {...register('email', emailValidationType)}
                                             type="email"
-                                            id="email"
                                             name="email"
-                                            onChange={handleInput}
-                                            value={loginField.email}
                                             placeholder="Enter your email"
                                             className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                         />
@@ -125,10 +112,7 @@ const SignIn = () => {
                                         <input
                                             {...register('password', passwordValidationType)}
                                             type="password"
-                                            id="password"
                                             name="password"
-                                            onChange={handleInput}
-                                            value={loginField.password}
                                             placeholder="6+ Characters, 1 Capital letter"
                                             className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                         />
