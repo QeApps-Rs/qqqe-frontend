@@ -11,7 +11,6 @@ const DonutChart = ({
   const [series, setSeries] = useState([]);
   const [options, setOptions] = useState({
     chart: {
-      width: 380,
       type: "donut",
     },
     plotOptions: {
