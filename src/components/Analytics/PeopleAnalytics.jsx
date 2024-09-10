@@ -12,43 +12,28 @@ import ColumnChart from "../Charts/ColumnChart";
 import PieChart from "../Charts/PieChart";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 import Loader from "../../common/Loader";
+import { GraphCard, TabCard } from "./GraphCard";
 
 const PeopleAnalytics = () => {
+
   const [loading, setLoading] = useState(false);
-  const [countryData, setCountryData] = useState({
+  const initialState = {
     apiStatus: false,
     apiData: {},
-  });
-  const [browserData, setBrowserData] = useState({
-    apiStatus: false,
-    apiData: {},
-  });
-  const [pagesData, setPagesData] = useState({
-    apiStatus: false,
-    apiData: {},
-  });
-  const [entryPagesData, setEntryPagesData] = useState({
-    apiStatus: false,
-    apiData: {},
-  });
-  const [productData, setProductData] = useState({
-    apiStatus: false,
-    apiData: {},
-  });
+  };
+  const [countryData, setCountryData] = useState(initialState);
+  const [browserData, setBrowserData] = useState(initialState);
+  const [pagesData, setPagesData] = useState(initialState);
+  const [entryPagesData, setEntryPagesData] = useState(initialState);
+  const [productData, setProductData] = useState(initialState);
   const [productSeries, setProductSeries] = useState([]); // State for product series
   const [productCategories, setProductCategories] = useState([]);
 
-  const [categoriesData, setCategoriesData] = useState({
-    apiStatus: false,
-    apiData: {},
-  });
+  const [categoriesData, setCategoriesData] = useState(initialState);
   const [categoriesSeries, setCategoriesSeries] = useState([]); // State for categories series
   const [categoriesCategories, setCategoriesCategories] = useState([]);
 
-  const [visitedPagesData, setVisitedPagesData] = useState({
-    apiStatus: false,
-    apiData: {},
-  });
+  const [visitedPagesData, setVisitedPagesData] = useState(initialState);
   const [visitedPagesSeries, setVisitedPagesSeries] = useState([]); // State for visitedPages series
   const [visitedPagesVisitedPages, setVisitedPagesVisitedPages] = useState([]);
 
@@ -77,39 +62,18 @@ const PeopleAnalytics = () => {
   ////////////////////////////
 
   // HARSHIL CREATED STATES START
-  const [orderCountDeviceWise, setOrderCountDeviceWise] = useState({
-    status: false,
-    data: {},
-  });
-  const [orderCountCountryWise, setOrderCountCountryWise] = useState({
-    status: false,
-    data: {},
-  });
-  const [productSoldUnSoldCount, setProductSoldUnSoldCount] = useState({
-    status: false,
-    data: {},
-  });
+  const [orderCountDeviceWise, setOrderCountDeviceWise] = useState(initialState);
+  const [orderCountCountryWise, setOrderCountCountryWise] = useState(initialState);
+  const [productSoldUnSoldCount, setProductSoldUnSoldCount] = useState(initialState);
   const [activeTab, setActiveTab] = useState(0);
   const [mostPurchasedProduct, setMostPurchasedProduct] = useState([]);
   const [unsoldProduct, setUnsoldProduct] = useState([]);
   const [top7Product, setTop7Product] = useState([]);
 
-  const [customerTopOrderList, setCustomerTopOrderList] = useState({
-    status: false,
-    data: [],
-  });
-  const [customerCountCountryWise, setCustomerCountCountryWise] = useState({
-    status: false,
-    data: {},
-  });
-  const [customerCount, setCustomerCount] = useState({
-    status: false,
-    data: {},
-  });
-  const [orderSaleCount, setOrderSaleCount] = useState({
-    status: false,
-    data: {},
-  });
+  const [customerTopOrderList, setCustomerTopOrderList] = useState({ apiStatus: false, apiData: [] });
+  const [customerCountCountryWise, setCustomerCountCountryWise] = useState(initialState);
+  const [customerCount, setCustomerCount] = useState(initialState);
+  const [orderSaleCount, setOrderSaleCount] = useState(initialState);
   const orderSalesData = ["Order Count", "Order Sales", "Order Average"];
   const [orderSaleValue, setOrderSaleValue] = useState([0, 0, 0]);
   const [activeButton, setActiveButton] = useState("day");
@@ -137,10 +101,6 @@ const PeopleAnalytics = () => {
           url: "getCustomerJourneyData",
         });
 
-        console.log(
-          "resultOfLevelOneQuestionList",
-          resultOfLevelOneQuestionList
-        );
 
         if (resultOfLevelOneQuestionList) {
           setCountryData({
@@ -269,8 +229,8 @@ const PeopleAnalytics = () => {
           /* DEVICE WISE ORDER COUNT START */
           const deviceCount = response.data.device_wise_order;
           setOrderCountDeviceWise({
-            status: true,
-            data: {
+            apiStatus: true,
+            apiData: {
               categories: Object.keys(deviceCount),
               seriesData: [
                 {
@@ -288,8 +248,8 @@ const PeopleAnalytics = () => {
           /* COUNTRY WISE ORDER COUNT START */
           const countryCount = response.data.country_wise_order;
           setOrderCountCountryWise({
-            status: true,
-            data: {
+            apiStatus: true,
+            apiData: {
               categories: Object.keys(countryCount),
               seriesData: [
                 {
@@ -307,13 +267,9 @@ const PeopleAnalytics = () => {
           /* PRODUCT WISE ORDER COUNT START */
           const top_7ProductsList = response.data.top_7_products_list;
           setProductSoldUnSoldCount({
-            status: true,
-            data: {
-              labels: [
-                "Most Purchased Products",
-                "Un-sold Products",
-                "Top Selling Products",
-              ],
+            apiStatus: true,
+            apiData: {
+              labels: ['Most Purchased Products', 'Un-sold Products', 'Top Selling Products'],
               pieSeries: [
                 response.data.most_purchase_product_count,
                 response.data.unsold_product_count,
@@ -343,8 +299,8 @@ const PeopleAnalytics = () => {
           /* COUNTRY WISE CUSTOMER COUNT START */
           const countryCount = response.data.countries;
           setCustomerCountCountryWise({
-            status: true,
-            data: {
+            apiStatus: true,
+            apiData: {
               categories: Object.keys(countryCount),
               seriesData: [
                 {
@@ -367,13 +323,13 @@ const PeopleAnalytics = () => {
             response.data.customer.non_repeated_customer;
           const customerTopOrders = response.data.customer.customer_top_orders;
           setCustomerTopOrderList({
-            status: true,
-            data: customerTopOrders.slice(0, 5),
-          });
+            apiStatus: true,
+            apiData: customerTopOrders.slice(0, 5)
+          })
 
           setCustomerCount({
-            status: true,
-            data: {
+            apiStatus: true,
+            apiData: {
               labels: [
                 "Customer with order",
                 "Customer without order",
@@ -416,8 +372,8 @@ const PeopleAnalytics = () => {
           response.data.order_average,
         ];
         setOrderSaleCount({
-          status: true,
-          data: {
+          apiStatus: true,
+          apiData: {
             categories: orderSalesData,
             seriesData: [
               {
@@ -508,16 +464,20 @@ const PeopleAnalytics = () => {
     return `start_date=${formattedStartDate}&end_date=${formattedEndDate}`;
   };
 
+  const tabPanelClassName = "rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1"
+  const countBoxClassName = "col-span-12 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark";
+
+  const title = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae, aspernatur.";
+
   return (
     <>
       {loading && <Loader />}
       <main className="main-content todo-app w-full px-[var(--margin-x)] pb-8">
-        <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
         <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
           {/* HARSHIL CREATED CHARTS START */}
           {
             orderSaleCount && (
-              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-12">
+              <div className={`${countBoxClassName} px-5 pb-5 sm:px-7.5 xl:col-span-12`}>
                 <div className="toolbar flex space-x-2 pt-4 justify-end">
                   <button className={getButtonClasses("day")} onClick={() => handleButtonClick("day")}>
                     Day
@@ -533,7 +493,7 @@ const PeopleAnalytics = () => {
                 <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
                   {
                     orderSalesData.map((orderSaleTitle, key) => (
-                      <div key={key} className="col-span-12 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark  xl:col-span-4 h-29 align-center flex flex justify-center items-center">
+                      <div key={key} className={`${countBoxClassName} xl:col-span-4 h-29 align-center flex flex-col justify-center items-center`}>
                         <div className="block">
                           <h2 className="block text-3xl ">{orderSaleTitle}</h2>
                           <span className="block text-center text-1xl  font-extrabold">
@@ -550,184 +510,121 @@ const PeopleAnalytics = () => {
                       Order Sales
                     </p>
                   </div>
-                  <ColumnChart chartData={orderSaleCount.data} />
+                  <ColumnChart chartData={orderSaleCount.apiData} />
                 </div>
               </div>
             )
           }
           {
-            orderCountDeviceWise.status && (
-              <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-                <div className="bg-green-300 h-16">
-                  <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                    Order Count By Device
-                  </p>
+            orderCountDeviceWise.apiStatus && (
+              <GraphCard title="Order Count By Device" colSpanClass="col-span-12 xl:col-span-6">
+                <ColumnChart chartData={orderCountDeviceWise.apiData} />
+              </GraphCard>)
+          }
+          {
+            orderCountCountryWise.apiStatus && (
+              <GraphCard title="Order Count By Country" colSpanClass="col-span-12 xl:col-span-6">
+                <ColumnChart chartData={orderCountCountryWise.apiData} />
+              </GraphCard>)
+          }
+          {
+            productSoldUnSoldCount.apiStatus && (
+              <GraphCard title="Product Chart" colSpanClass="col-span-12 xl:col-span-6">
+                <ColumnChart chartData={productSoldUnSoldCount.apiData} />
+              </GraphCard>)
+          }
+          {
+            productSoldUnSoldCount.apiStatus && (
+              <GraphCard title="  Product Categories" colSpanClass="col-span-12 xl:col-span-6">
+                <div className="container mx-auto p-4">
+                  <Tabs selectedIndex={activeTab} onSelect={(index) => setActiveTab(index)}>
+                    <TabList>
+                      <Tab style={{ backgroundColor: "#078bf0" }}>Most Purchased Products</Tab>
+                      <Tab style={{ backgroundColor: "#04e590" }}>Un-Sold Products</Tab>
+                      <Tab style={{ backgroundColor: "#feb130" }}>Top 7 Products</Tab>
+                    </TabList>
+
+                    <TabPanel>
+                      <div className={tabPanelClassName}>
+                        <div className="max-w-full overflow-x-auto">
+                          {renderTable(mostPurchasedProduct)}
+                        </div>
+                      </div>
+                    </TabPanel>
+
+                    <TabPanel>
+                      <div className={tabPanelClassName}>
+                        <div className="max-w-full overflow-x-auto">
+                          {renderTable(unsoldProduct)}
+                        </div>
+                      </div>
+                    </TabPanel>
+
+                    <TabPanel>
+                      <div className={tabPanelClassName}>
+                        <div className="max-w-full overflow-x-auto">
+                          {renderTable(top7Product)}
+                        </div>
+                      </div>
+                    </TabPanel>
+                  </Tabs>
                 </div>
-
-              <ColumnChart chartData={orderCountDeviceWise.data} />
-            </div>
-          )}
-          {orderCountCountryWise.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Order Count By Country
-                </p>
-              </div>
-
-              <ColumnChart chartData={orderCountCountryWise.data} />
-            </div>
-          )}
-          {productSoldUnSoldCount.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Product Chart
-                </p>
-              </div>
-              <PieChart chartData={productSoldUnSoldCount.data} />
-            </div>
-          )}
-          {productSoldUnSoldCount.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Product Categories
-                </p>
-              </div>
-              <div className="container mx-auto p-4">
-                <Tabs
-                  selectedIndex={activeTab}
-                  onSelect={(index) => setActiveTab(index)}
-                >
-                  <TabList>
-                    <Tab style={{ backgroundColor: "#078bf0" }}>
-                      Most Purchased Products
-                    </Tab>
-                    <Tab style={{ backgroundColor: "#04e590" }}>
-                      Un-Sold Products
-                    </Tab>
-                    <Tab style={{ backgroundColor: "#feb130" }}>
-                      Top 7 Products
-                    </Tab>
-                  </TabList>
-
-                  <TabPanel>
-                    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-                      <div className="max-w-full overflow-x-auto">
-                        {renderTable(mostPurchasedProduct)}
-                      </div>
-                    </div>
-                  </TabPanel>
-
-                  <TabPanel>
-                    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-                      <div className="max-w-full overflow-x-auto">
-                        {renderTable(unsoldProduct)}
-                      </div>
-                    </div>
-                  </TabPanel>
-
-                  <TabPanel>
-                    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-                      <div className="max-w-full overflow-x-auto">
-                        {renderTable(top7Product)}
-                      </div>
-                    </div>
-                  </TabPanel>
-                </Tabs>
-              </div>
-            </div>
-          )}
-          {customerCountCountryWise.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Customer Count By Country
-                </p>
-              </div>
-
-              <ColumnChart chartData={customerCountCountryWise.data} />
-            </div>
-          )}
-          {customerTopOrderList.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Customer Top Orders
-                </p>
-              </div>
-              <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-                <div className="max-w-full overflow-x-auto">
-                  {renderCustomerTopOrderTable(customerTopOrderList.data)}
+              </GraphCard>)
+          }
+          {
+            customerCountCountryWise.apiStatus && (
+              <GraphCard title="Customer Count By Country" colSpanClass="col-span-12 xl:col-span-6">
+                <ColumnChart chartData={customerCountCountryWise.apiData} />
+              </GraphCard>)
+          }
+          {
+            customerTopOrderList.apiStatus && (
+              <GraphCard title="Customer Top Orders" colSpanClass="col-span-12 xl:col-span-6">
+                <div className={tabPanelClassName}>
+                  <div className="max-w-full overflow-x-auto">
+                    {renderCustomerTopOrderTable(customerTopOrderList.apiData)}
+                  </div>
                 </div>
-              </div>
-            </div>
-          )}
-          {customerCount.status && (
-            <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-              <div className="bg-green-300 h-16">
-                <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                  Customer Chart
-                </p>
-              </div>
-              <PieChart chartData={customerCount.data} />
-            </div>
-          )}
+              </GraphCard>)
+          }
+          {
+            customerCount.apiStatus && (
+              <GraphCard title="Customer Chart" colSpanClass="col-span-12 xl:col-span-6">
+                <PieChart chartData={customerCount.apiData} />
+              </GraphCard>)
+          }
+
           {/* HARSHIL CREATED CHARTS END */}
-          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-            <div className="bg-green-300 h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-                assumenda.
-                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-              </p>
-            </div>
 
-            {pagesData.apiStatus && (
-              <DonutChart
-                chartData={pagesData.apiData}
-                name="Visited Pages"
-                title="Customer Distribution by Visited Pages"
-                isHorizontal={true}
-                dataLabelStatus={false}
-              />
-            )}
-          </div>
-          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-            <div className="bg-green-300 h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-                assumenda.
-                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-              </p>
-            </div>
+          {
+            pagesData.apiStatus && (
+              <GraphCard title={title} colSpanClass="col-span-12 xl:col-span-6">
+                <DonutChart
+                  chartData={pagesData.apiData}
+                  name="Visited Pages"
+                  title="Customer Distribution by Visited Pages"
+                  isHorizontal={true}
+                  dataLabelStatus={false}
+                />
+              </GraphCard>)
+          }
 
-            {entryPagesData.apiStatus && (
-              <SlopeChart
-                chartData={entryPagesData.apiData}
-                name="Visited Pages"
-                title="Customer Distribution by Visited Pages"
-                isHorizontal={true}
-                dataLabelStatus={false}
-              />
-            )}
-          </div>
-          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-            <div className="bg-green-300 h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae,
-                aspernatur.
-                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-              </p>
-            </div>
-            {countryData.apiStatus && (
+          {
+            entryPagesData.apiStatus && (
+              <GraphCard title={title} colSpanClass="col-span-12 xl:col-span-6">
+                <SlopeChart
+                  chartData={entryPagesData.apiData}
+                  name="Visited Pages"
+                  title="Customer Distribution by Visited Pages"
+                  isHorizontal={true}
+                  dataLabelStatus={false}
+                />
+              </GraphCard>)
+          }
+
+
+          {countryData.apiStatus && (
+            <GraphCard title={title} colSpanClass="col-span-12 xl:col-span-6">
               <BarChart
                 chartData={countryData.apiData}
                 name="Country"
@@ -736,21 +633,13 @@ const PeopleAnalytics = () => {
                 dataLabelStatus={true}
                 colors={["#00C49F", "#FFBB28"]}
               />
-            )}
-          </div>
-          {/* =============================Sencond Graph ========================== */}
-          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-            <div className="bg-green-300 h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-                assumenda.
-                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-              </p>
-            </div>
+            </GraphCard>
+          )}
 
-            {browserData.apiStatus && (
+          {/* =============================Sencond Graph ========================== */}
+
+          {browserData.apiStatus && (
+            <GraphCard title={title} colSpanClass="col-span-12 xl:col-span-6">
               <BarChart
                 chartData={browserData.apiData}
                 name="IP Address"
@@ -758,108 +647,52 @@ const PeopleAnalytics = () => {
                 isHorizontal={true}
                 dataLabelStatus={false}
               />
-            )}
-          </div>
+            </GraphCard>
+          )}
 
-          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-12">
-            <div className="bg-green-300 h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-                assumenda.
-                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-              </p>
-            </div>
-
+          <GraphCard title={title} colSpanClass="col-span-12 xl:col-span-12">
             <LineChart
               series={combinedSeries}
               title="Combined Top Views (Products, Categories, Pages)"
               categories={combinedCategories}
             />
-          </div>
+          </GraphCard>
 
-          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4">
-            <div className="bg-green-300 h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-                assumenda.
-                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-              </p>
-            </div>
-            {productData.apiStatus && (
+          {productData.apiStatus && (
+            <GraphCard title={title} colSpanClass="col-span-12 xl:col-span-4">
               <LineChart
                 series={productSeries}
                 title="Top Viewed Products"
                 categories={productCategories}
               />
-            )}
-          </div>
-          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4">
-            <div className="bg-green-300 h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-                assumenda.
-                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-              </p>
-            </div>
-            {categoriesData.apiStatus && (
+            </GraphCard>
+          )}
+
+          {categoriesData.apiStatus && (
+            <GraphCard title={title} colSpanClass="col-span-12 xl:col-span-4">
               <LineChart
                 series={categoriesSeries}
                 title="Top Viewed Categories"
                 categories={categoriesCategories}
               />
-            )}
-          </div>
-          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4">
-            <div className="bg-green-300 h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-                assumenda.
-                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-              </p>
-            </div>
-            {visitedPagesData.apiStatus && (
+            </GraphCard>
+          )}
+
+          {visitedPagesData.apiStatus && (
+            <GraphCard title={title} colSpanClass="col-span-12 xl:col-span-4">
               <LineChart
                 series={visitedPagesSeries}
                 title="Top Viewed Pages"
                 categories={visitedPagesVisitedPages}
               />
-            )}
-          </div>
-          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-            <div className="bg-green-300 h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-                assumenda.
-                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-              </p>
-            </div>
+            </GraphCard>
+          )}
 
-            <StepLineChart
-              data={topKeywords}
-              title="Top Keywords by Search Count"
-            />
-          </div>
-          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-            <div className="bg-green-300 h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-                assumenda.
-                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-              </p>
-            </div>
+          <GraphCard title={title} colSpanClass="col-span-12 xl:col-span-6">
+            <StepLineChart data={topKeywords} title="Top Keywords by Search Count" />
+          </GraphCard>
 
+          <GraphCard title={title} colSpanClass="col-span-12 xl:col-span-6">
             <BarChartCustomer
               chartData={oneTimeVisit}
               name="One-Time Visits"
@@ -868,18 +701,9 @@ const PeopleAnalytics = () => {
               dataLabelStatus={true}
               barColors={["#FFBB28"]}
             />
-          </div>
-          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-            <div className="bg-green-300 h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-                assumenda.
-                {/* <span className="bg-blue-100 text-blue-800 text-xs  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                Customized
-              </span> */}
-              </p>
-            </div>
+          </GraphCard>
 
+          <GraphCard title={title} colSpanClass="col-span-12 xl:col-span-6">
             <BarChartCustomer
               chartData={multiTimeVisit}
               name="Multi-Time Visits"
@@ -887,7 +711,8 @@ const PeopleAnalytics = () => {
               isHorizontal={false}
               dataLabelStatus={true}
             />
-          </div>
+          </GraphCard>
+
         </div>
       </main>
     </>
