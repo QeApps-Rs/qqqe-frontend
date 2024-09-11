@@ -101,6 +101,7 @@ const PreferenceSurvey = () => {
             <Breadcrumb pageName="Preference Survey" breadcrumb={false} />
             
             <div className="grid grid-cols-1 gap-9 sm:grid-cols-1">
+
   <div className="flex flex-col gap-9">
     <div className="rounded-sm bg-white dark:bg-boxdark">
       <form onSubmit={handleSubmit}>
