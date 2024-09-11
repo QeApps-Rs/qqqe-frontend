@@ -6,14 +6,19 @@ const Breadcrumb = ({ pageName, breadcrumb = true }) => {
       <h2 className="text-title-md2 font-semibold text-black dark:text-white">
         {pageName}
       </h2>
-      <img
-        className="dark:hidden"
-        style={{
-          backgroundColor: "#3a56dbdb",
-        }}
-        src={Logo}
-        alt="Logo"
-      />
+      {pageName == "Sign Up" ? (
+        ""
+      ) : (
+        <img
+          className="dark:hidden"
+          style={{
+            backgroundColor: "#3a56dbdb",
+          }}
+          src={Logo}
+          alt="Logo"
+        />
+      )}
+
       {breadcrumb && (
         <nav>
           <ol className="flex items-center gap-2">
