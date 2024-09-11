@@ -12,7 +12,7 @@ const GraphCard = ({
       className={`${colSpanClass} rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5`}
     >
       {isTitle && (
-        <div className="bg-green-300 p-5 rounded-md shadow-md">
+        <div className="bg-[#3292a9] p-5 rounded-md shadow-md">
           <p className="text-xl font-bold text-black mb-2">{title}</p>
 
           <p className="text-sm text-black">{description}</p>

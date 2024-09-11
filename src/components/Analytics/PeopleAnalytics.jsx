@@ -422,7 +422,7 @@ const PeopleAnalytics = () => {
       <thead>
         <tr className="bg-gray-2 text-left dark:bg-meta-4">
           <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-            Title
+            Product Title
           </th>
           <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
             Open Product
@@ -458,7 +458,7 @@ const PeopleAnalytics = () => {
       <thead>
         <tr className="bg-gray-2 text-left dark:bg-meta-4">
           <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-            Name
+            Customer Name
           </th>
           <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
             Order Count
@@ -530,10 +530,10 @@ const PeopleAnalytics = () => {
       {loading && <Loader />}
       <main className="main-content todo-app w-full px-[var(--margin-x)] pb-8">
         <div className="flex items-center">
-          <div>
+          <div className="flex items-center">
             <i className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center" aria-hidden="true"></i>
           </div>
-          <h2 className="text-title-md2 font-semibold text-black dark:text-white pl-4">Analytics</h2>
+          <h2 className="text-title-md2 font-semibold text-black dark:text-white pl-2">Analytics</h2>
         </div>
         <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
           {/* HARSHIL CREATED CHARTS START */}
@@ -577,7 +577,7 @@ const PeopleAnalytics = () => {
                 }
               </div> */}
               <div>
-                <div className="bg-green-300 p-5 rounded-md shadow-md mt-5">
+                <div className="bg-[#3292a9] p-5 rounded-md shadow-md mt-5">
                   <p className="text-xl font-bold text-black mb-2">
                     Sales Graph
                   </p>
@@ -608,7 +608,7 @@ const PeopleAnalytics = () => {
           }
           {
             productSoldUnSoldCount.apiStatus && (
-              <GraphCard title="Product Chart" colSpanClass="col-span-12 xl:col-span-6">
+              <GraphCard title="Product Categories" colSpanClass="col-span-12 xl:col-span-6">
                 <ColumnChart chartData={productSoldUnSoldCount.apiData} />
               </GraphCard>)
           }
@@ -617,9 +617,9 @@ const PeopleAnalytics = () => {
               <GraphCard title="  Product Categories" colSpanClass="col-span-12 xl:col-span-6">
                 <div className="container mx-auto p-4">
                   <Tabs selectedIndex={activeTab} onSelect={(index) => setActiveTab(index)}>
-                    <TabList>
+                    <TabList className='flex justify-center'>
                       <Tab style={{ backgroundColor: "#078bf0" }}>Most Purchased Products</Tab>
-                      <Tab style={{ backgroundColor: "#04e590" }}>Un-Sold Products</Tab>
+                      <Tab style={{ backgroundColor: "#04e590" }}>Unsold Products</Tab>
                       <Tab style={{ backgroundColor: "#feb130" }}>Top 7 Products</Tab>
                     </TabList>
 
