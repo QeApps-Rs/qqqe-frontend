@@ -611,7 +611,7 @@ const PeopleAnalytics = () => {
           {
             productSoldUnSoldCount.apiStatus && (
               <GraphCard title="Product Categories" colSpanClass="col-span-12 xl:col-span-6">
-                <ColumnChart chartData={productSoldUnSoldCount.apiData} />
+                <PieChart chartData={productSoldUnSoldCount.apiData} />
               </GraphCard>)
           }
           {
