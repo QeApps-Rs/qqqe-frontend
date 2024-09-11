@@ -7,7 +7,6 @@ const GraphCard = ({
   isTitle = true,
   description = '' ,
 }) => {
-  console.log('description', description)
   return (
     <div
       className={`${colSpanClass} rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5`}
