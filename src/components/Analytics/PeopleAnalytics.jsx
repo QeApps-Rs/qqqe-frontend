@@ -475,6 +475,20 @@ const PeopleAnalytics = () => {
     return `start_date=${formattedStartDate}&end_date=${formattedEndDate}`;
   };
 
+  const formatToIndianCurrency = (number) => {
+    const [integerPart, decimalPart] = number.toString().split(".");
+    let lastThreeDigits = integerPart.slice(-3);
+    const otherDigits = integerPart.slice(0, -3);
+
+    if (otherDigits !== '') {
+      lastThreeDigits = ',' + lastThreeDigits;
+    }
+
+    const formattedIntegerPart = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThreeDigits;
+    return decimalPart ? formattedIntegerPart + "." + decimalPart : formattedIntegerPart;
+  }
+
+
   const tabPanelClassName = "rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1"
   const countBoxClassName = "col-span-12 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark";
 
@@ -484,6 +498,7 @@ const PeopleAnalytics = () => {
     <>
       {loading && <Loader />}
       <main className="main-content todo-app w-full px-[var(--margin-x)] pb-8">
+      <h1><b>Analytics</b></h1>
         <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
           {/* HARSHIL CREATED CHARTS START */}
           {
@@ -508,7 +523,7 @@ const PeopleAnalytics = () => {
                         <div className="block">
                           <h2 className="block text-3xl ">{orderSaleTitle}</h2>
                           <span className="block text-center text-1xl  font-extrabold">
-                            {orderSaleValue[key]}
+                            {orderSaleTitle != "Total Order Count" ? formatToIndianCurrency(orderSaleValue[key]) : orderSaleValue[key]}
                           </span>
                         </div>
                       </div>

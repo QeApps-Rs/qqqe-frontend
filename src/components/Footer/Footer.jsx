@@ -9,7 +9,7 @@ const Footer = ({ sidebarOpen }) => {
         <p className="text-sm">
           <span className="mr-3">@Copyright 2024 QQQE</span><span>|</span>{" "}
           <Link to='https://web.whatsapp.com/' className="ml-3" target="#">
-            <i className="fa fa-whatsapp text-green-500 text-[17px]" aria-hidden="true"></i><span className="ml-1 mr-3">whatsapp</span>
+            <i className="fa fa-whatsapp text-green-500 text-[17px]" aria-hidden="true"></i><span className="ml-1 mr-3">Whatsapp</span>
           </Link>{" "}
           |{" "}
           <Link to='https://calendly.com/' className="ml-3" target="#">
