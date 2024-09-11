@@ -17,6 +17,7 @@ const SuggestionComp = () => {
   const [expandedRows, setExpandedRows] = useState({});
   const [selectedOptions, setSelectedOptions] = useState({});
   const [settingContent, setSettingContent] = useState("");
+  const [suggestionId, setSuggestionId] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -172,11 +173,10 @@ const SuggestionComp = () => {
                                   {["Product", "Customer"].map((option) => (
                                     <label
                                       key={option}
-                                      className={`${
-                                        selectedOptions[rowId] === option
-                                          ? "bg-slate-300"
-                                          : ""
-                                      } rounded`}
+                                      className={`${selectedOptions[rowId] === option
+                                        ? "bg-slate-300"
+                                        : ""
+                                        } rounded`}
                                     >
                                       <input
                                         type="radio"
@@ -191,13 +191,12 @@ const SuggestionComp = () => {
                                         className="hidden"
                                       />
                                       <div
-                                        className={`px-4 py-2 rounded-md cursor-pointer ${
-                                          selectedOptions[rowId] === option
-                                            ? "bg-gray-400"
-                                            : "bg-gray-200"
-                                        }`}
+                                        className={`px-4 py-2 rounded-md cursor-pointer ${selectedOptions[rowId] === option
+                                          ? "bg-gray-400"
+                                          : "bg-gray-200"
+                                          }`}
                                       >
-                                        {option == 'Product' ?'Product List':'Customer List'}
+                                        {option == 'Product' ? 'Product List' : 'Customer List'}
                                       </div>
                                     </label>
                                   ))}
@@ -209,13 +208,12 @@ const SuggestionComp = () => {
                                 className="border-b border-[#eee] dark:border-strokedark"
                               >
                                 <span
-                                  className={`${
-                                    statement.is_applied
-                                      ? "bg-green-100 text-green-800"
-                                      : "bg-red-100 text-red-800"
-                                  } text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300`}
+                                  className={`${statement.is_applied
+                                    ? "bg-green-100 text-green-800"
+                                    : "bg-red-100 text-red-800"
+                                    } text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300`}
                                 >
-                                  {statement.is_applied 
+                                  {statement.is_applied
                                     ? "Applied"
                                     : "Not Applied"}
                                 </span>
@@ -226,10 +224,12 @@ const SuggestionComp = () => {
                                 aria-label="suggestions"
                               >
                                 <div className="flex align-center">
-                                  <div title="Configuration" className="ml-2">
+                                  <div title="Configuration" className="ml-2" data-id={statement.id}>
                                     <SettingIcon
-                                      onClick={() =>
-                                        toggleModal(suggestion.suggestion)
+                                      onClick={() => {
+                                        toggleModal(suggestion.suggestion);
+                                        setSuggestionId(statement.id);
+                                      }
                                       }
                                     />
                                   </div>
@@ -248,11 +248,10 @@ const SuggestionComp = () => {
                                     aria-label="Column header"
                                   >
                                     <div
-                                      className={`w-full transition-all duration-300 ease-in-out ${
-                                        expandedRows[rowId] != true
-                                          ? "h-0 opacity-0"
-                                          : "h-auto opacity-100"
-                                      }`}
+                                      className={`w-full transition-all duration-300 ease-in-out ${expandedRows[rowId] != true
+                                        ? "h-0 opacity-0"
+                                        : "h-auto opacity-100"
+                                        }`}
                                     >
                                       <div className="relative mx-auto my-4 flex w-full flex-col bg-clip-border text-gray-700 ">
                                         <table className="is-hoverable">
@@ -361,11 +360,10 @@ const SuggestionComp = () => {
                                     aria-label="Column header"
                                   >
                                     <div
-                                      className={`w-full transition-all duration-300 ease-in-out ${
-                                        expandedRows[rowId] != true
-                                          ? "h-0 opacity-0"
-                                          : "h-auto opacity-100"
-                                      }`}
+                                      className={`w-full transition-all duration-300 ease-in-out ${expandedRows[rowId] != true
+                                        ? "h-0 opacity-0"
+                                        : "h-auto opacity-100"
+                                        }`}
                                     >
                                       <div className="relative mx-auto my-4 flex w-full flex-col bg-clip-border text-gray-700 ">
                                         <table className="is-hoverable">

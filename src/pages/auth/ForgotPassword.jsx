@@ -8,6 +8,7 @@ import FormSubmitHandler from '../../components/FormSubmitHandler.jsx';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import Loader from '../../common/Loader/index.jsx';
+import Logo from "../../images/favicon.png";
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -48,6 +49,17 @@ const ForgotPassword = () => {
                 <div className="flex flex-wrap items-center">
                     <div className="hidden w-full xl:block xl:w-1/2">
                         <div className="py-17.5 px-26 text-center">
+                            <Link className="mb-5.5 inline-block" to="/">
+                                <img className="hidden dark:block" src={Logo} alt="Logo" />
+                                <img
+                                    className="dark:hidden"
+                                    style={{
+                                        backgroundColor: "#3a56dbdb",
+                                    }}
+                                    src={Logo}
+                                    alt="Logo"
+                                />
+                            </Link>
                             <span className="mt-15 inline-block">
                                 <img src={PhoneIcon} alt="" />
                             </span>

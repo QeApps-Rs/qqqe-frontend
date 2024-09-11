@@ -43,21 +43,14 @@ const PeopleAnalytics = () => {
   ///Mansi Patel////
 
   const [graphDescription, setGraphDescription] = useState({
-    SalesCountByDevice:
-      "Sales Count by Device refers to the total number of sales categorized by the type of device used by customers, such as mobile, desktop, or tablet. This metric helps businesses understand which devices are driving the most sales.",
+    SalesCountByDevice: "Sales Count by Device refers to the total number of sales categorized by the type of device used by customers, such as mobile, desktop, or tablet. This metric helps businesses understand which devices are driving the most sales.",
     SalesCountByCountry: `"Sales Count by Country" tracks the total number of sales based on the customer's location, providing insights into which countries contribute the most to overall sales.`,
-    DistributionByVisitedPages:
-      "Customer Distribution by Page refers to the breakdown of where customers are engaging or converting across different pages of a website, helping to identify the most visited or highest-performing pages.",
-    DistributionByVisitedEntryExitPages:
-      "Customer Entry and Exit Pages refer to the first page customers land on when visiting a website and the last page they view before leaving. These metrics help analyze user behavior, showing which pages attract visitors and where they tend to exit the site.",
-    DistributionByCountry:
-      "Customer Distribution by Country shows the geographical breakdown of customers, providing insights into where your customers are located and which regions contribute the most to your customer base.",
-    DistributionByIP:
-      "Customer Distribution by IP Address tracks the geographical distribution of customers based on their IP addresses, helping to understand the location patterns of visitors and customers.",
-    CustomerCountByCountry:
-      "Customer Count by Country refers to the total number of unique customers from each country, offering insights into geographical distribution and market reach.",
-    CustomerCountByOrders:
-      "Top Customers by Orders highlights the customers with the highest number of purchases, providing insights into your most frequent buyers.",
+    DistributionByVisitedPages: "Customer Distribution by Page refers to the breakdown of where customers are engaging or converting across different pages of a website, helping to identify the most visited or highest-performing pages.",
+    DistributionByVisitedEntryExitPages: "Customer Entry and Exit Pages refer to the first page customers land on when visiting a website and the last page they view before leaving. These metrics help analyze user behavior, showing which pages attract visitors and where they tend to exit the site.",
+    DistributionByCountry: "Customer Distribution by Country shows the geographical breakdown of customers, providing insights into where your customers are located and which regions contribute the most to your customer base.",
+    DistributionByIP: "Customer Distribution by IP Address tracks the geographical distribution of customers based on their IP addresses, helping to understand the location patterns of visitors and customers.",
+    CustomerCountByCountry: "Customer Count by Country refers to the total number of unique customers from each country, offering insights into geographical distribution and market reach.",
+    CustomerCountByOrders: "Top Customers by Orders highlights the customers with the highest number of purchases, providing insights into your most frequent buyers.",
   });
 
   const getTopNKeywords = (n, searchData) => {
@@ -437,7 +430,9 @@ const PeopleAnalytics = () => {
         {data.map((item, key) => (
           <tr key={key}>
             <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-              <p className="text-black dark:text-white">{item.title}</p>
+              <p className="text-black dark:text-white">
+                <a href={item.url} target="_blank">{item.title}</a>
+              </p>
             </td>
           </tr>
         ))}
@@ -495,6 +490,20 @@ const PeopleAnalytics = () => {
     return `start_date=${formattedStartDate}&end_date=${formattedEndDate}`;
   };
 
+  const formatToIndianCurrency = (number) => {
+    const [integerPart, decimalPart] = number.toString().split(".");
+    let lastThreeDigits = integerPart.slice(-3);
+    const otherDigits = integerPart.slice(0, -3);
+
+    if (otherDigits !== '') {
+      lastThreeDigits = ',' + lastThreeDigits;
+    }
+
+    const formattedIntegerPart = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThreeDigits;
+    return decimalPart ? formattedIntegerPart + "." + decimalPart : formattedIntegerPart;
+  }
+
+
   const tabPanelClassName =
     "rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1";
   const countBoxClassName =
@@ -507,6 +516,12 @@ const PeopleAnalytics = () => {
     <>
       {loading && <Loader />}
       <main className="main-content todo-app w-full px-[var(--margin-x)] pb-8">
+        <div className="flex items-center">
+          <div>
+            <i className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center" aria-hidden="true"></i>
+          </div>
+          <h2 className="text-title-md2 font-semibold text-black dark:text-white pl-4">Analytics</h2>
+        </div>
         <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
           {/* HARSHIL CREATED CHARTS START */}
           {orderSaleCount && (
@@ -534,21 +549,20 @@ const PeopleAnalytics = () => {
                 </button>
               </div>
 
-              {/* <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-                {orderSalesData.map((orderSaleTitle, key) => (
-                  <div
-                    key={key}
-                    className={`${countBoxClassName} xl:col-span-4 h-29 align-center flex flex-col justify-center items-center`}
-                  >
-                    <div className="block">
-                      <h2 className="block text-3xl ">{orderSaleTitle}</h2>
-                      <span className="block text-center text-1xl  font-extrabold">
-                        {orderSaleValue[key]}
-                      </span>
+              <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+                {
+                  orderSalesData.map((orderSaleTitle, key) => (
+                    <div key={key} className={`${countBoxClassName} xl:col-span-4 h-29 align-center flex flex-col justify-center items-center`}>
+                      <div className="block">
+                        <h2 className="block text-3xl ">{orderSaleTitle}</h2>
+                        <span className="block text-center text-1xl  font-extrabold">
+                          {orderSaleTitle != "Total Order Count" ? formatToIndianCurrency(orderSaleValue[key]) : orderSaleValue[key]}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div> */}
+                  ))
+                }
+              </div>
               <div>
                 <div className="bg-green-300 p-5 rounded-md shadow-md mt-5">
                   <p className="text-xl font-bold text-black mb-2">
@@ -565,109 +579,81 @@ const PeopleAnalytics = () => {
                 <ColumnChart chartData={orderSaleCount.apiData} />
               </div>
             </div>
-          )}
-          {orderCountDeviceWise.apiStatus && (
-            <GraphCard
-              description={graphDescription.SalesCountByDevice}
-              title="Sales Count By Device"
-              colSpanClass="col-span-12 xl:col-span-6"
-            >
-              <ColumnChart chartData={orderCountDeviceWise.apiData} />
-            </GraphCard>
-          )}
-          {orderCountCountryWise.apiStatus && (
-            <GraphCard
-              description={graphDescription.SalesCountByCountry}
-              title="Sales Count By Country"
-              colSpanClass="col-span-12 xl:col-span-6"
-            >
-              <ColumnChart chartData={orderCountCountryWise.apiData} />
-            </GraphCard>
-          )}
-          {productSoldUnSoldCount.apiStatus && (
-            <GraphCard
-              title="Product Chart"
-              colSpanClass="col-span-12 xl:col-span-6"
-            >
-              <PieChart chartData={productSoldUnSoldCount.apiData} />
-            </GraphCard>
-          )}
-          {productSoldUnSoldCount.apiStatus && (
-            <GraphCard
-              title="  Product Categories"
-              colSpanClass="col-span-12 xl:col-span-6"
-            >
-              <div className="container mx-auto p-4">
-                <Tabs
-                  selectedIndex={activeTab}
-                  onSelect={(index) => setActiveTab(index)}
-                >
-                  <TabList>
-                    <Tab style={{ backgroundColor: "#078bf0" }}>
-                      Most Purchased Products
-                    </Tab>
-                    <Tab style={{ backgroundColor: "#04e590" }}>
-                      Un-Sold Products
-                    </Tab>
-                    <Tab style={{ backgroundColor: "#feb130" }}>
-                      Top 7 Products
-                    </Tab>
-                  </TabList>
-                  {console.log("mostPurchasedProduct", mostPurchasedProduct)}
-                  <TabPanel>
-                    <div className={tabPanelClassName}>
-                      <div className="max-w-full overflow-x-auto">
-                        {renderTable(mostPurchasedProduct)}
-                      </div>
-                    </div>
-                  </TabPanel>
+          )
+          }
+          {
+            orderCountDeviceWise.apiStatus && (
+              <GraphCard description={graphDescription.SalesCountByDevice} title="Sales Count By Device" colSpanClass="col-span-12 xl:col-span-6">
+                <ColumnChart chartData={orderCountDeviceWise.apiData} />
+              </GraphCard>)
+          }
+          {
+            orderCountCountryWise.apiStatus && (
+              <GraphCard description={graphDescription.SalesCountByCountry} title="Sales Count By Country" colSpanClass="col-span-12 xl:col-span-6">
+                <ColumnChart chartData={orderCountCountryWise.apiData} />
+              </GraphCard>)
+          }
+          {
+            productSoldUnSoldCount.apiStatus && (
+              <GraphCard title="Product Chart" colSpanClass="col-span-12 xl:col-span-6">
+                <ColumnChart chartData={productSoldUnSoldCount.apiData} />
+              </GraphCard>)
+          }
+          {
+            productSoldUnSoldCount.apiStatus && (
+              <GraphCard title="  Product Categories" colSpanClass="col-span-12 xl:col-span-6">
+                <div className="container mx-auto p-4">
+                  <Tabs selectedIndex={activeTab} onSelect={(index) => setActiveTab(index)}>
+                    <TabList>
+                      <Tab style={{ backgroundColor: "#078bf0" }}>Most Purchased Products</Tab>
+                      <Tab style={{ backgroundColor: "#04e590" }}>Un-Sold Products</Tab>
+                      <Tab style={{ backgroundColor: "#feb130" }}>Top 7 Products</Tab>
+                    </TabList>
 
-                  <TabPanel>
-                    <div className={tabPanelClassName}>
-                      <div className="max-w-full overflow-x-auto">
-                        {renderTable(unsoldProduct)}
+                    <TabPanel>
+                      <div className={tabPanelClassName}>
+                        <div className="max-w-full overflow-x-auto">
+                          {renderTable(mostPurchasedProduct)}
+                        </div>
                       </div>
-                    </div>
-                  </TabPanel>
+                    </TabPanel>
 
-                  <TabPanel>
-                    <div className={tabPanelClassName}>
-                      <div className="max-w-full overflow-x-auto">
-                        {renderTable(top7Product)}
+                    <TabPanel>
+                      <div className={tabPanelClassName}>
+                        <div className="max-w-full overflow-x-auto">
+                          {renderTable(unsoldProduct)}
+                        </div>
                       </div>
-                    </div>
-                  </TabPanel>
-                </Tabs>
-              </div>
-            </GraphCard>
-          )}
-          {customerCountCountryWise.apiStatus && (
-            <GraphCard
-              description={graphDescription.CustomerCountByCountry}
-              title="Customer Count By Country"
-              colSpanClass="col-span-12 xl:col-span-6"
-            >
-              <ColumnChart chartData={customerCountCountryWise.apiData} />
-            </GraphCard>
-          )}
-          {customerTopOrderList.apiStatus && (
-            <GraphCard
-              description={graphDescription.CustomerCountByOrders}
-              title="Top Customers by Orders"
-              colSpanClass="col-span-12 xl:col-span-6"
-            >
-              <div className={tabPanelClassName}>
-                <div className="max-w-full overflow-x-auto">
-                  {renderCustomerTopOrderTable(customerTopOrderList.apiData)}
+                    </TabPanel>
+
+                    <TabPanel>
+                      <div className={tabPanelClassName}>
+                        <div className="max-w-full overflow-x-auto">
+                          {renderTable(top7Product)}
+                        </div>
+                      </div>
+                    </TabPanel>
+                  </Tabs>
                 </div>
-              </div>
-            </GraphCard>
-          )}
-          <GraphCard
-            isTitle={false}
-            title={title}
-            colSpanClass="col-span-12 xl:col-span-12"
-          >
+              </GraphCard>)
+          }
+          {
+            customerCountCountryWise.apiStatus && (
+              <GraphCard description={graphDescription.CustomerCountByCountry} title="Customer Count By Country" colSpanClass="col-span-12 xl:col-span-6">
+                <ColumnChart chartData={customerCountCountryWise.apiData} />
+              </GraphCard>)
+          }
+          {
+            customerTopOrderList.apiStatus && (
+              <GraphCard description={graphDescription.CustomerCountByOrders} title="Top Customers by Orders" colSpanClass="col-span-12 xl:col-span-6">
+                <div className={tabPanelClassName}>
+                  <div className="max-w-full overflow-x-auto">
+                    {renderCustomerTopOrderTable(customerTopOrderList.apiData)}
+                  </div>
+                </div>
+              </GraphCard>)
+          }
+          <GraphCard isTitle={false} title={title} colSpanClass="col-span-12 xl:col-span-12">
             <LineChart
               series={combinedSeries}
               title="Combined Top Views (Products, Categories, Pages)"
@@ -690,11 +676,7 @@ const PeopleAnalytics = () => {
           )}
 
           {categoriesData.apiStatus && (
-            <GraphCard
-              isTitle={false}
-              title={title}
-              colSpanClass="col-span-12 xl:col-span-4"
-            >
+            <GraphCard isTitle={false} title={title} colSpanClass="col-span-12 xl:col-span-4">
               <LineChart
                 series={categoriesSeries}
                 title="Top Viewed Categories"
@@ -704,11 +686,7 @@ const PeopleAnalytics = () => {
           )}
 
           {visitedPagesData.apiStatus && (
-            <GraphCard
-              isTitle={false}
-              title={title}
-              colSpanClass="col-span-12 xl:col-span-4"
-            >
+            <GraphCard isTitle={false} title={title} colSpanClass="col-span-12 xl:col-span-4">
               <LineChart
                 series={visitedPagesSeries}
                 title="Top Viewed Pages"
@@ -716,31 +694,27 @@ const PeopleAnalytics = () => {
               />
             </GraphCard>
           )}
-          {customerCount.apiStatus && (
-            <GraphCard
-              title="Customer Count By Categories"
-              colSpanClass="col-span-12 xl:col-span-6"
-            >
-              <PieChart chartData={customerCount.apiData} />
-            </GraphCard>
-          )}
+          {
+            customerCount.apiStatus && (
+              <GraphCard title="Customer Count By Categories" colSpanClass="col-span-12 xl:col-span-6">
+                <PieChart chartData={customerCount.apiData} />
+              </GraphCard>)
+          }
 
           {/* HARSHIL CREATED CHARTS END */}
 
-          {pagesData.apiStatus && (
-            <GraphCard
-              description={graphDescription.DistributionByVisitedPages}
-              title={"Customer Distribution by Page"}
-              colSpanClass="col-span-12 xl:col-span-6"
-            >
-              <DonutChart
-                chartData={pagesData.apiData}
-                name="Visited Pages"
-                isHorizontal={true}
-                dataLabelStatus={false}
-              />
-            </GraphCard>
-          )}
+          {
+            pagesData.apiStatus && (
+              <GraphCard description={graphDescription.DistributionByVisitedPages} title={"Customer Distribution by Page"} colSpanClass="col-span-12 xl:col-span-6">
+                <DonutChart
+                  chartData={pagesData.apiData}
+                  name="Visited Pages"
+
+                  isHorizontal={true}
+                  dataLabelStatus={false}
+                />
+              </GraphCard>)
+          }
 
           {entryPagesData.apiStatus && (
             <GraphCard
@@ -793,15 +767,10 @@ const PeopleAnalytics = () => {
             </GraphCard>
           )}
 
-          <GraphCard
-            isTitle={false}
-            title={title}
-            colSpanClass="col-span-12 xl:col-span-4"
-          >
-            <StepLineChart
-              data={topKeywords}
-              title="Top Keywords by Search Count"
-            />
+
+
+          <GraphCard isTitle={false} title={title} colSpanClass="col-span-12 xl:col-span-4">
+            <StepLineChart data={topKeywords} title="Top Keywords by Search Count" />
           </GraphCard>
 
           <GraphCard
@@ -830,6 +799,7 @@ const PeopleAnalytics = () => {
               title={`Multi-Time Visits for Weeks ${weekNumber}`}
               isHorizontal={false}
               dataLabelStatus={true}
+
             />
           </GraphCard>
         </div>
