@@ -565,7 +565,7 @@ const PeopleAnalytics = () => {
               </div> */}
               <div>
                 <div className="bg-[#3292a9] p-5 rounded-md shadow-md mt-5">
-                  <p className="text-xl font-bold text-white mb-2">
+                  <p className="text-xl font-bold text-black mb-2">
                     Sales Graph
                   </p>
 
