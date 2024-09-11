@@ -99,45 +99,55 @@ const PreferenceSurvey = () => {
         <>
             {loading && <Loader />}
             <Breadcrumb pageName="Preference Survey" breadcrumb={false} />
+            
             <div className="grid grid-cols-1 gap-9 sm:grid-cols-1">
-                <div className="flex flex-col gap-9">
-                    <div className="rounded-sm  bg-white   dark:bg-boxdark">
-                        <form onSubmit={handleSubmit}>
-                            <div className="p-6.5">
-                                <div className="mb-4.5 flex xl:flex-row flex-wrap gap-6">
-                                    {checkedItems && checkedItems.length > 0 && checkedItems.map((question) => (
-                                        <div className="w-[calc(50%-1rem)]" key={question.id}>
-                                            <div className="flex flex-col h-full">
-                                                <div className="flex flex-col h-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                                                    <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-                                                        <h3 className="font-medium text-black dark:text-white">
-                                                            {question.question}
-                                                        </h3>
-                                                    </div>
-                                                    <div className="flex flex-col gap-5.5 p-6.5 flex-1">
-                                                        {question.answers.map((answer) => (
-                                                            <Checkbox
-                                                                key={answer.id}
-                                                                id={answer.id}
-                                                                label={answer.answer.replace(/_/g, " ")}
-                                                                checked={isChecked(question.id, answer.id)}
-                                                                onChange={() => handleChange(question.id, answer.id)}
-                                                            />
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                                <button type="submit" className="flex justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-                                    Submit
-                                </button>
-                            </div>
-                        </form>
+  <div className="flex flex-col gap-9">
+    <div className="rounded-sm bg-white dark:bg-boxdark">
+      <form onSubmit={handleSubmit}>
+        <div className="p-6.5">
+          <div className="mb-4.5 flex xl:flex-row flex-wrap gap-6">
+            {checkedItems &&
+              checkedItems.length > 0 &&
+              checkedItems.map((question) => (
+                <div className="w-[calc(50%-1rem)]" key={question.id}>
+                  <div className="flex flex-col h-full">
+                    <div className="flex flex-col h-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+                      <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
+                        <h3 className="font-medium text-black dark:text-white">
+                          {question.question}
+                        </h3>
+                      </div>
+                      <div className="flex flex-col gap-5.5 p-6.5 flex-1">
+                        {question.answers.map((answer) => (
+                          <Checkbox
+                            key={answer.id}
+                            id={answer.id}
+                            label={answer.answer.replace(/_/g, " ")}
+                            checked={isChecked(question.id, answer.id)}
+                            onChange={() => handleChange(question.id, answer.id)}
+                          />
+                        ))}
+                      </div>
                     </div>
+                  </div>
                 </div>
-            </div>
+              ))}
+          </div>
+          {/* Centering the submit button */}
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="flex justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
         </>
     );
 };
