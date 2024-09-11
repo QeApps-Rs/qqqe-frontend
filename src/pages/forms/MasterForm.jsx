@@ -5,12 +5,13 @@ import Radio from "../../components/higherOrderComponent/Radios/Radio";
 import ColorPicker from "../../components/higherOrderComponent/ColorPicker/ColorPicker";
 import DropDown from "../../components/higherOrderComponent/Dropdown/Dropdown";
 import popup_img from "../../../src/images/newsletter_left_img.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import sucessImg from "../../../src/images/success_fn.png";
 import FormSubmitHandler from "../../components/FormSubmitHandler";
 
 const MasterForm = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [checkedItems, setCheckedItems] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [frequency, setFrequency] = useState(5);
@@ -169,15 +170,15 @@ const MasterForm = () => {
   };
   const [isPublish, setIsPublish] = useState(false);
   const onPublish = async () => {
-      const response = await FormSubmitHandler({
-        method: "get",
-        url: `suggestion/1/publish`,
-      });
-      if (response.success) {
-        navigate("/suggestion/list/1");
-      }
-   
-
+    const pid = id.split('s')[0];
+    const sid = id.split('s')[1];
+    const response = await FormSubmitHandler({
+      method: "get",
+      url: `suggestion/${sid}/publish`,
+    });
+    if (response.success) {
+      navigate(`/suggestion/list/${pid}`);
+    }
   };
 
   return (
@@ -214,9 +215,8 @@ const MasterForm = () => {
           ].map((item, index) => (
             <li
               key={index}
-              className={`border rounded-lg ${
-                activeIndex === index ? "border-blue-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg ${activeIndex === index ? "border-blue-500" : "border-gray-300"
+                }`}
             >
               <h3
                 className="p-4 flex justify-between items-center cursor-pointer font-semibold text-lg"
@@ -231,11 +231,9 @@ const MasterForm = () => {
                 </span>
                 <span className="text-sm font-normal">{item.subtitle}</span>
                 <svg
-                  className={`fill-primary ${
-                    item.tag === "block" ? "hidden" : ""
-                  } stroke-primary duration-200 ease-in-out dark:fill-white dark:stroke-white w-6 h-6 transform ${
-                    activeIndex === index ? "rotate-180" : "rotate-0"
-                  }`}
+                  className={`fill-primary ${item.tag === "block" ? "hidden" : ""
+                    } stroke-primary duration-200 ease-in-out dark:fill-white dark:stroke-white w-6 h-6 transform ${activeIndex === index ? "rotate-180" : "rotate-0"
+                    }`}
                   viewBox="0 0 18 10"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -330,11 +328,10 @@ const MasterForm = () => {
                                     <button
                                       key={tab.name}
                                       onClick={() => setActiveTab(tab.name)}
-                                      className={`flex items-center space-x-1 px-4 py-2 rounded-md ${
-                                        activeTab === tab.name
+                                      className={`flex items-center space-x-1 px-4 py-2 rounded-md ${activeTab === tab.name
                                           ? "bg-white shadow-sm text-gray-900"
                                           : "text-gray-500 hover:text-gray-700"
-                                      }`}
+                                        }`}
                                     >
                                       {/* <i className={`${tab.icon} text-sm`}></i> */}
                                       <span>{tab.name}</span>
@@ -703,40 +700,40 @@ const MasterForm = () => {
                                   />
                                   {checkedrules?.settings?.after_delay_time
                                     .is_selected && (
-                                    <div className="ml-9">
-                                      <div>Show again after</div>
-                                      <input
-                                        type="number"
-                                        value={
-                                          checkedrules?.settings
-                                            ?.after_delay_time?.value
-                                            ? checkedrules?.settings
+                                      <div className="ml-9">
+                                        <div>Show again after</div>
+                                        <input
+                                          type="number"
+                                          value={
+                                            checkedrules?.settings
+                                              ?.after_delay_time?.value
+                                              ? checkedrules?.settings
                                                 ?.after_delay_time?.value
-                                            : 0
-                                        }
-                                        onChange={(event) =>
-                                          setRules((prevState) => ({
-                                            ...prevState,
-                                            settings: {
-                                              ...prevState.settings,
-                                              after_delay_time: {
-                                                ...prevState.settings
-                                                  .after_delay_time.value,
-                                                is_selected:
-                                                  checkedrules?.settings
-                                                    ?.after_delay_time
-                                                    .is_selected,
-                                                key: "seconds",
-                                                value: event.target.value,
+                                              : 0
+                                          }
+                                          onChange={(event) =>
+                                            setRules((prevState) => ({
+                                              ...prevState,
+                                              settings: {
+                                                ...prevState.settings,
+                                                after_delay_time: {
+                                                  ...prevState.settings
+                                                    .after_delay_time.value,
+                                                  is_selected:
+                                                    checkedrules?.settings
+                                                      ?.after_delay_time
+                                                      .is_selected,
+                                                  key: "seconds",
+                                                  value: event.target.value,
+                                                },
                                               },
-                                            },
-                                          }))
-                                        }
-                                        className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
-                                        placeholder="seconds"
-                                      />
-                                    </div>
-                                  )}
+                                            }))
+                                          }
+                                          className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
+                                          placeholder="seconds"
+                                        />
+                                      </div>
+                                    )}
                                 </div>
                                 <div className="mb-4.5">
                                   <Checkbox
@@ -765,37 +762,37 @@ const MasterForm = () => {
                                   />
                                   {checkedrules?.settings?.after_scroll_distance
                                     .is_selected && (
-                                    <div className="ml-9">
-                                      <div>Scroll distance</div>
-                                      <input
-                                        type="number"
-                                        value={
-                                          checkedrules?.settings
-                                            ?.after_scroll_distance?.value
-                                        }
-                                        onChange={(event) =>
-                                          setRules((prevState) => ({
-                                            ...prevState,
-                                            settings: {
-                                              ...prevState.settings,
-                                              after_scroll_distance: {
-                                                ...prevState.settings
-                                                  .after_scroll_distance,
-                                                is_selected:
-                                                  checkedrules?.settings
-                                                    ?.after_scroll_distance
-                                                    .is_selected,
-                                                key: "seconds",
-                                                value: event.target.value,
+                                      <div className="ml-9">
+                                        <div>Scroll distance</div>
+                                        <input
+                                          type="number"
+                                          value={
+                                            checkedrules?.settings
+                                              ?.after_scroll_distance?.value
+                                          }
+                                          onChange={(event) =>
+                                            setRules((prevState) => ({
+                                              ...prevState,
+                                              settings: {
+                                                ...prevState.settings,
+                                                after_scroll_distance: {
+                                                  ...prevState.settings
+                                                    .after_scroll_distance,
+                                                  is_selected:
+                                                    checkedrules?.settings
+                                                      ?.after_scroll_distance
+                                                      .is_selected,
+                                                  key: "seconds",
+                                                  value: event.target.value,
+                                                },
                                               },
-                                            },
-                                          }))
-                                        }
-                                        className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
-                                        placeholder="%"
-                                      />
-                                    </div>
-                                  )}
+                                            }))
+                                          }
+                                          className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
+                                          placeholder="%"
+                                        />
+                                      </div>
+                                    )}
                                 </div>
                                 <div className="mb-4.5">
                                   <Checkbox
@@ -823,37 +820,37 @@ const MasterForm = () => {
                                   />
                                   {checkedrules?.settings?.after_pages_visit
                                     .is_selected && (
-                                    <div className="ml-9">
-                                      <div>After</div>
-                                      <input
-                                        type="number"
-                                        value={
-                                          checkedrules?.settings
-                                            ?.after_pages_visit?.value
-                                        }
-                                        onChange={(event) =>
-                                          setRules((prevState) => ({
-                                            ...prevState,
-                                            settings: {
-                                              ...prevState.settings,
-                                              after_pages_visit: {
-                                                ...prevState.settings
-                                                  .after_pages_visit,
-                                                is_selected:
-                                                  checkedrules?.settings
-                                                    ?.after_pages_visit
-                                                    .is_selected,
-                                                key: "pages",
-                                                value: event.target.value,
+                                      <div className="ml-9">
+                                        <div>After</div>
+                                        <input
+                                          type="number"
+                                          value={
+                                            checkedrules?.settings
+                                              ?.after_pages_visit?.value
+                                          }
+                                          onChange={(event) =>
+                                            setRules((prevState) => ({
+                                              ...prevState,
+                                              settings: {
+                                                ...prevState.settings,
+                                                after_pages_visit: {
+                                                  ...prevState.settings
+                                                    .after_pages_visit,
+                                                  is_selected:
+                                                    checkedrules?.settings
+                                                      ?.after_pages_visit
+                                                      .is_selected,
+                                                  key: "pages",
+                                                  value: event.target.value,
+                                                },
                                               },
-                                            },
-                                          }))
-                                        }
-                                        className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
-                                        placeholder="pages"
-                                      />
-                                    </div>
-                                  )}
+                                            }))
+                                          }
+                                          className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
+                                          placeholder="pages"
+                                        />
+                                      </div>
+                                    )}
                                 </div>
                               </div>
                             )}
@@ -891,7 +888,7 @@ const MasterForm = () => {
                             </label>
                             <Radio
                               jsonData={deviceOptions}
-                              onChange={() => {}}
+                              onChange={() => { }}
                             />
                           </div>
                           <div className="mb-4 border-b border-black">
@@ -991,17 +988,15 @@ const MasterForm = () => {
         <div className="flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
           <div className="w-[70%] flex justify-center">
             <div
-              className={`border border-[#323359] ${
-                !sucess ? "bg-[#d0d5d9]" : "bg-white"
-              }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
+              className={`border border-[#323359] ${!sucess ? "bg-[#d0d5d9]" : "bg-white"
+                }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
               onClick={() => setSucess(false)}
             >
               Teaser
             </div>
             <div
-              className={`border border-[#323359] ${
-                sucess ? "bg-[#d0d5d9]" : "bg-white"
-              } inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
+              className={`border border-[#323359] ${sucess ? "bg-[#d0d5d9]" : "bg-white"
+                } inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
               onClick={() => setSucess(true)}
             >
               Success
@@ -1017,18 +1012,16 @@ const MasterForm = () => {
               Publish
             </button>
             <a
-              className={`rounded-l-md  ${
-                isView === "Desktop" ? "bg-[#d0d5d9]" : ""
-              }  p-1.5 px-2.5 text-base border border-[#ccc] -ml-px text-black leading-[22px]`}
+              className={`rounded-l-md  ${isView === "Desktop" ? "bg-[#d0d5d9]" : ""
+                }  p-1.5 px-2.5 text-base border border-[#ccc] -ml-px text-black leading-[22px]`}
               href="#"
               onClick={() => setView("Desktop")}
             >
               <i className="fa fa-desktop" aria-hidden="true"></i>
             </a>
             <a
-              className={`rounded-r-md text-lg border border-[#ccc] -ml-px text-black leading-[22px]  ${
-                isView === "Mobile" ? "bg-[#eaedef]" : ""
-              } p-1.5 px-2.5`}
+              className={`rounded-r-md text-lg border border-[#ccc] -ml-px text-black leading-[22px]  ${isView === "Mobile" ? "bg-[#eaedef]" : ""
+                } p-1.5 px-2.5`}
               href="#"
               onClick={() => setView("Mobile")}
             >

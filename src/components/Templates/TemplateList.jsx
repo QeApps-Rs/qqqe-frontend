@@ -1,7 +1,7 @@
 import React from 'react'
 import TemplateCard from './TemplateCard'
 import FilterBar from './Filters'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import popup1 from '../../images/default.png'
 import popup2 from '../../images/02.png'
 import popup3 from '../../images/03.png'
@@ -29,6 +29,7 @@ import { useNavigate } from "react-router-dom";
 
 const TemplateList = () => {
     const navigate = useNavigate()
+    const { id } = useParams();
 
     return (
         <>
@@ -62,7 +63,7 @@ const TemplateList = () => {
                     /> */}
                 {/* <div className='grid-cols-3'> */}
                 <div>
-                    <Link to='/master-form/1'>
+                    <Link to={`/master-form/${id}`}>
                         <img
                             className="mb-3 shadow-lg border border-slate-300 rounded-md w-full"
                             src={popup1}
