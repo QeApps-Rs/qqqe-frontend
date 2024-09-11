@@ -433,7 +433,7 @@ const SuggestionComp = () => {
               onClickInChild={confirmClickEvent}
               body={
                 <>
-                  <SuggestedAnalytics id={id} content={settingContent} />
+                  <SuggestedAnalytics problemId={id} suggestionId={suggestionId} content={settingContent} />
                 </>
               }
               btnClose="Discard"

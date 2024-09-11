@@ -27,7 +27,8 @@ const SignIn = () => {
 
             toast.success(res.message);
             reset()
-            const route = localStorage.getItem("setup-preference") ? "/analytics" : "/preference-survey";
+            // const route = localStorage.getItem("setup-preference") ? "/analytics" : "/preference-survey";
+            const route = "/preference-survey";
             navigate(route);
         }).catch(err => {
             toast.error(err.message);

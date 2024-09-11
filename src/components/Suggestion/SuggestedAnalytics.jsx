@@ -48,7 +48,7 @@ const chart = {
   },
 };
 
-const SuggestedAnalytics = ({ id, content }) => {
+const SuggestedAnalytics = ({ problemId, suggestionId, content }) => {
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
 
@@ -57,7 +57,7 @@ const SuggestedAnalytics = ({ id, content }) => {
   };
 
   const confirmClickEvent = () => {
-    navigate(`/template/list/${id}`);
+    navigate(`/template/list/${problemId}s${suggestionId}`);
     setOpenModal(false);
   };
 
