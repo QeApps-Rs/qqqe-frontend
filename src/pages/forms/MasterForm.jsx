@@ -6,7 +6,7 @@ import ColorPicker from "../../components/higherOrderComponent/ColorPicker/Color
 import DropDown from "../../components/higherOrderComponent/Dropdown/Dropdown";
 import popup_img from '../../../src/images/newsletter_left_img.png';
 import { useNavigate } from "react-router-dom";
-// import mobile_img from '../../../src/images/mobile_bg.png'
+import sucessImg from '../../../src/images/success_fn.png'
 
 const MasterForm = () => {
 
@@ -27,6 +27,7 @@ const MasterForm = () => {
     left: null,
     right: null,
   });
+  const [sucess, setSucess] = useState(false)
   const [selectFont, setSelectedFont] = useState('')
   const [fontWight, setFontWeight] = useState('')
   const [isView, setView] = useState("Desktop")
@@ -373,7 +374,7 @@ const MasterForm = () => {
                                       <span>
                                         Background color:
                                       </span>
-                                      <ColorPicker backgroundColor= {true}  />
+                                      <ColorPicker backgroundColor={true} />
                                     </div>
                                     <div className="mt-3 flex justify-between flex-row ">
                                       <span>
@@ -535,19 +536,19 @@ const MasterForm = () => {
                                       <span>
                                         Label Color:
                                       </span>
-                                      <ColorPicker label=  {true} />
+                                      <ColorPicker label={true} />
                                     </div>
                                     <div className="mt-3 flex justify-between flex-row ">
                                       <span>
                                         Text Color:
                                       </span>
-                                      <ColorPicker textColor= {true} />
+                                      <ColorPicker textColor={true} />
                                     </div>
                                     <div className="mt-3 flex justify-between flex-row ">
                                       <span>
                                         Placeholder:
                                       </span>
-                                      <ColorPicker placeholderColor= {true} />
+                                      <ColorPicker placeholderColor={true} />
                                     </div>
                                   </div>
                                   <div className="mb-4.5 border-b border-black pb-4">
@@ -558,7 +559,7 @@ const MasterForm = () => {
                                       <span>
                                         Background color:
                                       </span>
-                                      <ColorPicker inputBgColor= {true} />
+                                      <ColorPicker inputBgColor={true} />
                                     </div>
                                     <div className="mt-3 flex justify-between flex-row items-center">
                                       <span>
@@ -804,7 +805,7 @@ const MasterForm = () => {
                               <label className="mb-2.5 block text-lg font-semibold">
                                 Devices
                               </label>
-                              <Radio jsonData={deviceOptions} onChange={() => {}} />
+                              <Radio jsonData={deviceOptions} onChange={() => { }} />
                             </div>
                             <div className="mb-4 border-b border-black">
                               <div className="text-lg font-semibold">Click outside form to close</div>
@@ -909,15 +910,15 @@ const MasterForm = () => {
 
       <div className="w-3/4 float-right p-0 h-[83.90vh]">
         <div className="flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-          <div className="w-[85%] flex justify-center">
-            <a className="border border-[#323359] inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative bg-white" href="#">
+          <div className="w-[70%] flex justify-center">
+            <div className={`border border-[#323359] ${ !sucess ? 'bg-[#d0d5d9]' : 'bg-white'}  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`} onClick={() => setSucess(false)}>
               Teaser
-            </a>
-            <a className="border border-[#323359] inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative bg-white" href="#">
+            </div>
+            <div className={`border border-[#323359] ${ sucess ? 'bg-[#d0d5d9]' : 'bg-white'} inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`} onClick={() => setSucess(true)}>
               Success
-            </a>
+            </div>
           </div>
-          
+
           <div className="flex">
             <button type="submit" onClick={() => onPublish()} className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black">Publish</button>
             <a className={`rounded-l-md  ${isView === 'Desktop' ? 'bg-[#d0d5d9]' : ''}  p-1.5 px-2.5 text-base border border-[#ccc] -ml-px text-black leading-[22px]`} href="#" onClick={() => setView('Desktop')}>
@@ -940,23 +941,32 @@ const MasterForm = () => {
             </div>
 
             <div className="w-3/5 p-8 flex flex-col justify-center">
-              <h2 className="text-4xl font-bold mb-4">Limited Time<br />10% off</h2>
-              <p className="text-lg mb-6">
-                Save on your first order and get email only offers when you join.
-              </p>
-              <form className="flex flex-col space-y-4">
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="border border-gray-300 p-3 rounded-md"
-                />
-                <button className="bg-black text-white py-3 rounded-md text-lg">
-                  Continue
-                </button>
-              </form>
+              {sucess ? <div className="flex justify-center flex-col">
+                <div className="text-center"><img src={sucessImg} alt="no image" className="inline-block max-w-[130px]" /></div>
+                <div className="text-lg mb-6 mt-10 text-center">
+                  Thanks for sharing. Please check your email for confirmation message
+                </div>
+              </div> :
+                <>
+                  <h2 className="text-4xl font-bold mb-4">Limited Time<br />10% off</h2>
+                  <p className="text-lg mb-6">
+                    Save on your first order and get email only offers when you join.
+                  </p>
+                  <form className="flex flex-col space-y-4">
+                    <input
+                      type="email"
+                      placeholder="Email"
+                      className="border border-gray-300 p-3 rounded-md"
+                    />
+                    <button className="bg-black text-white py-3 rounded-md text-lg">
+                      Continue
+                    </button>
+                  </form>
+                </>}
+
             </div>
           </div>
-        </div> : isView === 'Mobile' && <div className="bg-black/75 h-full p-2 flex items-center justify-center min-h-[785px] bg-no-repeat bg-top bg-center" style={{ backgroundImage: "url('../../../src/images/mobile_bg.png')" }}>
+        </div> : isView === 'Mobile' && <div className="bg-black/75 h-full p-2 flex items-center justify-center min-h-[785px] bg-no-repeat bg-top bg-center" style={{ backgroundImage: "url('https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/src/images/mobile_bg.png')" }}>
           <div className="max-h-[586px] overflow-auto p-[30px_2px_10px_0px] items-center">
             <div className="bg-white w-[356px] rounded-md shadow-lg overflow-hidden flex flex-wrap">
               <div className="w-full">
