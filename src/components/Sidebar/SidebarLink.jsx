@@ -31,7 +31,9 @@ const SidebarLink = ({
             iconType === 'product' ? <i className="fa fa-shopping-bag bg-[#7aa13f] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-sm" aria-hidden="true"></i> :
               iconType === 'price' ? <i className="fa fa-usd bg-[#f7ac3f] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base" aria-hidden="true"></i> :
                 iconType === 'promotion' ? <i className="fa fa-gift bg-[#963ce5] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base" aria-hidden="true"></i> : 
-                iconType === 'analytics' ? <i className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center" aria-hidden="true"></i> : ''}
+                iconType === 'analytics' ? <i className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center" aria-hidden="true"></i> : 
+                  iconType === 'video' ? <i className="fa fa-video-camera bg-orange-700 text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base" aria-hidden="true"></i> : null
+        }
         </span>
         {/* <span className={`icon ${iconType} 'mr-0' `} /> */}
         <span className="lg:block hidden">{sidebarOpen ? label : ''}</span>
