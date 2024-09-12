@@ -35,6 +35,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       iconType: 'promotion',
       label: 'Promotion',
     },
+    {
+      href: '/video-player',
+      iconType: 'video',
+      label: 'QQQE-Video',
+    },
   ];
 
   return (
