@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import DatePicker from "../../components/higherOrderComponent/input/DatePicker";
 import Checkbox from "../../components/higherOrderComponent/Checkboxes/Checkbox";
 import Radio from "../../components/higherOrderComponent/Radios/Radio";
 import ColorPicker from "../../components/higherOrderComponent/ColorPicker/ColorPicker";
@@ -10,6 +9,24 @@ import sucessImg from "../../../src/images/success_fn.png";
 import FormSubmitHandler from "../../components/FormSubmitHandler";
 
 const MasterForm = () => {
+  const [bgColor, setBgColor] = useState('rgb(255, 255, 255)');
+  const [borderColor, setBorderColor] = useState("rgb(209, 213, 219)");
+  const [focusBorderColor, setFocusBorderColor] = useState("rgb(0, 123, 255)");
+  const [placeholderTextColor, setPlaceholderTextColor] = useState("rgb(107 114 128)");
+  const [formHeadingColor, setFormHeadingColor] = useState("rgb(0, 0, 0");
+  const [textColor, setTextColor] = useState("rgb(0, 0, 0)");
+  const [templateBgColor, setTemplateBgColor] = useState("rgba(28, 36, 52, 0.75)");
+  const [templateOverlayColor, setTemplateOverlayColor] = useState("rgb(255, 255, 255)");
+
+  const handleBgColorChange = (color) => setBgColor(color);
+  const handleBorderColorChange = (color) => setBorderColor(color);
+  const handleFocusBorderColorChange = (color) => setFocusBorderColor(color);
+  const handlePlaceHolderTextChange = (color) => setPlaceholderTextColor(color)
+  const handleFormHeadingChange = (color) => setFormHeadingColor(color)
+  const handleTextColorChange = (color) => setTextColor(color)
+  const handleTemplateBgColorChange = (color) => setTemplateBgColor(color)
+  const handleTemplateOverlayColorChange = (color) => setTemplateOverlayColor(color)
+
   const navigate = useNavigate();
   const { id } = useParams();
   const [checkedItems, setCheckedItems] = useState(false);
@@ -329,8 +346,8 @@ const MasterForm = () => {
                                       key={tab.name}
                                       onClick={() => setActiveTab(tab.name)}
                                       className={`flex items-center space-x-1 px-4 py-2 rounded-md ${activeTab === tab.name
-                                          ? "bg-white shadow-sm text-gray-900"
-                                          : "text-gray-500 hover:text-gray-700"
+                                        ? "bg-white shadow-sm text-gray-900"
+                                        : "text-gray-500 hover:text-gray-700"
                                         }`}
                                     >
                                       {/* <i className={`${tab.icon} text-sm`}></i> */}
@@ -393,11 +410,11 @@ const MasterForm = () => {
                                   </label>
                                   <div className="mt-3 flex justify-between flex-row items-center">
                                     <span>Background color:</span>
-                                    <ColorPicker backgroundColor={true} />
+                                    <ColorPicker defaultColor={templateBgColor} onChange={handleTemplateBgColorChange} />
                                   </div>
                                   <div className="mt-3 flex justify-between flex-row ">
                                     <span>Overlay color:</span>
-                                    <ColorPicker overlay={true} />
+                                    <ColorPicker defaultColor={templateOverlayColor} onChange={handleTemplateOverlayColorChange} />
                                   </div>
                                 </div>
                                 <div className="mb-4.5 border-b border-black pb-4">
@@ -564,15 +581,15 @@ const MasterForm = () => {
                                   </div>
                                   <div className="mt-3 flex justify-between flex-row ">
                                     <span>Label Color:</span>
-                                    <ColorPicker label={true} />
+                                    <ColorPicker defaultColor={formHeadingColor} onChange={handleFormHeadingChange} />
                                   </div>
                                   <div className="mt-3 flex justify-between flex-row ">
                                     <span>Text Color:</span>
-                                    <ColorPicker textColor={true} />
+                                    <ColorPicker defaultColor={textColor} onChange={handleTextColorChange} />
                                   </div>
                                   <div className="mt-3 flex justify-between flex-row ">
                                     <span>Placeholder:</span>
-                                    <ColorPicker placeholderColor={true} />
+                                    <ColorPicker defaultColor={placeholderTextColor} onChange={handlePlaceHolderTextChange} />
                                   </div>
                                 </div>
                                 <div className="mb-4.5 border-b border-black pb-4">
@@ -581,38 +598,38 @@ const MasterForm = () => {
                                   </label>
                                   <div className="mt-3 flex justify-between flex-row items-center">
                                     <span>Background color:</span>
-                                    <ColorPicker inputBgColor={true} />
+                                    <ColorPicker defaultColor={bgColor} onChange={handleBgColorChange} />
                                   </div>
                                   <div className="mt-3 flex justify-between flex-row items-center">
                                     <span>Border color:</span>
-                                    <ColorPicker />
+                                    <ColorPicker defaultColor={borderColor} onChange={handleBorderColorChange} />
                                   </div>
                                   <div className="mt-3 flex justify-between flex-row items-center">
                                     <span>Focus Border color:</span>
-                                    <ColorPicker focusColor={true} />
+                                    <ColorPicker defaultColor={focusBorderColor} onChange={handleFocusBorderColorChange} focusColor={true} />
                                   </div>
                                   {/* <div className="mt-3 flex justify-between flex-row items-center">
-                                          <span>
-                                            Corner Radius(px):
-                                          </span>
-                                          <input
-                                            id="letter-spacing"
-                                            type="number"
-                                            className=" w-32 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                                            placeholder="px"
-                                          />
-                                        </div>
-                                        <div className="mt-3 flex justify-between flex-row items-center">
-                                          <span>
-                                            Input Field Height(px):
-                                          </span>
-                                          <input
-                                            id="letter-spacing"
-                                            type="number"
-                                            className=" w-32 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                                            placeholder="px"
-                                          />
-                                        </div> */}
+                                            <span>
+                                              Corner Radius(px):
+                                            </span>
+                                            <input
+                                              id="letter-spacing"
+                                              type="number"
+                                              className=" w-32 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                              placeholder="px"
+                                            />
+                                          </div>
+                                          <div className="mt-3 flex justify-between flex-row items-center">
+                                            <span>
+                                              Input Field Height(px):
+                                            </span>
+                                            <input
+                                              id="letter-spacing"
+                                              type="number"
+                                              className=" w-32 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                              placeholder="px"
+                                            />
+                                          </div> */}
                                 </div>
                                 <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
                                   Save
@@ -1031,7 +1048,7 @@ const MasterForm = () => {
         </div>
 
         {isView === "Desktop" ? (
-          <div className="bg-black/75 h-full p-2 flex items-center justify-center">
+          <div className=" h-full p-2 flex items-center justify-center" style={{ backgroundColor: templateBgColor }}>
             <div className="bg-white max-w-4xl rounded-md shadow-lg overflow-hidden flex">
               <div className="w-2/5">
                 <img
@@ -1041,7 +1058,7 @@ const MasterForm = () => {
                 />
               </div>
 
-              <div className="w-3/5 p-8 flex flex-col justify-center">
+              <div className="w-3/5 p-8 flex flex-col justify-center" style={!sucess ? { backgroundColor: templateOverlayColor } : null} >
                 {sucess ? (
                   <div className="flex justify-center flex-col">
                     <div className="text-center">
@@ -1058,12 +1075,12 @@ const MasterForm = () => {
                   </div>
                 ) : (
                   <>
-                    <h2 className="text-4xl font-bold mb-4">
+                    <h2 className="text-4xl font-bold mb-4" style={{ color: formHeadingColor }}>
                       Limited Time
                       <br />
                       10% off
                     </h2>
-                    <p className="text-lg mb-6">
+                    <p className="text-lg mb-6" style={{ color: textColor }}>
                       Save on your first order and get email only offers when
                       you join.
                     </p>
@@ -1071,7 +1088,16 @@ const MasterForm = () => {
                       <input
                         type="email"
                         placeholder="Email"
-                        className="border border-gray-300 p-3 rounded-md"
+                        className={`p-3 rounded-md focus:outline-none`} 
+                        style={{
+                          backgroundColor: bgColor, 
+                          borderColor: borderColor, 
+                          borderWidth: "1px",
+                          "--placeholder-color": placeholderTextColor,
+                        }}
+                        onFocus={(e) => (e.target.style.borderColor = focusBorderColor)} 
+                        onBlur={(e) => (e.target.style.borderColor = borderColor)} 
+
                       />
                       <button className="bg-black text-white py-3 rounded-md text-lg">
                         Continue
@@ -1115,7 +1141,16 @@ const MasterForm = () => {
                       <input
                         type="email"
                         placeholder="Email"
-                        className="border border-gray-300 p-3 rounded-md"
+                        className={`p-3 rounded-md focus:outline-none`} 
+                        style={{
+                          backgroundColor: bgColor,
+                          borderColor: borderColor, 
+                          borderWidth: "1px",
+                          "--placeholder-color": placeholderTextColor,
+                        }}
+                        onFocus={(e) => (e.target.style.borderColor = focusBorderColor)}
+                        onBlur={(e) => (e.target.style.borderColor = borderColor)}
+
                       />
                       <button className="bg-black text-white py-3 rounded-md text-lg">
                         Continue
@@ -1129,6 +1164,11 @@ const MasterForm = () => {
         )}
       </div>
       <div className="clear-both"></div>
+      <style jsx>{`
+          input::placeholder {
+            color: var(--placeholder-color); /* Dynamic placeholder color */
+          }
+        `}</style>
     </>
   );
 };
