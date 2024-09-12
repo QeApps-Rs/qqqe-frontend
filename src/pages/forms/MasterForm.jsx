@@ -1052,8 +1052,7 @@ const MasterForm = () => {
                       />
                     </div>
                     <div className="text-lg mb-6 mt-10 text-center">
-                      Thanks for sharing. Please check your email for
-                      confirmation message
+                      Thanks for sharing. Please check your email for confirmation message
                     </div>
                   </div>
                 ) : (
