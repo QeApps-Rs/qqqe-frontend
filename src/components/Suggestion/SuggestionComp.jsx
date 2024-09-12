@@ -17,6 +17,7 @@ const SuggestionComp = () => {
   const [expandedRows, setExpandedRows] = useState({});
   const [selectedOptions, setSelectedOptions] = useState({});
   const [settingContent, setSettingContent] = useState("");
+  const [suggestionId, setSuggestionId] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -123,7 +124,7 @@ const SuggestionComp = () => {
         </span>
 
         <div className="rounded-sm border mt-4 border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-          <p className="text-md text-lg font-medium text-gray-900 leading-relaxed mb-2">
+          <p className="text-md text-lg font-bold text-gray-900 leading-relaxed mb-2">
             {problemStatement.problem_statement}
           </p>
           <div className="max-w-full overflow-x-auto">
@@ -135,7 +136,7 @@ const SuggestionComp = () => {
                   </th>
                   <th></th>
                   <th className="px-4 py-4 text-left font-medium text-black dark:text-white">
-                    Applied
+                    Status
                   </th>
                   <th className="px-4 py-4 font-medium text-black dark:text-white">
                     Actions
@@ -172,11 +173,10 @@ const SuggestionComp = () => {
                                   {["Product", "Customer"].map((option) => (
                                     <label
                                       key={option}
-                                      className={`${
-                                        selectedOptions[rowId] === option
-                                          ? "bg-slate-300"
-                                          : ""
-                                      } rounded`}
+                                      className={`${selectedOptions[rowId] === option
+                                        ? "bg-slate-300"
+                                        : ""
+                                        } rounded`}
                                     >
                                       <input
                                         type="radio"
@@ -191,13 +191,12 @@ const SuggestionComp = () => {
                                         className="hidden"
                                       />
                                       <div
-                                        className={`px-4 py-2 rounded-md cursor-pointer ${
-                                          selectedOptions[rowId] === option
-                                            ? "bg-gray-400"
-                                            : "bg-gray-200"
-                                        }`}
+                                        className={`px-4 py-2 rounded-md cursor-pointer ${selectedOptions[rowId] === option
+                                          ? "bg-gray-400"
+                                          : "bg-gray-200"
+                                          }`}
                                       >
-                                        {option}
+                                        {option == 'Product' ? 'Product List' : 'Customer List'}
                                       </div>
                                     </label>
                                   ))}
@@ -209,15 +208,14 @@ const SuggestionComp = () => {
                                 className="border-b border-[#eee] dark:border-strokedark"
                               >
                                 <span
-                                  className={`${
-                                    suggestion.is_applied
-                                      ? "bg-green-100 text-green-800"
-                                      : "bg-red-100 text-red-800"
-                                  } text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300`}
+                                  className={`${statement.is_applied
+                                    ? "bg-green-100 text-green-800"
+                                    : "bg-red-100 text-red-800"
+                                    } text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300`}
                                 >
-                                  {suggestion.is_applied
+                                  {statement.is_applied
                                     ? "Applied"
-                                    : "UnApplied"}
+                                    : "Not Applied"}
                                 </span>
                               </td>
 
@@ -226,10 +224,12 @@ const SuggestionComp = () => {
                                 aria-label="suggestions"
                               >
                                 <div className="flex align-center">
-                                  <div title="Configuration" className="ml-2">
+                                  <div title="Configuration" className="ml-2" data-id={statement.id}>
                                     <SettingIcon
-                                      onClick={() =>
-                                        toggleModal(suggestion.suggestion)
+                                      onClick={() => {
+                                        toggleModal(suggestion.suggestion);
+                                        setSuggestionId(statement.id);
+                                      }
                                       }
                                     />
                                   </div>
@@ -248,11 +248,10 @@ const SuggestionComp = () => {
                                     aria-label="Column header"
                                   >
                                     <div
-                                      className={`w-full transition-all duration-300 ease-in-out ${
-                                        expandedRows[rowId] != true
-                                          ? "h-0 opacity-0"
-                                          : "h-auto opacity-100"
-                                      }`}
+                                      className={`w-full transition-all duration-300 ease-in-out ${expandedRows[rowId] != true
+                                        ? "h-0 opacity-0"
+                                        : "h-auto opacity-100"
+                                        }`}
                                     >
                                       <div className="relative mx-auto my-4 flex w-full flex-col bg-clip-border text-gray-700 ">
                                         <table className="is-hoverable">
@@ -361,11 +360,10 @@ const SuggestionComp = () => {
                                     aria-label="Column header"
                                   >
                                     <div
-                                      className={`w-full transition-all duration-300 ease-in-out ${
-                                        expandedRows[rowId] != true
-                                          ? "h-0 opacity-0"
-                                          : "h-auto opacity-100"
-                                      }`}
+                                      className={`w-full transition-all duration-300 ease-in-out ${expandedRows[rowId] != true
+                                        ? "h-0 opacity-0"
+                                        : "h-auto opacity-100"
+                                        }`}
                                     >
                                       <div className="relative mx-auto my-4 flex w-full flex-col bg-clip-border text-gray-700 ">
                                         <table className="is-hoverable">
@@ -422,7 +420,7 @@ const SuggestionComp = () => {
               }
               btnClose="Discard"
               btnSubmit="Confirm"
-              mdlTitle="Please select the percentage"
+              mdlTitle="Please confirm the changes"
               showFooter={true}
               isAnalytics={false}
             />
@@ -435,12 +433,12 @@ const SuggestionComp = () => {
               onClickInChild={confirmClickEvent}
               body={
                 <>
-                  <SuggestedAnalytics id={id} content={settingContent} />
+                  <SuggestedAnalytics problemId={id} suggestionId={suggestionId} content={settingContent} />
                 </>
               }
               btnClose="Discard"
               btnSubmit="Confirm"
-              mdlTitle="Action Prompts (People)"
+              mdlTitle="Action Prompts"
               showFooter={false}
               isAnalytics={true}
             />

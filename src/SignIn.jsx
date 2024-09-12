@@ -7,28 +7,28 @@ import { useForm } from "react-hook-form";
 import FormSubmitHandler from "./components/FormSubmitHandler.jsx";
 import toast from 'react-hot-toast';
 import Loader from "./common/Loader/index.jsx";
+import Logo from "./images/favicon.png";
 
 const SignIn = () => {
     const [loading, setLoading] = useState(false);
-    const defaultFields = { email: '', password: '' };
-    const [loginField, setLoginField] = useState(defaultFields);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({});
     const navigate = useNavigate();
 
-    const handleLogin = async () => {
+    const handleLogin = async (data) => {
         setLoading(true);
         await FormSubmitHandler({
             method: 'post',
             url: 'login',
-            data: loginField
+            data: data
         }).then(res => {
             const { token, ...user } = res.data;
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
 
             toast.success(res.message);
-            setLoginField(defaultFields);
-            const route = localStorage.getItem("setup-preference") ? "/analytics" : "/preference-survey";
+            reset()
+            // const route = localStorage.getItem("setup-preference") ? "/analytics" : "/preference-survey";
+            const route = "/preference-survey";
             navigate(route);
         }).catch(err => {
             toast.error(err.message);
@@ -36,14 +36,6 @@ const SignIn = () => {
             setLoading(false);
         });
     };
-
-    const handleInput = (e) => {
-        const { name, value } = e.target;
-        setLoginField({
-            ...loginField,
-            [name]: value
-        });
-    }
 
     const emailValidationType = {
         required: "Email is required",
@@ -80,6 +72,17 @@ const SignIn = () => {
                 <div className="flex flex-wrap items-center">
                     <div className="hidden w-full xl:block xl:w-1/2">
                         <div className="py-17.5 px-26 text-center">
+                            <Link className="mb-5.5 inline-block" to="/">
+                                <img className="hidden dark:block" src={Logo} alt="Logo" />
+                                <img
+                                    className="dark:hidden"
+                                    style={{
+                                        backgroundColor: "#3a56dbdb",
+                                    }}
+                                    src={Logo}
+                                    alt="Logo"
+                                />
+                            </Link>
                             <span className="mt-15 inline-block">
                                 <img src={PhoneIcon} alt="" />
                             </span>
@@ -103,10 +106,7 @@ const SignIn = () => {
                                         <input
                                             {...register('email', emailValidationType)}
                                             type="email"
-                                            id="email"
                                             name="email"
-                                            onChange={handleInput}
-                                            value={loginField.email}
                                             placeholder="Enter your email"
                                             className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                         />
@@ -125,10 +125,7 @@ const SignIn = () => {
                                         <input
                                             {...register('password', passwordValidationType)}
                                             type="password"
-                                            id="password"
                                             name="password"
-                                            onChange={handleInput}
-                                            value={loginField.password}
                                             placeholder="6+ Characters, 1 Capital letter"
                                             className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                         />

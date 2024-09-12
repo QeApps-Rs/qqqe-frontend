@@ -1,24 +1,36 @@
 import { Link } from "react-router-dom";
-
+import Logo from "../../images/favicon-A.png";
 const Breadcrumb = ({ pageName, breadcrumb = true }) => {
   return (
     <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <h2 className="text-title-md2 font-semibold text-black dark:text-white">
         {pageName}
       </h2>
-    {
-      breadcrumb &&
-      <nav>
-        <ol className="flex items-center gap-2">
-          <li>
-            <Link className="font-medium" to="/">
-              Dashboard /
-            </Link>
-          </li>
-          <li className="font-medium text-primary">{pageName}</li>
-        </ol>
-      </nav>
-    }
+      {pageName == "Sign Up" ? (
+        ""
+      ) : (
+        <img
+          className="dark:hidden"
+          style={{
+            backgroundColor: "#3a56dbdb",
+          }}
+          src={Logo}
+          alt="Logo"
+        />
+      )}
+
+      {breadcrumb && (
+        <nav>
+          <ol className="flex items-center gap-2">
+            <li>
+              <Link className="font-medium" to="/">
+                Dashboard /
+              </Link>
+            </li>
+            <li className="font-medium text-primary">{pageName}</li>
+          </ol>
+        </nav>
+      )}
     </div>
   );
 };

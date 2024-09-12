@@ -40,7 +40,7 @@ const DropdownUser = () => {
             <Link to="#" onClick={() => setDropdownOpen(!dropdownOpen)} className="flex items-center gap-4">
                 <span className="hidden text-right lg:block">
                     <span className="block text-sm font-medium text-black dark:text-white">
-                        {user && user.name}
+                    Welcome, {user && user.name}
                     </span>
                 </span>
                 <span className="h-12 w-12 flex items-center justify-center rounded-full bg-customGray text-white font-bold">
