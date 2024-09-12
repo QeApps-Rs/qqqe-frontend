@@ -27,6 +27,7 @@ import Peoplepage from "./pages/Peoplepage";
 import PromotionPage from "./pages/PromotionPage";
 import PricePage from "./pages/PricePage";
 import Productpage from "./pages/Productpage";
+import VideoPlayer from "./pages/VideoPlayer";
 const env_type = import.meta.env.VITE_ENV;
 
 const App = () => {
@@ -108,6 +109,7 @@ const App = () => {
               <Route path="/product-dashboard" element={<Productpage />} />
               <Route path="/price-dashboard" element={<PricePage />} />
               <Route path="/promotion-dashboard" element={<PromotionPage />} />
+              <Route path="/video-player" element={<VideoPlayer />} />
             </Route>
           </Routes>
         </header>
