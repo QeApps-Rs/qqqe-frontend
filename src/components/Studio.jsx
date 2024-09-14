@@ -31,7 +31,7 @@ const Studio = () => {
             <div className="bg-[url('/src/assets/bg-img.png')] bg-cover h-[40vw] bg-center bg-no-repeat	justify-center items-center flex text-center flex-col">
                 <h1 className="text-white font-bold text-4xl leading-[3.5rem]">Maximize Your Ads Impact with<br />Creative Studio</h1>
                 <p className="text-[#fffc] mt-8">Elevate Your ROAS Through Detailed Creative Analysis</p>
-                <button type="button" class=" h-8 mt-4 text-[#5a50fe] bg-white  font-medium rounded-lg px-5 me-2 mb-2 text-base">Connect Facebook Ads</button>
+                <button type="button" className=" h-8 mt-4 text-[#5a50fe] bg-white  font-medium rounded-lg px-5 me-2 mb-2 text-base">Connect Facebook Ads</button>
             </div>
             <div className="grid grid-cols-12 items-center mt-15 p-8">
                 {reports.map((report, index) => (

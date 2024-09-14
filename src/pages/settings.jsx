@@ -35,7 +35,7 @@ const SettingsPage = () => {
           <TabList>
             <Tab>General Information</Tab>
             <Tab>Account</Tab>
-            <Tab>Preference</Tab>
+            <Tab>Preference Survey</Tab>
           </TabList>
 
           <TabPanel>
