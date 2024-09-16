@@ -912,8 +912,6 @@ const MasterForm = () => {
           </div>
         </div>
 
-
-
         <div
           className={`h-full flex items-center justify-center ${isView !== "Desktop" ? "min-h-[785px] bg-no-repeat bg-top bg-center" : "gap-8"}`}
           style={{
