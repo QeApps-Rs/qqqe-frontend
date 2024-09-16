@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const ColorPicker = (props) => {
-  const [selectedColor, setSelectedColor] = useState("rgb(83 89 102)");
+const ColorPicker = ({ defaultColor, onChange }) => {
+  const [selectedColor, setSelectedColor] = useState(defaultColor || "rgb(83 89 102)");
+  useEffect(() => {
+    setSelectedColor(defaultColor); // Update when defaultColor changes
+  }, [defaultColor]);
 
-  const { backgroundColor, overlay, label,textColor,placeholderColor,inputBgColor,focusColor } = props
   const handleChange = (event) => {
-    setSelectedColor(event.target.value);
+    const newColor = event.target.value;
+    setSelectedColor(newColor);
+    if (onChange) {
+      onChange(newColor); // Call parent's onChange handler
+    }
   };
 
   return (
@@ -18,8 +24,8 @@ const ColorPicker = (props) => {
           className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
         />
         <div
-          className={`w-6 h-6 rounded border border-gray-300 ${backgroundColor ? 'bg-white' : overlay ?  'bg-slate-400' : label ? 'bg-black' : textColor ?  'bg-white' : placeholderColor ? 'bg-slate-400' : inputBgColor ? ' bg-black'  : focusColor ? 'bg-slate-400'   : 'bg-slate-50'}`}
-          // style={{ backgroundColor: selectedColor }}
+          className={`w-6 h-6 rounded border border-gray-300 bg-slate-50`}
+          style={{ backgroundColor: selectedColor }} // Display selected color
         ></div>
         <input
           type="text"

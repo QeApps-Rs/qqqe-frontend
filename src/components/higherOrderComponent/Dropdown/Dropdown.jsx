@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const DropDown = ({ jsonData }) => {
   const [selectedOption, setSelectedOption] = useState(
@@ -24,6 +24,12 @@ const DropDown = ({ jsonData }) => {
       jsonData.onChange(value);
     }
   };
+  useEffect(() => {
+    if (!jsonData.defaultValue) {
+      setSelectedOption("");
+      setIsOptionSelected(false);
+    }
+  }, [jsonData.defaultValue]);
 
   return (
     <div className="mb-4.5">
@@ -38,9 +44,8 @@ const DropDown = ({ jsonData }) => {
           id={jsonData.id}
           value={selectedOption}
           onChange={handleChange}
-          className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${
-            isOptionSelected ? "text-black dark:text-white" : ""
-          }`}
+          className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${isOptionSelected ? "text-black dark:text-white" : ""
+            }`}
         >
           <option value="" disabled className="text-body dark:text-bodydark">
             {jsonData.placeholder || "Select your subject"}

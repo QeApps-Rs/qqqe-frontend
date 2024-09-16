@@ -156,13 +156,12 @@ const SuggestionComp = () => {
 
     const renderActionTd = (suggestion, statement) => {
         return <div className="flex align-center">
-            <div title="Configuration" className="ml-2 pointer-events-none opacity-50 cursor-not-allowed" data-id={statement.id}>
+            <div title="Configuration" className={`ml-2 ${statement.is_applied ? "pointer-events-none opacity-50 cursor-not-allowed" : ""}`} data-id={statement.id}>
                 <SettingIcon
                     onClick={() => {
                         toggleModal(suggestion.suggestion);
                         setSuggestionId(statement.id);
-                    }
-                    }
+                    }}
                 />
             </div>
         </div>;
