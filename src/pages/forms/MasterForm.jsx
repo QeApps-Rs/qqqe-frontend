@@ -8,34 +8,24 @@ import { useNavigate, useParams } from "react-router-dom";
 import successImg from "../../../src/images/success_fn.png";
 import FormSubmitHandler from "../../components/FormSubmitHandler";
 import SwitcherThree from "../../components/Switchers/SwitcherThree";
+import {
+  templateFieldCss,
+  inputColorFields,
+  inputTextColorFields,
+  templateBgField,
+  fontFamilyList,
+  borderStyles,
+  visitorsDropdown,
+  formTypeDropdown,
+  widthDropdown,
+  timingOptions,
+  deviceOptions,
+  tabs,
+  templateEditorCollapseOptions,
+  defaultBoxClassName,
+} from "./masterFormConfig";
 
 const MasterForm = () => {
-  const templateFieldCss = {
-    bgColor: 'rgb(255, 255, 255)',
-    borderColor: 'rgb(209, 213, 219)',
-    focusBorderColor: 'rgb(0, 123, 255)',
-    placeholderTextColor: 'rgb(107 114 128)',
-    formHeadingColor: 'rgb(0, 0, 0)',
-    textColor: 'rgb(0, 0, 0)',
-    letterSpacing: '1px',
-    inputFontSize: '14px',
-    templateBgColor: 'rgb(0, 0, 0)',
-    templateOverlayColor: 'rgb(255, 255, 255)',
-    fontWeight: 'normal',
-    fontFamily: 'Arial',
-    borderRadius: '',
-    borderWidth: '2px',
-    templateBorderColor: 'rgb(255, 255, 255)',
-    templatePaddingTop: '4px',
-    templatePaddingBottom: '4px',
-    templatePaddingLeft: '4px',
-    templatePaddingRight: '4px',
-    formBorderStyle: "none",
-    formType: "full page",
-    formWidth: "large",
-    templateMinHeight: "500px",
-  };
-
   const [templateDesign, setTemplateDesign] = useState(templateFieldCss);
 
   const handleTemplateChange = (colorType) => (templateDesign) => {
@@ -48,40 +38,6 @@ const MasterForm = () => {
     ${templateDesign.templatePaddingBottom} 
     ${templateDesign.templatePaddingLeft}
   `;
-
-  const inputColorFields = [
-    { label: "Background Color", colorType: "bgColor" },
-    { label: "Border Color", colorType: "borderColor" },
-    { label: "Focus Border Color", colorType: "focusBorderColor" },
-  ];
-
-  const inputTextColorFields = [
-    { label: "Label Color", colorType: "formHeadingColor" },
-    { label: "Text Color", colorType: "textColor" },
-    { label: "Placeholder Color", colorType: "placeholderTextColor" },
-  ];
-
-  const templateBgField = [
-    { label: "Background color", colorType: "templateBgColor" },
-    { label: "Overlay color:", colorType: "templateOverlayColor" },
-  ];
-  const fontFamilyList = [
-    { label: "Arial" },
-    { label: "Arial Black" },
-    { label: "Century Gothic" },
-    { label: "Comic Sans MS" },
-    { label: "Courier" },
-    { label: "Geneva" },
-  ];
-
-  const borderStyles = [
-    { value: "none", label: "None" },
-    { value: "solid", label: "Solid" },
-    { value: "dashed", label: "Dashed" },
-    { value: "dotted", label: "Dotted" },
-  ];
-
-  const defaultBoxClassName = "w-32 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary";
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -126,71 +82,6 @@ const MasterForm = () => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-  const visitorsDropdown = {
-    label: "Visitors",
-    placeholder: "Select your visitor",
-    options: [
-      {
-        value: "Don’t show to existing Klaviyo profiles",
-        label: "Don’t show to existing Klaviyo profiles",
-      },
-      { value: "Show to all visitors", label: "Show to all visitors" },
-      {
-        value: "Show to any existing profile",
-        label: "Show to any existing profile",
-      },
-      {
-        value: "Show to email subscribers only",
-        label: "Show to email subscribers only",
-      },
-      {
-        value: "Show to SMS subscribers only",
-        label: "Show to SMS subscribers only",
-      },
-      {
-        value: "Show to specific profiles in a list or segment",
-        label: "Show to specific profiles in a list or segment",
-      },
-    ],
-  };
-
-  const formTypeDropdown = {
-    label: "Form Type",
-    placeholder: "Select form type",
-    options: [
-      { value: "full page", label: "Full page" },
-      { value: "embed", label: "Embed" },
-    ],
-  };
-
-  const widthDropdown = {
-    label: "Form width",
-    placeholder: "Select form width",
-    options: [
-      { value: "small", label: "Small" },
-      // { value: "medium", label: "Medium" },
-      { value: "large", label: "Large" },
-    ],
-  };
-
-  const timingOptions = [
-    { value: "Immediately", label: "Immediately" },
-    { value: "Based on rules", label: "Based on rules" },
-    { value: "Only on a custom trigger", label: "Only on a custom trigger" },
-  ];
-
-  const deviceOptions = [
-    { value: "Both desktop and mobile", label: "Both desktop and mobile" },
-    { value: "Desktop only", label: "Desktop only" },
-    { value: "Mobile only", label: "Mobile only" },
-  ];
-
-  const tabs = [
-    { name: "All Devices", icon: "fa-solid fa-desktop" },
-    { name: "Desktop", icon: "fa-solid fa-desktop" },
-    { name: "Mobile", icon: "fa-solid fa-mobile-alt" },
-  ];
-
   const handleTabClick = (tab) => {
     setActiveTab(tab);
     // if (tab === "Mobile") {
@@ -215,34 +106,6 @@ const MasterForm = () => {
       navigate(`/suggestion/list/${pid}`);
     }
   };
-
-  const templateEditorCollapseOptions = [
-    {
-      title: "Style",
-      content:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      tag: "style",
-    },
-    {
-      title: "Targeting & behavior",
-      content:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      tag: "target",
-    },
-    {
-      title: "Product Bundle",
-      content:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      tag: "bundle",
-    },
-    {
-      title: "Add blocks",
-      subtitle: "Coming Soon",
-      content:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      tag: "block",
-    },
-  ];
 
   const [productList, setProductList] = useState([]);
   const [productListState, setProductListState] = useState(false);
@@ -380,18 +243,18 @@ const MasterForm = () => {
     selectedCollections,
     handleCollectionCheckboxChange,
   }) => {
-    const hasValidCollection = collectionList?.data?.some(
-      (collection) => collection.collection_json?.title
-    );
+    const hasValidCollection =
+      Array.isArray(collectionList?.data) &&
+      collectionList.data.length > 0 &&
+      collectionList.data.some(
+        (collection) => collection.collection_json?.title
+      );
 
     return (
       <>
-        {collectionList &&
-        collectionList.data &&
-        collectionList.data.length > 0 &&
-        hasValidCollection ? (
+        {hasValidCollection ? (
           collectionList.data.map((collection) =>
-            collection.collection_json.title ? (
+            collection.collection_json?.title ? (
               <div
                 key={collection.id}
                 className="collection-item flex items-center space-x-2"
@@ -1265,13 +1128,13 @@ const MasterForm = () => {
                                     Targeted Product
                                   </label>
                                   {productListState && (
-                                   <TargetedProductListComponent
-                                   productList={productList}
-                                   targetedProducts={targetedProducts}
-                                   handleTargetedProductCheckboxChange={
-                                     handleTargetedProductCheckboxChange
-                                   }
-                                 />
+                                    <TargetedProductListComponent
+                                      productList={productList}
+                                      targetedProducts={targetedProducts}
+                                      handleTargetedProductCheckboxChange={
+                                        handleTargetedProductCheckboxChange
+                                      }
+                                    />
                                   )}
                                 </div>
                                 <div className="mb-4.5 border-b border-black pb-4">
@@ -1547,10 +1410,10 @@ const MasterForm = () => {
       </div>
       <div className="clear-both"></div>
       <style jsx="true">{`
-          input::placeholder {
-            color: var(--placeholder-color); /* Dynamic placeholder color */
-          }
-        `}</style>
+        input::placeholder {
+          color: var(--placeholder-color); /* Dynamic placeholder color */
+        }
+      `}</style>
     </>
   );
 };
