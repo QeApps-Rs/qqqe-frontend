@@ -30,7 +30,7 @@ const MasterForm = () => {
     templatePaddingBottom: '4px',
     templatePaddingLeft: '4px',
     templatePaddingRight: '4px',
-    formBorderStyle: "Solid",
+    formBorderStyle: "none",
     formType: "full page",
     formWidth: "large",
     templateMinHeight: "500px"
@@ -83,7 +83,6 @@ const MasterForm = () => {
   ];
 
   const defaultBoxClassName = "w-32 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary";
-
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -1271,7 +1270,7 @@ const MasterForm = () => {
 
       </div>
       <div className="clear-both"></div>
-      <style jsx>{`
+      <style jsx="true">{`
           input::placeholder {
             color: var(--placeholder-color); /* Dynamic placeholder color */
           }
