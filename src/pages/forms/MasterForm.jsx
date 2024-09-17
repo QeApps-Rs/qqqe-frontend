@@ -250,7 +250,7 @@ const MasterForm = () => {
   const [collectionListState, setCollectionListState] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState({});
   const [selectedCollections, setSelectedCollections] = useState({});
-
+  const [targetedProducts, setTargetedProducts] = useState([]);
   const [noOfProducts, setNoOfProducts] = useState(2);
 
   const onNoOfProductsSelect = (e) => {
@@ -291,6 +291,13 @@ const MasterForm = () => {
     }));
   };
 
+  const handleTargetedProductCheckboxChange = (id) => {
+    setTargetedProducts((prevCheckedItems) => ({
+      ...prevCheckedItems,
+      [id]: !prevCheckedItems[id],
+    }));
+  };
+
   const handleCollectionCheckboxChange = (id) => {
     setSelectedCollections((prevCheckedItems) => ({
       ...prevCheckedItems,
@@ -321,6 +328,41 @@ const MasterForm = () => {
                   }
                   checked={selectedProducts[item.id] || false}
                   onChange={() => handleProductCheckboxChange(item.id)}
+                />
+                <span className="text-gray-500">{item.price}</span>
+              </div>
+            ))
+          )
+        ) : (
+          <span>No products found</span>
+        )}
+      </>
+    );
+  };
+
+  const TargetedProductListComponent = ({
+    productList,
+    targetedProducts,
+    handleTargetedProductCheckboxChange,
+  }) => {
+    return (
+      <>
+        {productList && productList.data && productList.data.length > 0 ? (
+          productList.data.map((product) =>
+            product.product_json.variants.map((item, index) => (
+              <div
+                key={index}
+                className="product-item flex items-center space-x-2"
+              >
+                <Checkbox
+                  id={index}
+                  label={
+                    item.title !== "Default Title"
+                      ? product.product_json.title + " - " + item.title
+                      : product.product_json.title
+                  }
+                  checked={targetedProducts[item.id] || false}
+                  onChange={() => handleTargetedProductCheckboxChange(item.id)}
                 />
                 <span className="text-gray-500">{item.price}</span>
               </div>
@@ -1223,13 +1265,13 @@ const MasterForm = () => {
                                     Targeted Product
                                   </label>
                                   {productListState && (
-                                    <ProductListComponent
-                                      productList={productList}
-                                      selectedProducts={selectedProducts}
-                                      handleProductCheckboxChange={
-                                        handleProductCheckboxChange
-                                      }
-                                    />
+                                   <TargetedProductListComponent
+                                   productList={productList}
+                                   targetedProducts={targetedProducts}
+                                   handleTargetedProductCheckboxChange={
+                                     handleTargetedProductCheckboxChange
+                                   }
+                                 />
                                   )}
                                 </div>
                                 <div className="mb-4.5 border-b border-black pb-4">
