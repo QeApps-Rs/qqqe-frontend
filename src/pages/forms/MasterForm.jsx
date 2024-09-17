@@ -177,24 +177,26 @@ const MasterForm = () => {
       <>
         {productList && productList.data && productList.data.length > 0 ? (
           productList.data.map((product) =>
-            product.product_json.variants.map((item) => (
-              <div
-                key={item.id}
-                className="product-item flex items-center space-x-2"
-              >
-                <Checkbox
-                  id={item.id}
-                  label={
-                    item.title !== "Default Title"
-                      ? product.product_json.title + " - " + item.title
-                      : product.product_json.title
-                  }
-                  checked={selectedProducts[item.id] || false}
-                  onChange={() => handleProductCheckboxChange(item.id)}
-                />
-                <span className="text-gray-500">{item.price}</span>
-              </div>
-            ))
+            product.product_json.variants && product.product_json.variants.length > 0 ? (
+              product.product_json.variants.map((item) => (
+                <div
+                  key={item.id}
+                  className="product-item flex items-center space-x-2"
+                >
+                  <Checkbox
+                    id={item.id}
+                    label={
+                      item.title !== "Default Title"
+                        ? product.product_json.title + " - " + item.title
+                        : product.product_json.title
+                    }
+                    checked={selectedProducts[item.id] || false}
+                    onChange={() => handleProductCheckboxChange(item.id)}
+                  />
+                  <span className="text-gray-500">{item.price}</span>
+                </div>
+              ))
+            ) : null // Skip products without variants
           )
         ) : (
           <span>No products found</span>
@@ -202,6 +204,7 @@ const MasterForm = () => {
       </>
     );
   };
+  
 
   const TargetedProductListComponent = ({
     productList,
@@ -211,25 +214,32 @@ const MasterForm = () => {
     return (
       <>
         {productList && productList.data && productList.data.length > 0 ? (
-          productList.data.map((product) =>
-            product.product_json.variants.map((item, index) => (
-              <div
-                key={index}
-                className="product-item flex items-center space-x-2"
-              >
-                <Checkbox
-                  id={index}
-                  label={
-                    item.title !== "Default Title"
-                      ? product.product_json.title + " - " + item.title
-                      : product.product_json.title
-                  }
-                  checked={targetedProducts[item.id] || false}
-                  onChange={() => handleTargetedProductCheckboxChange(item.id)}
-                />
-                <span className="text-gray-500">{item.price}</span>
-              </div>
-            ))
+          productList.data.map(
+            (product) =>
+              // Check if the product has variants before mapping
+              product.product_json.variants &&
+              product.product_json.variants.length > 0
+                ? product.product_json.variants.map((item, index) => (
+                    <div
+                      key={index}
+                      className="product-item flex items-center space-x-2"
+                    >
+                      <Checkbox
+                        id={index}
+                        label={
+                          item.title !== "Default Title"
+                            ? product.product_json.title + " - " + item.title
+                            : product.product_json.title
+                        }
+                        checked={targetedProducts[item.id] || false}
+                        onChange={() =>
+                          handleTargetedProductCheckboxChange(item.id)
+                        }
+                      />
+                      <span className="text-gray-500">{item.price}</span>
+                    </div>
+                  ))
+                : null // Skip products without variants
           )
         ) : (
           <span>No products found</span>
