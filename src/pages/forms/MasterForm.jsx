@@ -11,25 +11,25 @@ import SwitcherThree from "../../components/Switchers/SwitcherThree";
 
 const MasterForm = () => {
   const templateFieldCss = {
-    bgColor: "rgb(255, 255, 255)",
-    borderColor: "rgb(209, 213, 219)",
-    focusBorderColor: "rgb(0, 123, 255)",
-    placeholderTextColor: "rgb(107 114 128)",
-    formHeadingColor: "rgb(0, 0, 0)",
-    textColor: "rgb(0, 0, 0)",
-    letterSpacing: "1px",
-    inputFontSize: "14px",
-    templateBgColor: "rgb(0, 0, 0)",
-    templateOverlayColor: "rgb(255, 255, 255)",
-    fontWeight: "normal",
-    fontFamily: "Arial",
-    borderRadius: "",
-    borderWidth: "2px",
-    templateBorderColor: "rgb(255, 255, 255)",
-    templatePaddingTop: "4px",
-    templatePaddingBottom: "4px",
-    templatePaddingLeft: "4px",
-    templatePaddingRight: "4px",
+    bgColor: 'rgb(255, 255, 255)',
+    borderColor: 'rgb(209, 213, 219)',
+    focusBorderColor: 'rgb(0, 123, 255)',
+    placeholderTextColor: 'rgb(107 114 128)',
+    formHeadingColor: 'rgb(0, 0, 0)',
+    textColor: 'rgb(0, 0, 0)',
+    letterSpacing: '1px',
+    inputFontSize: '14px',
+    templateBgColor: 'rgb(0, 0, 0)',
+    templateOverlayColor: 'rgb(255, 255, 255)',
+    fontWeight: 'normal',
+    fontFamily: 'Arial',
+    borderRadius: '',
+    borderWidth: '2px',
+    templateBorderColor: 'rgb(255, 255, 255)',
+    templatePaddingTop: '4px',
+    templatePaddingBottom: '4px',
+    templatePaddingLeft: '4px',
+    templatePaddingRight: '4px',
     formBorderStyle: "none",
     formType: "full page",
     formWidth: "large",
@@ -81,8 +81,7 @@ const MasterForm = () => {
     { value: "dotted", label: "Dotted" },
   ];
 
-  const defaultBoxClassName =
-    "w-32 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary";
+  const defaultBoxClassName = "w-32 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary";
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -1266,13 +1265,13 @@ const MasterForm = () => {
                                     Targeted Product
                                   </label>
                                   {productListState && (
-                                    <TargetedProductListComponent
-                                      productList={productList}
-                                      targetedProducts={targetedProducts}
-                                      handleTargetedProductCheckboxChange={
-                                        handleTargetedProductCheckboxChange
-                                      }
-                                    />
+                                   <TargetedProductListComponent
+                                   productList={productList}
+                                   targetedProducts={targetedProducts}
+                                   handleTargetedProductCheckboxChange={
+                                     handleTargetedProductCheckboxChange
+                                   }
+                                 />
                                   )}
                                 </div>
                                 <div className="mb-4.5 border-b border-black pb-4">
@@ -1548,10 +1547,10 @@ const MasterForm = () => {
       </div>
       <div className="clear-both"></div>
       <style jsx="true">{`
-        input::placeholder {
-          color: var(--placeholder-color); /* Dynamic placeholder color */
-        }
-      `}</style>
+          input::placeholder {
+            color: var(--placeholder-color); /* Dynamic placeholder color */
+          }
+        `}</style>
     </>
   );
 };
