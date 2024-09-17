@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import Checkbox from "../../components/higherOrderComponent/Checkboxes/Checkbox";
 import Radio from "../../components/higherOrderComponent/Radios/Radio";
 import ColorPicker from "../../components/higherOrderComponent/ColorPicker/ColorPicker";
@@ -7,6 +7,7 @@ import popup_img from "../../../src/images/newsletter_left_img.png";
 import { useNavigate, useParams } from "react-router-dom";
 import sucessImg from "../../../src/images/success_fn.png";
 import FormSubmitHandler from "../../components/FormSubmitHandler";
+import SwitcherThree from "../../components/Switchers/SwitcherThree";
 
 const MasterForm = () => {
   const templateFieldCss = {
@@ -230,12 +231,164 @@ const MasterForm = () => {
       tag: "target",
     },
     {
+      title: "Product Bundle",
+      content:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      tag: "bundle",
+    },
+    {
       title: "Add blocks",
       subtitle: "Coming Soon",
       content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
       tag: "block",
     },
   ];
+
+
+  //////////////// Jigar Code Start ///////////////////
+
+  const [productList, setProductList] = useState([]);
+  const [productListState, setProductListState] = useState(false);
+  const [collectionList, setCollectionList] = useState([]);
+  const [collectionListState, setCollectionListState] = useState(false);
+  const [selectedProducts, setSelectedProducts] = useState({});
+  const [selectedCollections, setSelectedCollections] = useState({});
+
+  const [noOfProducts, setNoOfProducts] = useState(2);
+
+  const onNoOfProductsSelect = (e) => {
+    setNoOfProducts(e.target.value);
+  };
+
+  const getProductList = async () => {
+    const response = await FormSubmitHandler({
+      method: "get",
+      url: `product/list`,
+    });
+    if (response.success) {
+      setProductList(response.data);
+      setProductListState(true);
+    }
+  };
+
+  const getCollectionList = async () => {
+    const response = await FormSubmitHandler({
+      method: "get",
+      url: `collection/list`,
+    });
+    if (response.success) {
+      setCollectionList(response.data);
+      setCollectionListState(true);
+    }
+  };
+
+  useEffect(() => {
+    getProductList();
+    getCollectionList();
+  }, []);
+
+  const handleProductCheckboxChange = (id) => {
+    setSelectedProducts((prevCheckedItems) => ({
+      ...prevCheckedItems,
+      [id]: !prevCheckedItems[id],
+    }));
+  };
+
+  const handleCollectionCheckboxChange = (id) => {
+    setSelectedCollections((prevCheckedItems) => ({
+      ...prevCheckedItems,
+      [id]: !prevCheckedItems[id],
+    }));
+  };
+
+  const ProductListComponent = ({
+    productList,
+    selectedProducts,
+    handleProductCheckboxChange,
+  }) => {
+    return (
+      <>
+        {productList && productList.data && productList.data.length > 0 ? (
+          productList.data.map((product) =>
+            product.product_json.variants.map((item) => (
+              <div
+                key={item.id}
+                className="product-item flex items-center space-x-2"
+              >
+                <Checkbox
+                  id={item.id}
+                  label={
+                    item.title !== "Default Title"
+                      ? product.product_json.title + " - " + item.title
+                      : product.product_json.title
+                  }
+                  checked={selectedProducts[item.id] || false}
+                  onChange={() => handleProductCheckboxChange(item.id)}
+                />
+                <span className="text-gray-500">{item.price}</span>
+              </div>
+            ))
+          )
+        ) : (
+          <span>No products found</span>
+        )}
+      </>
+    );
+  };
+
+  const CollectionListComponent = ({
+    collectionList,
+    selectedCollections,
+    handleCollectionCheckboxChange,
+  }) => {
+    const hasValidCollection = collectionList?.data?.some(
+      (collection) => collection.collection_json?.title
+    );
+  
+    return (
+      <>
+        {collectionList && collectionList.data && collectionList.data.length > 0 && hasValidCollection ? (
+          collectionList.data.map((collection) =>
+            collection.collection_json.title ? (
+              <div
+                key={collection.id}
+                className="collection-item flex items-center space-x-2"
+              >
+                <Checkbox
+                  id={collection.id}
+                  label={collection.collection_json.title}
+                  checked={selectedCollections[collection.id] || false}
+                  onChange={() => handleCollectionCheckboxChange(collection.id)}
+                />
+              </div>
+            ) : null
+          )
+        ) : (
+          <span>No Collection found</span>
+        )}
+      </>
+    );
+  };
+  
+
+  const [switchStates, setSwitchStates] = useState({
+    openInNewTab: false,
+    image: false,
+    name: false,
+    sku: false,
+    price: false,
+    variantSwatch: false,
+    atcButton: false,
+  });
+
+  const handleToggle = (key) => {
+    setSwitchStates((prevStates) => ({
+      ...prevStates,
+      [key]: !prevStates[key],
+    }));
+  };
+  //////////////// Jigar Code End ///////////////////
+
 
   return (
     <>
@@ -861,6 +1014,146 @@ const MasterForm = () => {
                     </div>
                   </div>
                 )}
+                {/* jigar code start */}
+              {activeIndex === index && item.tag === "bundle" && (
+                <div className="p-4 border-t">
+                  <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
+                    <div className="col-span-12 xl:col-span-12">
+                      <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
+                        <div className="w-full flex flex-col gap-9">
+                          <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+                            <form action="#">
+                              <div className="p-3">
+                                <div className="mb-4.5 border-b border-black pb-4">
+                                  <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                                    Bundle Details
+                                  </label>
+                                  <div className="mt-3 flex justify-between flex-row items-center">
+                                    <span>Title:</span>
+                                    <input
+                                      id="bundle-title"
+                                      type="text"
+                                      className=" w-32 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                    />
+                                  </div>
+                                  <div className="mt-3 flex justify-between flex-row items-center">
+                                    <span>Description:</span>
+                                    <textarea
+                                      id="bundle-description"
+                                      type="text"
+                                      className=" w-32 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="mb-4.5 border-b border-black pb-4">
+                                  <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                                    Select Product
+                                  </label>
+                                  {productListState && (
+                                    <ProductListComponent
+                                      productList={productList}
+                                      selectedProducts={selectedProducts}
+                                      handleProductCheckboxChange={
+                                        handleProductCheckboxChange
+                                      }
+                                    />
+                                  )}
+                                </div>
+                                <div className="mb-4.5 border-b border-black pb-4">
+                                  <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                                    Targeted Product
+                                  </label>
+                                  {productListState && (
+                                    <ProductListComponent
+                                      productList={productList}
+                                      selectedProducts={selectedProducts}
+                                      handleProductCheckboxChange={
+                                        handleProductCheckboxChange
+                                      }
+                                    />
+                                  )}
+                                </div>
+                                <div className="mb-4.5 border-b border-black pb-4">
+                                  <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                                    Targeted Collection
+                                  </label>
+                                  {collectionListState && (
+                                    <CollectionListComponent
+                                      collectionList={collectionList}
+                                      selectedCollections={selectedCollections}
+                                      handleCollectionCheckboxChange={
+                                        handleCollectionCheckboxChange
+                                      }
+                                    />
+                                  )}
+                                </div>
+                                <div className="mb-4.5 border-b border-black pb-4">
+                                  <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                                    Bundle Settings
+                                  </label>
+                                  <div className="mt-3 flex justify-between flex-row items-center">
+                                    <span>No Of Products:</span>
+                                    <select
+                                      onChange={(e) => onNoOfProductsSelect(e)}
+                                      value={noOfProducts}
+                                      className="w-32 h-12 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                    >
+                                      <option value="1">1</option>
+                                      <option value="2">2</option>
+                                      <option value="3">3</option>
+                                      <option value="4">4</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <SwitcherThree
+                                  label="Open in new tab"
+                                  enabled={switchStates.openInNewTab}
+                                  onToggle={() => handleToggle("openInNewTab")}
+                                />
+                                <SwitcherThree
+                                  label="Image"
+                                  enabled={switchStates.image}
+                                  onToggle={() => handleToggle("image")}
+                                />
+                                <SwitcherThree
+                                  label="Name"
+                                  enabled={switchStates.name}
+                                  onToggle={() => handleToggle("name")}
+                                />
+                                <SwitcherThree
+                                  label="Sku"
+                                  enabled={switchStates.sku}
+                                  onToggle={() => handleToggle("sku")}
+                                />
+                                <SwitcherThree
+                                  label="Price"
+                                  enabled={switchStates.price}
+                                  onToggle={() => handleToggle("price")}
+                                />
+                                <SwitcherThree
+                                  label="Variant Swatch"
+                                  enabled={switchStates.variantSwatch}
+                                  onToggle={() => handleToggle("variantSwatch")}
+                                />
+                                <SwitcherThree
+                                  label="ATC Button"
+                                  enabled={switchStates.atcButton}
+                                  onToggle={() => handleToggle("atcButton")}
+                                />
+                                <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
+                                  Save
+                                </button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {/* jigar code end */}
               </li>
             ))}
         </ul>
