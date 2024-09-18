@@ -136,13 +136,6 @@ const SignIn = () => {
                                     </div>
                                 </div>
                                 <div className="mt-4 flex items-center justify-between space-x-2">
-                                    <label className="inline-flex items-center space-x-2">
-                                        <input
-                                            className="form-checkbox is-basic h-5 w-5 rounded border-slate-400/70 checked:border-primary checked:bg-primary hover:border-primary focus:border-primary dark:border-navy-400 dark:checked:border-accent dark:checked:bg-accent dark:hover:border-accent dark:focus:border-accent"
-                                            type="checkbox"
-                                        />
-                                        <span className="line-clamp-1">Remember me</span>
-                                    </label>
                                     <Link
                                         to="/auth/forgot-password"
                                         className="text-xs text-slate-400 transition-colors line-clamp-1 hover:text-slate-800 focus:text-slate-800 dark:text-navy-300 dark:hover:text-navy-100 dark:focus:text-navy-100"

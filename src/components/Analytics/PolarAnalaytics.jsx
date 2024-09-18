@@ -38,7 +38,7 @@ const PolarAnalaytics = () => {
                                     <p className="text-gray-700">
                                         Try QQQE Activate for 30 days-get value or your money back.
                                     </p>
-                                    <button type="button" class="w-full h-12 mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 me-2 mb-2 text-lg">Book your spot now</button>
+                                    <button type="button" className="w-full h-12 mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 me-2 mb-2 text-lg">Book your spot now</button>
                                 </div>
                             </div>
                         </div>

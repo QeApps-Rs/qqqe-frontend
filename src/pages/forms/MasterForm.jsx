@@ -7,6 +7,9 @@ import popup_img from "../../../src/images/newsletter_left_img.png";
 import { useNavigate, useParams } from "react-router-dom";
 import successImg from "../../../src/images/success_fn.png";
 import FormSubmitHandler from "../../components/FormSubmitHandler";
+import ArrowMasterFormSvg from "../../images/svg-icons/ArrowMasterFormSvg";
+import toast from 'react-hot-toast';
+import Loader from "../../common/Loader";
 import SwitcherThree from "../../components/Switchers/SwitcherThree";
 import {
   templateFieldCss,
@@ -26,13 +29,65 @@ import {
 } from "./masterFormConfig";
 
 const MasterForm = () => {
-  const [templateDesign, setTemplateDesign] = useState(templateFieldCss);
+	console.log(['test']);
 
-  const handleTemplateChange = (colorType) => (templateDesign) => {
-    setTemplateDesign((prev) => ({ ...prev, [colorType]: templateDesign }));
-  };
+	const [loading, setLoading] = useState(false);
+	const templateFieldCss = {
+		bgColor: 'rgb(255, 255, 255)',
+		borderColor: 'rgb(209, 213, 219)',
+		focusBorderColor: 'rgb(0, 123, 255)',
+		placeholderTextColor: 'rgb(107 114 128)',
+		formHeadingColor: 'rgb(0, 0, 0)',
+		textColor: 'rgb(0, 0, 0)',
+		letterSpacing: '1px',
+		inputFontSize: '14px',
+		templateBgColor: 'rgb(0, 0, 0)',
+		templateOverlayColor: 'rgb(255, 255, 255)',
+		fontWeight: 'normal',
+		fontFamily: 'Arial',
+		borderRadius: '',
+		borderWidth: '2px',
+		templateBorderColor: 'rgb(255, 255, 255)',
+		templatePaddingTop: '4px',
+		templatePaddingBottom: '4px',
+		templatePaddingLeft: '4px',
+		templatePaddingRight: '4px',
+		formBorderStyle: "none",
+		formType: "full page",
+		formWidth: "large",
+		templateMinHeight: "500px"
+	};
 
-  const combinedPadding = `
+	const [templateDesign, setTemplateDesign] = useState(templateFieldCss);
+	const [templateContent, setTemplateContent] = useState(null);
+
+	useEffect(() => {
+		console.log(['check 1']);
+
+		const getSubTemplate = async () => {
+			setLoading(true);
+			await FormSubmitHandler({
+				method: "get",
+				url: "sub/template/1",
+			}).then(res => {
+				const data = res.data;
+				console.log(['data', data.body_html]);
+				setTemplateContent(data.body_html);
+				toast.success(res.message);
+			}).catch(err => {
+				toast.error(err.message);
+			}).finally(() => {
+				setLoading(false);
+			});
+		}
+		getSubTemplate();
+	}, []);
+
+	const handleTemplateChange = (colorType) => (templateDesign) => {
+		setTemplateDesign((prev) => ({ ...prev, [colorType]: templateDesign }));
+	};
+
+	const combinedPadding = `
     ${templateDesign.templatePaddingTop} 
     ${templateDesign.templatePaddingRight} 
     ${templateDesign.templatePaddingBottom} 
@@ -82,30 +137,30 @@ const MasterForm = () => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-    // if (tab === "Mobile") {
-    //   setView("Mobile");
-    // } else {
-    //   setView("Desktop");
-    // }
-  };
+	const handleTabClick = (tab) => {
+		setActiveTab(tab);
+		// if (tab === "Mobile") {
+		//   setView("Mobile");
+		// } else {
+		//   setView("Desktop");
+		// }
+	};
 
   const onTimingChange = (value) => {
     setTiming(value);
   };
 
-  const onPublish = async () => {
-    const pid = id.split("s")[0];
-    const sid = id.split("s")[1];
-    const response = await FormSubmitHandler({
-      method: "get",
-      url: `suggestion/${sid}/publish`,
-    });
-    if (response.success) {
-      navigate(`/suggestion/list/${pid}`);
-    }
-  };
+	const onPublish = async () => {
+		const pid = id.split('s')[0];
+		const sid = id.split('s')[1];
+		const response = await FormSubmitHandler({
+			method: "get",
+			url: `suggestion/${sid}/publish`,
+		});
+		if (response.success) {
+			navigate(`/suggestion/list/${pid}`);
+		}
+	};
 
   const [productList, setProductList] = useState([]);
   const [productListState, setProductListState] = useState(false);
