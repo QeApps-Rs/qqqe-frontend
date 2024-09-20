@@ -20,7 +20,7 @@ const SuggestionComp = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        const fetchUserData = async () => {
+        const fetchLevel2Suggestions = async () => {
             try {
                 const result = await FormSubmitHandler({
                     method: "get",
@@ -35,7 +35,7 @@ const SuggestionComp = () => {
             }
         };
 
-        fetchUserData();
+        fetchLevel2Suggestions();
     }, []);
 
     const toggleModal = (content) => {
