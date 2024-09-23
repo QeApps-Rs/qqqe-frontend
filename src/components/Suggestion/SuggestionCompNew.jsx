@@ -228,6 +228,17 @@ const SuggestionCompNew = () => {
         </span>
     }
 
+    const renderPublishedDateTd = (publishedDate) => {
+        const formattedDate = publishedDate
+            ? new Intl.DateTimeFormat('en-GB').format(new Date(publishedDate))
+            : '';
+        if (formattedDate) {
+            return <button className={`bg-[#637381] ml-2 inline-flex rounded-full py-1 px-3 text-sm font-medium text-white`}>
+                {formattedDate}
+            </button>;
+        }
+    }
+
     const renderActionTd = (suggestion, suggestionId) => {
         return <div className="flex align-center">
             {/* <div title="Configuration" className="ml-2 pointer-events-none opacity-50 cursor-not-allowed" data-id={statement.id}> */}
@@ -300,6 +311,9 @@ const SuggestionCompNew = () => {
                                     <th className={`text-left ${lblHeaderClass}`}>
                                         Status
                                     </th>
+                                    <th className={`text-left ${lblHeaderClass}`}>
+                                        Published date
+                                    </th>
                                     <th className={`${lblHeaderClass}`}>
                                         Actions
                                     </th>
@@ -318,7 +332,9 @@ const SuggestionCompNew = () => {
                                                     <td aria-label="suggestions" className={`${comTdClass} min-w-[109px]`}>
                                                         {renderStatusTd(statement.is_applied)}
                                                     </td>
-
+                                                    <td aria-label="suggestions" className={`${comTdClass} px-4 py-5`}>
+                                                        {renderPublishedDateTd(statement.published_date)}
+                                                    </td>
                                                     <td aria-label="suggestions" className={`${comTdClass} px-4 py-5`}>
                                                         {renderActionTd(statement.suggestion, statement.id)}
                                                     </td>
