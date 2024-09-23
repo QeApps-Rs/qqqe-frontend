@@ -47,6 +47,9 @@ const SettingsPage = () => {
           <TabPanel>
             <PreferenceSurvey isTitleDisplay={false} />
           </TabPanel>
+          <TabPanel>
+            <PreferenceSurvey isTitleDisplay={false} />
+          </TabPanel>
         </Tabs>
       </div>
     </div>

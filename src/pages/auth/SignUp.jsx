@@ -31,7 +31,7 @@ const SignUp = () => {
   const dropdownData = {
     label: "Select a platform",
     placeholder: "Select your platform",
-    defaultValue: '',
+    defaultValue: 'shopify',
     name: 'platform',
     id: 'platform',
     shouldValidate: true,
@@ -210,7 +210,7 @@ const SignUp = () => {
 
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Enter Domain <span style={{ color: "red" }}>NOTE: YOU NEED TO ENTER FULL DOMAIN NAME</span>
+                    Enter Domain
                   </label>
                   <div className="relative">
                     <input

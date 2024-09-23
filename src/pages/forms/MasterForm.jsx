@@ -34,7 +34,7 @@ const MasterForm = () => {
     setTemplateDesign((prev) => ({ ...prev, [colorType]: templateDesign }));
   };
 
-  const combinedPadding = `
+	const combinedPadding = `
     ${templateDesign.templatePaddingTop} 
     ${templateDesign.templatePaddingRight} 
     ${templateDesign.templatePaddingBottom} 
@@ -89,14 +89,14 @@ const MasterForm = () => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-    // if (tab === "Mobile") {
-    //   setView("Mobile");
-    // } else {
-    //   setView("Desktop");
-    // }
-  };
+	const handleTabClick = (tab) => {
+		setActiveTab(tab);
+		// if (tab === "Mobile") {
+		//   setView("Mobile");
+		// } else {
+		//   setView("Desktop");
+		// }
+	};
 
   const onTimingChange = (value) => {
     setTiming(value);

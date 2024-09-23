@@ -28,6 +28,7 @@ import PromotionPage from "./pages/PromotionPage";
 import PricePage from "./pages/PricePage";
 import Productpage from "./pages/Productpage";
 import VideoPlayer from "./pages/VideoPlayer";
+import SuggestionCompNew from "./components/Suggestion/SuggestionCompNew";
 const env_type = import.meta.env.VITE_ENV;
 
 const App = () => {
@@ -95,6 +96,7 @@ const App = () => {
               <Route path="/auth/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/preference-survey" element={<ProtectedRoute element={PreferenceSurvey} />} />
+              <Route path="/level2" element={<SuggestionCompNew />} />
             </Route>
             <Route element={<DefaultLayout />}>
               <Route path="/dashboard" element={<ProtectedRoute element={Dashboard} />} />
@@ -102,7 +104,7 @@ const App = () => {
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/people-problem" element={<Problem />} />
               <Route path="/templates" element={<Templates />} />
-              <Route path="/suggestion/list/:id" element={<Suggestion />} />
+              <Route path="/suggestion/list/:id" element={<SuggestionCompNew />} />
               <Route path="/template/list/:id" element={<Template />} />
               <Route path="/master-form/:id" element={<MasterForm />} />
               <Route path="/people-dashboard" element={<Peoplepage />} />
