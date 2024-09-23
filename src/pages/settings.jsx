@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
-import GeneralInfo from '../components/settings/GeneralInfo';
-import Account from '../components/settings/Account';
-import FormSubmitHandler from '../components/FormSubmitHandler';
-import 'react-tabs/style/react-tabs.css';
-import PreferenceSurvey from './preference-survey/PreferenceSurvey';
+import React, { useEffect, useState } from "react";
+import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
+import GeneralInfo from "../components/settings/GeneralInfo";
+import Account from "../components/settings/Account";
+import FormSubmitHandler from "../components/FormSubmitHandler";
+import "react-tabs/style/react-tabs.css";
+import PreferenceSurvey from "./preference-survey/PreferenceSurvey";
 
 const SettingsPage = () => {
   const [userData, setUserData] = useState(null);
@@ -43,6 +43,9 @@ const SettingsPage = () => {
           </TabPanel>
           <TabPanel>
             <Account userData={userData} />
+          </TabPanel>
+          <TabPanel>
+            <PreferenceSurvey isTitleDisplay={false} />
           </TabPanel>
           <TabPanel>
             <PreferenceSurvey isTitleDisplay={false} />

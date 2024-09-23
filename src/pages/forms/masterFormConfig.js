@@ -98,6 +98,24 @@ export const templateFieldCss = {
     ],
   };
 
+  export const discountForDropdown = {
+    label: "",
+    placeholder: "Select discount for",
+    options: [
+      { value: "dis_for_order", label: "Order" },
+      { value: "dis_for_product", label: "Product" },
+    ],
+  };
+
+  export const 	discountTypeDropdown = {
+    label: "",
+    placeholder: "Select discount type",
+    options: [
+      { value: "dis_type_amt", label: "Fixed Amount" },
+      { value: "dis_type_per", label: "% Discount" },
+    ],
+  };
+
   export const widthDropdown = {
     label: "Form width",
     placeholder: "Select form width",
@@ -140,10 +158,22 @@ export const templateFieldCss = {
       tag: "target",
     },
     {
-      title: "Product Bundle",
+      title: "Bundles",
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
       tag: "bundle",
+    },
+    {
+      title: "Custom CSS",
+      content:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      tag: "custom_style",
+    },
+    {
+      title: "Custom JS",
+      content:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      tag: "custom_js",
     },
     {
       title: "Add blocks",
