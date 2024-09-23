@@ -69,15 +69,15 @@ const SuggestedAnalytics = ({ problemId, suggestionId, content }) => {
 
         <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
           <div className="col-span-12 rounded-sm border border-stroke bg-white px-4 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-6">
-            <div className="flex bg-red-300 h-16">
-              <p className="mt-3 text-black font-medium flex h-8 items-center justify-between px-4 sm:px-5 text-sm">
-                Implement the discount of 20% in women category on below 5
-                product
-                <span className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+            <div class="flex bg-red-300 h-16 p-4 items-center">
+              <p class="text-black font-medium flex h-8 items-center justify-between w-full text-sm">
+                {content}
+                <span class="bg-blue-100 text-blue-800 text-xs font-medium ms-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
                   Suggested
                 </span>
               </p>
             </div>
+
             <ChartOne chart={chart} />
             <div className="ml-5">
               <div className="mt-1 text-sm text-black max-md:mt-10 max-md:max-w-full">

@@ -90,7 +90,7 @@ const Account = ({ userData }) => {
             </div>
           </div>
         </div>
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label className="block text-gray-700">API Keys</label>
           <div className="flex space-x-4 items-center">
             <input
@@ -107,7 +107,7 @@ const Account = ({ userData }) => {
               Delete API key
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
     </React.Fragment>
   );
