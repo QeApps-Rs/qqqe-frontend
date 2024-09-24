@@ -53,7 +53,10 @@ const SuggestionCompNew = () => {
     const [manageAccordions, setManageAccordions] = useState([]);
     const [accordionTab, setAccordionTab] = useState({
         'customer': activeTabObj,
-        'product': hiddenTabObj
+        'order': hiddenTabObj,
+        'product': hiddenTabObj,
+        'top_selling_product': hiddenTabObj,
+        'top_abandoned_product': hiddenTabObj
     });
     const [plusMinus, setPlusMinus] = useState([]);
     const { id } = useParams();
@@ -108,17 +111,12 @@ const SuggestionCompNew = () => {
     );
 
     const handleAccordionTab = (type) => {
-        if (type == 'customer') {
-            setAccordionTab({
-                'customer': activeTabObj,
-                'product': hiddenTabObj
-            });
-        } else {
-            setAccordionTab({
-                'customer': hiddenTabObj,
-                'product': activeTabObj
-            });
-        }
+        const tabTypes = ['customer', 'order', 'product', 'top_selling_product', 'top_abandoned_product'];
+        const newAccordionState = tabTypes.reduce((acc, tab) => {
+            acc[tab] = (tab === type) ? activeTabObj : hiddenTabObj;
+            return acc;
+        }, {});
+        setAccordionTab(newAccordionState);
     }
 
     const handlePlusMinus = (i) => {
@@ -132,9 +130,80 @@ const SuggestionCompNew = () => {
         setPlusMinus(newPlusMinus);
         setAccordionTab({
             'customer': activeTabObj,
-            'product': hiddenTabObj
+            'order': hiddenTabObj,
+            'product': hiddenTabObj,
+            'top_selling_product': hiddenTabObj,
+            'top_abandoned_product': hiddenTabObj,
         });
     }
+
+    const renderAccordionTabs = (dataItem, accordionTab, accordionTabClass, handleAccordionTab) => {
+        const keyMappings = {
+            'Products': { type: 'product', title: 'Product' },
+            'Orders': { type: 'order', title: 'Order' },
+            'Customer_ID': { type: 'customer', title: 'Customer' },
+            'Customer_IP': { type: 'customer', title: 'Customer' },
+            'Top_Selling_Products': { type: 'top_selling_product', title: 'Top Selling Product' },
+            'Top_Abandoned_Products': { type: 'top_abandoned_product', title: 'Top Abandoned Product' },
+        };
+
+        return Object.keys(dataItem).map((key, index) => {
+            const { type, title } = keyMappings[key] || {};
+
+            if (!type || !title) return null; // Skip if the key is not in the mapping
+
+            return (
+                <a
+                    key={index}
+                    className={`${accordionTabClass} ${accordionTab?.[type]?.active_tab}`}
+                    onClick={() => handleAccordionTab(type)}
+                >
+                    {title}
+                </a>
+            );
+        });
+    };
+
+    const renderProduct = (product, i) => (
+        <div key={i} className="w-full rounded-md border border-stroke py-2.5 dark:border-strokedark">
+            <div className="flex flex-col">
+                <div className="flex items-center justify-between p-4.5 hover:bg-[#F9FAFB] dark:hover:bg-meta-4">
+                    <div className="flex items-center">
+                        <div className="mr-4 h-[50px] w-full max-w-[50px] overflow-hidden rounded-full">
+                            <img src={UserOne} alt="User" className="rounded-full object-cover object-center" />
+                        </div>
+                        <div>
+                            <h4 className="text-base font-bold text-black dark:text-white">
+                                {product}
+                            </h4>
+                            <p className="text-sm">Price: 100</p>
+                            <p className="text-sm">Discount Price: 50</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+
+    const renderAccordionContent = (dataItem, accordionTab) => (
+        <div>
+            <div className={`leading-relaxed ${accordionTab?.customer?.active_tab_body}`}>
+                {dataItem.Customer_ID || dataItem.Customer_IP}
+            </div>
+            <div className={`leading-relaxed ${accordionTab?.order?.active_tab_body}`}>
+                {dataItem.Orders}
+            </div>
+            <div className={`leading-relaxed ${accordionTab?.product?.active_tab_body}`}>
+                {dataItem?.Products?.map(renderProduct)}
+            </div>
+            <div className={`leading-relaxed ${accordionTab?.top_selling_product?.active_tab_body}`}>
+                {dataItem?.Top_Selling_Products?.map(renderProduct)}
+            </div>
+            <div className={`leading-relaxed ${accordionTab?.top_abandoned_product?.active_tab_body}`}>
+                {dataItem?.Top_Abandoned_Products?.map(renderProduct)}
+            </div>
+        </div>
+    );
 
     const renderProblemStmtTd = (index, suggestion) => {
         return <>
@@ -157,7 +226,7 @@ const SuggestionCompNew = () => {
                                 <div key={i} className={`mt-5 ml-16.5 duration-200 ease-in-out ${manageAccordions?.[index]?.content}`}>
                                     <div className="rounded-md border border-stroke p-4 shadow-9 dark:border-strokedark dark:shadow-none md:p-6 xl:p-7.5">
                                         <button className="flex w-full items-center justify-between gap-2 " onClick={() => handlePlusMinus(i)}>
-                                            {dataItem.Customer_ID}
+                                            {dataItem.Customer_ID || dataItem.Customer_IP}
                                             <div className="flex h-9 w-full max-w-9 items-center justify-center rounded-full border border-primary dark:border-white">
                                                 <PlusSvg plusMinus={plusMinus?.[i]} />
                                                 <MinusSvg plusMinus={plusMinus?.[i]} />
@@ -166,46 +235,13 @@ const SuggestionCompNew = () => {
                                         <div className={`mt-5 duration-200 ease-in-out ${plusMinus?.[i].minus == "" ? "" : "hidden"}`}>
                                             <div className="rounded-sm">
                                                 <div className="mb-6 flex flex-wrap gap-5 border-b border-stroke dark:border-strokedark sm:gap-10">
-                                                    <a
-                                                        className={`${accordionTabClass} ${accordionTab?.customer?.active_tab}`}
-                                                        onClick={() => handleAccordionTab('customer')}>
-                                                        Customer
-                                                    </a>
-                                                    <a
-                                                        className={`${accordionTabClass} ${accordionTab?.product?.active_tab}`}
-                                                        onClick={() => handleAccordionTab('product')}>
-                                                        Product
-                                                    </a>
+                                                    {
+                                                        renderAccordionTabs(dataItem, accordionTab, accordionTabClass, handleAccordionTab)
+                                                    }
                                                 </div>
-                                                <div>
-                                                    <div className={`leading-relaxed ${accordionTab?.customer?.active_tab_body}`}>
-                                                        {dataItem.Customer_ID}
-                                                    </div>
-                                                    <div className={`leading-relaxed ${accordionTab?.product?.active_tab_body}`}>
-                                                        {
-                                                            dataItem.Products.map((product, i) => {
-                                                                return <div key={i} className="w-full rounded-md border border-stroke py-2.5 dark:border-strokedark">
-                                                                    <div className="flex flex-col">
-                                                                        <div className="flex items-center justify-between p-4.5 hover:bg-[#F9FAFB] dark:hover:bg-meta-4">
-                                                                            <div className="flex items-center">
-                                                                                <div className="mr-4 h-[50px] w-full max-w-[50px] overflow-hidden rounded-full">
-                                                                                    <img src={UserOne} alt="User" className="rounded-full object-cover object-center" />
-                                                                                </div>
-                                                                                <div>
-                                                                                    <h4 className="text-base font-bold text-black dark:text-white">
-                                                                                        {product}
-                                                                                    </h4>
-                                                                                    <p className="text-sm">Price: 100</p>
-                                                                                    <p className="text-sm">Discount Price: 50</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            })
-                                                        }
-                                                    </div>
-                                                </div>
+                                                {
+                                                    renderAccordionContent(dataItem, accordionTab)
+                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -257,7 +293,10 @@ const SuggestionCompNew = () => {
     const toggleAccordionState = (currentState, defaultState) => {
         setAccordionTab({
             'customer': activeTabObj,
-            'product': hiddenTabObj
+            'order': hiddenTabObj,
+            'product': hiddenTabObj,
+            'top_selling_product': hiddenTabObj,
+            'top_abandoned_product': hiddenTabObj,
         });
         const isCollapsed = JSON.stringify(currentState) === JSON.stringify(defaultState);
         return isCollapsed ? collapsedAccordionState : defaultAccordionState;
