@@ -58,7 +58,7 @@ const ProblemStatements = () => {
             <span className="p-2 text-sm text-black mb-3">Pinpoint the key issues affecting your customers</span>
             <span className={`bg-blue-500 ${classObject.badge_label}`}>Total Suggestions</span>
             <span className={`bg-success ${classObject.badge_label}`}>Applied Suggestions</span>
-            <span className={`bg-warning ${classObject.badge_label}`}>Pending Suggestions</span>
+            <span className={`bg-danger ${classObject.badge_label}`}>Pending Suggestions</span>
             <span className={`bg-[#637381] ${classObject.badge_label}`}>Last Applied date</span>
 
             <div className={classObject.main_div}>
@@ -82,7 +82,7 @@ const ProblemStatements = () => {
                                                             <button className={`bg-success ${classObject.badge_div}`}>
                                                                 {data.applied_suggestions_count}
                                                             </button>
-                                                            <button className={`bg-warning ${classObject.badge_div}`}>
+                                                            <button className={`bg-danger ${classObject.badge_div}`}>
                                                                 {data.pending_suggestions_count}
                                                             </button>
                                                             {
