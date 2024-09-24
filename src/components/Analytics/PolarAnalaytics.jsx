@@ -1,5 +1,5 @@
 import React from "react";
-const PolarAnalaytics = () => {
+const PolarAnalytics = () => {
     const guarantees = [
         { id: 1, text: 'Map the Customer Journey- Understand each touchpoint from discovery to post-purchase' },
         { id: 2, text: 'Identify Conversion Opportunities- Find areas where users drop off and optimize them' },
@@ -49,4 +49,4 @@ const PolarAnalaytics = () => {
         </div>
     )
 }
-export default PolarAnalaytics;
+export default PolarAnalytics;

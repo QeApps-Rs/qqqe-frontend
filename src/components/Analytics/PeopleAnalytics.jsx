@@ -13,7 +13,7 @@ import PieChart from "../Charts/PieChart";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 import Loader from "../../common/Loader";
 import { GraphCard, TabCard } from "./GraphCard";
-import PolarAnalaytics from "./PolarAnalaytics";
+import PolarAnalytics from "./PolarAnalaytics";
 
 const PeopleAnalytics = () => {
   const [loading, setLoading] = useState(false);
@@ -530,7 +530,7 @@ const PeopleAnalytics = () => {
     <>
       {loading && <Loader />}
       <main className="main-content todo-app w-full px-[var(--margin-x)] pb-8">
-        <PolarAnalaytics/>
+        <PolarAnalytics/>
         <div className="flex items-center mt-16 justify-center">
           <div className="flex items-center">
             <i className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center" aria-hidden="true"></i>

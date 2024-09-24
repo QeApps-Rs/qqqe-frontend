@@ -89,14 +89,32 @@ export const visitorsDropdown = {
 
 
 
-export const formTypeDropdown = {
-  label: "Form Type",
-  placeholder: "Select form type",
-  options: [
-    { value: "full page", label: "Full page" },
-    { value: "embed", label: "Embed" },
-  ],
-};
+  export const formTypeDropdown = {
+    label: "Form Type",
+    placeholder: "Select form type",
+    options: [
+      { value: "full page", label: "Full page" },
+      { value: "embed", label: "Embed" },
+    ],
+  };
+
+  export const discountForDropdown = {
+    label: "",
+    placeholder: "Select discount for",
+    options: [
+      { value: "dis_for_order", label: "Order" },
+      { value: "dis_for_product", label: "Product" },
+    ],
+  };
+
+  export const 	discountTypeDropdown = {
+    label: "",
+    placeholder: "Select discount type",
+    options: [
+      { value: "dis_type_amt", label: "Fixed Amount" },
+      { value: "dis_type_per", label: "% Discount" },
+    ],
+  };
 
 export const widthDropdown = {
   label: "Form width",
@@ -146,10 +164,22 @@ export const templateEditorCollapseOptions = [
     tag: "target",
   },
   {
-    title: "Product Bundle",
+    title: "Bundles",
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     tag: "bundle",
+  },
+  {
+    title: "Custom CSS",
+    content:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    tag: "custom_style",
+  },
+  {
+    title: "Custom JS",
+    content:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    tag: "custom_js",
   },
   {
     title: "Add blocks",

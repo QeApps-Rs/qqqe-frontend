@@ -104,7 +104,7 @@ const App = () => {
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/people-problem" element={<Problem />} />
               <Route path="/templates" element={<Templates />} />
-              <Route path="/suggestion/list/:id" element={<Suggestion />} />
+              <Route path="/suggestion/list/:id" element={<SuggestionCompNew />} />
               <Route path="/template/list/:id" element={<Template />} />
               <Route path="/master-form/:id" element={<MasterForm />} />
               <Route path="/people-dashboard" element={<Peoplepage />} />
