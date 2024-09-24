@@ -83,6 +83,7 @@ const MasterForm = ({ fieldType, setFieldType, fieldValidation, setFieldValidati
   const [collectionList, setCollectionList] = useState([]);
   const [collectionListState, setCollectionListState] = useState(false);
   const [productListForPopUp, setProductListForPopUp] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState({});
   const [checkedRules, setRules] = useState({
     type: "",
     settings: {
