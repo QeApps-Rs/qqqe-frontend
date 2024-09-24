@@ -16,6 +16,7 @@ const DropDown = ({ jsonData }) => {
   const validationProps = jsonData.validationLogic
     ? jsonData.validationLogic(jsonData)
     : {};
+
   const handleChange = (e) => {
     const value = e.target.value;
     setSelectedOption(value);
@@ -24,6 +25,7 @@ const DropDown = ({ jsonData }) => {
       jsonData.onChange(value);
     }
   };
+  
   useEffect(() => {
     if (!jsonData.defaultValue) {
       setSelectedOption("");

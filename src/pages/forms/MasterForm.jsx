@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Checkbox from "../../components/higherOrderComponent/Checkboxes/Checkbox";
 import Radio from "../../components/higherOrderComponent/Radios/Radio";
-import ColorPicker from "../../components/higherOrderComponent/ColorPicker/ColorPicker";
 import DropDown from "../../components/higherOrderComponent/Dropdown/Dropdown";
 import popup_img from "../../../src/images/newsletter_left_img.png";
 import { useNavigate, useParams } from "react-router-dom";
@@ -9,37 +8,61 @@ import successImg from "../../../src/images/success_fn.png";
 import FormSubmitHandler from "../../components/FormSubmitHandler";
 import {
   templateFieldCss,
-  inputColorFields,
-  inputTextColorFields,
-  templateBgField,
-  fontFamilyList,
-  borderStyles,
   visitorsDropdown,
-  formTypeDropdown,
-  widthDropdown,
   timingOptions,
   deviceOptions,
-  tabs,
   templateEditorCollapseOptions,
-  defaultBoxClassName,
 } from "./masterFormConfig";
 import ProductBundleTab from "../../components/Forms/ProductBundleTab";
 import ProductBundlePopUp from "../../components/Forms/ProductBundlePopUp";
+import StyleComponent from "./StyleComponent";
+import InputControllerComponent from "./InputControllerComponent";
+import TemplateBannerComponent from "./TemplateBannerComponent";
+import { Toaster } from "react-hot-toast";
 
-const MasterForm = () => {
+const MasterForm = ({ fieldType, setFieldType, fieldValidation, setFieldValidation, fieldName, setFieldName, placeholderText, setPlaceholderText
+}) => {
+
   const [templateDesign, setTemplateDesign] = useState(templateFieldCss);
   const [isProductBundle, setProductBundle] = useState(false);
-  const [selectedProducts, setSelectedProducts] = useState({});
+  const [addedFields, setAddedFields] = useState([]);
   const handleTemplateChange = (colorType) => (templateDesign) => {
     setTemplateDesign((prev) => ({ ...prev, [colorType]: templateDesign }));
   };
 
-	const combinedPadding = `
+  const combinedPadding = `
     ${templateDesign.templatePaddingTop} 
     ${templateDesign.templatePaddingRight} 
     ${templateDesign.templatePaddingBottom} 
     ${templateDesign.templatePaddingLeft}
   `;
+
+  const [inputValues, setInputValues] = useState({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleInputChange = (fieldName, value) => {
+    setInputValues((prev) => ({ ...prev, [fieldName]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmitted(true);
+
+    const allRequiredFilled = addedFields.every(field =>
+      field.fieldValidation !== "required" || inputValues[field.fieldName]
+    );
+
+    if (allRequiredFilled) {
+      console.log("Form submitted successfully", inputValues);
+    } else {
+    }
+  };
+  const handleDeleteField = (fieldName) => {
+    setAddedFields((prevFields) =>
+      prevFields.filter(field => field.fieldName !== fieldName)
+    );
+  };
+
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -54,7 +77,6 @@ const MasterForm = () => {
   const [notShowLocation, setNotShowLocation] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isView, setView] = useState("Desktop");
-  const [activeTab, setActiveTab] = useState("Desktop");
   const [selectedTiming, setTiming] = useState("");
   const [productList, setProductList] = useState([]);
   const [productListState, setProductListState] = useState(false);
@@ -89,14 +111,7 @@ const MasterForm = () => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-	const handleTabClick = (tab) => {
-		setActiveTab(tab);
-		// if (tab === "Mobile") {
-		//   setView("Mobile");
-		// } else {
-		//   setView("Desktop");
-		// }
-	};
+
 
   const onTimingChange = (value) => {
     setTiming(value);
@@ -151,9 +166,8 @@ const MasterForm = () => {
           {templateEditorCollapseOptions.map((item, index) => (
             <li
               key={index}
-              className={`border rounded-lg ${
-                activeIndex === index ? "border-blue-500" : "border-gray-300"
-              }`}
+              className={`border rounded-lg ${activeIndex === index ? "border-blue-500" : "border-gray-300"
+                }`}
             >
               <h3
                 className="p-4 flex justify-between items-center cursor-pointer font-semibold text-lg"
@@ -162,422 +176,34 @@ const MasterForm = () => {
                 <span> {item.title} </span>
                 <span className="text-sm font-normal">{item.subtitle}</span>
                 <svg
-                  className={`fill-primary ${
-                    item.tag === "block" ? "hidden" : ""
-                  } stroke-primary duration-200 ease-in-out dark:fill-white dark:stroke-white w-6 h-6 transform ${
-                    activeIndex === index ? "rotate-180" : "rotate-0"
-                  }`}
+                  className={`fill-primary ${item.tag === "block" ? "hidden" : ""
+                    } stroke-primary duration-200 ease-in-out dark:fill-white dark:stroke-white w-6 h-6 transform ${activeIndex === index ? "rotate-180" : "rotate-0"
+                    }`}
                   viewBox="0 0 18 10"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path d="M8.28882 8.43257L8.28874 8.43265L8.29692 8.43985C8.62771 8.73124 9.02659 8.86001 9.41667 8.86001C9.83287 8.86001 10.2257 8.69083 10.5364 8.41713L10.5365 8.41721L10.5438 8.41052L16.765 2.70784L16.771 2.70231L16.7769 2.69659C17.1001 2.38028 17.2005 1.80579 16.8001 1.41393C16.4822 1.1028 15.9186 1.00854 15.5268 1.38489L9.41667 7.00806L3.3019 1.38063L3.29346 1.37286L3.28467 1.36548C2.93287 1.07036 2.38665 1.06804 2.03324 1.41393L2.0195 1.42738L2.00683 1.44184C1.69882 1.79355 1.69773 2.34549 2.05646 2.69659L2.06195 2.70196L2.0676 2.70717L8.28882 8.43257Z" />
                 </svg>
               </h3>
-              {activeIndex === index && item.tag === "style" && (
-                <div className="p-4 border-t">
-                  <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
-                    <div className="col-span-12 xl:col-span-12">
-                      <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
-                        <div className="w-full flex flex-col gap-9">
-                          <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                            <form action="#">
-                              <div className="p-3">
-                                <div className="mb-6">
-                                  <label className="mb-2.5 block">
-                                    <div className="mb-6">
-                                      <DropDown
-                                        jsonData={{
-                                          ...formTypeDropdown,
-                                          onChange:
-                                            handleTemplateChange("formType"),
-                                          defaultValue: templateDesign.formType,
-                                        }}
-                                      />
-                                    </div>
-                                  </label>
-                                </div>
-                                <div className="mb-6">
-                                  <label className="mb-2.5 block">
-                                    <div className="mb-6">
-                                      <DropDown
-                                        jsonData={{
-                                          ...widthDropdown,
-                                          onChange:
-                                            handleTemplateChange("formWidth"),
-                                          defaultValue:
-                                            templateDesign.formWidth,
-                                        }}
-                                      />
-                                    </div>
-                                  </label>
-                                </div>
-                                <div className="mt-3 flex justify-between flex-row ">
-                                  <span>Minimum Height(px):</span>
-                                  <input
-                                    id="minimum-height"
-                                    type="number"
-                                    value={
-                                      templateDesign.templateMinHeight.replace(
-                                        "px",
-                                        ""
-                                      ) || ""
-                                    }
-                                    onChange={(e) =>
-                                      handleTemplateChange("templateMinHeight")(
-                                        e.target.value + "px"
-                                      )
-                                    }
-                                    className={`${defaultBoxClassName} h-10`}
-                                  />
-                                </div>
-                                <div className="mt-3 font font-semibold text-black">
-                                  Show On
-                                </div>
-                                <div className="flex items-center space-x-2 bg-slate-100 p-2 rounded-md">
-                                  {tabs.map((tab) => (
-                                    <button
-                                      key={tab.name}
-                                      onClick={() => handleTabClick(tab.name)}
-                                      className={`flex items-center space-x-1 px-4 py-2 rounded-md ${
-                                        activeTab === tab.name
-                                          ? "bg-white shadow-sm text-gray-900"
-                                          : "text-gray-500 hover:text-gray-700"
-                                      }`}
-                                    >
-                                      <span>{tab.name}</span>
-                                    </button>
-                                  ))}
-                                </div>
-                                <div className="mb-4.5 mt-3  border-b border-black pb-4">
-                                  <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                                    Form Background
-                                  </label>
-                                  {templateBgField.map(
-                                    ({ label, colorType }) => (
-                                      <div
-                                        className="mt-3 flex justify-between flex-row items-center"
-                                        key={colorType}
-                                      >
-                                        <span>{label}:</span>
-                                        <ColorPicker
-                                          defaultColor={
-                                            templateDesign[colorType]
-                                          }
-                                          onChange={handleTemplateChange(
-                                            colorType
-                                          )}
-                                        />
-                                      </div>
-                                    )
-                                  )}
-                                </div>
-                                <div className="mb-4.5 border-b border-black pb-4">
-                                  <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                                    Form Styles
-                                  </label>
-                                  <div className="mt-3 flex justify-between flex-row items-center">
-                                    <span>Corner Radius(px):</span>
-                                    <input
-                                      id="border-radius"
-                                      type="number"
-                                      placeholder="px"
-                                      value={
-                                        templateDesign.borderRadius.replace(
-                                          "px",
-                                          ""
-                                        ) || ""
-                                      }
-                                      onChange={(e) =>
-                                        handleTemplateChange("borderRadius")(
-                                          e.target.value + "px"
-                                        )
-                                      }
-                                      className={`${defaultBoxClassName} h-10`}
-                                    />
-                                  </div>
-                                  <div className="mt-3 flex justify-between flex-row items-center">
-                                    <span>Border style:</span>
-                                    <select
-                                      onChange={(e) =>
-                                        handleTemplateChange("formBorderStyle")(
-                                          e.target.value
-                                        )
-                                      }
-                                      value={templateDesign.formBorderStyle}
-                                      className={`${defaultBoxClassName} h-12`}
-                                    >
-                                      {borderStyles.map((style) => (
-                                        <option
-                                          key={style.value}
-                                          value={style.value}
-                                        >
-                                          {style.label}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  </div>
-                                  {templateDesign.formBorderStyle != "none" && (
-                                    <>
-                                      <div className="mt-3 flex justify-between flex-row ">
-                                        <span>Border color:</span>
-                                        <ColorPicker
-                                          defaultColor={
-                                            templateDesign.templateBorderColor
-                                          }
-                                          onChange={(color) =>
-                                            handleTemplateChange(
-                                              "templateBorderColor"
-                                            )(color)
-                                          }
-                                        />
-                                      </div>
-                                      <div className="mt-3 flex justify-between flex-row ">
-                                        <span>Border Thickness:</span>
-                                        <input
-                                          id="border-thickness"
-                                          type="number"
-                                          placeholder="px"
-                                          className={`${defaultBoxClassName} h-10`}
-                                          value={
-                                            templateDesign.borderWidth.replace(
-                                              "px",
-                                              ""
-                                            ) || ""
-                                          }
-                                          onChange={(e) =>
-                                            handleTemplateChange("borderWidth")(
-                                              e.target.value + "px"
-                                            )
-                                          }
-                                        />
-                                      </div>
-                                    </>
-                                  )}
-                                  <div className="flex flex-col">
-                                    <label className="mb-2">Padding(px):</label>
-                                    <div className="flex gap-4 justify-end">
-                                      <div className="flex flex-col">
-                                        <label className="mb-1">Top</label>
-                                        <div className="flex items-center">
-                                          <input
-                                            type="number"
-                                            className={`${defaultBoxClassName} h-10`}
-                                            placeholder="px"
-                                            value={
-                                              templateDesign.templatePaddingTop.replace(
-                                                "px",
-                                                ""
-                                              ) || ""
-                                            }
-                                            onChange={(e) =>
-                                              handleTemplateChange(
-                                                "templatePaddingTop"
-                                              )(e.target.value + "px")
-                                            }
-                                          />
-                                        </div>
-                                      </div>
-                                      <div className="flex flex-col">
-                                        <label className="mb-1">Bottom</label>
-                                        <div className="flex items-center">
-                                          <input
-                                            type="number"
-                                            className={`${defaultBoxClassName} h-10`}
-                                            placeholder="px"
-                                            value={
-                                              templateDesign.templatePaddingBottom.replace(
-                                                "px",
-                                                ""
-                                              ) || ""
-                                            }
-                                            onChange={(e) =>
-                                              handleTemplateChange(
-                                                "templatePaddingBottom"
-                                              )(e.target.value + "px")
-                                            }
-                                          />
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="flex gap-4 mt-4 justify-end">
-                                      <div className="flex flex-col">
-                                        <label className="mb-1">Left</label>
-                                        <div className="flex items-center">
-                                          <input
-                                            type="number"
-                                            className={`${defaultBoxClassName} h-10`}
-                                            placeholder="px"
-                                            value={
-                                              templateDesign.templatePaddingLeft.replace(
-                                                "px",
-                                                ""
-                                              ) || ""
-                                            }
-                                            onChange={(e) =>
-                                              handleTemplateChange(
-                                                "templatePaddingLeft"
-                                              )(e.target.value + "px")
-                                            }
-                                          />
-                                        </div>
-                                      </div>
-                                      <div className="flex flex-col">
-                                        <label className="mb-1">Right</label>
-                                        <div className="flex items-center">
-                                          <input
-                                            type="number"
-                                            className={`${defaultBoxClassName} h-10`}
-                                            placeholder="px"
-                                            value={
-                                              templateDesign.templatePaddingRight.replace(
-                                                "px",
-                                                ""
-                                              ) || ""
-                                            }
-                                            onChange={(e) =>
-                                              handleTemplateChange(
-                                                "templatePaddingRight"
-                                              )(e.target.value + "px")
-                                            }
-                                          />
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div className="mb-4.5 border-b border-black pb-4">
-                                  <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                                    Input Field Text Styles
-                                  </label>
-                                  <div className="mt-3 flex justify-between flex-row items-center">
-                                    <span>Font:</span>
-                                    <select
-                                      onChange={(e) =>
-                                        handleTemplateChange("fontFamily")(
-                                          e.target.value
-                                        )
-                                      }
-                                      value={templateDesign.fontFamily}
-                                      className={`${defaultBoxClassName} h-12`}
-                                    >
-                                      {fontFamilyList.map((item) => (
-                                        <option
-                                          key={item.label}
-                                          value={item.label}
-                                        >
-                                          {item.label}
-                                        </option>
-                                      ))}
-                                    </select>
-                                    <input
-                                      id="border-thickness"
-                                      type="number"
-                                      className={`${defaultBoxClassName} h-10`}
-                                      placeholder="px"
-                                      value={
-                                        templateDesign.inputFontSize.replace(
-                                          "px",
-                                          ""
-                                        ) || ""
-                                      }
-                                      onChange={(e) =>
-                                        handleTemplateChange("inputFontSize")(
-                                          e.target.value + "px"
-                                        )
-                                      }
-                                    />
-                                  </div>
-                                  <div className="mt-3 flex justify-between flex-row items-center">
-                                    <span>Font weight:</span>
-                                    <select
-                                      onChange={(e) =>
-                                        handleTemplateChange("fontWeight")(
-                                          e.target.value
-                                        )
-                                      }
-                                      value={templateDesign.fontWeight}
-                                      className={`${defaultBoxClassName} h-12`}
-                                    >
-                                      <option value="700">Bold</option>
-                                      <option value="400">Normal</option>
-                                      <option value="800">Extra Bold</option>
-                                    </select>
-                                  </div>
-                                  <div className="mt-3 flex justify-between flex-row items-center">
-                                    <span>Letter Spacing(px):</span>
-                                    <input
-                                      id="letter-spacing"
-                                      type="number"
-                                      className={`${defaultBoxClassName} h-10`}
-                                      placeholder="px"
-                                      value={
-                                        templateDesign.letterSpacing.replace(
-                                          "px",
-                                          ""
-                                        ) || ""
-                                      }
-                                      onChange={(e) =>
-                                        handleTemplateChange("letterSpacing")(
-                                          e.target.value + "px"
-                                        )
-                                      }
-                                    />
-                                  </div>
-                                  {inputTextColorFields.map(
-                                    ({ label, colorType }) => (
-                                      <div
-                                        className="mt-3 flex justify-between items-center"
-                                        key={colorType}
-                                      >
-                                        <span>{label}:</span>
-                                        <ColorPicker
-                                          defaultColor={
-                                            templateDesign[colorType]
-                                          }
-                                          onChange={handleTemplateChange(
-                                            colorType
-                                          )}
-                                        />
-                                      </div>
-                                    )
-                                  )}
-                                </div>
-                                <div className="mb-4.5 border-b border-black pb-4">
-                                  <label className="mb-2.5 block  text-black dark:text-white font-semibold">
-                                    Input Field Styles
-                                  </label>
-                                  {inputColorFields.map(
-                                    ({ label, colorType }) => (
-                                      <div
-                                        className="mt-3 flex justify-between items-center"
-                                        key={colorType}
-                                      >
-                                        <span>{label}:</span>
-                                        <ColorPicker
-                                          defaultColor={
-                                            templateDesign[colorType]
-                                          }
-                                          onChange={handleTemplateChange(
-                                            colorType
-                                          )}
-                                        />
-                                      </div>
-                                    )
-                                  )}
-                                </div>
-                                <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-                                  Save
-                                </button>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+              {activeIndex === index && item.tag === "inputController" &&
+                <>
+                  <Toaster />
+                  <InputControllerComponent
+                    fieldType={fieldType}
+                    setFieldType={setFieldType}
+                    fieldValidation={fieldValidation}
+                    setFieldValidation={setFieldValidation}
+                    fieldName={fieldName}
+                    setFieldName={setFieldName}
+                    setAddedFields={setAddedFields}
+                    addedFields={addedFields}
+                    placeholderText={placeholderText}
+                    setPlaceholderText={setPlaceholderText}
+                  />
+                </>}
+              {activeIndex === index && item.tag === "style" &&
+                <StyleComponent templateDesign={templateDesign} onTemplateChange={handleTemplateChange}
+                />}
               {activeIndex === index && item.tag === "target" && (
                 <div className="col-span-12 xl:col-span-12">
                   <div className="p-4 border-t">
@@ -650,40 +276,40 @@ const MasterForm = () => {
                                   />
                                   {checkedRules?.settings?.after_delay_time
                                     .is_selected && (
-                                    <div className="ml-9">
-                                      <div>Show again after</div>
-                                      <input
-                                        type="number"
-                                        value={
-                                          checkedRules?.settings
-                                            ?.after_delay_time?.value
-                                            ? checkedRules?.settings
+                                      <div className="ml-9">
+                                        <div>Show again after</div>
+                                        <input
+                                          type="number"
+                                          value={
+                                            checkedRules?.settings
+                                              ?.after_delay_time?.value
+                                              ? checkedRules?.settings
                                                 ?.after_delay_time?.value
-                                            : 0
-                                        }
-                                        onChange={(event) =>
-                                          setRules((prevState) => ({
-                                            ...prevState,
-                                            settings: {
-                                              ...prevState.settings,
-                                              after_delay_time: {
-                                                ...prevState.settings
-                                                  .after_delay_time.value,
-                                                is_selected:
-                                                  checkedRules?.settings
-                                                    ?.after_delay_time
-                                                    .is_selected,
-                                                key: "seconds",
-                                                value: event.target.value,
+                                              : 0
+                                          }
+                                          onChange={(event) =>
+                                            setRules((prevState) => ({
+                                              ...prevState,
+                                              settings: {
+                                                ...prevState.settings,
+                                                after_delay_time: {
+                                                  ...prevState.settings
+                                                    .after_delay_time.value,
+                                                  is_selected:
+                                                    checkedRules?.settings
+                                                      ?.after_delay_time
+                                                      .is_selected,
+                                                  key: "seconds",
+                                                  value: event.target.value,
+                                                },
                                               },
-                                            },
-                                          }))
-                                        }
-                                        className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
-                                        placeholder="seconds"
-                                      />
-                                    </div>
-                                  )}
+                                            }))
+                                          }
+                                          className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
+                                          placeholder="seconds"
+                                        />
+                                      </div>
+                                    )}
                                 </div>
                                 <div className="mb-4.5">
                                   <Checkbox
@@ -712,37 +338,37 @@ const MasterForm = () => {
                                   />
                                   {checkedRules?.settings?.after_scroll_distance
                                     .is_selected && (
-                                    <div className="ml-9">
-                                      <div>Scroll distance</div>
-                                      <input
-                                        type="number"
-                                        value={
-                                          checkedRules?.settings
-                                            ?.after_scroll_distance?.value
-                                        }
-                                        onChange={(event) =>
-                                          setRules((prevState) => ({
-                                            ...prevState,
-                                            settings: {
-                                              ...prevState.settings,
-                                              after_scroll_distance: {
-                                                ...prevState.settings
-                                                  .after_scroll_distance,
-                                                is_selected:
-                                                  checkedRules?.settings
-                                                    ?.after_scroll_distance
-                                                    .is_selected,
-                                                key: "seconds",
-                                                value: event.target.value,
+                                      <div className="ml-9">
+                                        <div>Scroll distance</div>
+                                        <input
+                                          type="number"
+                                          value={
+                                            checkedRules?.settings
+                                              ?.after_scroll_distance?.value
+                                          }
+                                          onChange={(event) =>
+                                            setRules((prevState) => ({
+                                              ...prevState,
+                                              settings: {
+                                                ...prevState.settings,
+                                                after_scroll_distance: {
+                                                  ...prevState.settings
+                                                    .after_scroll_distance,
+                                                  is_selected:
+                                                    checkedRules?.settings
+                                                      ?.after_scroll_distance
+                                                      .is_selected,
+                                                  key: "seconds",
+                                                  value: event.target.value,
+                                                },
                                               },
-                                            },
-                                          }))
-                                        }
-                                        className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
-                                        placeholder="%"
-                                      />
-                                    </div>
-                                  )}
+                                            }))
+                                          }
+                                          className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
+                                          placeholder="%"
+                                        />
+                                      </div>
+                                    )}
                                 </div>
                                 <div className="mb-4.5">
                                   <Checkbox
@@ -770,37 +396,37 @@ const MasterForm = () => {
                                   />
                                   {checkedRules?.settings?.after_pages_visit
                                     .is_selected && (
-                                    <div className="ml-9">
-                                      <div>After</div>
-                                      <input
-                                        type="number"
-                                        value={
-                                          checkedRules?.settings
-                                            ?.after_pages_visit?.value
-                                        }
-                                        onChange={(event) =>
-                                          setRules((prevState) => ({
-                                            ...prevState,
-                                            settings: {
-                                              ...prevState.settings,
-                                              after_pages_visit: {
-                                                ...prevState.settings
-                                                  .after_pages_visit,
-                                                is_selected:
-                                                  checkedRules?.settings
-                                                    ?.after_pages_visit
-                                                    .is_selected,
-                                                key: "pages",
-                                                value: event.target.value,
+                                      <div className="ml-9">
+                                        <div>After</div>
+                                        <input
+                                          type="number"
+                                          value={
+                                            checkedRules?.settings
+                                              ?.after_pages_visit?.value
+                                          }
+                                          onChange={(event) =>
+                                            setRules((prevState) => ({
+                                              ...prevState,
+                                              settings: {
+                                                ...prevState.settings,
+                                                after_pages_visit: {
+                                                  ...prevState.settings
+                                                    .after_pages_visit,
+                                                  is_selected:
+                                                    checkedRules?.settings
+                                                      ?.after_pages_visit
+                                                      .is_selected,
+                                                  key: "pages",
+                                                  value: event.target.value,
+                                                },
                                               },
-                                            },
-                                          }))
-                                        }
-                                        className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
-                                        placeholder="pages"
-                                      />
-                                    </div>
-                                  )}
+                                            }))
+                                          }
+                                          className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
+                                          placeholder="pages"
+                                        />
+                                      </div>
+                                    )}
                                 </div>
                               </div>
                             )}
@@ -838,7 +464,7 @@ const MasterForm = () => {
                             </label>
                             <Radio
                               jsonData={deviceOptions}
-                              onChange={() => {}}
+                              onChange={() => { }}
                             />
                           </div>
                           <div className="mb-4 border-b border-black">
@@ -1019,7 +645,7 @@ const MasterForm = () => {
 
       {isProductBundle ? (
         <div className="w-3/4 float-right p-0 h-[83.90vh]">
-          <div className="flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
+          <div className="flex mb-4 justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
             <div className="w-[70%] flex justify-center">
               <div
                 className={`border border-[#323359] ${
@@ -1169,36 +795,28 @@ const MasterForm = () => {
                       Save on your first order and get email-only offers when
                       you join.
                     </p>
-                    <form className="flex flex-col space-y-4">
-                      <input
-                        type="email"
-                        placeholder="Email"
-                        className="p-3 rounded-md focus:outline-none"
-                        style={{
-                          backgroundColor: templateDesign.bgColor,
-                          borderColor: templateDesign.borderColor,
-                          borderWidth: "1px",
-                          "--placeholder-color":
-                            templateDesign.placeholderTextColor,
-                          color: templateDesign.textColor,
-                          letterSpacing: templateDesign.letterSpacing,
-                          fontSize: templateDesign.inputFontSize,
-                          fontWeight: templateDesign.fontWeight,
-                          fontFamily: templateDesign.fontFamily,
-                        }}
-                        onFocus={(e) =>
-                          (e.target.style.borderColor =
-                            templateDesign.focusBorderColor)
-                        }
-                        onBlur={(e) =>
-                          (e.target.style.borderColor =
-                            templateDesign.borderColor)
-                        }
+                    <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
+                    {addedFields.map((field, index) => (
+                      <TemplateBannerComponent
+                        key={index}
+                        templateDesign={templateDesign}
+                        fieldType={field.fieldType}
+                        fieldValidation={field.fieldValidation}
+                        placeholderText={field.placeholderText}
+                        fieldName={field.fieldName}
+                        inputValue={inputValues[field.fieldName] || ""}
+                        onInputChange={handleInputChange}
+                        isSubmitted={isSubmitted}
+                        onDelete={() => handleDeleteField(field.fieldName)}
                       />
-                      <button className="bg-black text-white py-3 rounded-md text-lg">
-                        Continue
-                      </button>
-                    </form>
+                    ))}
+                    <button
+                      type="submit"
+                      className="bg-black text-white py-3 rounded-md text-lg mt-3"
+                    >
+                      Continue
+                    </button>
+                  </form>
                   </>
                 )}
               </div>
