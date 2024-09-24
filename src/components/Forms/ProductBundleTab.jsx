@@ -52,21 +52,14 @@ const ProductBundleTab = ({
     image = "",
     price = 0
   ) => {
-       
-
-    if (productListForPopUp.length >= noOfProducts) {
-      toast.error("You can only add " + noOfProducts + " products");
-      return;
-    } else {
-
-      setSelectedProducts((prevCheckedItems) => ({
-        ...prevCheckedItems,
-        [id]: !prevCheckedItems[id],
-      }));
-
+    setSelectedProducts((prevCheckedItems) => {
+      const isChecked = !prevCheckedItems[id];
+      if (isChecked && productListForPopUp.length >= noOfProducts) {
+        toast.error("You can only add " + noOfProducts + " products");
+        return prevCheckedItems;
+      }
       setProductListForPopUp((prevItems) => {
         const itemExists = prevItems.some((item) => item.id === id);
-
         return itemExists
           ? prevItems.filter((item) => item.id !== id)
           : [
@@ -80,7 +73,11 @@ const ProductBundleTab = ({
               },
             ];
       });
-    }
+      return {
+        ...prevCheckedItems,
+        [id]: isChecked,
+      };
+    });
   };
 
   const handleTargetedProductCheckboxChange = (id) => {
@@ -316,10 +313,10 @@ const ProductBundleTab = ({
                             value={noOfProducts}
                             className="w-32 h-12 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                           >
-                            <option value="1">1</option>
-                            <option value="2">2</option>
                             <option value="3">3</option>
                             <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
                           </select>
                         </div>
                       </div>
