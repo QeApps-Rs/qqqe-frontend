@@ -20,11 +20,16 @@ import InputControllerComponent from "./InputControllerComponent";
 import TemplateBannerComponent from "./TemplateBannerComponent";
 import { Toaster } from "react-hot-toast";
 
-const MasterForm = ({ fieldType, setFieldType, fieldValidation, setFieldValidation, fieldName, setFieldName, placeholderText, setPlaceholderText
-}) => {
-
+const MasterForm = () => {
   const [templateDesign, setTemplateDesign] = useState(templateFieldCss);
-  const [isProductBundle, setProductBundle] = useState(false);
+  const [isProductBundle, setProductBundle] = useState(true);
+  const [templateHeading, setTemplateHeading] = useState("");
+  const [templateOfferAmount, setTemplateOfferAmount] = useState("");
+  const [templateSubHeading, setTemplateSubHeading] = useState("");
+  const [templateImage, setTemplateImage] = useState("");
+
+  const [inputControllerEditState, setInputControllerEditState] = useState({});
+
   const [addedFields, setAddedFields] = useState([]);
   const handleTemplateChange = (colorType) => (templateDesign) => {
     setTemplateDesign((prev) => ({ ...prev, [colorType]: templateDesign }));
@@ -48,8 +53,9 @@ const MasterForm = ({ fieldType, setFieldType, fieldValidation, setFieldValidati
     e.preventDefault();
     setIsSubmitted(true);
 
-    const allRequiredFilled = addedFields.every(field =>
-      field.fieldValidation !== "required" || inputValues[field.fieldName]
+    const allRequiredFilled = addedFields.every(
+      (field) =>
+        field.fieldValidation !== "required" || inputValues[field.fieldName]
     );
 
     if (allRequiredFilled) {
@@ -59,10 +65,17 @@ const MasterForm = ({ fieldType, setFieldType, fieldValidation, setFieldValidati
   };
   const handleDeleteField = (fieldName) => {
     setAddedFields((prevFields) =>
-      prevFields.filter(field => field.fieldName !== fieldName)
+      prevFields.filter((field) => field.fieldName !== fieldName)
     );
   };
-
+  const handleEdit = (field, index) => {
+    setInputControllerEditState({
+      fieldType: field.fieldType,
+      fieldValidation: field.fieldValidation,
+      fieldName: field.fieldName,
+      placeholderText: field.placeholderText
+    });
+  };
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -110,8 +123,6 @@ const MasterForm = ({ fieldType, setFieldType, fieldValidation, setFieldValidati
   const toggleAccordion = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
-
-
 
   const onTimingChange = (value) => {
     setTiming(value);
@@ -166,8 +177,9 @@ const MasterForm = ({ fieldType, setFieldType, fieldValidation, setFieldValidati
           {templateEditorCollapseOptions.map((item, index) => (
             <li
               key={index}
-              className={`border rounded-lg ${activeIndex === index ? "border-blue-500" : "border-gray-300"
-                }`}
+              className={`border rounded-lg ${
+                activeIndex === index ? "border-blue-500" : "border-gray-300"
+              }`}
             >
               <h3
                 className="p-4 flex justify-between items-center cursor-pointer font-semibold text-lg"
@@ -176,34 +188,42 @@ const MasterForm = ({ fieldType, setFieldType, fieldValidation, setFieldValidati
                 <span> {item.title} </span>
                 <span className="text-sm font-normal">{item.subtitle}</span>
                 <svg
-                  className={`fill-primary ${item.tag === "block" ? "hidden" : ""
-                    } stroke-primary duration-200 ease-in-out dark:fill-white dark:stroke-white w-6 h-6 transform ${activeIndex === index ? "rotate-180" : "rotate-0"
-                    }`}
+                  className={`fill-primary ${
+                    item.tag === "block" ? "hidden" : ""
+                  } stroke-primary duration-200 ease-in-out dark:fill-white dark:stroke-white w-6 h-6 transform ${
+                    activeIndex === index ? "rotate-180" : "rotate-0"
+                  }`}
                   viewBox="0 0 18 10"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path d="M8.28882 8.43257L8.28874 8.43265L8.29692 8.43985C8.62771 8.73124 9.02659 8.86001 9.41667 8.86001C9.83287 8.86001 10.2257 8.69083 10.5364 8.41713L10.5365 8.41721L10.5438 8.41052L16.765 2.70784L16.771 2.70231L16.7769 2.69659C17.1001 2.38028 17.2005 1.80579 16.8001 1.41393C16.4822 1.1028 15.9186 1.00854 15.5268 1.38489L9.41667 7.00806L3.3019 1.38063L3.29346 1.37286L3.28467 1.36548C2.93287 1.07036 2.38665 1.06804 2.03324 1.41393L2.0195 1.42738L2.00683 1.44184C1.69882 1.79355 1.69773 2.34549 2.05646 2.69659L2.06195 2.70196L2.0676 2.70717L8.28882 8.43257Z" />
                 </svg>
               </h3>
-              {activeIndex === index && item.tag === "inputController" &&
+              {activeIndex === index && item.tag === "inputController" && (
                 <>
                   <Toaster />
                   <InputControllerComponent
-                    fieldType={fieldType}
-                    setFieldType={setFieldType}
-                    fieldValidation={fieldValidation}
-                    setFieldValidation={setFieldValidation}
-                    fieldName={fieldName}
-                    setFieldName={setFieldName}
                     setAddedFields={setAddedFields}
-                    addedFields={addedFields}
-                    placeholderText={placeholderText}
-                    setPlaceholderText={setPlaceholderText}
+                    templateHeading={templateHeading}
+                    setTemplateHeading={setTemplateHeading}
+                    templateOfferAmount={templateOfferAmount}
+                    setTemplateOfferAmount={setTemplateOfferAmount}
+                    templateSubHeading={templateSubHeading}
+                    setTemplateSubHeading={setTemplateSubHeading}
+                    templateImage={templateImage}
+                    setTemplateImage={setTemplateImage}
+                    templateDesign={templateDesign}
+                    onTemplateChange={handleTemplateChange}
+                    inputControllerEditState={inputControllerEditState}
                   />
-                </>}
-              {activeIndex === index && item.tag === "style" &&
-                <StyleComponent templateDesign={templateDesign} onTemplateChange={handleTemplateChange}
-                />}
+                </>
+              )}
+              {activeIndex === index && item.tag === "style" && (
+                <StyleComponent
+                  templateDesign={templateDesign}
+                  onTemplateChange={handleTemplateChange}
+                />
+              )}
               {activeIndex === index && item.tag === "target" && (
                 <div className="col-span-12 xl:col-span-12">
                   <div className="p-4 border-t">
@@ -276,40 +296,40 @@ const MasterForm = ({ fieldType, setFieldType, fieldValidation, setFieldValidati
                                   />
                                   {checkedRules?.settings?.after_delay_time
                                     .is_selected && (
-                                      <div className="ml-9">
-                                        <div>Show again after</div>
-                                        <input
-                                          type="number"
-                                          value={
-                                            checkedRules?.settings
-                                              ?.after_delay_time?.value
-                                              ? checkedRules?.settings
+                                    <div className="ml-9">
+                                      <div>Show again after</div>
+                                      <input
+                                        type="number"
+                                        value={
+                                          checkedRules?.settings
+                                            ?.after_delay_time?.value
+                                            ? checkedRules?.settings
                                                 ?.after_delay_time?.value
-                                              : 0
-                                          }
-                                          onChange={(event) =>
-                                            setRules((prevState) => ({
-                                              ...prevState,
-                                              settings: {
-                                                ...prevState.settings,
-                                                after_delay_time: {
-                                                  ...prevState.settings
-                                                    .after_delay_time.value,
-                                                  is_selected:
-                                                    checkedRules?.settings
-                                                      ?.after_delay_time
-                                                      .is_selected,
-                                                  key: "seconds",
-                                                  value: event.target.value,
-                                                },
+                                            : 0
+                                        }
+                                        onChange={(event) =>
+                                          setRules((prevState) => ({
+                                            ...prevState,
+                                            settings: {
+                                              ...prevState.settings,
+                                              after_delay_time: {
+                                                ...prevState.settings
+                                                  .after_delay_time.value,
+                                                is_selected:
+                                                  checkedRules?.settings
+                                                    ?.after_delay_time
+                                                    .is_selected,
+                                                key: "seconds",
+                                                value: event.target.value,
                                               },
-                                            }))
-                                          }
-                                          className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
-                                          placeholder="seconds"
-                                        />
-                                      </div>
-                                    )}
+                                            },
+                                          }))
+                                        }
+                                        className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
+                                        placeholder="seconds"
+                                      />
+                                    </div>
+                                  )}
                                 </div>
                                 <div className="mb-4.5">
                                   <Checkbox
@@ -338,37 +358,37 @@ const MasterForm = ({ fieldType, setFieldType, fieldValidation, setFieldValidati
                                   />
                                   {checkedRules?.settings?.after_scroll_distance
                                     .is_selected && (
-                                      <div className="ml-9">
-                                        <div>Scroll distance</div>
-                                        <input
-                                          type="number"
-                                          value={
-                                            checkedRules?.settings
-                                              ?.after_scroll_distance?.value
-                                          }
-                                          onChange={(event) =>
-                                            setRules((prevState) => ({
-                                              ...prevState,
-                                              settings: {
-                                                ...prevState.settings,
-                                                after_scroll_distance: {
-                                                  ...prevState.settings
-                                                    .after_scroll_distance,
-                                                  is_selected:
-                                                    checkedRules?.settings
-                                                      ?.after_scroll_distance
-                                                      .is_selected,
-                                                  key: "seconds",
-                                                  value: event.target.value,
-                                                },
+                                    <div className="ml-9">
+                                      <div>Scroll distance</div>
+                                      <input
+                                        type="number"
+                                        value={
+                                          checkedRules?.settings
+                                            ?.after_scroll_distance?.value
+                                        }
+                                        onChange={(event) =>
+                                          setRules((prevState) => ({
+                                            ...prevState,
+                                            settings: {
+                                              ...prevState.settings,
+                                              after_scroll_distance: {
+                                                ...prevState.settings
+                                                  .after_scroll_distance,
+                                                is_selected:
+                                                  checkedRules?.settings
+                                                    ?.after_scroll_distance
+                                                    .is_selected,
+                                                key: "seconds",
+                                                value: event.target.value,
                                               },
-                                            }))
-                                          }
-                                          className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
-                                          placeholder="%"
-                                        />
-                                      </div>
-                                    )}
+                                            },
+                                          }))
+                                        }
+                                        className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
+                                        placeholder="%"
+                                      />
+                                    </div>
+                                  )}
                                 </div>
                                 <div className="mb-4.5">
                                   <Checkbox
@@ -396,37 +416,37 @@ const MasterForm = ({ fieldType, setFieldType, fieldValidation, setFieldValidati
                                   />
                                   {checkedRules?.settings?.after_pages_visit
                                     .is_selected && (
-                                      <div className="ml-9">
-                                        <div>After</div>
-                                        <input
-                                          type="number"
-                                          value={
-                                            checkedRules?.settings
-                                              ?.after_pages_visit?.value
-                                          }
-                                          onChange={(event) =>
-                                            setRules((prevState) => ({
-                                              ...prevState,
-                                              settings: {
-                                                ...prevState.settings,
-                                                after_pages_visit: {
-                                                  ...prevState.settings
-                                                    .after_pages_visit,
-                                                  is_selected:
-                                                    checkedRules?.settings
-                                                      ?.after_pages_visit
-                                                      .is_selected,
-                                                  key: "pages",
-                                                  value: event.target.value,
-                                                },
+                                    <div className="ml-9">
+                                      <div>After</div>
+                                      <input
+                                        type="number"
+                                        value={
+                                          checkedRules?.settings
+                                            ?.after_pages_visit?.value
+                                        }
+                                        onChange={(event) =>
+                                          setRules((prevState) => ({
+                                            ...prevState,
+                                            settings: {
+                                              ...prevState.settings,
+                                              after_pages_visit: {
+                                                ...prevState.settings
+                                                  .after_pages_visit,
+                                                is_selected:
+                                                  checkedRules?.settings
+                                                    ?.after_pages_visit
+                                                    .is_selected,
+                                                key: "pages",
+                                                value: event.target.value,
                                               },
-                                            }))
-                                          }
-                                          className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
-                                          placeholder="pages"
-                                        />
-                                      </div>
-                                    )}
+                                            },
+                                          }))
+                                        }
+                                        className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
+                                        placeholder="pages"
+                                      />
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             )}
@@ -464,7 +484,7 @@ const MasterForm = ({ fieldType, setFieldType, fieldValidation, setFieldValidati
                             </label>
                             <Radio
                               jsonData={deviceOptions}
-                              onChange={() => { }}
+                              onChange={() => {}}
                             />
                           </div>
                           <div className="mb-4 border-b border-black">
@@ -760,9 +780,9 @@ const MasterForm = ({ fieldType, setFieldType, fieldValidation, setFieldValidati
                 }`}
               >
                 <img
-                  src={popup_img}
+                  src={templateImage ? templateImage : popup_img}
                   alt="Promo"
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-contain"
                 />
               </div>
 
@@ -786,37 +806,59 @@ const MasterForm = ({ fieldType, setFieldType, fieldValidation, setFieldValidati
                   </div>
                 ) : (
                   <>
-                    <h2 className="text-4xl font-bold mb-4">
-                      Limited Time
-                      <br />
-                      10% off
-                    </h2>
-                    <p className="text-lg mb-6">
-                      Save on your first order and get email-only offers when
-                      you join.
-                    </p>
-                    <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
-                    {addedFields.map((field, index) => (
-                      <TemplateBannerComponent
-                        key={index}
-                        templateDesign={templateDesign}
-                        fieldType={field.fieldType}
-                        fieldValidation={field.fieldValidation}
-                        placeholderText={field.placeholderText}
-                        fieldName={field.fieldName}
-                        inputValue={inputValues[field.fieldName] || ""}
-                        onInputChange={handleInputChange}
-                        isSubmitted={isSubmitted}
-                        onDelete={() => handleDeleteField(field.fieldName)}
-                      />
-                    ))}
-                    <button
-                      type="submit"
-                      className="bg-black text-white py-3 rounded-md text-lg mt-3"
+                    <h2
+                      className="text-4xl font-bold mb-4"
+                      style={{
+                        fontSize: templateDesign.templateHeadingFontSize,
+                      }}
                     >
-                      Continue
-                    </button>
-                  </form>
+                      {templateHeading ? templateHeading : "Default Heading"}
+                    </h2>
+                    <h2
+                      className="text-4xl font-bold mb-4"
+                      style={{
+                        fontSize: templateDesign.templateOfferFontSize,
+                      }}
+                    >
+                      {" "}
+                      {templateOfferAmount ? templateOfferAmount : "10% Off"}
+                    </h2>
+                    <p
+                      className="text-lg mb-6"
+                      style={{
+                        fontSize: templateDesign.templateSubheadingFontSize,
+                      }}
+                    >
+                      {templateSubHeading
+                        ? templateSubHeading
+                        : "Save on your first order and get email-only offers when you join."}
+                    </p>
+                    <form
+                      className="flex flex-col space-y-4"
+                      onSubmit={handleSubmit}
+                    >
+                      {addedFields.map((field, index) => (
+                        <TemplateBannerComponent
+                          key={index}
+                          templateDesign={templateDesign}
+                          fieldType={field.fieldType}
+                          fieldValidation={field.fieldValidation}
+                          placeholderText={field.placeholderText}
+                          fieldName={field.fieldName}
+                          inputValue={inputValues[field.fieldName] || ""}
+                          onInputChange={handleInputChange}
+                          isSubmitted={isSubmitted}
+                          onDelete={() => handleDeleteField(field.fieldName)}
+                          onEdit={() => handleEdit(field, index)} // Pass handleEdit function here
+                        />
+                      ))}
+                      <button
+                        type="submit"
+                        className="bg-black text-white py-3 rounded-md text-lg mt-3"
+                      >
+                        Continue
+                      </button>
+                    </form>
                   </>
                 )}
               </div>

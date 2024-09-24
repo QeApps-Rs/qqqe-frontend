@@ -1,29 +1,30 @@
-
-
 export const templateFieldCss = {
-  bgColor: 'rgb(255, 255, 255)',
-  borderColor: 'rgb(209, 213, 219)',
-  focusBorderColor: 'rgb(0, 123, 255)',
-  placeholderTextColor: 'rgb(107 114 128)',
-  formHeadingColor: 'rgb(0, 0, 0)',
-  textColor: 'rgb(0, 0, 0)',
-  letterSpacing: '1px',
-  inputFontSize: '14px',
-  templateBgColor: 'rgb(0, 0, 0)',
-  templateOverlayColor: 'rgb(255, 255, 255)',
-  fontWeight: 'normal',
-  fontFamily: 'Arial',
-  borderRadius: '',
-  borderWidth: '2px',
-  templateBorderColor: 'rgb(255, 255, 255)',
-  templatePaddingTop: '4px',
-  templatePaddingBottom: '4px',
-  templatePaddingLeft: '4px',
-  templatePaddingRight: '4px',
+  bgColor: "rgb(255, 255, 255)",
+  borderColor: "rgb(209, 213, 219)",
+  focusBorderColor: "rgb(0, 123, 255)",
+  placeholderTextColor: "rgb(107 114 128)",
+  formHeadingColor: "rgb(0, 0, 0)",
+  textColor: "rgb(0, 0, 0)",
+  letterSpacing: "1px",
+  inputFontSize: "14px",
+  templateBgColor: "rgb(0, 0, 0)",
+  templateOverlayColor: "rgb(255, 255, 255)",
+  fontWeight: "normal",
+  fontFamily: "Arial",
+  borderRadius: "",
+  borderWidth: "2px",
+  templateBorderColor: "rgb(255, 255, 255)",
+  templatePaddingTop: "4px",
+  templatePaddingBottom: "4px",
+  templatePaddingLeft: "4px",
+  templatePaddingRight: "4px",
   formBorderStyle: "none",
   formType: "full page",
   formWidth: "large",
   templateMinHeight: "500px",
+  templateHeadingFontSize: "32px",
+  templateOfferFontSize: "24px",
+  templateSubheadingFontSize: "16px",
 };
 
 export const inputColorFields = [
@@ -87,34 +88,32 @@ export const visitorsDropdown = {
   ],
 };
 
+export const formTypeDropdown = {
+  label: "Form Type",
+  placeholder: "Select form type",
+  options: [
+    { value: "full page", label: "Full page" },
+    { value: "embed", label: "Embed" },
+  ],
+};
 
+export const discountForDropdown = {
+  label: "",
+  placeholder: "Select discount for",
+  options: [
+    { value: "dis_for_order", label: "Order" },
+    { value: "dis_for_product", label: "Product" },
+  ],
+};
 
-  export const formTypeDropdown = {
-    label: "Form Type",
-    placeholder: "Select form type",
-    options: [
-      { value: "full page", label: "Full page" },
-      { value: "embed", label: "Embed" },
-    ],
-  };
-
-  export const discountForDropdown = {
-    label: "",
-    placeholder: "Select discount for",
-    options: [
-      { value: "dis_for_order", label: "Order" },
-      { value: "dis_for_product", label: "Product" },
-    ],
-  };
-
-  export const 	discountTypeDropdown = {
-    label: "",
-    placeholder: "Select discount type",
-    options: [
-      { value: "dis_type_amt", label: "Fixed Amount" },
-      { value: "dis_type_per", label: "% Discount" },
-    ],
-  };
+export const discountTypeDropdown = {
+  label: "",
+  placeholder: "Select discount type",
+  options: [
+    { value: "dis_type_amt", label: "Fixed Amount" },
+    { value: "dis_type_per", label: "% Discount" },
+  ],
+};
 
 export const widthDropdown = {
   label: "Form width",
@@ -190,41 +189,40 @@ export const templateEditorCollapseOptions = [
   },
 ];
 
-export const defaultBoxClassName = "w-32 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary";
-
+export const defaultBoxClassName =
+  "w-32 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary";
 
 export const fieldNameDropdownData = {
   label: "Field Name",
   name: "fieldName",
   id: "fieldNameDropdown",
   options: [
-      { value: "name", label: "Name" },
-      { value: "email", label: "Email" },
-      { value: "number", label: "Number" },
+    { value: "name", label: "Name" },
+    { value: "email", label: "Email" },
+    { value: "number", label: "Number" },
   ],
   placeholder: "Select Field Name",
-}
+};
 
 export const fieldValidationDropdownData = {
   label: "Field Validation",
   name: "fieldValidation",
   id: "fieldValidationDropdown",
   options: [
-      { value: "required", label: "Required" },
-      { value: "unRequired", label: "UnRequired" },
+    { value: "required", label: "Required" },
+    { value: "unRequired", label: "UnRequired" },
   ],
   placeholder: "Select Field Validation",
-};;
-
+};
 
 export const fieldTypeDropdownData = {
   label: "Field Type",
   name: "fieldType",
   id: "fieldTypeDropdown",
   options: [
-      { value: "text", label: "Text" },
-      { value: "email", label: "Email" },
-      { value: "number", label: "Number" },
+    { value: "text", label: "Text" },
+    { value: "email", label: "Email" },
+    { value: "number", label: "Number" },
   ],
   placeholder: "Select Field Type",
 };
