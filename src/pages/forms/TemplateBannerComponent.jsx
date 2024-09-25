@@ -42,18 +42,12 @@ const TemplateBannerComponent = ({
         />
         <button
           type="button"
-          onClick={onDelete}
-          className="text-red-500 hover:text-red-700 w-1/6"
+          className="text-red-500 hover:text-red-700 mr-4 ml-4"
         >
-          <i className="fa fa-times" aria-hidden="true"></i>
+          <i className="fa fa-times" aria-hidden="true" onClick={onDelete}></i>
         </button>
-        <button
-          type="button"
-          onClick={onEdit} // Trigger edit on click
-          // onClick={() => onEdit({ fieldType, fieldValidation, fieldName, placeholderText })}
-          className="text-red-500 hover:text-red-700 w-1/6"
-        >
-          <i className="fa fa-pencil" aria-hidden="true"></i>
+        <button type="button" className="text-blue-500 hover:text-blue-700 ">
+          <i className="fa fa-pencil" aria-hidden="true" onClick={onEdit}></i>
         </button>
       </div>
       {isSubmitted && fieldValidation === "required" && !inputValue && (

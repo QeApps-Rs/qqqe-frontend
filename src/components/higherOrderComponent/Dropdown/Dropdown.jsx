@@ -30,6 +30,8 @@ const DropDown = ({ jsonData }) => {
     if (!jsonData.defaultValue) {
       setSelectedOption("");
       setIsOptionSelected(false);
+    } else {
+      setSelectedOption(jsonData.defaultValue);
     }
   }, [jsonData.defaultValue]);
 
@@ -46,8 +48,9 @@ const DropDown = ({ jsonData }) => {
           id={jsonData.id}
           value={selectedOption}
           onChange={handleChange}
-          className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${isOptionSelected ? "text-black dark:text-white" : ""
-            }`}
+          className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${
+            isOptionSelected ? "text-black dark:text-white" : ""
+          }`}
         >
           <option value="" disabled className="text-body dark:text-bodydark">
             {jsonData.placeholder || "Select your subject"}
@@ -64,7 +67,9 @@ const DropDown = ({ jsonData }) => {
         </select>
         {jsonData.errors && (
           <span className="text-red-500 text-xs italic">
-            {jsonData.errors && jsonData.errors[jsonData.name] && jsonData.errors[jsonData.name].message}
+            {jsonData.errors &&
+              jsonData.errors[jsonData.name] &&
+              jsonData.errors[jsonData.name].message}
           </span>
         )}
         <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">

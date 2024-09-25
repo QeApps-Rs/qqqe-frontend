@@ -210,7 +210,7 @@ export const fieldValidationDropdownData = {
   id: "fieldValidationDropdown",
   options: [
     { value: "required", label: "Required" },
-    { value: "unRequired", label: "UnRequired" },
+    { value: "notRequired", label: "Not-Required" },
   ],
   placeholder: "Select Field Validation",
 };
