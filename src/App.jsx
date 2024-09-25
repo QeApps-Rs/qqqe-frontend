@@ -29,6 +29,7 @@ import PricePage from "./pages/PricePage";
 import Productpage from "./pages/Productpage";
 import VideoPlayer from "./pages/VideoPlayer";
 import SuggestionCompNew from "./components/Suggestion/SuggestionCompNew";
+import PreferenceSurveyTwo from "./pages/preference-survey/PreferenceSurveyTwo";
 const env_type = import.meta.env.VITE_ENV;
 
 const App = () => {
@@ -96,6 +97,7 @@ const App = () => {
               <Route path="/auth/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/preference-survey" element={<ProtectedRoute element={PreferenceSurvey} />} />
+              <Route path="/preference-survey-multi" element={<ProtectedRoute element={PreferenceSurveyTwo} />} />
               <Route path="/level2" element={<SuggestionCompNew />} />
             </Route>
             <Route element={<DefaultLayout />}>
