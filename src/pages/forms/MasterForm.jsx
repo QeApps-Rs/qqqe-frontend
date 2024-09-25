@@ -20,19 +20,23 @@ import InputControllerComponent from "./InputControllerComponent";
 import TemplateBannerComponent from "./TemplateBannerComponent";
 import { Toaster } from "react-hot-toast";
 
-const MasterForm = ({
-  fieldType,
-  setFieldType,
-  fieldValidation,
-  setFieldValidation,
-  fieldName,
-  setFieldName,
-  placeholderText,
-  setPlaceholderText,
-}) => {
+const MasterForm = () => {
+  //  shiv code start
+
   const [templateDesign, setTemplateDesign] = useState(templateFieldCss);
-  const [isProductBundle, setProductBundle] = useState(false);
+  const [templateHeading, setTemplateHeading] = useState("");
+  const [templateOfferAmount, setTemplateOfferAmount] = useState("");
+  const [templateSubHeading, setTemplateSubHeading] = useState("");
+  const [templateImage, setTemplateImage] = useState("");
+  const [inputControllerEditState, setInputControllerEditState] = useState({
+    index: null,
+    fieldType: "",
+    fieldValidation: "",
+    fieldName: "",
+    placeholderText: "",
+  });
   const [addedFields, setAddedFields] = useState([]);
+
   const handleTemplateChange = (colorType) => (templateDesign) => {
     setTemplateDesign((prev) => ({ ...prev, [colorType]: templateDesign }));
   };
@@ -65,12 +69,63 @@ const MasterForm = ({
     } else {
     }
   };
+
+  // Modify the handleDeleteField function
   const handleDeleteField = (fieldName) => {
     setAddedFields((prevFields) =>
       prevFields.filter((field) => field.fieldName !== fieldName)
     );
   };
 
+  // Modify the handleEdit function
+  const handleEdit = (field, index) => {
+    setInputControllerEditState({
+      index,
+      fieldType: field.fieldType,
+      fieldValidation: field.fieldValidation,
+      fieldName: field.fieldName,
+      placeholderText: field.placeholderText,
+    });
+  };
+
+  const formClasses = () => {
+    const { formWidth, formType } = templateDesign;
+    let classes = "h-auto ";
+
+    if (formWidth === "small") {
+      classes += "w-10/12 ";
+    }
+
+    if (formType === "full page" || formWidth === "large") {
+      classes += "max-w-full h-full transition-all duration-300 ";
+    } else {
+      classes += "w-1/2 ";
+    }
+
+    if (isView === "Desktop") {
+      classes += "grid grid-cols-12 items-center bg-white shadow-lg ";
+    } else {
+      classes += "max-h-[586px] overflow-y-auto w-[375px] ";
+    }
+
+    if (
+      isView === "Mobile" &&
+      formType === "full page" &&
+      formWidth === "small"
+    ) {
+      classes += "overflow-y-auto w-min ";
+    }
+
+    if (isView === "Mobile" && formType === "embed" && formWidth === "small") {
+      classes += "overflow-y-auto w-min ";
+    }
+
+    return classes.trim();
+  };
+
+  //  shiv code end
+
+  const [isProductBundle, setProductBundle] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const [checkedItems, setCheckedItems] = useState(false);
@@ -127,8 +182,8 @@ const MasterForm = ({
         });
 
         if (response.success) {
-          const responseKeywords = response.data.keywords.split(",");
-          if (responseKeywords.includes("Product Bundle")) {
+          const responseKeywords = response?.data?.keywords.split(",");
+          if (responseKeywords?.includes("Product Bundle")) {
             setProductBundle(true);
           }
         }
@@ -189,7 +244,7 @@ const MasterForm = ({
     getProductList();
     getCollectionList();
   }, []);
-  console.log("isProductBundle", isProductBundle);
+
   return (
     <>
       <aside className="w-1/4  fixed left-[4.7rem] p-4 shadow-lg h-screen overflow-auto top-20">
@@ -228,16 +283,18 @@ const MasterForm = ({
                   <>
                     <Toaster />
                     <InputControllerComponent
-                      fieldType={fieldType}
-                      setFieldType={setFieldType}
-                      fieldValidation={fieldValidation}
-                      setFieldValidation={setFieldValidation}
-                      fieldName={fieldName}
-                      setFieldName={setFieldName}
                       setAddedFields={setAddedFields}
-                      addedFields={addedFields}
-                      placeholderText={placeholderText}
-                      setPlaceholderText={setPlaceholderText}
+                      templateHeading={templateHeading}
+                      setTemplateHeading={setTemplateHeading}
+                      templateOfferAmount={templateOfferAmount}
+                      setTemplateOfferAmount={setTemplateOfferAmount}
+                      templateSubHeading={templateSubHeading}
+                      setTemplateSubHeading={setTemplateSubHeading}
+                      templateImage={templateImage}
+                      setTemplateImage={setTemplateImage}
+                      templateDesign={templateDesign}
+                      onTemplateChange={handleTemplateChange}
+                      inputControllerEditState={inputControllerEditState}
                     />
                   </>
                 )}
@@ -810,6 +867,7 @@ const MasterForm = ({
                   ? "min-h-[785px] bg-no-repeat bg-top bg-center"
                   : "gap-8"
               }`}
+            
               style={{
                 backgroundColor: templateDesign.templateBgColor,
                 backgroundImage:
@@ -819,38 +877,7 @@ const MasterForm = ({
               }}
             >
               <div
-                className={`${
-                  templateDesign.formWidth === "large" ||
-                  templateDesign.formType === "embed"
-                    ? "h-auto"
-                    : ""
-                }
-                ${templateDesign.formWidth === "small" ? "w-10/12 h-auto" : ""}
-                ${
-                  templateDesign.formType === "full page" ||
-                  templateDesign.formWidth === "large"
-                    ? "max-w-full h-full transition-all duration-300"
-                    : "w-1/2"
-                }
-                ${
-                  isView === "Desktop"
-                    ? "grid grid-cols-12 items-center bg-white shadow-lg"
-                    : "max-h-[586px] overflow-y-auto w-[375px]"
-                }
-                ${
-                  isView === "Mobile" &&
-                  templateDesign.formType === "full page" &&
-                  templateDesign.formWidth === "small"
-                    ? "overflow-y-auto w-min"
-                    : ""
-                }
-                ${
-                  isView === "Mobile" &&
-                  templateDesign.formType === "embed" &&
-                  templateDesign.formWidth === "small"
-                    ? "overflow-y-auto w-min"
-                    : ""
-                }`}
+                className={formClasses()}
                 style={{
                   borderRadius: templateDesign.borderRadius,
                   borderWidth: templateDesign.borderWidth,
@@ -870,9 +897,9 @@ const MasterForm = ({
                   }`}
                 >
                   <img
-                    src={popup_img}
+                    src={templateImage ? templateImage : popup_img}
                     alt="Promo"
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-contain"
                   />
                 </div>
 
@@ -898,14 +925,32 @@ const MasterForm = ({
                     </div>
                   ) : (
                     <>
-                      <h2 className="text-4xl font-bold mb-4">
-                        Limited Time
-                        <br />
-                        10% off
+                      <h2
+                        className="text-4xl font-bold mb-4"
+                        style={{
+                          fontSize: templateDesign.templateHeadingFontSize,
+                        }}
+                      >
+                        {templateHeading ? templateHeading : "Default Heading"}
                       </h2>
-                      <p className="text-lg mb-6">
-                        Save on your first order and get email-only offers when
-                        you join.
+                      <h2
+                        className="text-4xl font-bold mb-4"
+                        style={{
+                          fontSize: templateDesign.templateOfferFontSize,
+                        }}
+                      >
+                        {" "}
+                        {templateOfferAmount ? templateOfferAmount : "10% Off"}
+                      </h2>
+                      <p
+                        className="text-lg mb-6"
+                        style={{
+                          fontSize: templateDesign.templateSubheadingFontSize,
+                        }}
+                      >
+                        {templateSubHeading
+                          ? templateSubHeading
+                          : "Save on your first order and get email-only offers when you join."}
                       </p>
                       <form
                         className="flex flex-col space-y-4"
@@ -923,6 +968,7 @@ const MasterForm = ({
                             onInputChange={handleInputChange}
                             isSubmitted={isSubmitted}
                             onDelete={() => handleDeleteField(field.fieldName)}
+                            onEdit={() => handleEdit(field, index)}
                           />
                         ))}
                         <button
