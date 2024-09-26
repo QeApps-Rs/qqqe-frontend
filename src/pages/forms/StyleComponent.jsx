@@ -67,13 +67,13 @@ const StyleComponent = ({ templateDesign, onTemplateChange }) => {
                       <input
                         id="minimum-height"
                         type="number"
+                        placeholder="px"
                         value={
                           templateDesign.templateMinHeight.replace("px", "") ||
                           ""
                         }
                         onChange={(e) =>
-                          onTemplateChange(
-                            "templateMinHeight",
+                          onTemplateChange("templateMinHeight")(
                             e.target.value + "px"
                           )
                         }

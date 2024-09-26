@@ -14,10 +14,10 @@ export const templateFieldCss = {
   borderRadius: "",
   borderWidth: "2px",
   templateBorderColor: "rgb(255, 255, 255)",
-  templatePaddingTop: "4px",
-  templatePaddingBottom: "4px",
-  templatePaddingLeft: "4px",
-  templatePaddingRight: "4px",
+  templatePaddingTop: "0px",
+  templatePaddingBottom: "0px",
+  templatePaddingLeft: "0px",
+  templatePaddingRight: "0px",
   formBorderStyle: "none",
   formType: "full page",
   formWidth: "large",
@@ -25,7 +25,15 @@ export const templateFieldCss = {
   templateHeadingFontSize: "32px",
   templateOfferFontSize: "24px",
   templateSubheadingFontSize: "16px",
-};
+  templateHeadingFontFamily : "Arial",
+  templateOfferFontFamily : "Arial",
+  templateSubHeadingFontFamily : "Arial",
+  templateHeadingColor : "rgb(0, 0, 0)",
+  templateSubheadingColor : "rgb(0, 0, 0)",
+  templateOfferColor : "rgb(0, 0, 0)",
+  templateButtonBgColor : "rgb(0, 0, 0)"
+
+}; 
 
 export const inputColorFields = [
   { label: "Background Color", colorType: "bgColor" },
@@ -34,7 +42,7 @@ export const inputColorFields = [
 ];
 
 export const inputTextColorFields = [
-  { label: "Label Color", colorType: "formHeadingColor" },
+  // { label: "Label Color", colorType: "formHeadingColor" },
   { label: "Text Color", colorType: "textColor" },
   { label: "Placeholder Color", colorType: "placeholderTextColor" },
 ];
