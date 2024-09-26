@@ -262,7 +262,12 @@ const MasterForm = () => {
         </div>
         <ul className="space-y-4">
           {templateEditorCollapseOptions
-            .filter((item) => (isProductBundle ? true : item.tag !== "bundle"))
+           .filter((item) => {
+            if (isProductBundle) {
+              return item.tag !== "inputController";
+            }
+            return item.tag !== "bundle";
+          })
             .map((item, index) => (
               <li
                 key={index}
@@ -313,6 +318,7 @@ const MasterForm = () => {
                   <StyleComponent
                     templateDesign={templateDesign}
                     onTemplateChange={handleTemplateChange}
+                    isProductBundle={isProductBundle}
                   />
                 )}
                 {activeIndex === index && item.tag === "target" && (

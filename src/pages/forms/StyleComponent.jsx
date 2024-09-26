@@ -12,7 +12,11 @@ import {
   tabs,
   defaultBoxClassName,
 } from "./masterFormConfig";
-const StyleComponent = ({ templateDesign, onTemplateChange }) => {
+const StyleComponent = ({
+  templateDesign,
+  onTemplateChange,
+  isProductBundle,
+}) => {
   const [activeTab, setActiveTab] = useState("Desktop");
 
   const handleTabClick = (tab) => {
@@ -31,55 +35,63 @@ const StyleComponent = ({ templateDesign, onTemplateChange }) => {
               <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                 <form action="#">
                   <div className="p-3">
-                    {/* Form Type Dropdown */}
-                    <div className="mb-6">
-                      <label className="mb-2.5 block">
+                    {!isProductBundle ? (
+                      <>
+                        {/* Form Type Dropdown */}
                         <div className="mb-6">
-                          <DropDown
-                            jsonData={{
-                              ...formTypeDropdown,
-                              onChange: onTemplateChange("formType"),
-                              defaultValue: templateDesign.formType,
-                            }}
+                          <label className="mb-2.5 block">
+                            <div className="mb-6">
+                              <DropDown
+                                jsonData={{
+                                  ...formTypeDropdown,
+                                  onChange: onTemplateChange("formType"),
+                                  defaultValue: templateDesign.formType,
+                                }}
+                              />
+                            </div>
+                          </label>
+                        </div>
+
+                        {/* Form Width Dropdown */}
+                        <div className="mb-6">
+                          <label className="mb-2.5 block">
+                            <div className="mb-6">
+                              <DropDown
+                                jsonData={{
+                                  ...widthDropdown,
+                                  onChange: onTemplateChange("formWidth"),
+                                  defaultValue: templateDesign.formWidth,
+                                }}
+                              />
+                            </div>
+                          </label>
+                        </div>
+
+                        {/* Minimum Height Input */}
+                        <div className="mt-3 flex justify-between flex-row ">
+                          <span>Minimum Height(px):</span>
+                          <input
+                            id="minimum-height"
+                            type="number"
+                            placeholder="px"
+                            value={
+                              templateDesign.templateMinHeight.replace(
+                                "px",
+                                ""
+                              ) || ""
+                            }
+                            onChange={(e) =>
+                              onTemplateChange("templateMinHeight")(
+                                e.target.value + "px"
+                              )
+                            }
+                            className={`${defaultBoxClassName} h-10`}
                           />
                         </div>
-                      </label>
-                    </div>
-
-                    {/* Form Width Dropdown */}
-                    <div className="mb-6">
-                      <label className="mb-2.5 block">
-                        <div className="mb-6">
-                          <DropDown
-                            jsonData={{
-                              ...widthDropdown,
-                              onChange: onTemplateChange("formWidth"),
-                              defaultValue: templateDesign.formWidth,
-                            }}
-                          />
-                        </div>
-                      </label>
-                    </div>
-
-                    {/* Minimum Height Input */}
-                    <div className="mt-3 flex justify-between flex-row ">
-                      <span>Minimum Height(px):</span>
-                      <input
-                        id="minimum-height"
-                        type="number"
-                        placeholder="px"
-                        value={
-                          templateDesign.templateMinHeight.replace("px", "") ||
-                          ""
-                        }
-                        onChange={(e) =>
-                          onTemplateChange("templateMinHeight")(
-                            e.target.value + "px"
-                          )
-                        }
-                        className={`${defaultBoxClassName} h-10`}
-                      />
-                    </div>
+                      </>
+                    ) : (
+                      <></>
+                    )}
 
                     {/* Tab for Desktop/Mobile */}
                     <div className="mt-3 font font-semibold text-black">
@@ -280,101 +292,113 @@ const StyleComponent = ({ templateDesign, onTemplateChange }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="mb-4.5 border-b border-black pb-4">
-                      <label className={styleFieldTitleClass}>
-                        Input Field Text Styles
-                      </label>
-                      <div className="mt-3 flex justify-between flex-row items-center">
-                        <span>Font:</span>
-                        <select
-                          onChange={(e) =>
-                            onTemplateChange("fontFamily")(e.target.value)
-                          }
-                          value={templateDesign.fontFamily}
-                          className={`${defaultBoxClassName} h-12`}
-                        >
-                          {fontFamilyList.map((item) => (
-                            <option key={item.label} value={item.label}>
-                              {item.label}
-                            </option>
+                    {!isProductBundle ? (
+                      <>
+                        <div className="mb-4.5 border-b border-black pb-4">
+                          <label className={styleFieldTitleClass}>
+                            Input Field Text Styles
+                          </label>
+                          <div className="mt-3 flex justify-between flex-row items-center">
+                            <span>Font:</span>
+                            <select
+                              onChange={(e) =>
+                                onTemplateChange("fontFamily")(e.target.value)
+                              }
+                              value={templateDesign.fontFamily}
+                              className={`${defaultBoxClassName} h-12`}
+                            >
+                              {fontFamilyList.map((item) => (
+                                <option key={item.label} value={item.label}>
+                                  {item.label}
+                                </option>
+                              ))}
+                            </select>
+                            <input
+                              id="border-thickness"
+                              type="number"
+                              className={`${defaultBoxClassName} h-10`}
+                              placeholder="px"
+                              value={
+                                templateDesign.inputFontSize.replace(
+                                  "px",
+                                  ""
+                                ) || ""
+                              }
+                              onChange={(e) =>
+                                onTemplateChange("inputFontSize")(
+                                  e.target.value + "px"
+                                )
+                              }
+                            />
+                          </div>
+                          <div className="mt-3 flex justify-between flex-row items-center">
+                            <span>Font weight:</span>
+                            <select
+                              onChange={(e) =>
+                                onTemplateChange("fontWeight")(e.target.value)
+                              }
+                              value={templateDesign.fontWeight}
+                              className={`${defaultBoxClassName} h-12`}
+                            >
+                              <option value="700">Bold</option>
+                              <option value="400">Normal</option>
+                              <option value="800">Extra Bold</option>
+                            </select>
+                          </div>
+                          <div className="mt-3 flex justify-between flex-row items-center">
+                            <span>Letter Spacing(px):</span>
+                            <input
+                              id="letter-spacing"
+                              type="number"
+                              className={`${defaultBoxClassName} h-10`}
+                              placeholder="px"
+                              value={
+                                templateDesign.letterSpacing.replace(
+                                  "px",
+                                  ""
+                                ) || ""
+                              }
+                              onChange={(e) =>
+                                onTemplateChange("letterSpacing")(
+                                  e.target.value + "px"
+                                )
+                              }
+                            />
+                          </div>
+                          {inputTextColorFields.map(({ label, colorType }) => (
+                            <div
+                              className="mt-3 flex justify-between items-center"
+                              key={colorType}
+                            >
+                              <span>{label}:</span>
+                              <ColorPicker
+                                defaultColor={templateDesign[colorType]}
+                                onChange={onTemplateChange(colorType)}
+                              />
+                            </div>
                           ))}
-                        </select>
-                        <input
-                          id="border-thickness"
-                          type="number"
-                          className={`${defaultBoxClassName} h-10`}
-                          placeholder="px"
-                          value={
-                            templateDesign.inputFontSize.replace("px", "") || ""
-                          }
-                          onChange={(e) =>
-                            onTemplateChange("inputFontSize")(
-                              e.target.value + "px"
-                            )
-                          }
-                        />
-                      </div>
-                      <div className="mt-3 flex justify-between flex-row items-center">
-                        <span>Font weight:</span>
-                        <select
-                          onChange={(e) =>
-                            onTemplateChange("fontWeight")(e.target.value)
-                          }
-                          value={templateDesign.fontWeight}
-                          className={`${defaultBoxClassName} h-12`}
-                        >
-                          <option value="700">Bold</option>
-                          <option value="400">Normal</option>
-                          <option value="800">Extra Bold</option>
-                        </select>
-                      </div>
-                      <div className="mt-3 flex justify-between flex-row items-center">
-                        <span>Letter Spacing(px):</span>
-                        <input
-                          id="letter-spacing"
-                          type="number"
-                          className={`${defaultBoxClassName} h-10`}
-                          placeholder="px"
-                          value={
-                            templateDesign.letterSpacing.replace("px", "") || ""
-                          }
-                          onChange={(e) =>
-                            onTemplateChange("letterSpacing")(
-                              e.target.value + "px"
-                            )
-                          }
-                        />
-                      </div>
-                      {inputTextColorFields.map(({ label, colorType }) => (
-                        <div
-                          className="mt-3 flex justify-between items-center"
-                          key={colorType}
-                        >
-                          <span>{label}:</span>
-                          <ColorPicker
-                            defaultColor={templateDesign[colorType]}
-                            onChange={onTemplateChange(colorType)}
-                          />
                         </div>
-                      ))}
-                    </div>
-                    <div className="mb-4.5 border-b border-black pb-4">
-                      <label className={styleFieldTitleClass}>
-                        Input Field Styles
-                      </label>
-                      {inputColorFields.map(({ label, colorType }) => (
-                        <div
-                          className="mt-3 flex justify-between items-center"
-                          key={colorType}
-                        >
-                          <span>{label}:</span>
-                          <ColorPicker
-                            defaultColor={templateDesign[colorType]}
-                            onChange={onTemplateChange(colorType)}
-                          />
+                        <div className="mb-4.5 border-b border-black pb-4">
+                          <label className={styleFieldTitleClass}>
+                            Input Field Styles
+                          </label>
+                          {inputColorFields.map(({ label, colorType }) => (
+                            <div
+                              className="mt-3 flex justify-between items-center"
+                              key={colorType}
+                            >
+                              <span>{label}:</span>
+                              <ColorPicker
+                                defaultColor={templateDesign[colorType]}
+                                onChange={onTemplateChange(colorType)}
+                              />
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                     <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
                       Save
                     </button>
