@@ -4,9 +4,11 @@ import DropDown from "../../components/higherOrderComponent/Dropdown/Dropdown";
 import {
   fieldValidationDropdownData,
   fieldTypeDropdownData,
+  defaultBoxClassName,
+  fontFamilyList,
 } from "./masterFormConfig";
-import { defaultBoxClassName } from "./masterFormConfig";
 import { CameraIcon } from "../../components/custIcon/svgIcon";
+import ColorPicker from "../../components/higherOrderComponent/ColorPicker/ColorPicker";
 const InputControllerComponent = ({
   setAddedFields,
   templateHeading,
@@ -19,6 +21,8 @@ const InputControllerComponent = ({
   templateDesign,
   onTemplateChange,
   inputControllerEditState,
+  templateButton,
+  setTemplateButton,
 }) => {
   const [fieldType, setFieldType] = useState("");
   const [fieldValidation, setFieldValidation] = useState("");
@@ -134,13 +138,29 @@ const InputControllerComponent = ({
                       placeholder="pleaser enter template heading"
                       className="w-full p-2 border rounded-md focus:outline-none"
                     />
-                    <div className={styleControllerFieldClass}>
-                      <span>Font-Size :</span>
+
+                    <div className="mt-3 flex justify-between flex-row items-center">
+                      <span className="mr-2">Font:</span>
+                      <select
+                        onChange={(e) =>
+                          onTemplateChange("templateHeadingFontFamily")(
+                            e.target.value
+                          )
+                        }
+                        value={templateDesign.templateHeadingFontFamily}
+                        className={`${defaultBoxClassName} h-12 mr-2`}
+                      >
+                        {fontFamilyList.map((item) => (
+                          <option key={item.label} value={item.label}>
+                            {item.label}
+                          </option>
+                        ))}
+                      </select>
                       <input
                         id="border-thickness"
                         type="number"
+                        className={`${defaultBoxClassName} h-12`}
                         placeholder="px"
-                        className={`${defaultBoxClassName} h-10`}
                         value={
                           templateDesign.templateHeadingFontSize.replace(
                             "px",
@@ -151,6 +171,15 @@ const InputControllerComponent = ({
                           onTemplateChange("templateHeadingFontSize")(
                             e.target.value + "px"
                           )
+                        }
+                      />
+                    </div>
+                    <div className="flex items-center mt-3">
+                      <span className="mr-2">Color:</span>
+                      <ColorPicker
+                        defaultColor={templateDesign.templateHeadingColor}
+                        onChange={(color) =>
+                          onTemplateChange("templateHeadingColor")(color)
                         }
                       />
                     </div>
@@ -166,13 +195,28 @@ const InputControllerComponent = ({
                       placeholder="pleaser enter template offer number"
                       className="w-full p-2 border rounded-md focus:outline-none"
                     />
-                    <div className={styleControllerFieldClass}>
-                      <span>Font-Size :</span>
+                    <div className="mt-3 flex justify-between flex-row items-center">
+                      <span className="mr-2">Font:</span>
+                      <select
+                        onChange={(e) =>
+                          onTemplateChange("templateOfferFontFamily")(
+                            e.target.value
+                          )
+                        }
+                        value={templateDesign.templateOfferFontFamily}
+                        className={`${defaultBoxClassName} h-12 mr-2`}
+                      >
+                        {fontFamilyList.map((item) => (
+                          <option key={item.label} value={item.label}>
+                            {item.label}
+                          </option>
+                        ))}
+                      </select>
                       <input
                         id="border-thickness"
                         type="number"
                         placeholder="px"
-                        className={`${defaultBoxClassName} h-10`}
+                        className={`${defaultBoxClassName} h-12`}
                         value={
                           templateDesign.templateOfferFontSize.replace(
                             "px",
@@ -186,11 +230,21 @@ const InputControllerComponent = ({
                         }
                       />
                     </div>
+                    <div className="flex items-center mt-3">
+                      <span className="mr-2">Color:</span>
+                      <ColorPicker
+                        defaultColor={templateDesign.templateOfferColor}
+                        onChange={(color) =>
+                          onTemplateChange("templateOfferColor")(color)
+                        }
+                      />
+                    </div>
                   </div>
                   <div className={`mt-4 ${inputControllerFieldClass}`}>
                     <label className="mb-2.5 block text-black dark:text-white font-semibold">
                       Template Sub-Heading
                     </label>
+
                     <input
                       type="text"
                       value={templateSubHeading}
@@ -198,13 +252,28 @@ const InputControllerComponent = ({
                       placeholder="pleaser enter template sub-heading"
                       className="w-full p-2 border rounded-md focus:outline-none"
                     />
-                    <div className={styleControllerFieldClass}>
-                      <span>Font-Size :</span>
+                    <div className="mt-3 flex justify-between flex-row items-center">
+                      <span className="mr-2">Font:</span>
+                      <select
+                        onChange={(e) =>
+                          onTemplateChange("templateSubHeadingFontFamily")(
+                            e.target.value
+                          )
+                        }
+                        value={templateDesign.templateSubHeadingFontFamily}
+                        className={`${defaultBoxClassName} h-12 mr-2`}
+                      >
+                        {fontFamilyList.map((item) => (
+                          <option key={item.label} value={item.label}>
+                            {item.label}
+                          </option>
+                        ))}
+                      </select>
                       <input
                         id="border-thickness"
                         type="number"
                         placeholder="px"
-                        className={`${defaultBoxClassName} h-10`}
+                        className={`${defaultBoxClassName} h-12`}
                         value={
                           templateDesign.templateSubheadingFontSize.replace(
                             "px",
@@ -218,12 +287,43 @@ const InputControllerComponent = ({
                         }
                       />
                     </div>
+                    <div className="flex items-center mt-3">
+                      <span className="mr-2">Color:</span>
+                      <ColorPicker
+                        defaultColor={templateDesign.templateSubheadingColor}
+                        onChange={(color) =>
+                          onTemplateChange("templateSubheadingColor")(color)
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div className="mb-6">
+                    <div className={`mt-4 ${inputControllerFieldClass}`}>
+                      <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                        Button Name
+                      </label>
+                      <input
+                        type="text"
+                        value={templateButton}
+                        onChange={(e) => setTemplateButton(e.target.value)}
+                        placeholder="pleaser enter button name"
+                        className="w-full p-2 border rounded-md focus:outline-none"
+                      />
+                      <div className="flex items-center mt-3 justify-between">
+                        <span>Color:</span>
+                        <ColorPicker
+                          defaultColor={templateDesign.templateButtonBgColor}
+                          onChange={(color) =>
+                            onTemplateChange("templateButtonBgColor")(color)
+                          }
+                        />
+                      </div>
+                    </div>
                   </div>
                   <div className="mb-6">
                     <label className="mb-2.5 block text-black dark:text-white font-semibold">
                       Field Name
                     </label>
-
                     <input
                       type="text"
                       value={fieldName}

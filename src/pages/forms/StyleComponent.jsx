@@ -73,6 +73,7 @@ const StyleComponent = ({
                           <input
                             id="minimum-height"
                             type="number"
+                            placeholder="px"
                             value={
                               templateDesign.templateMinHeight.replace(
                                 "px",
@@ -80,8 +81,7 @@ const StyleComponent = ({
                               ) || ""
                             }
                             onChange={(e) =>
-                              onTemplateChange(
-                                "templateMinHeight",
+                              onTemplateChange("templateMinHeight")(
                                 e.target.value + "px"
                               )
                             }
@@ -89,7 +89,9 @@ const StyleComponent = ({
                           />
                         </div>
                       </>
-                    ) : null}
+                    ) : (
+                      <></>
+                    )}
 
                     {/* Tab for Desktop/Mobile */}
                     <div className="mt-3 font font-semibold text-black">
@@ -397,7 +399,6 @@ const StyleComponent = ({
                     ) : (
                       <></>
                     )}
-
                     <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
                       Save
                     </button>

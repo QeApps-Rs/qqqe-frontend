@@ -25,6 +25,7 @@ const MasterForm = () => {
 
   const [templateDesign, setTemplateDesign] = useState(templateFieldCss);
   const [templateHeading, setTemplateHeading] = useState("");
+  const [templateButton, setTemplateButton] = useState("");
   const [templateOfferAmount, setTemplateOfferAmount] = useState("");
   const [templateSubHeading, setTemplateSubHeading] = useState("");
   const [templateImage, setTemplateImage] = useState("");
@@ -92,22 +93,22 @@ const MasterForm = () => {
     const { formWidth, formType } = templateDesign;
     let classes = "h-auto ";
 
-    if (formWidth === "small") {
-      classes += "w-10/12 ";
-    }
+    // Handle form width
+    classes += formWidth === "small" ? "w-10/12 " : "w-full ";
 
+    // Handle full page or large form width
     if (formType === "full page" || formWidth === "large") {
-      classes += "max-w-full h-full transition-all duration-300 ";
-    } else {
-      classes += "w-1/2 ";
+      classes += "h-full transition-all duration-300 ";
     }
 
+    // Handle view types
     if (isView === "Desktop") {
-      classes += "grid grid-cols-12 items-center bg-white shadow-lg ";
+      classes += "grid grid-cols-12 items-center shadow-lg  max-w-0";
     } else {
-      classes += "max-h-[586px] overflow-y-auto w-[375px] ";
+      classes += "max-h-[586px] overflow-y-auto ";
     }
 
+    // Handle specific mobile conditions
     if (
       isView === "Mobile" &&
       formType === "full page" &&
@@ -117,7 +118,15 @@ const MasterForm = () => {
     }
 
     if (isView === "Mobile" && formType === "embed" && formWidth === "small") {
-      classes += "overflow-y-auto w-min ";
+      classes += "w-min ";
+    }
+    if (
+      isView === "Mobile" &&
+      formType === "full page" &&
+      formWidth === "large"
+    );
+    {
+      classes += "max-w-[375px] ";
     }
 
     return classes.trim();
@@ -300,6 +309,8 @@ const MasterForm = () => {
                       templateDesign={templateDesign}
                       onTemplateChange={handleTemplateChange}
                       inputControllerEditState={inputControllerEditState}
+                      templateButton={templateButton}
+                      setTemplateButton={setTemplateButton}
                     />
                   </>
                 )}
@@ -845,9 +856,8 @@ const MasterForm = () => {
               className={`h-full flex items-center justify-center ${
                 isView !== "Desktop"
                   ? "min-h-[785px] bg-no-repeat bg-top bg-center"
-                  : "gap-8"
+                  : "gap-8 overflow-auto"
               }`}
-            
               style={{
                 backgroundColor: templateDesign.templateBgColor,
                 backgroundImage:
@@ -874,19 +884,29 @@ const MasterForm = () => {
                     isView === "Desktop"
                       ? "xl:col-span-5"
                       : "sm:col-span-12 bg-white shadow-lg flex flex-wrap"
+                  }  ${
+                    templateDesign.formType === "embed" &&
+                    templateDesign.formWidth === "large"
+                      ? "max-h-[518px] overflow-hidden"
+                      : "h-full"
                   }`}
                 >
                   <img
                     src={templateImage ? templateImage : popup_img}
                     alt="Promo"
-                    className="h-full w-full object-contain"
+                    className="h-full w-full object-fill"
                   />
                 </div>
 
                 <div
-                  className={`${
+                  className={`p-8 flex flex-col justify-center ${
                     isView === "Desktop" ? "xl:col-span-7" : "sm:col-span-12"
-                  } p-8 flex flex-col justify-center h-full `}
+                  }  ${
+                    templateDesign.formType === "embed" &&
+                    templateDesign.formWidth === "large"
+                      ? "min-h-[518px]"
+                      : "h-full"
+                  } `}
                   style={{
                     backgroundColor: templateDesign.templateOverlayColor,
                   }}
@@ -909,6 +929,8 @@ const MasterForm = () => {
                         className="text-4xl font-bold mb-4"
                         style={{
                           fontSize: templateDesign.templateHeadingFontSize,
+                          fontFamily: templateDesign.templateHeadingFontFamily,
+                          color: templateDesign.templateHeadingColor,
                         }}
                       >
                         {templateHeading ? templateHeading : "Default Heading"}
@@ -917,6 +939,8 @@ const MasterForm = () => {
                         className="text-4xl font-bold mb-4"
                         style={{
                           fontSize: templateDesign.templateOfferFontSize,
+                          fontFamily: templateDesign.templateOfferFontFamily,
+                          color: templateDesign.templateOfferColor,
                         }}
                       >
                         {" "}
@@ -926,6 +950,9 @@ const MasterForm = () => {
                         className="text-lg mb-6"
                         style={{
                           fontSize: templateDesign.templateSubheadingFontSize,
+                          fontFamily:
+                            templateDesign.templateSubHeadingFontFamily,
+                          color: templateDesign.templateSubheadingColor,
                         }}
                       >
                         {templateSubHeading
@@ -954,8 +981,12 @@ const MasterForm = () => {
                         <button
                           type="submit"
                           className="bg-black text-white py-3 rounded-md text-lg mt-3"
+                          style={{
+                            backgroundColor:
+                              templateDesign.templateButtonBgColor,
+                          }}
                         >
-                          Continue
+                          {templateButton ? templateButton : "Continue"}
                         </button>
                       </form>
                     </>
