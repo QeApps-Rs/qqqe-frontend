@@ -48,7 +48,6 @@ const SuggestionCompNew = () => {
     const [isShowAnalyticsModal, setAnalyticsModal] = useState(false);
 
     const [problemStatement, setProblemStatement] = useState({});
-    const [settingContent, setSettingContent] = useState("");
     const [suggestionId, setSuggestionId] = useState(null);
     const [manageAccordions, setManageAccordions] = useState([]);
     const [accordionTab, setAccordionTab] = useState({
@@ -56,8 +55,12 @@ const SuggestionCompNew = () => {
         'order': hiddenTabObj,
         'product': hiddenTabObj,
         'top_selling_product': hiddenTabObj,
-        'top_abandoned_product': hiddenTabObj
+        'top_abandoned_product': hiddenTabObj,
+        'product_recommendations': hiddenTabObj,
     });
+    const [discountObj, setDiscountObj] = useState({});
+    const [updatedDiscountObj, setUpdatedDiscountObj] = useState({});
+    const [inputTypeValue, setInputTypeValue] = useState(0);
     const [plusMinus, setPlusMinus] = useState([]);
     const { id } = useParams();
 
@@ -90,8 +93,7 @@ const SuggestionCompNew = () => {
         fetchLevel2Suggestions();
     }, []);
 
-    const toggleModal = (content) => {
-        setSettingContent(content);
+    const toggleModal = () => {
         setIsModalOpen(true);
     };
 
@@ -101,8 +103,23 @@ const SuggestionCompNew = () => {
     };
 
     const confirmClickEvent = () => {
-        setAnalyticsModal(true);
-        setIsModalOpen(false);
+        console.log(['updatedDiscountObj', updatedDiscountObj, Object.keys(updatedDiscountObj).length]);
+
+        if (Object.keys(updatedDiscountObj).length == 0) {
+            navigate(`/template/list/${id}s${suggestionId}`);
+        } else {
+            setAnalyticsModal(true);
+            setIsModalOpen(false);
+        }
+    };
+
+    const handleApplyDiscount = (number) => {
+        setInputTypeValue(number);
+        setUpdatedDiscountObj({
+            ...discountObj,
+            "discount_percentage": number,
+            "description": discountObj.description.replace(discountObj.discount_percentage, number),
+        });
     };
 
     // eslint-disable-next-line react/prop-types
@@ -111,7 +128,7 @@ const SuggestionCompNew = () => {
     );
 
     const handleAccordionTab = (type) => {
-        const tabTypes = ['customer', 'order', 'product', 'top_selling_product', 'top_abandoned_product'];
+        const tabTypes = ['customer', 'order', 'product', 'top_selling_product', 'top_abandoned_product', 'product_recommendations'];
         const newAccordionState = tabTypes.reduce((acc, tab) => {
             acc[tab] = (tab === type) ? activeTabObj : hiddenTabObj;
             return acc;
@@ -134,6 +151,7 @@ const SuggestionCompNew = () => {
             'product': hiddenTabObj,
             'top_selling_product': hiddenTabObj,
             'top_abandoned_product': hiddenTabObj,
+            'product_recommendations': hiddenTabObj,
         });
     }
 
@@ -145,6 +163,7 @@ const SuggestionCompNew = () => {
             'Customer_IP': { type: 'customer', title: 'Customer' },
             'Top_Selling_Products': { type: 'top_selling_product', title: 'Top Selling Product' },
             'Top_Abandoned_Products': { type: 'top_abandoned_product', title: 'Top Abandoned Product' },
+            'product_recommendations': { type: 'product_recommendations', title: 'Product Recommendations' },
         };
 
         return Object.keys(dataItem).map((key, index) => {
@@ -201,6 +220,9 @@ const SuggestionCompNew = () => {
             </div>
             <div className={`leading-relaxed ${accordionTab?.top_abandoned_product?.active_tab_body}`}>
                 {dataItem?.Top_Abandoned_Products?.map(renderProduct)}
+            </div>
+            <div className={`leading-relaxed ${accordionTab?.product_recommendations?.active_tab_body}`}>
+                {dataItem?.product_recommendations?.map(renderProduct)}
             </div>
         </div>
     );
@@ -277,12 +299,17 @@ const SuggestionCompNew = () => {
 
     const renderActionTd = (suggestion, suggestionId) => {
         return <div className="flex align-center">
-            {/* <div title="Configuration" className="ml-2 pointer-events-none opacity-50 cursor-not-allowed" data-id={statement.id}> */}
             <div title="Configuration" className="ml-2" data-id={suggestionId}>
                 <SettingIcon
                     onClick={() => {
-                        toggleModal(suggestion.description);
+                        toggleModal();
                         setSuggestionId(suggestionId);
+                        setInputTypeValue(suggestion.discount_percentage);
+                        setDiscountObj({
+                            "description": suggestion.description,
+                            "discount": suggestion.discount,
+                            "discount_percentage": suggestion.discount_percentage
+                        });
                     }
                     }
                 />
@@ -297,6 +324,7 @@ const SuggestionCompNew = () => {
             'product': hiddenTabObj,
             'top_selling_product': hiddenTabObj,
             'top_abandoned_product': hiddenTabObj,
+            'product_recommendations': hiddenTabObj,
         });
         const isCollapsed = JSON.stringify(currentState) === JSON.stringify(defaultState);
         return isCollapsed ? collapsedAccordionState : defaultAccordionState;
@@ -311,6 +339,31 @@ const SuggestionCompNew = () => {
         });
 
         setManageAccordions(updatedAccordions);
+    };
+
+    const modifyStringWithPercentage = (discountObj) => {
+        if (discountObj.discount == 'yes') {
+            const regex = /(\d+)%/g;
+            return discountObj && discountObj.description.split(regex).map((part, index) => {
+                if (!isNaN(part) && part.trim() !== "" && part == discountObj.discount_percentage) {
+                    return (
+                        <span key={index}>
+                            <input
+                                type="number"
+                                className="border border-gray-300 p-1 w-15"
+                                value={inputTypeValue}
+                                onChange={(e) => handleApplyDiscount(e.target.value)}
+                            />
+                            %
+                        </span>
+                    );
+                }
+
+                return <span key={index}>{part}</span>;
+            });
+        } else {
+            return discountObj && discountObj.description;
+        }
     };
 
     // const labelClass = "text-xs w-20 bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100";
@@ -399,7 +452,7 @@ const SuggestionCompNew = () => {
                             onClickInChild={confirmClickEvent}
                             body={
                                 <div className="mt-4">
-                                    <p className="mb-4">{settingContent}</p>
+                                    {modifyStringWithPercentage(discountObj)}
                                 </div>
                             }
                             btnClose="Discard"
@@ -417,7 +470,12 @@ const SuggestionCompNew = () => {
                             onClickInChild={confirmClickEvent}
                             body={
                                 <>
-                                    <SuggestedAnalytics problemId={id} suggestionId={suggestionId} content={settingContent} />
+                                    <SuggestedAnalytics
+                                        problemId={id}
+                                        suggestionId={suggestionId}
+                                        discountObj={discountObj}
+                                        updatedDiscountObj={updatedDiscountObj}
+                                    />
                                 </>
                             }
                             btnClose="Discard"
