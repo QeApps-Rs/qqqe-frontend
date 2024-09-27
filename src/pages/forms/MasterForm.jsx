@@ -71,7 +71,7 @@ const MasterForm = () => {
   `;
   const [inputValues, setInputValues] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
-
+  const [inputSurveyValues, setInputSurveyValues] = useState({});
   const handleInputChange = (fieldName, value) => {
     setInputValues((prev) => ({ ...prev, [fieldName]: value }));
   };
