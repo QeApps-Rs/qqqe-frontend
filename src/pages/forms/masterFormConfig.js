@@ -48,6 +48,12 @@ export const templateFieldCss = {
   successSubHeadingColor: "rgb(0, 0, 0)",
   successDescriptionColor: "rgb(0, 0, 0)",
   containPosition:"center",
+  reviewCount: '5',
+  reviewMinCount: "5",
+  reviewMaxCount: "10",
+  ratingCount: "5",
+  ratingMinCount: "1",
+  ratingMaxCount: "15",
 };
 
 export const inputColorFields = [
@@ -57,7 +63,7 @@ export const inputColorFields = [
 ];
 
 export const inputTextColorFields = [
-  // { label: "Label Color", colorType: "formHeadingColor" },
+  { label: "Label Color", colorType: "formHeadingColor" },
   { label: "Text Color", colorType: "textColor" },
   { label: "Placeholder Color", colorType: "placeholderTextColor" },
 ];
@@ -198,6 +204,12 @@ export const templateEditorCollapseOptions = [
     tag: "bundle",
   },
   {
+    title: "Survey Controller",
+    content:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    tag: "surveyController",
+  },
+  {
     title: "Custom CSS",
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
@@ -216,6 +228,7 @@ export const templateEditorCollapseOptions = [
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     tag: "block",
   },
+
 ];
 
 export const defaultBoxClassName =
@@ -276,3 +289,16 @@ export const fieldTypeDropdownData = {
   ],
   placeholder: "Select Field Type",
 };
+
+
+export const surveyTypeStyles = [
+  { value: "none", label: "None" },
+  { value: "review", label: "Review" },
+  { value: "rating", label: "Rating" },
+  { value: "survey", label: "Survey" },
+];
+
+export const surveyReviewCount = [
+  { value: "5", label: "5" },
+  { value: "10", label: "10" },
+];

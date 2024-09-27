@@ -19,6 +19,8 @@ import StyleComponent from "./StyleComponent";
 import InputControllerComponent from "./InputControllerComponent";
 import TemplateBannerComponent from "./TemplateBannerComponent";
 import { Toaster } from "react-hot-toast";
+import SurveyControllerComponent from "./SurveyControllerComponent";
+import SurveyFormComponent from "./SurveyFormComponent";
 import SuccessControllerComponent from "./SuccessControllerComponent";
 
 const MasterForm = () => {
@@ -43,7 +45,13 @@ const MasterForm = () => {
     fieldName: "",
     placeholderText: "",
   });
+  const [surveyControllerEditState, setSurveyControllerEditState] = useState({
+    index: null,
+    fieldName: "",
+    options: "",
+  });
   const [addedFields, setAddedFields] = useState([]);
+  const [addedQuestion, setAddedQuestion] = useState([]);
 
   const handleTemplateChange = (colorType) => (templateDesign) => {
     setTemplateDesign((prev) => ({ ...prev, [colorType]: templateDesign }));
@@ -63,10 +71,21 @@ const MasterForm = () => {
   `;
   const [inputValues, setInputValues] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
-
+  const [inputSurveyValues, setInputSurveyValues] = useState({});
   const handleInputChange = (fieldName, value) => {
     setInputValues((prev) => ({ ...prev, [fieldName]: value }));
   };
+
+  const handleSurveyInputChange = (fieldName, value) => {
+    setInputSurveyValues((prev) => {
+      const currentValues = prev[fieldName] || [];
+      if (currentValues.includes(value)) {
+        return { ...prev, [fieldName]: currentValues.filter((v) => v !== value) };
+      } else {
+        return { ...prev, [fieldName]: [...currentValues, value] };
+      }
+    });
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -101,14 +120,28 @@ const MasterForm = () => {
     });
   };
 
+  const handleSurveyDeleteField = (fieldName) => {
+    setAddedQuestion((prevFields) => 
+      prevFields.filter((field) => field.fieldName !== fieldName)
+    );
+  };
+  
+  const handleSurveyEdit = (field, index) => {
+    setSurveyControllerEditState({
+      index,
+      fieldName: field.fieldName,
+      options: field.options,
+    });
+  };
+  
   const formClasses = () => {
     const { formWidth, formType } = templateDesign;
     let classes = "h-auto ";
 
-    // Handle form width
-    classes += formWidth === "small" ? "w-10/12 " : "w-full ";
+    if (formWidth === "small") {
+      classes += "w-10/12 ";
+    }
 
-    // Handle full page or large form width
     if (formType === "full page" || formWidth === "large") {
       classes += "h-full transition-all duration-300 ";
     }
@@ -283,6 +316,44 @@ const MasterForm = () => {
     ? templateData.image || popup_img
     : templateData.successImage || popup_img;
 
+
+  const renderStars = (reviewCount) => {
+    const validCount = reviewCount === 5 || reviewCount === 10 ? reviewCount : 5;
+    return (
+      <div className="flex mt-2">
+        {Array.from({ length: validCount }, (_, index) => (
+          <span key={index} className="text-gray-800 text-2xl">★</span>
+        ))}
+      </div>
+    );
+  };
+  
+  const renderNumbers = (count) => {
+    const minCount = templateDesign.ratingMinCount || 1;
+    const maxCount = templateDesign.ratingMaxCount || 15;
+    const validCount = Math.min(Math.max(count, minCount), maxCount);
+    return (
+      <div className="flex mt-2">
+        {Array.from({ length: validCount }, (_, index) => {
+          const number = index + 1; 
+  
+          return (
+            <div
+              key={number}
+              className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-300 text-black border border-gray-500 transition duration-300 cursor-pointer mr-1"
+              onClick={() => onTemplateChange("ratingCount")(number)}
+            >
+              {number}
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+  
+  const reviewCount = parseInt(templateDesign.reviewCount, 10) || 5;
+  const ratingCount = parseInt(templateDesign.ratingCount, 10) || 5;
+  
   return (
     <>
       <aside className="w-1/4  fixed left-[4.7rem] p-4 shadow-lg h-screen overflow-auto top-20">
@@ -293,7 +364,7 @@ const MasterForm = () => {
           {templateEditorCollapseOptions
             .filter((item) => {
               if (isProductBundle) {
-                return item.tag !== "inputController";
+                return item.tag !== "inputController" && item.tag !== "surveyController";
               }
               return item.tag !== "bundle";
             })
@@ -729,7 +800,16 @@ const MasterForm = () => {
                       productListForPopUp={productListForPopUp}
                     />
                   )}
-
+                {!isProductBundle &&
+                  activeIndex === index &&
+                  item.tag === "surveyController" && (
+                    <SurveyControllerComponent
+                      templateDesign={templateDesign}
+                      onTemplateChange={handleTemplateChange}
+                      setAddedQuestion={setAddedQuestion}
+                      surveyControllerEditState={surveyControllerEditState}
+                    />
+                  )}
                 {activeIndex === index && item.tag === "custom_style" && (
                   <div className="p-4 border-t">
                     <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
@@ -1055,6 +1135,18 @@ const MasterForm = () => {
                             onEdit={() => handleEdit(field, index)}
                           />
                         ))}
+                        {addedQuestion.map((field, index)=> (
+                          <SurveyFormComponent
+                            key={index}
+                            templateDesign={templateDesign}                         
+                            options={field.options}
+                            fieldName={field.fieldName}
+                            inputValue={inputSurveyValues[field.fieldName] || ""}
+                            onInputChange={handleSurveyInputChange}
+                            isSubmitted={isSubmitted}
+                            onDelete={() => handleSurveyDeleteField(field.fieldName)}
+                            onEdit={() => handleSurveyEdit(field, index)}/>))                         
+                        }
                         <button
                           type="submit"
                           className="bg-black text-white py-3 rounded-md text-lg mt-3"
@@ -1067,6 +1159,19 @@ const MasterForm = () => {
                             ? templateData.button
                             : "Continue"}
                         </button>
+
+                        {/* Display Stars Here */}
+                        {templateDesign.formBorderStyle === "review" && (
+                          <>                   
+                            {renderStars(reviewCount)} 
+                          </>
+                        )}
+                        {templateDesign.formBorderStyle === "rating" && (
+                          <>                           
+                            {renderNumbers(ratingCount)}
+                          </>
+                        )}
+
                       </form>
                     </>
                   )}
