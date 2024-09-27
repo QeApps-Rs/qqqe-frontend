@@ -21,16 +21,23 @@ import TemplateBannerComponent from "./TemplateBannerComponent";
 import { Toaster } from "react-hot-toast";
 import SurveyControllerComponent from "./SurveyControllerComponent";
 import SurveyFormComponent from "./SurveyFormComponent";
+import SuccessControllerComponent from "./SuccessControllerComponent";
 
 const MasterForm = () => {
   //  shiv code start
 
   const [templateDesign, setTemplateDesign] = useState(templateFieldCss);
-  const [templateHeading, setTemplateHeading] = useState("");
-  const [templateButton, setTemplateButton] = useState("");
-  const [templateOfferAmount, setTemplateOfferAmount] = useState("");
-  const [templateSubHeading, setTemplateSubHeading] = useState("");
-  const [templateImage, setTemplateImage] = useState("");
+  const [templateData, setTemplateData] = useState({
+    heading: "",
+    button: "",
+    offerAmount: "",
+    subHeading: "",
+    image: "",
+    successImage: "",
+    successHeading: "",
+    successSubHeading: "",
+    successDescription: "",
+  });
   const [inputControllerEditState, setInputControllerEditState] = useState({
     index: null,
     fieldType: "",
@@ -56,7 +63,12 @@ const MasterForm = () => {
     ${templateDesign.templatePaddingBottom} 
     ${templateDesign.templatePaddingLeft}
   `;
-
+  const combinedMargin = `
+    ${templateDesign.templateMarginTop} 
+    ${templateDesign.templateMarginRight} 
+    ${templateDesign.templateMarginBottom} 
+    ${templateDesign.templateMarginLeft}
+  `;
   const [inputValues, setInputValues] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -286,6 +298,24 @@ const MasterForm = () => {
     getProductList();
     getCollectionList();
   }, []);
+  const containerClass = `
+  ${templateDesign.formType === "full page" ? "h-full" : ""}
+  ${
+    isView === "Desktop"
+      ? "xl:col-span-5"
+      : "sm:col-span-12 bg-white shadow-lg flex flex-wrap"
+  }
+  ${templateDesign.imagePosition === "0" ? "-order-none" : "order-1"}
+  ${
+    templateDesign.formType === "embed" && templateDesign.formWidth === "large"
+      ? "max-h-[518px] overflow-hidden"
+      : "h-full"
+  }
+`;
+  const imageSrc = !success
+    ? templateData.image || popup_img
+    : templateData.successImage || popup_img;
+
 
   const renderStars = (reviewCount) => {
     const validCount = reviewCount === 5 || reviewCount === 10 ? reviewCount : 5;
@@ -368,19 +398,24 @@ const MasterForm = () => {
                     <Toaster />
                     <InputControllerComponent
                       setAddedFields={setAddedFields}
-                      templateHeading={templateHeading}
-                      setTemplateHeading={setTemplateHeading}
-                      templateOfferAmount={templateOfferAmount}
-                      setTemplateOfferAmount={setTemplateOfferAmount}
-                      templateSubHeading={templateSubHeading}
-                      setTemplateSubHeading={setTemplateSubHeading}
-                      templateImage={templateImage}
-                      setTemplateImage={setTemplateImage}
+                      templateData={templateData}
+                      setTemplateData={setTemplateData}
                       templateDesign={templateDesign}
                       onTemplateChange={handleTemplateChange}
                       inputControllerEditState={inputControllerEditState}
-                      templateButton={templateButton}
-                      setTemplateButton={setTemplateButton}
+                    />
+                  </>
+                )}
+                {activeIndex === index && item.tag === "successController" && (
+                  <>
+                    <Toaster />
+                    <SuccessControllerComponent
+                      setAddedFields={setAddedFields}
+                      templateData={templateData}
+                      setTemplateData={setTemplateData}
+                      templateDesign={templateDesign}
+                      onTemplateChange={handleTemplateChange}
+                      inputControllerEditState={inputControllerEditState}
                     />
                   </>
                 )}
@@ -790,10 +825,9 @@ const MasterForm = () => {
                                     </label>
                                     <div className="mb-6">
                                       <textarea
-                                        className="w-full mt-2 w-25 border border-gray-300 rounded p-1 text-center"
+                                        className="w-full mt-2 w-25 border border-gray-300 rounded p-1 h-40"
                                         id="custom-css"
                                         name="custom-css"
-                                        placeholder="Enter your code"
                                       />
                                     </div>
                                   </div>
@@ -826,8 +860,7 @@ const MasterForm = () => {
                                       <textarea
                                         id="custom-js"
                                         name="custom-js"
-                                        className="w-full mt-2 w-25 border border-gray-300 rounded p-1 text-center"
-                                        placeholder="Enter your code"
+                                        className="w-full mt-2 w-25 border border-gray-300 rounded p-1 h-40"
                                       />
                                     </div>
                                   </div>
@@ -876,6 +909,7 @@ const MasterForm = () => {
             <ProductBundlePopUp
               productData={productListForPopUp}
               noOfProducts={noOfProducts}
+              templateDesign={templateDesign}
             />
           </div>
         </>
@@ -939,6 +973,7 @@ const MasterForm = () => {
               }`}
               style={{
                 backgroundColor: templateDesign.templateBgColor,
+                margin: combinedMargin,
                 backgroundImage:
                   isView !== "Desktop"
                     ? "url('https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/src/images/mobile_bg.png')"
@@ -956,22 +991,9 @@ const MasterForm = () => {
                   minHeight: templateDesign.templateMinHeight,
                 }}
               >
-                <div
-                  className={`${
-                    templateDesign.formType === "full page" ? "h-full" : ""
-                  } ${
-                    isView === "Desktop"
-                      ? "xl:col-span-5"
-                      : "sm:col-span-12 bg-white shadow-lg flex flex-wrap"
-                  }  ${
-                    templateDesign.formType === "embed" &&
-                    templateDesign.formWidth === "large"
-                      ? "max-h-[518px] overflow-hidden"
-                      : "h-full"
-                  }`}
-                >
+                <div className={containerClass}>
                   <img
-                    src={templateImage ? templateImage : popup_img}
+                    src={imageSrc}
                     alt="Promo"
                     className="h-full w-full object-fill"
                   />
@@ -991,15 +1013,67 @@ const MasterForm = () => {
                   }}
                 >
                   {success ? (
-                    <div className="flex flex-col justify-center text-center items-center">
-                      <img
-                        src={successImg}
-                        alt="Success"
-                        className="inline-block max-w-[130px]"
-                      />
-                      <p className="text-lg mt-10">
-                        Thanks for sharing. Please check your email for
-                        confirmation message.
+                    <div
+                      className={`${
+                        templateDesign.containPosition === "center"
+                          ? "text-center"
+                          : templateDesign.containPosition === "right"
+                          ? "text-left"
+                          : "text-right"
+                      } flex flex-col justify-center `}
+                    >
+                      <div
+                        className={`${
+                          templateDesign.containPosition === "center"
+                            ? "justify-center"
+                            : templateDesign.containPosition === "left"
+                            ? "justify-end"
+                            : "justify-right"
+                        } flex w-full`}
+                      >
+                        <img
+                          src={successImg}
+                          alt="Success"
+                          className="flex max-w-[130px] w-27 h-27 rounded-full object-cover"
+                        />
+                      </div>
+                      <h2
+                        className="text-4xl font-bold mt-4"
+                        style={{
+                          fontSize: templateDesign.successHeadingFontSize,
+                          fontFamily: templateDesign.successHeadingFontFamily,
+                          color: templateDesign.successHeadingColor,
+                        }}
+                      >
+                        {templateData.successHeading
+                          ? templateData.successHeading
+                          : "Thanks for sharing. Please check your email for confirmation message"}
+                      </h2>
+                      <span
+                        className="text-xl font-bold mt-4"
+                        style={{
+                          fontSize: templateDesign.successSubHeadingFontSize,
+                          fontFamily:
+                            templateDesign.successSubHeadingFontFamily,
+                          color: templateDesign.successSubHeadingColor,
+                        }}
+                      >
+                        {templateData.successSubHeading
+                          ? templateData.successSubHeading
+                          : "Thanks for sharing. Please check your email for confirmation message"}
+                      </span>
+                      <p
+                        className="text-lg mt-4"
+                        style={{
+                          fontSize: templateDesign.successDescriptionFontSize,
+                          fontFamily:
+                            templateDesign.successDescriptionFontFamily,
+                          color: templateDesign.successDescriptionColor,
+                        }}
+                      >
+                        {templateData.successDescription
+                          ? templateData.successDescription
+                          : "Thanks for sharing. Please check your email for confirmation message"}
                       </p>
                     </div>
                   ) : (
@@ -1012,7 +1086,9 @@ const MasterForm = () => {
                           color: templateDesign.templateHeadingColor,
                         }}
                       >
-                        {templateHeading ? templateHeading : "Default Heading"}
+                        {templateData.heading
+                          ? templateData.heading
+                          : "Default Heading"}
                       </h2>
                       <h2
                         className="text-4xl font-bold mb-4"
@@ -1023,7 +1099,9 @@ const MasterForm = () => {
                         }}
                       >
                         {" "}
-                        {templateOfferAmount ? templateOfferAmount : "10% Off"}
+                        {templateData.offerAmount
+                          ? templateData.offerAmount
+                          : "10% Off"}
                       </h2>
                       <p
                         className="text-lg mb-6"
@@ -1034,8 +1112,8 @@ const MasterForm = () => {
                           color: templateDesign.templateSubheadingColor,
                         }}
                       >
-                        {templateSubHeading
-                          ? templateSubHeading
+                        {templateData.subHeading
+                          ? templateData.subHeading
                           : "Save on your first order and get email-only offers when you join."}
                       </p>
                       <form
@@ -1077,7 +1155,9 @@ const MasterForm = () => {
                               templateDesign.templateButtonBgColor,
                           }}
                         >
-                          {templateButton ? templateButton : "Continue"}
+                          {templateData.button
+                            ? templateData.button
+                            : "Continue"}
                         </button>
 
                         {/* Display Stars Here */}
