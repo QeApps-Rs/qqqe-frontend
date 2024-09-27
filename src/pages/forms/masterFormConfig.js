@@ -18,6 +18,10 @@ export const templateFieldCss = {
   templatePaddingBottom: "0px",
   templatePaddingLeft: "0px",
   templatePaddingRight: "0px",
+  templateMarginTop: "0px",
+  templateMarginBottom: "0px",
+  templateMarginLeft: "0px",
+  templateMarginRight: "0px",
   formBorderStyle: "none",
   formType: "full page",
   formWidth: "large",
@@ -25,15 +29,26 @@ export const templateFieldCss = {
   templateHeadingFontSize: "32px",
   templateOfferFontSize: "24px",
   templateSubheadingFontSize: "16px",
-  templateHeadingFontFamily : "Arial",
-  templateOfferFontFamily : "Arial",
-  templateSubHeadingFontFamily : "Arial",
-  templateHeadingColor : "rgb(0, 0, 0)",
-  templateSubheadingColor : "rgb(0, 0, 0)",
-  templateOfferColor : "rgb(0, 0, 0)",
-  templateButtonBgColor : "rgb(0, 0, 0)"
-
-}; 
+  templateHeadingFontFamily: "Arial",
+  templateOfferFontFamily: "Arial",
+  templateSubHeadingFontFamily: "Arial",
+  templateHeadingColor: "rgb(0, 0, 0)",
+  templateSubheadingColor: "rgb(0, 0, 0)",
+  templateOfferColor: "rgb(0, 0, 0)",
+  templateButtonBgColor: "rgb(0, 0, 0)",
+  templateProductOverlayColor: "rgb(0, 0, 0)",
+  imagePosition: "0",
+  successHeadingFontSize: "32px",
+  successDescriptionFontSize: "24px",
+  successSubHeadingFontSize: "16px",
+  successHeadingFontFamily: "Arial",
+  successDescriptionFontFamily: "Arial",
+  successSubHeadingFontFamily: "Arial",
+  successHeadingColor: "rgb(0, 0, 0)",
+  successSubHeadingColor: "rgb(0, 0, 0)",
+  successDescriptionColor: "rgb(0, 0, 0)",
+  containPosition:"center",
+};
 
 export const inputColorFields = [
   { label: "Background Color", colorType: "bgColor" },
@@ -49,7 +64,7 @@ export const inputTextColorFields = [
 
 export const templateBgField = [
   { label: "Background color", colorType: "templateBgColor" },
-  { label: "Overlay color:", colorType: "templateOverlayColor" },
+  { label: "Overlay color", colorType: "templateOverlayColor" },
 ];
 
 export const fontFamilyList = [
@@ -165,6 +180,12 @@ export const templateEditorCollapseOptions = [
     tag: "inputController",
   },
   {
+    title: "Success Controller",
+    content:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    tag: "successController",
+  },
+  {
     title: "Targeting & behavior",
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
@@ -223,6 +244,27 @@ export const fieldValidationDropdownData = {
   placeholder: "Select Field Validation",
 };
 
+export const imagePositionDropdownData = {
+  label: "Image Position",
+  name: "imagePosition",
+  id: "imagePositionDropdown",
+  options: [
+    { value: "0", label: "Left" },
+    { value: "1", label: "Right" },
+  ],
+  placeholder: "Select Image Position",
+};
+export const successContainPositionDropdownData = {
+  label: "Contain Position",
+  name: "containPosition",
+  id: "containPositionDropdown",
+  options: [
+    { value: "left", label: "Left" },
+    { value: "center", label: "Center" },
+    { value: "right", label: "Right" },
+  ],
+  placeholder: "Select Contain Position",
+};
 export const fieldTypeDropdownData = {
   label: "Field Type",
   name: "fieldType",

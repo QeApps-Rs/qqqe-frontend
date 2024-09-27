@@ -1,7 +1,7 @@
 import React from "react";
 import successImg from "../../../src/images/success_fn.png";
 import defaultProductImg from "../../images/default_product.png";
-function ProductBundlePopUp({ productData, noOfProducts }) {
+function ProductBundlePopUp({ productData, noOfProducts, templateDesign }) {
   const DefaultProductDiv = ({ noOfProducts, defaultProductImg }) => {
     return (
       <>
@@ -42,7 +42,10 @@ function ProductBundlePopUp({ productData, noOfProducts }) {
         id="product-bundle"
         className="w-full h-full flex justify-center items-center flex  border-l border-[#eaedef] w-full bg-white shadow-[6px_0px_7px_#ccc]"
       >
-        <div className="bg-white rounded-lg  p-6 w-full max-w-3xl relative  shadow-[7px_-7px_57px_#ccc]">
+        <div
+          className=" rounded-lg  p-6 w-full max-w-3xl relative  shadow-[7px_-7px_57px_#ccc]"
+          style={{ backgroundColor: templateDesign.templateBgColor }}
+        >
           <div className="text-center mb-4">
             <h5>Welcome back!</h5>
             <h4 className="text-lg font-semibold">
@@ -53,7 +56,13 @@ function ProductBundlePopUp({ productData, noOfProducts }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {productData && productData.length > 0 ? (
               productData.map((product, index) => (
-                <div key={index} className="border rounded-lg p-4 ">
+                <div
+                  key={index}
+                  className="border rounded-lg p-4 "
+                  style={{
+                    backgroundColor: templateDesign.templateOverlayColor,
+                  }}
+                >
                   <div className="mb-4">
                     <a href="#">
                       <img
