@@ -281,7 +281,7 @@ const ProductBundleTab = ({
                 <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                   <form action="#">
                     <div className="p-3">
-                      <div className="mb-4.5 border-b border-black pb-4">
+                      {/* <div className="mb-4.5 border-b border-black pb-4">
                         <label className="mb-2.5 block text-black dark:text-white font-semibold">
                           Bundle Details
                         </label>
@@ -301,13 +301,13 @@ const ProductBundleTab = ({
                             className=" w-32 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                           />
                         </div>
-                      </div>
+                      </div> */}
                       <div className="mb-4.5 border-b border-black pb-4">
                         <label className="mb-2.5 block text-black dark:text-white font-semibold">
                           Bundle Settings
                         </label>
                         <div className="mt-3 flex justify-between flex-row items-center">
-                          <span>No Of Products:</span>
+                          <span>No of Products:</span>
                           <select
                             onChange={(e) => onNoOfProductsSelect(e)}
                             value={noOfProducts}
@@ -326,8 +326,8 @@ const ProductBundleTab = ({
                         </label>
                         <Tabs>
                           <TabList>
-                            <Tab>Product</Tab>
-                            <Tab>Collection</Tab>
+                            <Tab>Select Product</Tab>
+                            <Tab>Select Collection</Tab>
                           </TabList>
 
                           <TabPanel className={"max-h-60 overflow-y-auto"}>

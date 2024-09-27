@@ -1,91 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import DropDown from "../../components/higherOrderComponent/Dropdown/Dropdown";
 import {
-  fieldValidationDropdownData,
-  fieldTypeDropdownData,
   defaultBoxClassName,
   fontFamilyList,
-  imagePositionDropdownData,
+  successContainPositionDropdownData,
 } from "./masterFormConfig";
 import { CameraIcon } from "../../components/custIcon/svgIcon";
 import ColorPicker from "../../components/higherOrderComponent/ColorPicker/ColorPicker";
-const InputControllerComponent = ({
+const SuccessControllerComponent = ({
   templateData,
   setTemplateData,
-  setAddedFields,
   templateDesign,
   onTemplateChange,
-  inputControllerEditState,
 }) => {
-  const [fieldState, setFieldState] = useState({
-    fieldType: "",
-    fieldValidation: "",
-    fieldName: "",
-    placeholderText: "",
-  });
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [editIndex, setEditIndex] = useState(null);
-  const [renderKey, setRenderKey] = useState(0);
-
-  useEffect(() => {
-    if (inputControllerEditState?.fieldType) {
-      setFieldState({
-        fieldType: inputControllerEditState?.fieldType,
-        fieldValidation: inputControllerEditState?.fieldValidation,
-        fieldName: inputControllerEditState?.fieldName,
-        placeholderText: inputControllerEditState?.placeholderText,
-      });
-      setIsEditMode(true);
-      setEditIndex(inputControllerEditState?.index);
-    }
-  }, [inputControllerEditState]);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFieldState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleAddField = () => {
-    const { fieldType, fieldValidation, fieldName, placeholderText } =
-      fieldState;
-    if (!fieldType || !fieldValidation || !fieldName || !placeholderText) {
-      toast.error("Please select all fields before adding.");
-      return;
-    }
-
-    setAddedFields((prevFields) => {
-      if (isEditMode && editIndex !== null) {
-        const updatedFields = [...prevFields];
-        updatedFields[editIndex] = { ...fieldState };
-        return updatedFields;
-      } else {
-        return [...prevFields, { ...fieldState }];
-      }
-    });
-
-    resetForm();
-  };
-
-  const resetForm = () => {
-    setFieldState({
-      fieldType: "",
-      fieldValidation: "",
-      fieldName: "",
-      placeholderText: "",
-    });
-    setIsEditMode(false);
-    setEditIndex(null);
-    setRenderKey((prevKey) => prevKey + 1);
-  };
-
   const inputControllerFieldClass =
     "p-3 rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark";
-  const styleControllerFieldClass =
-    "mt-3 flex justify-between flex-row items-center";
 
   return (
     <div className="p-4 border-t">
@@ -115,7 +45,7 @@ const InputControllerComponent = ({
                             reader.onloadend = () => {
                               setTemplateData((prev) => ({
                                 ...prev,
-                                image: reader.result,
+                                successImage: reader.result,
                               }));
                             };
                             reader.readAsDataURL(file);
@@ -131,9 +61,9 @@ const InputControllerComponent = ({
                   <div className="mb-6">
                     <DropDown
                       jsonData={{
-                        ...imagePositionDropdownData,
-                        onChange: onTemplateChange("imagePosition"),
-                        defaultValue: templateDesign.imagePosition,
+                        ...successContainPositionDropdownData,
+                        onChange: onTemplateChange("containPosition"),
+                        defaultValue: templateDesign.containPosition,
                       }}
                     />
                   </div>
@@ -143,11 +73,11 @@ const InputControllerComponent = ({
                     </label>
                     <input
                       type="text"
-                      value={templateData.heading}
+                      value={templateData.successHeading}
                       onChange={(e) =>
                         setTemplateData((prev) => ({
                           ...prev,
-                          heading: e.target.value,
+                          successHeading: e.target.value,
                         }))
                       }
                       placeholder="pleaser enter template heading"
@@ -158,11 +88,11 @@ const InputControllerComponent = ({
                       <span className="mr-2">Font:</span>
                       <select
                         onChange={(e) =>
-                          onTemplateChange("templateHeadingFontFamily")(
+                          onTemplateChange("successHeadingFontFamily")(
                             e.target.value
                           )
                         }
-                        value={templateDesign.templateHeadingFontFamily}
+                        value={templateDesign.successHeadingFontFamily}
                         className={`${defaultBoxClassName} h-12 mr-2`}
                       >
                         {fontFamilyList.map((item) => (
@@ -177,13 +107,13 @@ const InputControllerComponent = ({
                         className={`${defaultBoxClassName} h-12`}
                         placeholder="px"
                         value={
-                          templateDesign.templateHeadingFontSize.replace(
+                          templateDesign.successHeadingFontSize.replace(
                             "px",
                             ""
                           ) || ""
                         }
                         onChange={(e) =>
-                          onTemplateChange("templateHeadingFontSize")(
+                          onTemplateChange("successHeadingFontSize")(
                             e.target.value + "px"
                           )
                         }
@@ -192,70 +122,9 @@ const InputControllerComponent = ({
                     <div className="flex items-center mt-3">
                       <span className="mr-2">Color:</span>
                       <ColorPicker
-                        defaultColor={templateDesign.templateHeadingColor}
+                        defaultColor={templateDesign.successHeadingColor}
                         onChange={(color) =>
-                          onTemplateChange("templateHeadingColor")(color)
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className={`mt-4 ${inputControllerFieldClass}`}>
-                    <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                      Template Offer Number
-                    </label>
-                    <input
-                      type="text"
-                      value={templateData.offerAmount}
-                      onChange={(e) =>
-                        setTemplateData((prev) => ({
-                          ...prev,
-                          offerAmount: e.target.value,
-                        }))
-                      }
-                      placeholder="pleaser enter template offer number"
-                      className="w-full p-2 border rounded-md focus:outline-none"
-                    />
-                    <div className="mt-3 flex justify-between flex-row items-center">
-                      <span className="mr-2">Font:</span>
-                      <select
-                        onChange={(e) =>
-                          onTemplateChange("templateOfferFontFamily")(
-                            e.target.value
-                          )
-                        }
-                        value={templateDesign.templateOfferFontFamily}
-                        className={`${defaultBoxClassName} h-12 mr-2`}
-                      >
-                        {fontFamilyList.map((item) => (
-                          <option key={item.label} value={item.label}>
-                            {item.label}
-                          </option>
-                        ))}
-                      </select>
-                      <input
-                        id="border-thickness"
-                        type="number"
-                        placeholder="px"
-                        className={`${defaultBoxClassName} h-12`}
-                        value={
-                          templateDesign.templateOfferFontSize.replace(
-                            "px",
-                            ""
-                          ) || ""
-                        }
-                        onChange={(e) =>
-                          onTemplateChange("templateOfferFontSize")(
-                            e.target.value + "px"
-                          )
-                        }
-                      />
-                    </div>
-                    <div className="flex items-center mt-3">
-                      <span className="mr-2">Color:</span>
-                      <ColorPicker
-                        defaultColor={templateDesign.templateOfferColor}
-                        onChange={(color) =>
-                          onTemplateChange("templateOfferColor")(color)
+                          onTemplateChange("successHeadingColor")(color)
                         }
                       />
                     </div>
@@ -267,11 +136,11 @@ const InputControllerComponent = ({
 
                     <input
                       type="text"
-                      value={templateData.subHeading}
+                      value={templateData.successSubHeading}
                       onChange={(e) =>
                         setTemplateData((prev) => ({
                           ...prev,
-                          subHeading: e.target.value,
+                          successSubHeading: e.target.value,
                         }))
                       }
                       placeholder="pleaser enter template sub-heading"
@@ -281,11 +150,11 @@ const InputControllerComponent = ({
                       <span className="mr-2">Font:</span>
                       <select
                         onChange={(e) =>
-                          onTemplateChange("templateSubHeadingFontFamily")(
+                          onTemplateChange("successSubHeadingFontFamily")(
                             e.target.value
                           )
                         }
-                        value={templateDesign.templateSubHeadingFontFamily}
+                        value={templateDesign.successSubHeadingFontFamily}
                         className={`${defaultBoxClassName} h-12 mr-2`}
                       >
                         {fontFamilyList.map((item) => (
@@ -300,13 +169,13 @@ const InputControllerComponent = ({
                         placeholder="px"
                         className={`${defaultBoxClassName} h-12`}
                         value={
-                          templateDesign.templateSubheadingFontSize.replace(
+                          templateDesign.successSubHeadingFontSize.replace(
                             "px",
                             ""
                           ) || ""
                         }
                         onChange={(e) =>
-                          onTemplateChange("templateSubheadingFontSize")(
+                          onTemplateChange("successSubHeadingFontSize")(
                             e.target.value + "px"
                           )
                         }
@@ -315,101 +184,74 @@ const InputControllerComponent = ({
                     <div className="flex items-center mt-3">
                       <span className="mr-2">Color:</span>
                       <ColorPicker
-                        defaultColor={templateDesign.templateSubheadingColor}
+                        defaultColor={templateDesign.successSubHeadingColor}
                         onChange={(color) =>
-                          onTemplateChange("templateSubheadingColor")(color)
+                          onTemplateChange("successSubHeadingColor")(color)
                         }
                       />
                     </div>
                   </div>
-                  <div className="mb-6">
-                    <div className={`mt-4 ${inputControllerFieldClass}`}>
-                      <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                        Button Name
-                      </label>
-                      <input
-                        type="text"
-                        value={templateData.button}
+                  <div className={`mt-4 ${inputControllerFieldClass}`}>
+                    <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                      Description
+                    </label>
+                    <input
+                      type="text"
+                      value={templateData.successDescription}
+                      onChange={(e) =>
+                        setTemplateData((prev) => ({
+                          ...prev,
+                          successDescription: e.target.value,
+                        }))
+                      }
+                      placeholder="pleaser enter template offer number"
+                      className="w-full p-2 border rounded-md focus:outline-none"
+                    />
+                    <div className="mt-3 flex justify-between flex-row items-center">
+                      <span className="mr-2">Font:</span>
+                      <select
                         onChange={(e) =>
-                          setTemplateData((prev) => ({
-                            ...prev,
-                            button: e.target.value,
-                          }))
+                          onTemplateChange("successDescriptionFontFamily")(
+                            e.target.value
+                          )
                         }
-                        placeholder="pleaser enter button name"
-                        className="w-full p-2 border rounded-md focus:outline-none"
+                        value={templateDesign.successDescriptionFontFamily}
+                        className={`${defaultBoxClassName} h-12 mr-2`}
+                      >
+                        {fontFamilyList.map((item) => (
+                          <option key={item.label} value={item.label}>
+                            {item.label}
+                          </option>
+                        ))}
+                      </select>
+                      <input
+                        id="border-thickness"
+                        type="number"
+                        placeholder="px"
+                        className={`${defaultBoxClassName} h-12`}
+                        value={
+                          templateDesign.successDescriptionFontSize.replace(
+                            "px",
+                            ""
+                          ) || ""
+                        }
+                        onChange={(e) =>
+                          onTemplateChange("successDescriptionFontSize")(
+                            e.target.value + "px"
+                          )
+                        }
                       />
-                      <div className="flex items-center mt-3 justify-between">
-                        <span>Color:</span>
-                        <ColorPicker
-                          defaultColor={templateDesign.templateButtonBgColor}
-                          onChange={(color) =>
-                            onTemplateChange("templateButtonBgColor")(color)
-                          }
-                        />
-                      </div>
+                    </div>
+                    <div className="flex items-center mt-3">
+                      <span className="mr-2">Color:</span>
+                      <ColorPicker
+                        defaultColor={templateDesign.successDescriptionColor}
+                        onChange={(color) =>
+                          onTemplateChange("successDescriptionColor")(color)
+                        }
+                      />
                     </div>
                   </div>
-                  <div className="mb-6">
-                    <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                      Field Name
-                    </label>
-                    <input
-                      type="text"
-                      name="fieldName"
-                      value={fieldState.fieldName}
-                      onChange={handleInputChange}
-                      placeholder="Please enter field name"
-                      className="w-full p-2 border rounded-md focus:outline-none"
-                    />
-                  </div>
-                  <div className="mb-6">
-                    <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                      Field Placeholder
-                    </label>
-                    <input
-                      type="text"
-                      name="placeholderText"
-                      value={fieldState.placeholderText}
-                      placeholder="Please enter field placeholder"
-                      onChange={handleInputChange}
-                      className="w-full p-2 border rounded-md focus:outline-none"
-                    />
-                  </div>
-                  <div className="mb-6">
-                    <DropDown
-                      key={`fieldValidation-${renderKey}`}
-                      jsonData={{
-                        ...fieldValidationDropdownData,
-                        defaultValue: fieldState.fieldValidation,
-                        onChange: (value) =>
-                          setFieldState((prevState) => ({
-                            ...prevState,
-                            fieldValidation: value,
-                          })),
-                      }}
-                    />
-                  </div>
-                  <div className="mb-6">
-                    <DropDown
-                      key={`fieldType-${renderKey}`}
-                      jsonData={{
-                        ...fieldTypeDropdownData,
-                        defaultValue: fieldState.fieldType,
-                        onChange: (value) =>
-                          setFieldState((prevState) => ({
-                            ...prevState,
-                            fieldType: value,
-                          })),
-                      }}
-                    />
-                  </div>
-                  <button
-                    className="bg-blue-500 text-white py-2 px-4 rounded w-full"
-                    onClick={handleAddField}
-                  >
-                    {isEditMode ? "Update Field" : "Add Field"}
-                  </button>
                 </div>
               </form>
             </div>
@@ -419,4 +261,4 @@ const InputControllerComponent = ({
     </div>
   );
 };
-export default InputControllerComponent;
+export default SuccessControllerComponent;
