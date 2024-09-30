@@ -101,9 +101,7 @@ const SuggestionCompNew = () => {
     };
 
     const confirmClickEvent = () => {
-        console.log(['updatedDiscountObj', updatedDiscountObj, Object.keys(updatedDiscountObj).length]);
-
-        if (Object.keys(updatedDiscountObj).length == 0) {
+        if (JSON.stringify(discountObj) === JSON.stringify(updatedDiscountObj)) {
             navigate(`/template/list/${id}s${suggestionId}`);
         } else {
             setAnalyticsModal(true);
@@ -297,6 +295,11 @@ const SuggestionCompNew = () => {
                         setSuggestionId(suggestionId);
                         setInputTypeValue(suggestion.discount_percentage);
                         setDiscountObj({
+                            "description": suggestion.description,
+                            "discount": suggestion.discount,
+                            "discount_percentage": suggestion.discount_percentage
+                        });
+                        setUpdatedDiscountObj({
                             "description": suggestion.description,
                             "discount": suggestion.discount,
                             "discount_percentage": suggestion.discount_percentage
