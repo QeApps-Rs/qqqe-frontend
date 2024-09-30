@@ -378,9 +378,11 @@ const ProductBundleTab = ({
                         </label>
                         <Tabs key={"targeted-preference-tabs-1"}>
                           <TabList key={"targeted-preference-tablist-1"}>
-                            <Tab key={"targeted-preference-tab-1"}>Product</Tab>
+                            <Tab key={"targeted-preference-tab-1"}>
+                              Select Product
+                            </Tab>
                             <Tab key={"targeted-preference-tab-2"}>
-                              Collection
+                              Select Collection
                             </Tab>
                           </TabList>
 
