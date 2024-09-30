@@ -7,21 +7,21 @@ export const templateFieldCss = {
   textColor: "rgb(0, 0, 0)",
   letterSpacing: "1px",
   inputFontSize: "14px",
-  templateBgColor: "rgb(0, 0, 0)",
+  templateBgColor: "rgb(255,255,255)",
   templateOverlayColor: "rgb(255, 255, 255)",
   fontWeight: "normal",
   fontFamily: "Arial",
   borderRadius: "",
   borderWidth: "2px",
   templateBorderColor: "rgb(255, 255, 255)",
-  templatePaddingTop: "0px",
-  templatePaddingBottom: "0px",
-  templatePaddingLeft: "0px",
-  templatePaddingRight: "0px",
-  templateMarginTop: "0px",
-  templateMarginBottom: "0px",
-  templateMarginLeft: "0px",
-  templateMarginRight: "0px",
+  templatePaddingTop: "8px",
+  templatePaddingBottom: "8px",
+  templatePaddingLeft: "8px",
+  templatePaddingRight: "8px",
+  templateMarginTop: "8px",
+  templateMarginBottom: "8px",
+  templateMarginLeft: "8px",
+  templateMarginRight: "8px",
   formBorderStyle: "none",
   formType: "full page",
   formWidth: "large",
@@ -74,13 +74,17 @@ export const templateBgField = [
 ];
 
 export const fontFamilyList = [
-  { label: "Arial" },
-  { label: "Arial Black" },
-  { label: "Century Gothic" },
-  { label: "Comic Sans MS" },
-  { label: "Courier" },
-  { label: "Geneva" },
+  { label: "Arial", value: "Arial, sans-serif" },
+  { label: "Arial Black", value: "'Arial Black', sans-serif" },
+  { label: "Courier", value: "'Courier', monospace" },
+  { label: "Geneva", value: "Geneva, sans-serif" },
+  { label: "Helvetica", value: "Helvetica, sans-serif" },
+  { label: "Franklin Gothic", value: "'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif" },
+  { label: "Courier New", value: "'Courier New', Courier, monospace" },
+  { label: "Brush Script MT", value: "'Brush Script MT', cursive" }
 ];
+
+
 
 export const borderStyles = [
   { value: "none", label: "None" },
@@ -221,14 +225,6 @@ export const templateEditorCollapseOptions = [
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     tag: "custom_js",
   },
-  {
-    title: "Add blocks",
-    subtitle: "Coming Soon",
-    content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    tag: "block",
-  },
-
 ];
 
 export const defaultBoxClassName =
