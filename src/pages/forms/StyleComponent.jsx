@@ -25,7 +25,30 @@ const StyleComponent = ({
 
   const styleFieldTitleClass =
     "mb-2.5 block text-black dark:text-white font-semibold";
-
+  const PaddingInput = ({ label, value, onChange }) => (
+    <div className="flex flex-col">
+      <label className="mb-1">{label}</label>
+      <input
+        type="number"
+        className={`${defaultBoxClassName} h-10`}
+        placeholder="px"
+        value={value.replace("px", "") || ""}
+        onChange={(e) => onChange(e.target.value + "px")}
+      />
+    </div>
+  );
+  const MarginInput = ({ label, value, onChange }) => (
+    <div className="flex flex-col">
+      <label className="mb-1">{label}</label>
+      <input
+        type="number"
+        className={`${defaultBoxClassName} h-10`}
+        placeholder="px"
+        value={value.replace("px", "") || ""}
+        onChange={(e) => onChange(e.target.value + "px")}
+      />
+    </div>
+  );
   return (
     <div className="p-4 border-t">
       <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
@@ -201,94 +224,57 @@ const StyleComponent = ({
                         </>
                       )}
                       <div className="flex flex-col">
-                        <label className="mb-2">Padding(px):</label>
+                        <label className="mb-2">Padding (px):</label>
                         <div className="flex gap-4 justify-end">
-                          <div className="flex flex-col">
-                            <label className="mb-1">Top</label>
-                            <div className="flex items-center">
-                              <input
-                                type="number"
-                                className={`${defaultBoxClassName} h-10`}
-                                placeholder="px"
-                                value={
-                                  templateDesign.templatePaddingTop.replace(
-                                    "px",
-                                    ""
-                                  ) || ""
-                                }
-                                onChange={(e) =>
-                                  onTemplateChange("templatePaddingTop")(
-                                    e.target.value + "px"
-                                  )
-                                }
-                              />
-                            </div>
-                          </div>
-                          <div className="flex flex-col">
-                            <label className="mb-1">Bottom</label>
-                            <div className="flex items-center">
-                              <input
-                                type="number"
-                                className={`${defaultBoxClassName} h-10`}
-                                placeholder="px"
-                                value={
-                                  templateDesign.templatePaddingBottom.replace(
-                                    "px",
-                                    ""
-                                  ) || ""
-                                }
-                                onChange={(e) =>
-                                  onTemplateChange("templatePaddingBottom")(
-                                    e.target.value + "px"
-                                  )
-                                }
-                              />
-                            </div>
-                          </div>
+                          <PaddingInput
+                            label="Top"
+                            value={templateDesign.templatePaddingTop}
+                            onChange={onTemplateChange("templatePaddingTop")}
+                          />
+                          <PaddingInput
+                            label="Bottom"
+                            value={templateDesign.templatePaddingBottom}
+                            onChange={onTemplateChange("templatePaddingBottom")}
+                          />
                         </div>
                         <div className="flex gap-4 mt-4 justify-end">
-                          <div className="flex flex-col">
-                            <label className="mb-1">Left</label>
-                            <div className="flex items-center">
-                              <input
-                                type="number"
-                                className={`${defaultBoxClassName} h-10`}
-                                placeholder="px"
-                                value={
-                                  templateDesign.templatePaddingLeft.replace(
-                                    "px",
-                                    ""
-                                  ) || ""
-                                }
-                                onChange={(e) =>
-                                  onTemplateChange("templatePaddingLeft")(
-                                    e.target.value + "px"
-                                  )
-                                }
-                              />
-                            </div>
-                          </div>
-                          <div className="flex flex-col">
-                            <label className="mb-1">Right</label>
-                            <div className="flex items-center">
-                              <input
-                                type="number"
-                                className={`${defaultBoxClassName} h-10`}
-                                placeholder="px"
-                                value={
-                                  templateDesign.templatePaddingRight.replace(
-                                    "px",
-                                    ""
-                                  ) || ""
-                                }
-                                onChange={(e) =>
-                                  onTemplateChange("templatePaddingRight")(
-                                    e.target.value + "px"
-                                  )
-                                }
-                              />
-                            </div>
-                          </div>
+                          <PaddingInput
+                            label="Left"
+                            value={templateDesign.templatePaddingLeft}
+                            onChange={onTemplateChange("templatePaddingLeft")}
+                          />
+                          <PaddingInput
+                            label="Right"
+                            value={templateDesign.templatePaddingRight}
+                            onChange={onTemplateChange("templatePaddingRight")}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-col">
+                        <label className="mb-2">Margin (px):</label>
+                        <div className="flex gap-4 justify-end">
+                          <MarginInput
+                            label="Top"
+                            value={templateDesign.templateMarginTop}
+                            onChange={onTemplateChange("templateMarginTop")}
+                          />
+                          <MarginInput
+                            label="Bottom"
+                            value={templateDesign.templateMarginBottom}
+                            onChange={onTemplateChange("templateMarginBottom")}
+                          />
+                        </div>
+                        <div className="flex gap-4 mt-4 justify-end">
+                          <MarginInput
+                            label="Left"
+                            value={templateDesign.templateMarginLeft}
+                            onChange={onTemplateChange("templateMarginLeft")}
+                          />
+                          <MarginInput
+                            label="Right"
+                            value={templateDesign.templateMarginRight}
+                            onChange={onTemplateChange("templateMarginRight")}
+                          />
                         </div>
                       </div>
                     </div>

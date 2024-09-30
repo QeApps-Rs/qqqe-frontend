@@ -19,16 +19,25 @@ import StyleComponent from "./StyleComponent";
 import InputControllerComponent from "./InputControllerComponent";
 import TemplateBannerComponent from "./TemplateBannerComponent";
 import { Toaster } from "react-hot-toast";
+import SurveyControllerComponent from "./SurveyControllerComponent";
+import SurveyFormComponent from "./SurveyFormComponent";
+import SuccessControllerComponent from "./SuccessControllerComponent";
 
 const MasterForm = () => {
   //  shiv code start
 
   const [templateDesign, setTemplateDesign] = useState(templateFieldCss);
-  const [templateHeading, setTemplateHeading] = useState("");
-  const [templateButton, setTemplateButton] = useState("");
-  const [templateOfferAmount, setTemplateOfferAmount] = useState("");
-  const [templateSubHeading, setTemplateSubHeading] = useState("");
-  const [templateImage, setTemplateImage] = useState("");
+  const [templateData, setTemplateData] = useState({
+    heading: "",
+    button: "",
+    offerAmount: "",
+    subHeading: "",
+    image: "",
+    successImage: "",
+    successHeading: "",
+    successSubHeading: "",
+    successDescription: "",
+  });
   const [inputControllerEditState, setInputControllerEditState] = useState({
     index: null,
     fieldType: "",
@@ -36,7 +45,13 @@ const MasterForm = () => {
     fieldName: "",
     placeholderText: "",
   });
+  const [surveyControllerEditState, setSurveyControllerEditState] = useState({
+    index: null,
+    fieldName: "",
+    options: "",
+  });
   const [addedFields, setAddedFields] = useState([]);
+  const [addedQuestion, setAddedQuestion] = useState([]);
 
   const handleTemplateChange = (colorType) => (templateDesign) => {
     setTemplateDesign((prev) => ({ ...prev, [colorType]: templateDesign }));
@@ -48,13 +63,29 @@ const MasterForm = () => {
     ${templateDesign.templatePaddingBottom} 
     ${templateDesign.templatePaddingLeft}
   `;
-
+  const combinedMargin = `
+    ${templateDesign.templateMarginTop} 
+    ${templateDesign.templateMarginRight} 
+    ${templateDesign.templateMarginBottom} 
+    ${templateDesign.templateMarginLeft}
+  `;
   const [inputValues, setInputValues] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
-
+  const [inputSurveyValues, setInputSurveyValues] = useState({});
   const handleInputChange = (fieldName, value) => {
     setInputValues((prev) => ({ ...prev, [fieldName]: value }));
   };
+
+  const handleSurveyInputChange = (fieldName, value) => {
+    setInputSurveyValues((prev) => {
+      const currentValues = prev[fieldName] || [];
+      if (currentValues.includes(value)) {
+        return { ...prev, [fieldName]: currentValues.filter((v) => v !== value) };
+      } else {
+        return { ...prev, [fieldName]: [...currentValues, value] };
+      }
+    });
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -89,14 +120,28 @@ const MasterForm = () => {
     });
   };
 
+  const handleSurveyDeleteField = (fieldName) => {
+    setAddedQuestion((prevFields) => 
+      prevFields.filter((field) => field.fieldName !== fieldName)
+    );
+  };
+  
+  const handleSurveyEdit = (field, index) => {
+    setSurveyControllerEditState({
+      index,
+      fieldName: field.fieldName,
+      options: field.options,
+    });
+  };
+  
   const formClasses = () => {
     const { formWidth, formType } = templateDesign;
     let classes = "h-auto ";
 
-    // Handle form width
-    classes += formWidth === "small" ? "w-10/12 " : "w-full ";
+    if (formWidth === "small") {
+      classes += "w-10/12 ";
+    }
 
-    // Handle full page or large form width
     if (formType === "full page" || formWidth === "large") {
       classes += "h-full transition-all duration-300 ";
     }
@@ -253,7 +298,62 @@ const MasterForm = () => {
     getProductList();
     getCollectionList();
   }, []);
+  const containerClass = `
+  ${templateDesign.formType === "full page" ? "h-full" : ""}
+  ${
+    isView === "Desktop"
+      ? "xl:col-span-5"
+      : "sm:col-span-12 bg-white shadow-lg flex flex-wrap"
+  }
+  ${templateDesign.imagePosition === "0" ? "-order-none" : "order-1"}
+  ${
+    templateDesign.formType === "embed" && templateDesign.formWidth === "large"
+      ? "max-h-[518px] overflow-hidden"
+      : "h-full"
+  }
+`;
+  const imageSrc = !success
+    ? templateData.image || popup_img
+    : templateData.successImage || popup_img;
 
+
+  const renderStars = (reviewCount) => {
+    const validCount = reviewCount === 5 || reviewCount === 10 ? reviewCount : 5;
+    return (
+      <div className="flex mt-2">
+        {Array.from({ length: validCount }, (_, index) => (
+          <span key={index} className="text-gray-800 text-2xl">★</span>
+        ))}
+      </div>
+    );
+  };
+  
+  const renderNumbers = (count) => {
+    const minCount = templateDesign.ratingMinCount || 1;
+    const maxCount = templateDesign.ratingMaxCount || 15;
+    const validCount = Math.min(Math.max(count, minCount), maxCount);
+    return (
+      <div className="flex mt-2">
+        {Array.from({ length: validCount }, (_, index) => {
+          const number = index + 1; 
+  
+          return (
+            <div
+              key={number}
+              className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-300 text-black border border-gray-500 transition duration-300 cursor-pointer mr-1"
+              onClick={() => onTemplateChange("ratingCount")(number)}
+            >
+              {number}
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+  
+  const reviewCount = parseInt(templateDesign.reviewCount, 10) || 5;
+  const ratingCount = parseInt(templateDesign.ratingCount, 10) || 5;
+  
   return (
     <>
       <aside className="w-1/4  fixed left-[4.7rem] p-4 shadow-lg h-screen overflow-auto top-20">
@@ -262,12 +362,12 @@ const MasterForm = () => {
         </div>
         <ul className="space-y-4">
           {templateEditorCollapseOptions
-           .filter((item) => {
-            if (isProductBundle) {
-              return item.tag !== "inputController";
-            }
-            return item.tag !== "bundle";
-          })
+            .filter((item) => {
+              if (isProductBundle) {
+                return item.tag !== "inputController" && item.tag !== "surveyController";
+              }
+              return item.tag !== "bundle";
+            })
             .map((item, index) => (
               <li
                 key={index}
@@ -298,19 +398,24 @@ const MasterForm = () => {
                     <Toaster />
                     <InputControllerComponent
                       setAddedFields={setAddedFields}
-                      templateHeading={templateHeading}
-                      setTemplateHeading={setTemplateHeading}
-                      templateOfferAmount={templateOfferAmount}
-                      setTemplateOfferAmount={setTemplateOfferAmount}
-                      templateSubHeading={templateSubHeading}
-                      setTemplateSubHeading={setTemplateSubHeading}
-                      templateImage={templateImage}
-                      setTemplateImage={setTemplateImage}
+                      templateData={templateData}
+                      setTemplateData={setTemplateData}
                       templateDesign={templateDesign}
                       onTemplateChange={handleTemplateChange}
                       inputControllerEditState={inputControllerEditState}
-                      templateButton={templateButton}
-                      setTemplateButton={setTemplateButton}
+                    />
+                  </>
+                )}
+                {activeIndex === index && item.tag === "successController" && (
+                  <>
+                    <Toaster />
+                    <SuccessControllerComponent
+                      setAddedFields={setAddedFields}
+                      templateData={templateData}
+                      setTemplateData={setTemplateData}
+                      templateDesign={templateDesign}
+                      onTemplateChange={handleTemplateChange}
+                      inputControllerEditState={inputControllerEditState}
                     />
                   </>
                 )}
@@ -695,7 +800,16 @@ const MasterForm = () => {
                       productListForPopUp={productListForPopUp}
                     />
                   )}
-
+                {!isProductBundle &&
+                  activeIndex === index &&
+                  item.tag === "surveyController" && (
+                    <SurveyControllerComponent
+                      templateDesign={templateDesign}
+                      onTemplateChange={handleTemplateChange}
+                      setAddedQuestion={setAddedQuestion}
+                      surveyControllerEditState={surveyControllerEditState}
+                    />
+                  )}
                 {activeIndex === index && item.tag === "custom_style" && (
                   <div className="p-4 border-t">
                     <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
@@ -711,10 +825,9 @@ const MasterForm = () => {
                                     </label>
                                     <div className="mb-6">
                                       <textarea
-                                        className="w-full mt-2 w-25 border border-gray-300 rounded p-1 text-center"
+                                        className="w-full mt-2 w-25 border border-gray-300 rounded p-1 h-40"
                                         id="custom-css"
                                         name="custom-css"
-                                        placeholder="Enter your code"
                                       />
                                     </div>
                                   </div>
@@ -747,8 +860,7 @@ const MasterForm = () => {
                                       <textarea
                                         id="custom-js"
                                         name="custom-js"
-                                        className="w-full mt-2 w-25 border border-gray-300 rounded p-1 text-center"
-                                        placeholder="Enter your code"
+                                        className="w-full mt-2 w-25 border border-gray-300 rounded p-1 h-40"
                                       />
                                     </div>
                                   </div>
@@ -797,6 +909,7 @@ const MasterForm = () => {
             <ProductBundlePopUp
               productData={productListForPopUp}
               noOfProducts={noOfProducts}
+              templateDesign={templateDesign}
             />
           </div>
         </>
@@ -860,6 +973,7 @@ const MasterForm = () => {
               }`}
               style={{
                 backgroundColor: templateDesign.templateBgColor,
+                margin: combinedMargin,
                 backgroundImage:
                   isView !== "Desktop"
                     ? "url('https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/src/images/mobile_bg.png')"
@@ -877,22 +991,9 @@ const MasterForm = () => {
                   minHeight: templateDesign.templateMinHeight,
                 }}
               >
-                <div
-                  className={`${
-                    templateDesign.formType === "full page" ? "h-full" : ""
-                  } ${
-                    isView === "Desktop"
-                      ? "xl:col-span-5"
-                      : "sm:col-span-12 bg-white shadow-lg flex flex-wrap"
-                  }  ${
-                    templateDesign.formType === "embed" &&
-                    templateDesign.formWidth === "large"
-                      ? "max-h-[518px] overflow-hidden"
-                      : "h-full"
-                  }`}
-                >
+                <div className={containerClass}>
                   <img
-                    src={templateImage ? templateImage : popup_img}
+                    src={imageSrc}
                     alt="Promo"
                     className="h-full w-full object-fill"
                   />
@@ -912,15 +1013,67 @@ const MasterForm = () => {
                   }}
                 >
                   {success ? (
-                    <div className="flex flex-col justify-center text-center items-center">
-                      <img
-                        src={successImg}
-                        alt="Success"
-                        className="inline-block max-w-[130px]"
-                      />
-                      <p className="text-lg mt-10">
-                        Thanks for sharing. Please check your email for
-                        confirmation message.
+                    <div
+                      className={`${
+                        templateDesign.containPosition === "center"
+                          ? "text-center"
+                          : templateDesign.containPosition === "right"
+                          ? "text-left"
+                          : "text-right"
+                      } flex flex-col justify-center `}
+                    >
+                      <div
+                        className={`${
+                          templateDesign.containPosition === "center"
+                            ? "justify-center"
+                            : templateDesign.containPosition === "left"
+                            ? "justify-end"
+                            : "justify-right"
+                        } flex w-full`}
+                      >
+                        <img
+                          src={successImg}
+                          alt="Success"
+                          className="flex max-w-[130px] w-27 h-27 rounded-full object-cover"
+                        />
+                      </div>
+                      <h2
+                        className="text-4xl font-bold mt-4"
+                        style={{
+                          fontSize: templateDesign.successHeadingFontSize,
+                          fontFamily: templateDesign.successHeadingFontFamily,
+                          color: templateDesign.successHeadingColor,
+                        }}
+                      >
+                        {templateData.successHeading
+                          ? templateData.successHeading
+                          : "Thanks for sharing. Please check your email for confirmation message"}
+                      </h2>
+                      <span
+                        className="text-xl font-bold mt-4"
+                        style={{
+                          fontSize: templateDesign.successSubHeadingFontSize,
+                          fontFamily:
+                            templateDesign.successSubHeadingFontFamily,
+                          color: templateDesign.successSubHeadingColor,
+                        }}
+                      >
+                        {templateData.successSubHeading
+                          ? templateData.successSubHeading
+                          : "Thanks for sharing. Please check your email for confirmation message"}
+                      </span>
+                      <p
+                        className="text-lg mt-4"
+                        style={{
+                          fontSize: templateDesign.successDescriptionFontSize,
+                          fontFamily:
+                            templateDesign.successDescriptionFontFamily,
+                          color: templateDesign.successDescriptionColor,
+                        }}
+                      >
+                        {templateData.successDescription
+                          ? templateData.successDescription
+                          : "Thanks for sharing. Please check your email for confirmation message"}
                       </p>
                     </div>
                   ) : (
@@ -933,7 +1086,9 @@ const MasterForm = () => {
                           color: templateDesign.templateHeadingColor,
                         }}
                       >
-                        {templateHeading ? templateHeading : "Default Heading"}
+                        {templateData.heading
+                          ? templateData.heading
+                          : "Default Heading"}
                       </h2>
                       <h2
                         className="text-4xl font-bold mb-4"
@@ -944,7 +1099,9 @@ const MasterForm = () => {
                         }}
                       >
                         {" "}
-                        {templateOfferAmount ? templateOfferAmount : "10% Off"}
+                        {templateData.offerAmount
+                          ? templateData.offerAmount
+                          : "10% Off"}
                       </h2>
                       <p
                         className="text-lg mb-6"
@@ -955,8 +1112,8 @@ const MasterForm = () => {
                           color: templateDesign.templateSubheadingColor,
                         }}
                       >
-                        {templateSubHeading
-                          ? templateSubHeading
+                        {templateData.subHeading
+                          ? templateData.subHeading
                           : "Save on your first order and get email-only offers when you join."}
                       </p>
                       <form
@@ -978,6 +1135,18 @@ const MasterForm = () => {
                             onEdit={() => handleEdit(field, index)}
                           />
                         ))}
+                        {addedQuestion.map((field, index)=> (
+                          <SurveyFormComponent
+                            key={index}
+                            templateDesign={templateDesign}                         
+                            options={field.options}
+                            fieldName={field.fieldName}
+                            inputValue={inputSurveyValues[field.fieldName] || ""}
+                            onInputChange={handleSurveyInputChange}
+                            isSubmitted={isSubmitted}
+                            onDelete={() => handleSurveyDeleteField(field.fieldName)}
+                            onEdit={() => handleSurveyEdit(field, index)}/>))                         
+                        }
                         <button
                           type="submit"
                           className="bg-black text-white py-3 rounded-md text-lg mt-3"
@@ -986,8 +1155,23 @@ const MasterForm = () => {
                               templateDesign.templateButtonBgColor,
                           }}
                         >
-                          {templateButton ? templateButton : "Continue"}
+                          {templateData.button
+                            ? templateData.button
+                            : "Continue"}
                         </button>
+
+                        {/* Display Stars Here */}
+                        {templateDesign.formBorderStyle === "review" && (
+                          <>                   
+                            {renderStars(reviewCount)} 
+                          </>
+                        )}
+                        {templateDesign.formBorderStyle === "rating" && (
+                          <>                           
+                            {renderNumbers(ratingCount)}
+                          </>
+                        )}
+
                       </form>
                     </>
                   )}
