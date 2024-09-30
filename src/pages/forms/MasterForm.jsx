@@ -52,6 +52,7 @@ const MasterForm = () => {
   });
   const [addedFields, setAddedFields] = useState([]);
   const [addedQuestion, setAddedQuestion] = useState([]);
+  const [success, setSuccess] = useState(false);
 
   const handleTemplateChange = (colorType) => (templateDesign) => {
     setTemplateDesign((prev) => ({ ...prev, [colorType]: templateDesign }));
@@ -80,12 +81,15 @@ const MasterForm = () => {
     setInputSurveyValues((prev) => {
       const currentValues = prev[fieldName] || [];
       if (currentValues.includes(value)) {
-        return { ...prev, [fieldName]: currentValues.filter((v) => v !== value) };
+        return {
+          ...prev,
+          [fieldName]: currentValues.filter((v) => v !== value),
+        };
       } else {
         return { ...prev, [fieldName]: [...currentValues, value] };
       }
     });
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -121,11 +125,11 @@ const MasterForm = () => {
   };
 
   const handleSurveyDeleteField = (fieldName) => {
-    setAddedQuestion((prevFields) => 
+    setAddedQuestion((prevFields) =>
       prevFields.filter((field) => field.fieldName !== fieldName)
     );
   };
-  
+
   const handleSurveyEdit = (field, index) => {
     setSurveyControllerEditState({
       index,
@@ -133,15 +137,15 @@ const MasterForm = () => {
       options: field.options,
     });
   };
-  
+
   const formClasses = () => {
     const { formWidth, formType } = templateDesign;
     let classes = "h-auto ";
 
-    if (formWidth === "small") {
-      classes += "w-10/12 ";
-    }
+    // Handle form width
+    classes += formWidth === "small" ? "w-10/12 " : "w-full ";
 
+    // Handle full page or large form width
     if (formType === "full page" || formWidth === "large") {
       classes += "h-full transition-all duration-300 ";
     }
@@ -176,6 +180,15 @@ const MasterForm = () => {
 
     return classes.trim();
   };
+  const imageSrc = !success
+    ? templateData.image || popup_img
+    : templateData.successImage || popup_img;
+
+  const getStyle = (design, type) => ({
+    fontSize: design[`${type}FontSize`],
+    fontFamily: design[`${type}FontFamily`],
+    color: design[`${type}Color`],
+  });
 
   //  shiv code end
 
@@ -191,7 +204,6 @@ const MasterForm = () => {
   const [notShowUrl, setNotShow] = useState(false);
   const [showLocation, setLocation] = useState(false);
   const [notShowLocation, setNotShowLocation] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [isView, setView] = useState("Desktop");
   const [selectedTiming, setTiming] = useState("");
   const [productList, setProductList] = useState([]);
@@ -312,22 +324,21 @@ const MasterForm = () => {
       : "h-full"
   }
 `;
-  const imageSrc = !success
-    ? templateData.image || popup_img
-    : templateData.successImage || popup_img;
-
 
   const renderStars = (reviewCount) => {
-    const validCount = reviewCount === 5 || reviewCount === 10 ? reviewCount : 5;
+    const validCount =
+      reviewCount === 5 || reviewCount === 10 ? reviewCount : 5;
     return (
       <div className="flex mt-2">
         {Array.from({ length: validCount }, (_, index) => (
-          <span key={index} className="text-gray-800 text-2xl">★</span>
+          <span key={index} className="text-gray-800 text-2xl">
+            ★
+          </span>
         ))}
       </div>
     );
   };
-  
+
   const renderNumbers = (count) => {
     const minCount = templateDesign.ratingMinCount || 1;
     const maxCount = templateDesign.ratingMaxCount || 15;
@@ -335,8 +346,8 @@ const MasterForm = () => {
     return (
       <div className="flex mt-2">
         {Array.from({ length: validCount }, (_, index) => {
-          const number = index + 1; 
-  
+          const number = index + 1;
+
           return (
             <div
               key={number}
@@ -350,10 +361,10 @@ const MasterForm = () => {
       </div>
     );
   };
-  
+
   const reviewCount = parseInt(templateDesign.reviewCount, 10) || 5;
   const ratingCount = parseInt(templateDesign.ratingCount, 10) || 5;
-  
+
   return (
     <>
       <aside className="w-1/4  fixed left-[4.7rem] p-4 shadow-lg h-screen overflow-auto top-20">
@@ -364,7 +375,11 @@ const MasterForm = () => {
           {templateEditorCollapseOptions
             .filter((item) => {
               if (isProductBundle) {
-                return item.tag !== "inputController" && item.tag !== "surveyController";
+                return (
+                  // item.tag !== "inputController" &&
+                  item.tag !== "surveyController" &&
+                  item.tag !== "successController"
+                );
               }
               return item.tag !== "bundle";
             })
@@ -403,6 +418,7 @@ const MasterForm = () => {
                       templateDesign={templateDesign}
                       onTemplateChange={handleTemplateChange}
                       inputControllerEditState={inputControllerEditState}
+                      isProductBundle={isProductBundle}
                     />
                   </>
                 )}
@@ -910,6 +926,8 @@ const MasterForm = () => {
               productData={productListForPopUp}
               noOfProducts={noOfProducts}
               templateDesign={templateDesign}
+              templateData={templateData}
+              getStyle={getStyle}
             />
           </div>
         </>
@@ -1002,12 +1020,12 @@ const MasterForm = () => {
                 <div
                   className={`p-8 flex flex-col justify-center ${
                     isView === "Desktop" ? "xl:col-span-7" : "sm:col-span-12"
-                  }  ${
+                  } ${
                     templateDesign.formType === "embed" &&
                     templateDesign.formWidth === "large"
                       ? "min-h-[518px]"
                       : "h-full"
-                  } `}
+                  }`}
                   style={{
                     backgroundColor: templateDesign.templateOverlayColor,
                   }}
@@ -1020,7 +1038,7 @@ const MasterForm = () => {
                           : templateDesign.containPosition === "right"
                           ? "text-left"
                           : "text-right"
-                      } flex flex-col justify-center `}
+                      } flex flex-col justify-center`}
                     >
                       <div
                         className={`${
@@ -1034,87 +1052,51 @@ const MasterForm = () => {
                         <img
                           src={successImg}
                           alt="Success"
-                          className="flex max-w-[130px] w-27 h-27 rounded-full object-cover"
+                          className="max-w-[130px] w-27 h-27 rounded-full object-cover"
                         />
                       </div>
                       <h2
                         className="text-4xl font-bold mt-4"
-                        style={{
-                          fontSize: templateDesign.successHeadingFontSize,
-                          fontFamily: templateDesign.successHeadingFontFamily,
-                          color: templateDesign.successHeadingColor,
-                        }}
+                        style={getStyle(templateDesign, "successHeading")}
                       >
-                        {templateData.successHeading
-                          ? templateData.successHeading
-                          : "Thanks for sharing. Please check your email for confirmation message"}
+                        {templateData.successHeading ||
+                          "Thanks for sharing. Please check your email for confirmation message"}
                       </h2>
                       <span
                         className="text-xl font-bold mt-4"
-                        style={{
-                          fontSize: templateDesign.successSubHeadingFontSize,
-                          fontFamily:
-                            templateDesign.successSubHeadingFontFamily,
-                          color: templateDesign.successSubHeadingColor,
-                        }}
+                        style={getStyle(templateDesign, "successSubHeading")}
                       >
-                        {templateData.successSubHeading
-                          ? templateData.successSubHeading
-                          : "Thanks for sharing. Please check your email for confirmation message"}
+                        {templateData.successSubHeading ||
+                          "Thanks for sharing. Please check your email for confirmation message"}
                       </span>
                       <p
                         className="text-lg mt-4"
-                        style={{
-                          fontSize: templateDesign.successDescriptionFontSize,
-                          fontFamily:
-                            templateDesign.successDescriptionFontFamily,
-                          color: templateDesign.successDescriptionColor,
-                        }}
+                        style={getStyle(templateDesign, "successDescription")}
                       >
-                        {templateData.successDescription
-                          ? templateData.successDescription
-                          : "Thanks for sharing. Please check your email for confirmation message"}
+                        {templateData.successDescription ||
+                          "Thanks for sharing. Please check your email for confirmation message"}
                       </p>
                     </div>
                   ) : (
                     <>
                       <h2
                         className="text-4xl font-bold mb-4"
-                        style={{
-                          fontSize: templateDesign.templateHeadingFontSize,
-                          fontFamily: templateDesign.templateHeadingFontFamily,
-                          color: templateDesign.templateHeadingColor,
-                        }}
+                        style={getStyle(templateDesign, "templateHeading")}
                       >
-                        {templateData.heading
-                          ? templateData.heading
-                          : "Default Heading"}
+                        {templateData.heading || "Default Heading"}
                       </h2>
                       <h2
                         className="text-4xl font-bold mb-4"
-                        style={{
-                          fontSize: templateDesign.templateOfferFontSize,
-                          fontFamily: templateDesign.templateOfferFontFamily,
-                          color: templateDesign.templateOfferColor,
-                        }}
+                        style={getStyle(templateDesign, "templateOffer")}
                       >
-                        {" "}
-                        {templateData.offerAmount
-                          ? templateData.offerAmount
-                          : "10% Off"}
+                        {templateData.offerAmount || "10% Off"}
                       </h2>
                       <p
                         className="text-lg mb-6"
-                        style={{
-                          fontSize: templateDesign.templateSubheadingFontSize,
-                          fontFamily:
-                            templateDesign.templateSubHeadingFontFamily,
-                          color: templateDesign.templateSubheadingColor,
-                        }}
+                        style={getStyle(templateDesign, "templateSubheading")}
                       >
-                        {templateData.subHeading
-                          ? templateData.subHeading
-                          : "Save on your first order and get email-only offers when you join."}
+                        {templateData.subHeading ||
+                          "Save on your first order and get email-only offers when you join."}
                       </p>
                       <form
                         className="flex flex-col space-y-4"
@@ -1123,11 +1105,8 @@ const MasterForm = () => {
                         {addedFields.map((field, index) => (
                           <TemplateBannerComponent
                             key={index}
+                            {...field}
                             templateDesign={templateDesign}
-                            fieldType={field.fieldType}
-                            fieldValidation={field.fieldValidation}
-                            placeholderText={field.placeholderText}
-                            fieldName={field.fieldName}
                             inputValue={inputValues[field.fieldName] || ""}
                             onInputChange={handleInputChange}
                             isSubmitted={isSubmitted}
@@ -1135,18 +1114,23 @@ const MasterForm = () => {
                             onEdit={() => handleEdit(field, index)}
                           />
                         ))}
-                        {addedQuestion.map((field, index)=> (
+                        {addedQuestion.map((field, index) => (
                           <SurveyFormComponent
                             key={index}
-                            templateDesign={templateDesign}                         
+                            templateDesign={templateDesign}
                             options={field.options}
                             fieldName={field.fieldName}
-                            inputValue={inputSurveyValues[field.fieldName] || ""}
+                            inputValue={
+                              inputSurveyValues[field.fieldName] || ""
+                            }
                             onInputChange={handleSurveyInputChange}
                             isSubmitted={isSubmitted}
-                            onDelete={() => handleSurveyDeleteField(field.fieldName)}
-                            onEdit={() => handleSurveyEdit(field, index)}/>))                         
-                        }
+                            onDelete={() =>
+                              handleSurveyDeleteField(field.fieldName)
+                            }
+                            onEdit={() => handleSurveyEdit(field, index)}
+                          />
+                        ))}
                         <button
                           type="submit"
                           className="bg-black text-white py-3 rounded-md text-lg mt-3"
@@ -1155,23 +1139,16 @@ const MasterForm = () => {
                               templateDesign.templateButtonBgColor,
                           }}
                         >
-                          {templateData.button
-                            ? templateData.button
-                            : "Continue"}
+                          {templateData.button || "Continue"}
                         </button>
 
                         {/* Display Stars Here */}
                         {templateDesign.formBorderStyle === "review" && (
-                          <>                   
-                            {renderStars(reviewCount)} 
-                          </>
+                          <>{renderStars(reviewCount)}</>
                         )}
                         {templateDesign.formBorderStyle === "rating" && (
-                          <>                           
-                            {renderNumbers(ratingCount)}
-                          </>
+                          <>{renderNumbers(ratingCount)}</>
                         )}
-
                       </form>
                     </>
                   )}
