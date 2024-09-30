@@ -17,6 +17,7 @@ const InputControllerComponent = ({
   templateDesign,
   onTemplateChange,
   inputControllerEditState,
+  isProductBundle,
 }) => {
   const [fieldState, setFieldState] = useState({
     fieldType: "",
@@ -95,48 +96,55 @@ const InputControllerComponent = ({
             <div className="w-full flex flex-col gap-9">
               <form action="#" onSubmit={(e) => e.preventDefault()}>
                 <div className={inputControllerFieldClass}>
-                  <div className="mb-6">
-                    <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                      Template Picture Upload
-                    </label>
-                    <label
-                      htmlFor="cover"
-                      className="flex cursor-pointer items-center justify-center gap-2 rounded bg-primary py-2 px-2 text-sm font-medium text-white hover:bg-opacity-90 xsm:px-4"
-                    >
-                      <input
-                        type="file"
-                        name="cover"
-                        id="cover"
-                        className="sr-only"
-                        onChange={(e) => {
-                          const file = e.target.files[0];
-                          if (file) {
-                            const reader = new FileReader();
-                            reader.onloadend = () => {
-                              setTemplateData((prev) => ({
-                                ...prev,
-                                image: reader.result,
-                              }));
-                            };
-                            reader.readAsDataURL(file);
-                          }
-                        }}
-                      />
-                      <span>
-                        <CameraIcon />
-                      </span>
-                      <span>Edit</span>
-                    </label>
-                  </div>
-                  <div className="mb-6">
-                    <DropDown
-                      jsonData={{
-                        ...imagePositionDropdownData,
-                        onChange: onTemplateChange("imagePosition"),
-                        defaultValue: templateDesign.imagePosition,
-                      }}
-                    />
-                  </div>
+                  {!isProductBundle ? (
+                    <>
+                      <div className="mb-6">
+                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                          Template Picture Upload
+                        </label>
+                        <label
+                          htmlFor="cover"
+                          className="flex cursor-pointer items-center justify-center gap-2 rounded bg-primary py-2 px-2 text-sm font-medium text-white hover:bg-opacity-90 xsm:px-4"
+                        >
+                          <input
+                            type="file"
+                            name="cover"
+                            id="cover"
+                            className="sr-only"
+                            onChange={(e) => {
+                              const file = e.target.files[0];
+                              if (file) {
+                                const reader = new FileReader();
+                                reader.onloadend = () => {
+                                  setTemplateData((prev) => ({
+                                    ...prev,
+                                    image: reader.result,
+                                  }));
+                                };
+                                reader.readAsDataURL(file);
+                              }
+                            }}
+                          />
+                          <span>
+                            <CameraIcon />
+                          </span>
+                          <span>Edit</span>
+                        </label>
+                      </div>
+                      <div className="mb-6">
+                        <DropDown
+                          jsonData={{
+                            ...imagePositionDropdownData,
+                            onChange: onTemplateChange("imagePosition"),
+                            defaultValue: templateDesign.imagePosition,
+                          }}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
                   <div className={inputControllerFieldClass}>
                     <label className="mb-2.5 block text-black dark:text-white font-semibold">
                       Template Heading
@@ -350,66 +358,73 @@ const InputControllerComponent = ({
                       </div>
                     </div>
                   </div>
-                  <div className="mb-6">
-                    <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                      Field Name
-                    </label>
-                    <input
-                      type="text"
-                      name="fieldName"
-                      value={fieldState.fieldName}
-                      onChange={handleInputChange}
-                      placeholder="Please enter field name"
-                      className="w-full p-2 border rounded-md focus:outline-none"
-                    />
-                  </div>
-                  <div className="mb-6">
-                    <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                      Field Placeholder
-                    </label>
-                    <input
-                      type="text"
-                      name="placeholderText"
-                      value={fieldState.placeholderText}
-                      placeholder="Please enter field placeholder"
-                      onChange={handleInputChange}
-                      className="w-full p-2 border rounded-md focus:outline-none"
-                    />
-                  </div>
-                  <div className="mb-6">
-                    <DropDown
-                      key={`fieldValidation-${renderKey}`}
-                      jsonData={{
-                        ...fieldValidationDropdownData,
-                        defaultValue: fieldState.fieldValidation,
-                        onChange: (value) =>
-                          setFieldState((prevState) => ({
-                            ...prevState,
-                            fieldValidation: value,
-                          })),
-                      }}
-                    />
-                  </div>
-                  <div className="mb-6">
-                    <DropDown
-                      key={`fieldType-${renderKey}`}
-                      jsonData={{
-                        ...fieldTypeDropdownData,
-                        defaultValue: fieldState.fieldType,
-                        onChange: (value) =>
-                          setFieldState((prevState) => ({
-                            ...prevState,
-                            fieldType: value,
-                          })),
-                      }}
-                    />
-                  </div>
-                  <button
-                    className="bg-blue-500 text-white py-2 px-4 rounded w-full"
-                    onClick={handleAddField}
-                  >
-                    {isEditMode ? "Update Field" : "Add Field"}
-                  </button>
+                  {!isProductBundle ? (
+                    <>
+                      <div className="mb-6">
+                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                          Field Name
+                        </label>
+                        <input
+                          type="text"
+                          name="fieldName"
+                          value={fieldState.fieldName}
+                          onChange={handleInputChange}
+                          placeholder="Please enter field name"
+                          className="w-full p-2 border rounded-md focus:outline-none"
+                        />
+                      </div>
+                      <div className="mb-6">
+                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                          Field Placeholder
+                        </label>
+                        <input
+                          type="text"
+                          name="placeholderText"
+                          value={fieldState.placeholderText}
+                          placeholder="Please enter field placeholder"
+                          onChange={handleInputChange}
+                          className="w-full p-2 border rounded-md focus:outline-none"
+                        />
+                      </div>
+                      <div className="mb-6">
+                        <DropDown
+                          key={`fieldValidation-${renderKey}`}
+                          jsonData={{
+                            ...fieldValidationDropdownData,
+                            defaultValue: fieldState.fieldValidation,
+                            onChange: (value) =>
+                              setFieldState((prevState) => ({
+                                ...prevState,
+                                fieldValidation: value,
+                              })),
+                          }}
+                        />
+                      </div>
+                      <div className="mb-6">
+                        <DropDown
+                          key={`fieldType-${renderKey}`}
+                          jsonData={{
+                            ...fieldTypeDropdownData,
+                            defaultValue: fieldState.fieldType,
+                            onChange: (value) =>
+                              setFieldState((prevState) => ({
+                                ...prevState,
+                                fieldType: value,
+                              })),
+                          }}
+                        />
+                      </div>
+                      <button
+                        className="bg-blue-500 text-white py-2 px-4 rounded w-full"
+                        onClick={handleAddField}
+                      >
+                        {isEditMode ? "Update Field" : "Add Field"}
+                      </button>
+                      
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </form>
             </div>
