@@ -49,37 +49,38 @@ const SuggestionCompNew = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isShowAnalyticsModal, setAnalyticsModal] = useState(false);
 
-  const [problemStatement, setProblemStatement] = useState({});
-  const [settingContent, setSettingContent] = useState("");
-  const [suggestionId, setSuggestionId] = useState(null);
-  const [manageAccordions, setManageAccordions] = useState([]);
-  const [accordionTab, setAccordionTab] = useState({
-    customer: activeTabObj,
-    order: hiddenTabObj,
-    product: hiddenTabObj,
-    top_selling_product: hiddenTabObj,
-    top_abandoned_product: hiddenTabObj,
-  });
-  const [plusMinus, setPlusMinus] = useState([]);
-  const { id } = useParams();
+    const [problemStatement, setProblemStatement] = useState({});
+    const [suggestionId, setSuggestionId] = useState(null);
+    const [manageAccordions, setManageAccordions] = useState([]);
+    const [accordionTab, setAccordionTab] = useState({});
+    const [discountObj, setDiscountObj] = useState({});
+    const [updatedDiscountObj, setUpdatedDiscountObj] = useState({});
+    const [inputTypeValue, setInputTypeValue] = useState(0);
+    const [plusMinus, setPlusMinus] = useState([]);
+    const { id } = useParams();
 
-  useEffect(() => {
-    const fetchLevel2Suggestions = async () => {
-      try {
-        const result = await FormSubmitHandler({
-          method: "get",
-          url: `level2/suggestion/${id}`,
-        });
-        if (result.data) {
-          setProblemStatement(result.data);
-          const initialAccordions = [];
-          const innerAccordions = [];
-          result.data?.tblLevel2?.map((tblLevel) => {
-            initialAccordions.push(collapsedAccordionState);
-            return tblLevel?.suggestion?.data?.map(() => {
-              return innerAccordions.push(defaultInnerAccordion);
-            });
-          });
+    useEffect(() => {
+        const fetchLevel2Suggestions = async () => {
+            try {
+                const result = await FormSubmitHandler({
+                    method: "get",
+                    url: `level2/suggestion/${id}`,
+                });
+                if (result.data) {
+                    setProblemStatement(result.data);
+                    const initialAccordions = [];
+                    const innerAccordions = [];
+                    result.data?.tblLevel2?.map((tblLevel) => {
+                        initialAccordions.push(collapsedAccordionState);
+                        return tblLevel?.suggestion?.data?.map((items) => {
+                            Object.keys(items).map((item) => {
+                                const defaultClass = (item == 'Customer_ID' || item == 'Customer_IP' || item == 'Days_After_Onboarding') ? activeTabObj : hiddenTabObj;
+                                setAccordionTab(prev => ({ ...prev, [item]: defaultClass }));
+                                return true;
+                            })
+                            return innerAccordions.push(defaultInnerAccordion)
+                        })
+                    });
 
           setManageAccordions(initialAccordions);
           setPlusMinus(innerAccordions);
@@ -89,22 +90,35 @@ const SuggestionCompNew = () => {
       }
     };
 
-    fetchLevel2Suggestions();
-  }, []);
-  const toggleModal = (content) => {
-    setSettingContent(content);
-    setIsModalOpen(true);
-  };
+        fetchLevel2Suggestions();
+    }, []);
+
+    const toggleModal = () => {
+        setIsModalOpen(true);
+    };
 
   const onModalClose = () => {
     if (isModalOpen) setIsModalOpen(false);
     if (isShowAnalyticsModal) setAnalyticsModal(false);
   };
 
-  const confirmClickEvent = () => {
-    setAnalyticsModal(true);
-    setIsModalOpen(false);
-  };
+    const confirmClickEvent = () => {
+        if (JSON.stringify(discountObj) === JSON.stringify(updatedDiscountObj)) {
+            navigate(`/template/list/${id}s${suggestionId}`);
+        } else {
+            setAnalyticsModal(true);
+            setIsModalOpen(false);
+        }
+    };
+
+    const handleApplyDiscount = (number) => {
+        setInputTypeValue(number);
+        setUpdatedDiscountObj({
+            ...discountObj,
+            "discount_percentage": number,
+            "description": discountObj.description.replace(discountObj.discount_percentage, number),
+        });
+    };
 
   // eslint-disable-next-line react/prop-types
   const SettingIcon = ({ onClick }) => (
@@ -113,20 +127,16 @@ const SuggestionCompNew = () => {
     </span>
   );
 
-  const handleAccordionTab = (type) => {
-    const tabTypes = [
-      "customer",
-      "order",
-      "product",
-      "top_selling_product",
-      "top_abandoned_product",
-    ];
-    const newAccordionState = tabTypes.reduce((acc, tab) => {
-      acc[tab] = tab === type ? activeTabObj : hiddenTabObj;
-      return acc;
-    }, {});
-    setAccordionTab(newAccordionState);
-  };
+    const handleAccordionTab = (type) => {
+        const tabTypes = Object.keys(accordionTab).map((tab) => {
+            return tab;
+        });
+        const newAccordionState = tabTypes.reduce((acc, tab) => {
+            acc[tab] = (tab === type) ? activeTabObj : hiddenTabObj;
+            return acc;
+        }, {});
+        setAccordionTab(newAccordionState);
+    }
 
   const handlePlusMinus = (i) => {
     const newPlusMinus = plusMinus.map((item, index) => {
@@ -134,57 +144,36 @@ const SuggestionCompNew = () => {
         return defaultInnerAccordion;
       }
 
-      return item.plus === "hidden"
-        ? defaultInnerAccordion
-        : collapsedInnerAccordion;
-    });
-    setPlusMinus(newPlusMinus);
-    setAccordionTab({
-      customer: activeTabObj,
-      order: hiddenTabObj,
-      product: hiddenTabObj,
-      top_selling_product: hiddenTabObj,
-      top_abandoned_product: hiddenTabObj,
-    });
-  };
+            return item.plus === "hidden" ? defaultInnerAccordion : collapsedInnerAccordion;
+        })
+        setPlusMinus(newPlusMinus);
+        setAccordionTab(prevAccordionTab => {
+            const updatedAccordionTab = Object.keys(prevAccordionTab).reduce((acc, key) => {
+                acc[key] = hiddenTabObj;
+                return acc;
+            }, {});
 
-  const renderAccordionTabs = (
-    dataItem,
-    accordionTab,
-    accordionTabClass,
-    handleAccordionTab
-  ) => {
-    const keyMappings = {
-      Products: { type: "product", title: "Product" },
-      Orders: { type: "order", title: "Order" },
-      Customer_ID: { type: "customer", title: "Customer" },
-      Customer_IP: { type: "customer", title: "Customer" },
-      Top_Selling_Products: {
-        type: "top_selling_product",
-        title: "Top Selling Product",
-      },
-      Top_Abandoned_Products: {
-        type: "top_abandoned_product",
-        title: "Top Abandoned Product",
-      },
+            updatedAccordionTab['Customer_ID'] = activeTabObj;
+            updatedAccordionTab['Customer_IP'] = activeTabObj;
+            updatedAccordionTab['Days_After_Onboarding'] = activeTabObj;
+
+            return updatedAccordionTab;
+        });
+    }
+
+    const renderAccordionTabs = (dataItem) => {
+        return Object.keys(dataItem).map((key, index) => {
+            return (
+                <a
+                    key={index}
+                    className={`${accordionTabClass} ${accordionTab?.[key]?.active_tab}`}
+                    onClick={() => handleAccordionTab(key)}
+                >
+                    {key}
+                </a>
+            );
+        });
     };
-
-    return Object.keys(dataItem).map((key, index) => {
-      const { type, title } = keyMappings[key] || {};
-
-      if (!type || !title) return null; // Skip if the key is not in the mapping
-
-      return (
-        <a
-          key={index}
-          className={`${accordionTabClass} ${accordionTab?.[type]?.active_tab}`}
-          onClick={() => handleAccordionTab(type)}
-        >
-          {title}
-        </a>
-      );
-    });
-  };
 
   const renderProduct = (product, i) => (
     <div
@@ -214,35 +203,29 @@ const SuggestionCompNew = () => {
     </div>
   );
 
-  const renderAccordionContent = (dataItem, accordionTab) => (
-    <div>
-      <div
-        className={`leading-relaxed ${accordionTab?.customer?.active_tab_body}`}
-      >
-        {dataItem.Customer_ID || dataItem.Customer_IP}
-      </div>
-      <div
-        className={`leading-relaxed ${accordionTab?.order?.active_tab_body}`}
-      >
-        {dataItem.Orders}
-      </div>
-      <div
-        className={`leading-relaxed ${accordionTab?.product?.active_tab_body}`}
-      >
-        {dataItem?.Products?.map(renderProduct)}
-      </div>
-      <div
-        className={`leading-relaxed ${accordionTab?.top_selling_product?.active_tab_body}`}
-      >
-        {dataItem?.Top_Selling_Products?.map(renderProduct)}
-      </div>
-      <div
-        className={`leading-relaxed ${accordionTab?.top_abandoned_product?.active_tab_body}`}
-      >
-        {dataItem?.Top_Abandoned_Products?.map(renderProduct)}
-      </div>
-    </div>
-  );
+    const renderAccordionContent = (dataItem) => (
+        <div>
+            {
+                Object.keys(accordionTab).map((tab, index) => {
+                    if (!dataItem[tab]) return null;
+
+                    if (Array.isArray(dataItem[tab])) {
+                        return (
+                            <div key={index} className={`leading-relaxed ${accordionTab?.[tab]?.active_tab_body}`}>
+                                {dataItem[tab].map(renderProduct)}
+                            </div>
+                        );
+                    }
+
+                    return (
+                        <div key={index} className={`leading-relaxed ${accordionTab?.[tab]?.active_tab_body}`}>
+                            {dataItem[tab]}
+                        </div>
+                    );
+                })
+            }
+        </div>
+    );
 
   const renderProblemStmtTd = (index, suggestion) => {
     return (
@@ -262,51 +245,42 @@ const SuggestionCompNew = () => {
             </div>
           </button>
 
-          {suggestion?.data?.length > 0 &&
-            suggestion?.data?.map((dataItem, i) => {
-              return (
-                <div
-                  key={i}
-                  className={`mt-5 ml-16.5 duration-200 ease-in-out ${manageAccordions?.[index]?.content}`}
-                >
-                  <div className="rounded-md border border-stroke p-4 shadow-9 dark:border-strokedark dark:shadow-none md:p-6 xl:p-7.5">
-                    <button
-                      className="flex w-full items-center justify-between gap-2 "
-                      onClick={() => handlePlusMinus(i)}
-                    >
-                      {dataItem.Customer_ID || dataItem.Customer_IP}
-                      <div className="flex h-9 w-full max-w-9 items-center justify-center rounded-full border border-primary dark:border-white">
-                        <PlusSvg plusMinus={plusMinus?.[i]} />
-                        <MinusSvg plusMinus={plusMinus?.[i]} />
-                      </div>
-                    </button>
-                    <div
-                      className={`mt-5 duration-200 ease-in-out ${
-                        plusMinus?.[i].minus == "" ? "" : "hidden"
-                      }`}
-                    >
-                      <div className="rounded-sm">
-                        <div className="mb-6 flex flex-wrap gap-5 border-b border-stroke dark:border-strokedark sm:gap-10">
-                          {renderAccordionTabs(
-                            dataItem,
-                            accordionTab,
-                            accordionTabClass,
-                            handleAccordionTab
-                          )}
-                        </div>
-                        {renderAccordionContent(dataItem, accordionTab)}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-        </div>
-      </>
-    );
-  };
+                {
+                    suggestion?.data?.length > 0 && (
+                        suggestion?.data?.map((dataItem, i) => {
+                            return (
+                                <div key={i} className={`mt-5 ml-16.5 duration-200 ease-in-out ${manageAccordions?.[index]?.content}`}>
+                                    <div className="rounded-md border border-stroke p-4 shadow-9 dark:border-strokedark dark:shadow-none md:p-6 xl:p-7.5">
+                                        <button className="flex w-full items-center justify-between gap-2 " onClick={() => handlePlusMinus(i)}>
+                                            {dataItem.Customer_ID || dataItem.Customer_IP || dataItem.Days_After_Onboarding}
+                                            <div className="flex h-9 w-full max-w-9 items-center justify-center rounded-full border border-primary dark:border-white">
+                                                <PlusSvg plusMinus={plusMinus?.[i]} />
+                                                <MinusSvg plusMinus={plusMinus?.[i]} />
+                                            </div>
+                                        </button>
+                                        <div className={`mt-5 duration-200 ease-in-out ${plusMinus?.[i].minus == "" ? "" : "hidden"}`}>
+                                            <div className="rounded-sm">
+                                                <div className="mb-6 flex flex-wrap gap-5 border-b border-stroke dark:border-strokedark sm:gap-10">
+                                                    {
+                                                        renderAccordionTabs(dataItem)
+                                                    }
+                                                </div>
+                                                {
+                                                    renderAccordionContent(dataItem)
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    )
+                }
+            </div >
+        </>;
+    }
 
-  const [toggleState, setToggleState] = useState({}); // Store toggle states uniquely by ID
+    const [toggleState, setToggleState] = useState({}); // Store toggle states uniquely by ID
 
   // Function to handle toggle status changes
   const changeAppliedStatus = async (problemId, statementId, currentStatus) => {
@@ -332,12 +306,11 @@ const SuggestionCompNew = () => {
   const renderStatusTd = (problemId, statementId, is_applied, is_active) => {
     const currentStatus =
       toggleState[`${problemId}-${statementId}`] ?? is_active;
-    return (
-      <div className="flex items-center">
-        <span
-          className={`${
-            currentStatus ? "" : "text-red-800"
-          } text-sm font-medium py-0.5 rounded dark:bg-gray-700 dark:text-gray-300`}
+ 
+        return <span className={`${is_applied
+            ? "bg-green-100 text-green-800"
+            : "bg-red-100 text-red-800"
+            } text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300`}
         >
           {is_applied ? (
             <SwitcherThree
@@ -381,34 +354,35 @@ const SuggestionCompNew = () => {
     }
   };
 
-  const renderActionTd = (suggestion, suggestionId) => {
-    return (
-      <div className="flex align-center">
-        {/* <div title="Configuration" className="ml-2 pointer-events-none opacity-50 cursor-not-allowed" data-id={statement.id}> */}
-        <div title="Configuration" className="ml-2" data-id={suggestionId}>
-          <SettingIcon
-            onClick={() => {
-              toggleModal(suggestion.description);
-              setSuggestionId(suggestionId);
-            }}
-          />
-        </div>
-      </div>
-    );
-  };
+    const renderActionTd = (suggestion, suggestionId) => {
+        return <div className="flex align-center">
+            <div title="Configuration" className="ml-2" data-id={suggestionId}>
+                <SettingIcon
+                    onClick={() => {
+                        toggleModal();
+                        setSuggestionId(suggestionId);
+                        setInputTypeValue(suggestion.discount_percentage);
+                        setDiscountObj({
+                            "description": suggestion.description,
+                            "discount": suggestion.discount,
+                            "discount_percentage": suggestion.discount_percentage
+                        });
+                        setUpdatedDiscountObj({
+                            "description": suggestion.description,
+                            "discount": suggestion.discount,
+                            "discount_percentage": suggestion.discount_percentage
+                        });
+                    }
+                    }
+                />
+            </div>
+        </div>;
+    }
 
-  const toggleAccordionState = (currentState, defaultState) => {
-    setAccordionTab({
-      customer: activeTabObj,
-      order: hiddenTabObj,
-      product: hiddenTabObj,
-      top_selling_product: hiddenTabObj,
-      top_abandoned_product: hiddenTabObj,
-    });
-    const isCollapsed =
-      JSON.stringify(currentState) === JSON.stringify(defaultState);
-    return isCollapsed ? collapsedAccordionState : defaultAccordionState;
-  };
+    const toggleAccordionState = (currentState, defaultState) => {
+        const isCollapsed = JSON.stringify(currentState) === JSON.stringify(defaultState);
+        return isCollapsed ? collapsedAccordionState : defaultAccordionState;
+    };
 
   const handleAccordionClick = (clickedIndex) => {
     const updatedAccordions = manageAccordions.map((accordion, index) => {
@@ -418,8 +392,37 @@ const SuggestionCompNew = () => {
       return collapsedAccordionState;
     });
 
-    setManageAccordions(updatedAccordions);
-  };
+        setManageAccordions(updatedAccordions);
+        const newPlusMinus = plusMinus.map(() => {
+            return defaultInnerAccordion;
+        })
+        setPlusMinus(newPlusMinus);
+    };
+
+    const modifyStringWithPercentage = (discountObj) => {
+        if (discountObj.discount == 'yes') {
+            const regex = /(\d+)%/g;
+            return discountObj && discountObj.description.split(regex).map((part, index) => {
+                if (!isNaN(part) && part.trim() !== "" && part == discountObj.discount_percentage) {
+                    return (
+                        <span key={index}>
+                            <input
+                                type="number"
+                                className="border border-gray-300 p-1 w-15"
+                                value={inputTypeValue}
+                                onChange={(e) => handleApplyDiscount(e.target.value)}
+                            />
+                            %
+                        </span>
+                    );
+                }
+
+                return <span key={index}>{part}</span>;
+            });
+        } else {
+            return discountObj && discountObj.description;
+        }
+    };
 
   // const labelClass = "text-xs w-20 bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100";
   const titleClass =
@@ -513,49 +516,50 @@ const SuggestionCompNew = () => {
             </table>
           </div>
 
-          {isModalOpen && (
-            <Modal
-              isOpen={isModalOpen}
-              onClose={() => onModalClose()}
-              onClickInChild={confirmClickEvent}
-              body={
-                <div className="mt-4">
-                  <p className="mb-4">{settingContent}</p>
-                </div>
-              }
-              btnClose="Discard"
-              btnSubmit="Confirm"
-              mdlTitle="Please confirm the changes"
-              showFooter={true}
-              isAnalytics={false}
-            />
-          )}
+                    {isModalOpen && (
+                        <Modal
+                            isOpen={isModalOpen}
+                            onClose={() => onModalClose()}
+                            onClickInChild={confirmClickEvent}
+                            body={
+                                <div className="mt-4">
+                                    {modifyStringWithPercentage(discountObj)}
+                                </div>
+                            }
+                            btnClose="Discard"
+                            btnSubmit="Confirm"
+                            mdlTitle="Please confirm the changes"
+                            showFooter={true}
+                            isAnalytics={false}
+                        />
+                    )}
 
-          {isShowAnalyticsModal && (
-            <Modal
-              isOpen={isShowAnalyticsModal}
-              onClose={() => onModalClose()}
-              onClickInChild={confirmClickEvent}
-              body={
-                <>
-                  <SuggestedAnalytics
-                    problemId={id}
-                    suggestionId={suggestionId}
-                    content={settingContent}
-                  />
-                </>
-              }
-              btnClose="Discard"
-              btnSubmit="Confirm"
-              mdlTitle="Action Prompts"
-              showFooter={false}
-              isAnalytics={true}
-            />
-          )}
-        </div>
-        <Support />
-      </div>
-    </>
-  );
+                    {isShowAnalyticsModal && (
+                        <Modal
+                            isOpen={isShowAnalyticsModal}
+                            onClose={() => onModalClose()}
+                            onClickInChild={confirmClickEvent}
+                            body={
+                                <>
+                                    <SuggestedAnalytics
+                                        problemId={id}
+                                        suggestionId={suggestionId}
+                                        discountObj={discountObj}
+                                        updatedDiscountObj={updatedDiscountObj}
+                                    />
+                                </>
+                            }
+                            btnClose="Discard"
+                            btnSubmit="Confirm"
+                            mdlTitle="Action Prompts"
+                            showFooter={false}
+                            isAnalytics={true}
+                        />
+                    )}
+                </div>
+                <Support />
+            </div>
+        </>
+    );
 };
 export default SuggestionCompNew;
