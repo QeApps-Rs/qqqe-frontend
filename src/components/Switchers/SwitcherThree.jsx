@@ -1,8 +1,8 @@
 import React from "react";
 
-const SwitcherThree = ({ label, enabled, onToggle }) => {
+const SwitcherThree = ({ label, isLabel = true, enabled, onToggle }) => {
   return (
-    <div className="mb-4.5">
+    <div>
       <label
         htmlFor={`toggle-${label}`}
         className="flex cursor-pointer select-none items-center"
@@ -18,8 +18,7 @@ const SwitcherThree = ({ label, enabled, onToggle }) => {
           <div className="block h-8 w-14 rounded-full bg-meta-9 dark:bg-[#5A616B]"></div>
           <div
             className={`dot absolute left-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-white transition ${
-              enabled &&
-              "!right-1 !translate-x-full !bg-primary dark:!bg-white"
+              enabled && "!right-1 !translate-x-full !bg-primary dark:!bg-white"
             }`}
           >
             <span className={`hidden ${enabled && "!block"}`}>
@@ -56,7 +55,7 @@ const SwitcherThree = ({ label, enabled, onToggle }) => {
             </span>
           </div>
         </div>
-        <span className="ml-5">{label}</span>
+        <span className="ml-5">{isLabel ?? label}</span>
       </label>
     </div>
   );

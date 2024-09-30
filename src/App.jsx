@@ -29,6 +29,7 @@ import Productpage from "./pages/Productpage";
 import VideoPlayer from "./pages/VideoPlayer";
 import SuggestionCompNew from "./components/Suggestion/SuggestionCompNew";
 import PreferenceSurveyTwo from "./pages/preference-survey/PreferenceSurveyTwo";
+import SuggestionAnalytics from "./pages/suggestion-analytics/SuggestionAnalytics";
 const env_type = import.meta.env.VITE_ENV;
 
 const App = () => {
@@ -103,6 +104,7 @@ const App = () => {
               <Route path="/dashboard" element={<ProtectedRoute element={Dashboard} />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/analytics" element={<Analytics />} />
+              <Route path="/suggestion/analytics/:id" element={<SuggestionAnalytics />} />
               <Route path="/people-problem" element={<Problem />} />
               <Route path="/templates" element={<Templates />} />
               <Route path="/suggestion/list/:id" element={<SuggestionCompNew />} />
