@@ -15,7 +15,6 @@ import Loader from "./common/Loader";
 import Dashboard from "./pages/dashboard";
 import Templates from "./pages/templates";
 import Problem from "./pages/Problem";
-import Suggestion from "./pages/suggestion";
 import MasterForm from "./pages/forms/MasterForm";
 import Template from "./pages/template";
 import ForgotPassword from "./pages/auth/ForgotPassword";
