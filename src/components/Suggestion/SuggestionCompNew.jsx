@@ -11,6 +11,8 @@ import AccordionIconSvg from "../../images/svg-icons/AccordionIcon";
 import UserOne from '../../images/user/user-01.png';
 import PlusSvg from "../../images/svg-icons/plusSvg";
 import MinusSvg from "../../images/svg-icons/minusSvg";
+import toast from "react-hot-toast";
+import Loader from "../../common/Loader";
 
 const SuggestionCompNew = () => {
     const navigate = useNavigate();
@@ -55,34 +57,41 @@ const SuggestionCompNew = () => {
     const [updatedDiscountObj, setUpdatedDiscountObj] = useState({});
     const [inputTypeValue, setInputTypeValue] = useState(0);
     const [plusMinus, setPlusMinus] = useState([]);
+    const [loading, setLoading] = useState(false);
     const { id } = useParams();
 
     useEffect(() => {
         const fetchLevel2Suggestions = async () => {
             try {
-                const result = await FormSubmitHandler({
+                setLoading(true);
+                await FormSubmitHandler({
                     method: "get",
                     url: `level2/suggestion/${id}`,
-                });
-                if (result.data) {
-                    setProblemStatement(result.data);
-                    const initialAccordions = [];
-                    const innerAccordions = [];
-                    result.data?.tblLevel2?.map((tblLevel) => {
-                        initialAccordions.push(collapsedAccordionState);
-                        return tblLevel?.suggestion?.data?.map((items) => {
-                            Object.keys(items).map((item) => {
-                                const defaultClass = (item == 'Customer_ID' || item == 'Customer_IP' || item == 'Days_After_Onboarding') ? activeTabObj : hiddenTabObj;
-                                setAccordionTab(prev => ({ ...prev, [item]: defaultClass }));
-                                return true;
+                }).then((res) => {
+                    if (res.data) {
+                        setProblemStatement(res.data);
+                        const initialAccordions = [];
+                        const innerAccordions = [];
+                        res.data?.tblLevel2?.map((tblLevel) => {
+                            initialAccordions.push(collapsedAccordionState);
+                            return tblLevel?.suggestion?.data?.map((items) => {
+                                Object.keys(items).map((item) => {
+                                    const defaultClass = (item == 'Customer_ID' || item == 'Customer_IP' || item == 'Days_After_Onboarding') ? activeTabObj : hiddenTabObj;
+                                    setAccordionTab(prev => ({ ...prev, [item]: defaultClass }));
+                                    return true;
+                                })
+                                return innerAccordions.push(defaultInnerAccordion)
                             })
-                            return innerAccordions.push(defaultInnerAccordion)
-                        })
-                    });
+                        });
 
-                    setManageAccordions(initialAccordions);
-                    setPlusMinus(innerAccordions);
-                }
+                        setManageAccordions(initialAccordions);
+                        setPlusMinus(innerAccordions);
+                    }
+                }).catch((err) => {
+                    toast.error(err.message);
+                }).finally(() => {
+                    setLoading(false);
+                });
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
@@ -366,6 +375,7 @@ const SuggestionCompNew = () => {
 
     return (
         <>
+            {loading && <Loader />}
             <div>
                 <div className={titleClass}>
                     <h2 className="text-lg text-title-md2 font-semibold text-black dark:text-white">
