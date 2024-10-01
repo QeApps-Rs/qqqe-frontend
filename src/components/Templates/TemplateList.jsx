@@ -1,23 +1,37 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import FilterBar from "./Filters";
 import { Link, useParams } from "react-router-dom";
 import { BackIcon } from "../custIcon/svgIcon";
 import { useNavigate } from "react-router-dom";
 import FormSubmitHandler from "../FormSubmitHandler";
+import toast from "react-hot-toast";
+import Loader from "../../common/Loader";
 
 const TemplateList = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const [templateList, setTemplateList] = useState([]);
 
   const getTemplateList = async () => {
-    const response = await FormSubmitHandler({
+    setLoading(true);
+    await FormSubmitHandler({
       method: "get",
-      url: `master/template/list`,
-    });
-    if (response.data) {
-      setTemplateList(response.data);
-    }
+      url: `master/template/list?id=${id.split("s")[1]}`,
+    })
+      .then((res) => {
+        if (res.data) {
+          console.log(['data', res.data]);
+          
+          setTemplateList(res.data);
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -60,6 +74,7 @@ const TemplateList = () => {
 
   return (
     <>
+      {loading && <Loader />}
       <div className="flex mt-5  justify-between space-y-1 p-0">
         <h2 className="text-lg text-title-md2  font-medium text-gray-900 leading-relaxed">
           Take Action Now
@@ -79,6 +94,11 @@ const TemplateList = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-4 w-full">
         <RenderTemplates templateListProp={templateList} />
+        {
+          templateList.length == 0 && <div className="text-center text-black font-semibold">
+            No Template Found
+          </div>
+        }
       </div>
     </>
   );
