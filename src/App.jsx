@@ -30,6 +30,9 @@ import VideoPlayer from "./pages/VideoPlayer";
 import SuggestionCompNew from "./components/Suggestion/SuggestionCompNew";
 import PreferenceSurveyTwo from "./pages/preference-survey/PreferenceSurveyTwo";
 import SuggestionAnalytics from "./pages/suggestion-analytics/SuggestionAnalytics";
+import CampaignsPage from "./pages/campaigns";
+import CampaignsDetailsPage from "./components/Campaigns/campaignsDetails";
+
 const env_type = import.meta.env.VITE_ENV;
 
 const App = () => {
@@ -115,6 +118,10 @@ const App = () => {
               <Route path="/price-dashboard" element={<PricePage />} />
               <Route path="/promotion-dashboard" element={<PromotionPage />} />
               <Route path="/video-player" element={<VideoPlayer />} />
+              <Route path="/campaigns" element={<CampaignsPage />} />
+              <Route path="/campaigns-details" element={<CampaignsDetailsPage/>} />
+
+
             </Route>
           </Routes>
         </header>
