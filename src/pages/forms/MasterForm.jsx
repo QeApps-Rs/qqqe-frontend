@@ -22,10 +22,11 @@ import { Toaster } from "react-hot-toast";
 import SurveyControllerComponent from "./SurveyControllerComponent";
 import SurveyFormComponent from "./SurveyFormComponent";
 import SuccessControllerComponent from "./SuccessControllerComponent";
+import Loader from "../../common/Loader";
 
 const MasterForm = () => {
   //  shiv code start
-
+  const [loading, setLoading] = useState(false);
   const [templateDesign, setTemplateDesign] = useState(templateFieldCss);
   const [templateData, setTemplateData] = useState({
     heading: "",
@@ -242,17 +243,25 @@ const MasterForm = () => {
   useEffect(() => {
     const fetchSubTemplateData = async () => {
       try {
-        const response = await FormSubmitHandler({
+        setLoading(true);
+        await FormSubmitHandler({
           method: "get",
           url: `sub/template/${subTemplateId}`,
-        });
-
-        if (response.success) {
-          const responseKeywords = response?.data?.keywords.split(",");
-          if (responseKeywords?.includes("Product Bundle")) {
-            setProductBundle(true);
-          }
-        }
+        })
+          .then((response) => {
+            if (response.success) {
+              const responseKeywords = response?.data?.keywords.split(",");
+              if (responseKeywords?.includes("Product Bundle")) {
+                setProductBundle(true);
+              }
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching sub-template:", error);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
       } catch (error) {
         console.error("Error fetching sub-template:", error);
       }
@@ -273,37 +282,70 @@ const MasterForm = () => {
   };
 
   const onPublish = async () => {
+    setLoading(true);
     const pid = id.split("s")[0];
     const sid = id.split("s")[1];
-    const response = await FormSubmitHandler({
-      method: "get",
-      url: `suggestion/${sid}/publish`,
-    });
-    if (response.success) {
-      navigate(`/suggestion/list/${pid}`);
-    }
+    await FormSubmitHandler({
+      method: "post",
+      url: `suggestion/publish`,
+      data: {
+        pid: pid,
+        sid: sid,
+        json_response: {
+          abc: "abc",
+        },
+      },
+    })
+      .then((response) => {
+        if (response.success) {
+          navigate(`/suggestion/list/${pid}`);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const getProductList = async () => {
-    const response = await FormSubmitHandler({
+    await FormSubmitHandler({
       method: "get",
       url: `product/get`,
-    });
-    if (response.success) {
-      setProductList(response.data);
-      setProductListState(true);
-    }
+    })
+      .then((response) => {
+        if (response.success) {
+          setProductList(response.data);
+          setProductListState(true);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const getCollectionList = async () => {
-    const response = await FormSubmitHandler({
+    setLoading(true);
+    await FormSubmitHandler({
       method: "get",
       url: `collection/get`,
-    });
-    if (response.success) {
-      setCollectionList(response.data);
-      setCollectionListState(true);
-    }
+    })
+      .then((response) => {
+        if (response.success) {
+          setCollectionList(response.data);
+          setCollectionListState(true);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -367,6 +409,7 @@ const MasterForm = () => {
 
   return (
     <>
+      {loading && <Loader />}
       <aside className="w-1/4  fixed left-[4.7rem] p-4 shadow-lg h-screen overflow-auto top-20">
         <div className="flex justify-between items-center border-b pb-3 mb-4">
           <p className="font-semibold text-lg">Template Editor</p>

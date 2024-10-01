@@ -533,7 +533,7 @@ const SuggestionCompNew = () => {
                           aria-label="suggestions"
                           className={`${comTdClass} px-4 py-5`}
                         >
-                          {renderPublishedDateTd(suggestion.published_date)}
+                          {renderPublishedDateTd(suggestion.applied_at)}
                         </td>
                         <td
                           aria-label="suggestions"
