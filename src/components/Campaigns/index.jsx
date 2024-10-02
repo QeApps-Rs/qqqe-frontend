@@ -166,7 +166,7 @@ const Campaigns = () => {
               </p>
             </div>
             <a href="#" className="inline-block text-blue-600">
-              Watch course <i class="fa fa-angle-right" aria-hidden="true"></i>
+              Watch course <i className="fa fa-angle-right" aria-hidden="true"></i>
             </a>
           </div>
         </div>
@@ -183,7 +183,7 @@ const Campaigns = () => {
               </p>
             </div>
             <a href="#" className="inline-block text-blue-600">
-              Watch course <i class="fa fa-angle-right" aria-hidden="true"></i>
+              Watch course <i className="fa fa-angle-right" aria-hidden="true"></i>
             </a>
           </div>
         </div>
@@ -200,7 +200,7 @@ const Campaigns = () => {
               </p>
             </div>
             <a href="#" className="inline-block text-blue-600">
-              Watch course <i class="fa fa-angle-right" aria-hidden="true"></i>
+              Watch course <i className="fa fa-angle-right" aria-hidden="true"></i>
             </a>
           </div>
         </div>

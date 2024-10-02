@@ -32,6 +32,7 @@ import PreferenceSurveyTwo from "./pages/preference-survey/PreferenceSurveyTwo";
 import SuggestionAnalytics from "./pages/suggestion-analytics/SuggestionAnalytics";
 import CampaignsPage from "./pages/campaigns";
 import CampaignsDetailsPage from "./components/Campaigns/campaignsDetails";
+import DetailedAnalytics from "./pages/detailed-analytics";
 
 const env_type = import.meta.env.VITE_ENV;
 
@@ -120,7 +121,7 @@ const App = () => {
               <Route path="/video-player" element={<VideoPlayer />} />
               <Route path="/campaigns" element={<CampaignsPage />} />
               <Route path="/campaigns-details" element={<CampaignsDetailsPage/>} />
-
+              <Route path="/detailed-analytics" element={<DetailedAnalytics />} />
 
             </Route>
           </Routes>

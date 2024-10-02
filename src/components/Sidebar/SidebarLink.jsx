@@ -62,7 +62,7 @@ const SidebarLink = ({ href, iconType, label, sidebarOpen }) => {
             ></i>
           ) : iconType === "campaigns" ? (
             <i
-              class="fa fa-bullhorn  bg-orange-700 text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
+              className="fa fa-bullhorn  bg-orange-700 text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
               aria-hidden="true"
             ></i>
           ) : null}
