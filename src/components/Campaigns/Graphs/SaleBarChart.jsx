@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import Chart from "react-apexcharts";
 
-const SalesBarGraph = () => {
-  // State to manage chart options and series
-  const [chartData] = useState({
+const SalesBarGraph = ({ salesBarData, barCategories, baryAxisTitle }) => {
+  // Chart options and series with dynamic data and labels
+  const chartData = {
     series: [
       {
         name: "Sales",
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148], // Example data
+        data: salesBarData || [], // Use salesData from props
       },
     ],
     options: {
@@ -74,21 +74,11 @@ const SalesBarGraph = () => {
         align: "left",
       },
       xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-        ],
+        categories: barCategories || [], // Use categories from props
       },
       yaxis: {
         title: {
-          text: "Sales",
+          text: baryAxisTitle || "Sales", // Use yAxisTitle from props
         },
       },
       fill: {
@@ -102,7 +92,7 @@ const SalesBarGraph = () => {
         },
       },
     },
-  });
+  };
 
   return (
     <div className="flex justify-center items-center p-4 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">

@@ -1,45 +1,45 @@
-import React, { useState } from "react";
+import React from "react";
 import Chart from "react-apexcharts";
 
-const SalesLineGraph = () => {
-  // State to manage chart options and series
-  const [chartData] = useState({
+const SalesLineGraph = ({ salesLineData, lineCategories, lineyAxisTitle }) => {
+  // Chart options and series with dynamic data and labels
+  const chartData = {
     series: [
       {
         name: "Sales",
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148], // Example data
+        data: salesLineData || [], // Use salesData from props
       },
     ],
     options: {
       chart: {
         type: "line",
-        height: "100%",  
+        height: "100%",
         zoom: {
           enabled: false,
         },
         responsive: [
           {
-            breakpoint: 1000,  
+            breakpoint: 1000,
             options: {
               chart: {
-                height: 300, 
+                height: 300,
               },
             },
           },
           {
-            breakpoint: 600,  
+            breakpoint: 600,
             options: {
               chart: {
-                height: 250,  
+                height: 250,
               },
               xaxis: {
                 labels: {
-                  show: true,  
+                  show: true,
                 },
               },
               yaxis: {
                 labels: {
-                  show: true,  
+                  show: true,
                 },
               },
             },
@@ -57,25 +57,15 @@ const SalesLineGraph = () => {
         align: "left",
       },
       xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-        ],
+        categories: lineCategories || [], // Use categories from props
       },
       yaxis: {
         title: {
-          text: "Sales",
+          text: lineyAxisTitle || "Sales", // Use yAxisTitle from props
         },
       },
     },
-  });
+  };
 
   return (
     <div className="flex justify-center items-center p-4 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -84,7 +74,7 @@ const SalesLineGraph = () => {
           options={chartData.options}
           series={chartData.series}
           type="line"
-          height={350} 
+          height={350}
         />
       </div>
     </div>
