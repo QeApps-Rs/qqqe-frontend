@@ -31,7 +31,7 @@ import SuggestionCompNew from "./components/Suggestion/SuggestionCompNew";
 import PreferenceSurveyTwo from "./pages/preference-survey/PreferenceSurveyTwo";
 import SuggestionAnalytics from "./pages/suggestion-analytics/SuggestionAnalytics";
 import CampaignsPage from "./pages/campaigns";
-import CampaignsDetailsPage from "./components/Campaigns/campaignsDetails";
+import CampaignsDetailsPage from "./components/Campaigns/CampaignsDetails";
 
 const env_type = import.meta.env.VITE_ENV;
 
