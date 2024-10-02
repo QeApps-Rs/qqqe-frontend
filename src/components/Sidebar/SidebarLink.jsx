@@ -1,6 +1,4 @@
-import React from "react";
-
-import Icon from "../custIcon/Icon";
+/* eslint-disable react/prop-types */
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const SidebarLink = ({ href, iconType, label, sidebarOpen }) => {
