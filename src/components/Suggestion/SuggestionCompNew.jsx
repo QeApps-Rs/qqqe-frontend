@@ -76,22 +76,23 @@ const SuggestionCompNew = () => {
               const innerAccordions = [];
               res.data?.tblLevel2?.map((tblLevel) => {
                 initialAccordions.push(collapsedAccordionState);
-                return tblLevel?.suggestion?.data?.map((items) => {
-                  Object.keys(items).map((item) => {
-                    const defaultClass =
-                      item == "Customer_ID" ||
-                      item == "Customer_IP" ||
-                      item == "Days_After_Onboarding"
-                        ? activeTabObj
-                        : hiddenTabObj;
-                    setAccordionTab((prev) => ({
-                      ...prev,
-                      [item]: defaultClass,
-                    }));
-                    return true;
+                Object.keys(tblLevel?.suggestion?.data).length > 0 &&
+                  tblLevel?.suggestion?.data?.map((items) => {
+                    Object.keys(items).map((item) => {
+                      const defaultClass =
+                        item == "Customer_ID" ||
+                        item == "Customer_IP" ||
+                        item == "Days_After_Onboarding"
+                          ? activeTabObj
+                          : hiddenTabObj;
+                      setAccordionTab((prev) => ({
+                        ...prev,
+                        [item]: defaultClass,
+                      }));
+                      return true;
+                    });
+                    return innerAccordions.push(defaultInnerAccordion);
                   });
-                  return innerAccordions.push(defaultInnerAccordion);
-                });
               });
 
               setManageAccordions(initialAccordions);
@@ -328,7 +329,7 @@ const SuggestionCompNew = () => {
         data: {
           pid: problemId,
           sid: statementId,
-        }
+        },
       });
       if (result.data) {
         console.log("result data ", result.data);

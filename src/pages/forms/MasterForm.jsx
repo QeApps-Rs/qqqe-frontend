@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/no-unknown-property */
+import { useState, useEffect } from "react";
 import Checkbox from "../../components/higherOrderComponent/Checkboxes/Checkbox";
 import Radio from "../../components/higherOrderComponent/Radios/Radio";
 import DropDown from "../../components/higherOrderComponent/Dropdown/Dropdown";
@@ -30,6 +31,8 @@ const MasterForm = () => {
   //  shiv code start
   const [loading, setLoading] = useState(false);
   const [templateDesign, setTemplateDesign] = useState(templateFieldCss);
+  console.log(['templateDesign', templateDesign]);
+  
   const [templateData, setTemplateData] = useState({
     heading: "",
     button: "",
@@ -105,7 +108,6 @@ const MasterForm = () => {
 
     if (allRequiredFilled) {
       console.log("Form submitted successfully", inputValues);
-    } else {
     }
   };
 
