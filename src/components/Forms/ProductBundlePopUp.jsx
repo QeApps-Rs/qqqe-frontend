@@ -91,7 +91,7 @@ function ProductBundlePopUp({
             </h4>
             <p
               className="text-lg mt-4"
-              style={getStyle(templateDesign, "templateSubheading")}
+              style={getStyle(templateDesign, "templateSubHeading")}
             >
               {templateData.subHeading ||
                 "Save on your first order and get email-only offers when you join."}
@@ -135,8 +135,12 @@ function ProductBundlePopUp({
                   <a
                     className="block w-full text-center bg-black text-white py-2 rounded hover:bg-gray-800"
                     href="#"
+                    style={{
+                      backgroundColor: templateDesign.templateButtonBgColor,
+                    }}
                   >
-                    Shop now
+                                      {templateData.button || "Continue"}
+
                   </a>
                 </div>
               ))

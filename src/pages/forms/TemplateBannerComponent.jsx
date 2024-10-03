@@ -14,7 +14,12 @@ const TemplateBannerComponent = ({
 }) => {
   return (
     <>
-      <label className="block text-black dark:text-white">{fieldName}</label>
+      <label
+        className="block text-black dark:text-white"
+        style={{ color: templateDesign.formHeadingColor }}
+      >
+        {fieldName}
+      </label>
       <div className="flex w-full">
         <input
           type={fieldType}

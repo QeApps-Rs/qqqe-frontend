@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import DropDown from "../../components/higherOrderComponent/Dropdown/Dropdown";
 import ColorPicker from "../../components/higherOrderComponent/ColorPicker/ColorPicker";
 import {

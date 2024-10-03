@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import DropDown from "../../components/higherOrderComponent/Dropdown/Dropdown";
@@ -308,13 +309,13 @@ const InputControllerComponent = ({
                         placeholder="px"
                         className={`${defaultBoxClassName} h-12`}
                         value={
-                          templateDesign.templateSubheadingFontSize.replace(
+                          templateDesign.templateSubHeadingFontSize.replace(
                             "px",
                             ""
                           ) || ""
                         }
                         onChange={(e) =>
-                          onTemplateChange("templateSubheadingFontSize")(
+                          onTemplateChange("templateSubHeadingFontSize")(
                             e.target.value + "px"
                           )
                         }
@@ -323,9 +324,9 @@ const InputControllerComponent = ({
                     <div className="flex items-center mt-3">
                       <span className="mr-2">Color:</span>
                       <ColorPicker
-                        defaultColor={templateDesign.templateSubheadingColor}
+                        defaultColor={templateDesign.templateSubHeadingColor}
                         onChange={(color) =>
-                          onTemplateChange("templateSubheadingColor")(color)
+                          onTemplateChange("templateSubHeadingColor")(color)
                         }
                       />
                     </div>
