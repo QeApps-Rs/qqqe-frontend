@@ -292,6 +292,7 @@ export const surveyTypeStyles = [
   { value: "review", label: "Review" },
   { value: "rating", label: "Rating" },
   { value: "survey", label: "Survey" },
+  { value: "button", label: "Button" },
 ];
 
 export const surveyReviewCount = [
