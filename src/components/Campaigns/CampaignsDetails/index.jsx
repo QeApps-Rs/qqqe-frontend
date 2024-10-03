@@ -36,8 +36,11 @@ const CampaignsDetailsPage = () => {
     const selectedValue = e.target.value;
     onTemplateChange(selectedValue);
   };
-  const renderCampaignBox = (title, value, rate) => (
-    <div className="campaigns-boxs p-4 bg-white rounded-lg shadow-md">
+  const renderCampaignBox = (title, value, rate, item1) => (
+    <div
+      className="campaigns-boxs p-4 bg-white rounded-lg shadow-md"
+      key={item1}
+    >
       <span className="box-title block text-indigo-600 font-semibold text-lg mb-2">
         {title}
       </span>
@@ -181,8 +184,8 @@ const CampaignsDetailsPage = () => {
         </div>
         <div className="grid grid-cols-6 border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5">
           {["Variants", "Impressions", "Conversions", "Conversions rate"].map(
-            (header, index) => (
-              <div className="col-span-2" key={index}>
+            (header, index1) => (
+              <div className="col-span-2" key={index1}>
                 <p className="text-black font-bold">{header}</p>
               </div>
             )
