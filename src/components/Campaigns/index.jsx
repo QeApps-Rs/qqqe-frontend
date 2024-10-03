@@ -83,7 +83,6 @@ const Campaigns = () => {
     "Product E",
   ];
   const chartTitle = "Sales by Product Category";
-  console.log(["fd", productData]);
 
   return (
     <div className="mb-25">

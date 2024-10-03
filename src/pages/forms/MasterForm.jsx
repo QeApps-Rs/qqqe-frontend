@@ -23,6 +23,7 @@ import SurveyControllerComponent from "./SurveyControllerComponent";
 import SurveyFormComponent from "./SurveyFormComponent";
 import SuccessControllerComponent from "./SuccessControllerComponent";
 import Loader from "../../common/Loader";
+import { BackIcon } from "../../components/custIcon/svgIcon";
 
 const MasterForm = () => {
   //  shiv code start
@@ -190,6 +191,12 @@ const MasterForm = () => {
     fontFamily: design[`${type}FontFamily`],
     color: design[`${type}Color`],
   });
+
+  const [advanceSetting, setAdvanceSetting] = useState(false);
+
+  const advanceSettingHandleChange = () => {
+    setAdvanceSetting(!advanceSetting);
+  };
 
   //  shiv code end
 
@@ -417,6 +424,19 @@ const MasterForm = () => {
         <ul className="space-y-4">
           {templateEditorCollapseOptions
             .filter((item) => {
+              if (!advanceSetting) {
+                const excludedTags = [
+                  "surveyController",
+                  "successController",
+                  "inputController",
+                  "target",
+                  "bundle",
+                  "custom_style",
+                  "custom_js",
+                ];
+
+                return item.tag === "style" && !excludedTags.includes(item.tag);
+              }
               if (isProductBundle) {
                 return (
                   // item.tag !== "inputController" &&
@@ -451,6 +471,13 @@ const MasterForm = () => {
                     <path d="M8.28882 8.43257L8.28874 8.43265L8.29692 8.43985C8.62771 8.73124 9.02659 8.86001 9.41667 8.86001C9.83287 8.86001 10.2257 8.69083 10.5364 8.41713L10.5365 8.41721L10.5438 8.41052L16.765 2.70784L16.771 2.70231L16.7769 2.69659C17.1001 2.38028 17.2005 1.80579 16.8001 1.41393C16.4822 1.1028 15.9186 1.00854 15.5268 1.38489L9.41667 7.00806L3.3019 1.38063L3.29346 1.37286L3.28467 1.36548C2.93287 1.07036 2.38665 1.06804 2.03324 1.41393L2.0195 1.42738L2.00683 1.44184C1.69882 1.79355 1.69773 2.34549 2.05646 2.69659L2.06195 2.70196L2.0676 2.70717L8.28882 8.43257Z" />
                   </svg>
                 </h3>
+                {activeIndex === index && item.tag === "style" && (
+                  <StyleComponent
+                    templateDesign={templateDesign}
+                    onTemplateChange={handleTemplateChange}
+                    isProductBundle={isProductBundle}
+                  />
+                )}
                 {activeIndex === index && item.tag === "inputController" && (
                   <>
                     <Toaster />
@@ -478,13 +505,7 @@ const MasterForm = () => {
                     />
                   </>
                 )}
-                {activeIndex === index && item.tag === "style" && (
-                  <StyleComponent
-                    templateDesign={templateDesign}
-                    onTemplateChange={handleTemplateChange}
-                    isProductBundle={isProductBundle}
-                  />
-                )}
+
                 {activeIndex === index && item.tag === "target" && (
                   <div className="col-span-12 xl:col-span-12">
                     <div className="p-4 border-t">
@@ -937,9 +958,30 @@ const MasterForm = () => {
                 )}
               </li>
             ))}
+          <button
+            onClick={advanceSettingHandleChange}
+            className="bg-blue-500 w-full p-2 rounded-md"
+          >
+            {advanceSetting
+              ? "Hide Advanced Settings"
+              : "Show Advanced Settings"}
+          </button>
         </ul>
       </aside>
-
+      <div className="flex justify-end mb-4">
+        <span
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-x-1 cursor-pointer bg-white border border-gray-300 pt-1.5 pb-1.5 pl-2.5 pr-2.5 text-[15px] rounded-md mr-4"
+        >
+          <BackIcon /> Back
+        </span>
+        <span
+          onClick={() => navigate(-3)}
+          className="flex items-center gap-x-1 cursor-pointer bg-black border border-gray-300 pt-1.5 pb-1.5 px-3 text-[15px] rounded-md text-white"
+        >
+          Discard
+        </span>
+      </div>
       {isProductBundle ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
