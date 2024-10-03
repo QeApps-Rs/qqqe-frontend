@@ -30,7 +30,8 @@ const SurveyControllerComponent = ({
     }
   }, [surveyControllerEditState]);
 
-  const handleAddField = () => {
+  const handleAddField = (e) => {
+    e.preventDefault();
     const optionsArray = optionsText.split(",").map((option) => option.trim());
 
     if (optionsArray.length === 0 || optionsArray[0] === "") {
@@ -69,6 +70,10 @@ const SurveyControllerComponent = ({
     setIsEditMode(false);
     setEditIndex(null);
     setRenderKey((prevKey) => prevKey + 1);
+  };
+
+  const handleAddButton = () => {
+    
   };
 
   return (
@@ -170,6 +175,35 @@ const SurveyControllerComponent = ({
                           </div>
                         </>
                       )}
+                       {templateDesign.formBorderStyle === "button" && (
+                        <>
+                          <div className="mb-6">
+                            <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                              Button Label
+                            </label>
+
+                            <input
+                              type="text"
+                              value={fieldName}
+                              onChange={(e) => setFieldName(e.target.value)}
+                              placeholder="Please Enter The Question"
+                              className="w-full p-2 border rounded-md focus:outline-none"
+                            />
+                          </div>
+                          <div className="mb-6">
+                            <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                             Button Link
+                            </label>
+                            <input
+                              type="text"
+                              value={optionsText}
+                              onChange={(e) => setOptionsText(e.target.value)}
+                              placeholder="Ex. fb.com/username"
+                              className="w-full p-2 border rounded-md focus:outline-none"
+                            />
+                          </div>
+                        </>
+                      )}
                     </div>
                     {templateDesign.formBorderStyle === "survey" && (
                       <button
@@ -177,6 +211,14 @@ const SurveyControllerComponent = ({
                         onClick={handleAddField}
                       >
                         {isEditMode ? "Update Field" : "Add Field"}
+                      </button>
+                    )}
+                    {templateDesign.formBorderStyle === "button" && (
+                      <button
+                        className="bg-blue-500 text-white py-2 px-4 rounded w-full"
+                        onClick={handleAddButton}
+                      >
+                        {isEditMode ? "Update Button" : "Add Button"}
                       </button>
                     )}
                   </div>
