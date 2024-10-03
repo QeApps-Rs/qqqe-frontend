@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/no-unknown-property */
+import { useState, useEffect } from "react";
 import Checkbox from "../../components/higherOrderComponent/Checkboxes/Checkbox";
 import Radio from "../../components/higherOrderComponent/Radios/Radio";
 import DropDown from "../../components/higherOrderComponent/Dropdown/Dropdown";
@@ -28,6 +29,8 @@ const MasterForm = () => {
   //  shiv code start
   const [loading, setLoading] = useState(false);
   const [templateDesign, setTemplateDesign] = useState(templateFieldCss);
+  console.log(['templateDesign', templateDesign]);
+  
   const [templateData, setTemplateData] = useState({
     heading: "",
     button: "",
@@ -103,7 +106,6 @@ const MasterForm = () => {
 
     if (allRequiredFilled) {
       console.log("Form submitted successfully", inputValues);
-    } else {
     }
   };
 
@@ -394,7 +396,6 @@ const MasterForm = () => {
             <div
               key={number}
               className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-300 text-black border border-gray-500 transition duration-300 cursor-pointer mr-1"
-              onClick={() => onTemplateChange("ratingCount")(number)}
             >
               {number}
             </div>
