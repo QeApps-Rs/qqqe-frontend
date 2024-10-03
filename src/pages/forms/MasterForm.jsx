@@ -22,6 +22,8 @@ import { Toaster } from "react-hot-toast";
 import SurveyControllerComponent from "./SurveyControllerComponent";
 import SurveyFormComponent from "./SurveyFormComponent";
 import SuccessControllerComponent from "./SuccessControllerComponent";
+
+import purchaseSatisfactionSurveyDefaultImage from "../../../src/images/templates/purchase-satisfaction-survey-default.jpg";
 import Loader from "../../common/Loader";
 
 const MasterForm = () => {
@@ -193,7 +195,11 @@ const MasterForm = () => {
 
   //  shiv code end
 
-  const [isProductBundle, setProductBundle] = useState(false);
+  const [suggestionTemplateStatus, setSuggestionTemplateStatus] = useState({
+    isProductBundle: false,
+    isPurchaseSatisfactionSurvey: false,
+    isFeedbackSurvey: false,
+  });
   const navigate = useNavigate();
   const { id } = useParams();
   const [checkedItems, setCheckedItems] = useState(false);
@@ -244,24 +250,32 @@ const MasterForm = () => {
     const fetchSubTemplateData = async () => {
       try {
         setLoading(true);
-        await FormSubmitHandler({
+        const response = await FormSubmitHandler({
           method: "get",
           url: `sub/template/${subTemplateId}`,
-        })
-          .then((response) => {
-            if (response.success) {
-              const responseKeywords = response?.data?.keywords.split(",");
-              if (responseKeywords?.includes("Product Bundle")) {
-                setProductBundle(true);
-              }
-            }
-          })
-          .catch((error) => {
-            console.error("Error fetching sub-template:", error);
-          })
-          .finally(() => {
-            setLoading(false);
-          });
+        });
+
+        if (response.success) {
+          const responseKeywords = response?.data?.keywords.split(",");
+          if (responseKeywords?.includes("Product Bundle")) {
+            setSuggestionTemplateStatus({
+              ...suggestionTemplateStatus,
+              isProductBundle: true,
+            });
+          } else if (
+            responseKeywords?.includes("Purchase Satisfaction Survey")
+          ) {
+            setSuggestionTemplateStatus({
+              ...suggestionTemplateStatus,
+              isPurchaseSatisfactionSurvey: true,
+            });
+          } else if (responseKeywords?.includes("Feedback Survey")) {
+            setSuggestionTemplateStatus({
+              ...suggestionTemplateStatus,
+              isFeedbackSurvey: true,
+            });
+          }
+        }
       } catch (error) {
         console.error("Error fetching sub-template:", error);
       }
@@ -381,7 +395,11 @@ const MasterForm = () => {
     );
   };
 
-  const renderNumbers = (count) => {
+  const renderNumbers = (
+    count,
+    defaultCount = 5,
+    borderColor = "border-grey-400"
+  ) => {
     const minCount = templateDesign.ratingMinCount || 1;
     const maxCount = templateDesign.ratingMaxCount || 15;
     const validCount = Math.min(Math.max(count, minCount), maxCount);
@@ -393,8 +411,7 @@ const MasterForm = () => {
           return (
             <div
               key={number}
-              className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-300 text-black border border-gray-500 transition duration-300 cursor-pointer mr-1"
-              onClick={() => onTemplateChange("ratingCount")(number)}
+              className={`flex items-center justify-center w-8 h-8 rounded-full bg-gray-300 text-black border ${borderColor} transition duration-300 cursor-pointer mr-1`}
             >
               {number}
             </div>
@@ -417,7 +434,7 @@ const MasterForm = () => {
         <ul className="space-y-4">
           {templateEditorCollapseOptions
             .filter((item) => {
-              if (isProductBundle) {
+              if (suggestionTemplateStatus?.isProductBundle) {
                 return (
                   // item.tag !== "inputController" &&
                   item.tag !== "surveyController" &&
@@ -461,7 +478,9 @@ const MasterForm = () => {
                       templateDesign={templateDesign}
                       onTemplateChange={handleTemplateChange}
                       inputControllerEditState={inputControllerEditState}
-                      isProductBundle={isProductBundle}
+                      isProductBundle={
+                        suggestionTemplateStatus?.isProductBundle
+                      }
                     />
                   </>
                 )}
@@ -482,7 +501,7 @@ const MasterForm = () => {
                   <StyleComponent
                     templateDesign={templateDesign}
                     onTemplateChange={handleTemplateChange}
-                    isProductBundle={isProductBundle}
+                    isProductBundle={suggestionTemplateStatus?.isProductBundle}
                   />
                 )}
                 {activeIndex === index && item.tag === "target" && (
@@ -842,7 +861,7 @@ const MasterForm = () => {
                   </div>
                 )}
 
-                {isProductBundle &&
+                {suggestionTemplateStatus?.isProductBundle &&
                   activeIndex === index &&
                   item.tag === "bundle" &&
                   productListState && (
@@ -859,7 +878,7 @@ const MasterForm = () => {
                       productListForPopUp={productListForPopUp}
                     />
                   )}
-                {!isProductBundle &&
+                {!suggestionTemplateStatus?.isProductBundle &&
                   activeIndex === index &&
                   item.tag === "surveyController" && (
                     <SurveyControllerComponent
@@ -940,7 +959,7 @@ const MasterForm = () => {
         </ul>
       </aside>
 
-      {isProductBundle ? (
+      {suggestionTemplateStatus.isProductBundle ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
             <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
@@ -972,6 +991,175 @@ const MasterForm = () => {
               templateData={templateData}
               getStyle={getStyle}
             />
+          </div>
+        </>
+      ) : suggestionTemplateStatus.isPurchaseSatisfactionSurvey ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <div className="flex mb-4 justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
+              <div className="w-[70%] flex justify-center">
+                <div
+                  className={`border border-[#323359] ${
+                    !success ? "bg-[#d0d5d9]" : "bg-white"
+                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
+                  onClick={() => setSuccess(false)}
+                >
+                  Teaser
+                </div>
+                <div
+                  className={`border border-[#323359] ${
+                    success ? "bg-[#d0d5d9]" : "bg-white"
+                  } inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
+                  onClick={() => setSuccess(true)}
+                >
+                  Success
+                </div>
+              </div>
+
+              <div className="flex">
+                <button
+                  type="submit"
+                  onClick={() => onPublish()}
+                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
+                >
+                  Publish
+                </button>
+                <a
+                  className={`rounded-l-md  ${
+                    isView === "Desktop" ? "bg-[#d0d5d9]" : ""
+                  }  p-1.5 px-2.5 text-base border border-[#ccc] -ml-px text-black leading-[22px]`}
+                  href="#"
+                  onClick={() => setView("Desktop")}
+                >
+                  <i className="fa fa-desktop" aria-hidden="true"></i>
+                </a>
+                <a
+                  className={`rounded-r-md text-lg border border-[#ccc] -ml-px text-black leading-[22px]  ${
+                    isView === "Mobile" ? "bg-[#eaedef]" : ""
+                  } p-1.5 px-2.5`}
+                  href="#"
+                  onClick={() => setView("Mobile")}
+                >
+                  <i className="fa fa-mobile" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+
+            <div
+              className={`h-full flex items-center justify-center border-8 border-indigo-600 ${
+                isView !== "Desktop"
+                  ? "min-h-[785px] bg-no-repeat bg-top bg-center"
+                  : "gap-8 overflow-auto"
+              }`}
+            >
+              <div className={formClasses()}>
+                <div
+                  className={`p-8 flex flex-col justify-center xl:col-span-6`}
+                >
+                  <h1
+                    className="text-8xl font-bold mb-4 relative"
+                    style={{ width: "150%" }}
+                  >
+                    {templateData.heading || "HI, THANKS FOR STOPPING BY!"}
+                  </h1>
+                  <p
+                    className="text-lg mb-6"
+                    style={getStyle(templateDesign, "templateSubheading")}
+                  >
+                    {templateData.subHeading ||
+                      "How would you rate your overall experience with us?"}
+                  </p>
+                  <hr class="w-48 h-1 my-4 bg-[#d0d5d9] border-0 rounded md:my-10 dark:bg-gray-700"></hr>
+                  <form
+                    className="flex flex-col space-y-4"
+                    onSubmit={handleSubmit}
+                  >
+                    {/* Display Stars Here */}
+                    {templateDesign.formBorderStyle === "review" && (
+                      <>{renderStars(reviewCount)}</>
+                    )}
+                    {templateDesign.formBorderStyle === "rating" && (
+                      <>{renderNumbers(ratingCount)}</>
+                    )}
+                  </form>
+                </div>
+                <div
+                  className={`p-8 flex flex-col justify-center xl:col-span-6`}
+                >
+                  <img
+                    src={purchaseSatisfactionSurveyDefaultImage}
+                    alt="Promo"
+                    className="h-full w-full object-fill"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : suggestionTemplateStatus.isFeedbackSurvey ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
+              <div className="w-[70%] flex justify-center">
+                <div
+                  className={`border border-[#323359] ${
+                    !success ? "bg-[#d0d5d9]" : "bg-white"
+                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
+                  onClick={() => setSuccess(false)}
+                >
+                  Teaser
+                </div>
+              </div>
+
+              <div className="flex">
+                <button
+                  type="submit"
+                  onClick={() => onPublish()}
+                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
+                >
+                  Publish
+                </button>
+              </div>
+            </div>
+            <div className="h-full items-center justify-center flex">
+              <div className="relative rounded-lg w-full shadow-[7px_-7px_57px_#ccc] flex items-center bg-white">
+                <div className="w-[16%] bg-[#fcf1e9] flex justify-center py-[30px] rounded-l-none rounded-r-[90px]">
+                  <img
+                    src={purchaseSatisfactionSurveyDefaultImage}
+                    alt="Round Image"
+                    className="w-[55%] object-cover"
+                  />
+                </div>
+
+                <div className="w-[70%] pl-6 z-10">
+                  <div className="mb-4 text-center">
+                    <span className="text-lg font-semibold">
+                      How satisfied were you with your purchase?
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col items-center space-y-4">
+                    {/* Text is already centered within the div */}
+                    <form
+                      className="w-full flex flex-col items-center space-y-4"
+                      onSubmit={handleSubmit}
+                    >
+                      {/* Display Stars or Numbers here */}
+                      {templateDesign.formBorderStyle === "review" && (
+                        <>{renderStars(reviewCount)}</>
+                      )}
+                      {templateDesign.formBorderStyle === "rating" && (
+                        <>{renderNumbers(
+                          ratingCount,
+                          5,
+                          "border-[#f1e7df]"
+                        )}</>
+                      )}
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </>
       ) : (
