@@ -15,7 +15,7 @@ const SidebarLink = ({ href, iconType, label, sidebarOpen }) => {
         className={`group relative flex items-center ${
           sidebarOpen
             ? "gap-2.5 rounded-sm px-4 py-3 font-medium text-black duration-300 ease-in-out"
-            : "sidebarrounded-lg justify-center py-2"
+            : "sidebar rounded-lg justify-center py-2"
         } hover:bg-graydark dark:hover:bg-meta-4 hover:text-white ${
           isActive && "bg-graydark dark:bg-meta-4 text-white"
         }`}

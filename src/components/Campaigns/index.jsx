@@ -9,12 +9,14 @@ import { Link } from "react-router-dom";
 const Campaigns = () => {
   const productData = [
     {
+      id: 1,
       conversions_rate: "0%",
       conversions: 0,
       impressions: 0,
       date_created: "sep 16, 2024",
     },
     {
+      id: 2,
       conversions_rate: "0%",
       conversions: 0,
       impressions: 0,
@@ -22,12 +24,13 @@ const Campaigns = () => {
     },
   ];
 
-  const [switchStates, setSwitchStates] = useState({ openInNewTab: true });
+  const [switchStates, setSwitchStates] = useState({});
 
-  const handleToggle = (key) => {
+  // Toggle handler
+  const handleToggle = (productId) => {
     setSwitchStates((prevStates) => ({
       ...prevStates,
-      [key]: !prevStates[key],
+      [productId]: !prevStates[productId],
     }));
   };
 
@@ -43,6 +46,45 @@ const Campaigns = () => {
     </div>
   );
 
+  const salesBarData = [10, 41, 35, 51, 49, 62, 69, 91, 148];
+  const barCategories = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+  ];
+  const baryAxisTitle = "Sales Amount";
+
+  const salesLineData = [10, 41, 35, 51, 49, 62, 69, 91, 148];
+  const lineCategories = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+  ];
+  const lineyAxisTitle = "Sales Amount";
+
+  const seriesData = [44, 55, 13, 43, 22];
+  const labels = [
+    "Product A",
+    "Product B",
+    "Product C",
+    "Product D",
+    "Product E",
+  ];
+  const chartTitle = "Sales by Product Category";
+  console.log(["fd", productData]);
+
   return (
     <div className="mb-25">
       <h1 className="text-3xl font-bold text-gray-800 mb-4">Campaigns</h1>
@@ -53,11 +95,27 @@ const Campaigns = () => {
       </div>
 
       <div className="grid gap-4 mt-4">
-        <SalesLineGraph />
+        <SalesLineGraph
+          salesLineData={salesLineData}
+          lineCategories={lineCategories}
+          lineyAxisTitle={lineyAxisTitle}
+        />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <SalesPieGraph />
-          <SalesBarGraph />
-          <SalesPieGraph />
+          <SalesPieGraph
+            seriesData={seriesData}
+            labels={labels}
+            chartTitle={chartTitle}
+          />
+          <SalesBarGraph
+            salesBarData={salesBarData}
+            barCategories={barCategories}
+            baryAxisTitle={baryAxisTitle}
+          />
+          <SalesPieGraph
+            seriesData={seriesData}
+            labels={labels}
+            chartTitle={chartTitle}
+          />
         </div>
       </div>
 
@@ -72,7 +130,6 @@ const Campaigns = () => {
           </button>
         </div>
       </div>
-
       <div className="rounded-sm border border-stroke bg-white shadow-default mt-4">
         <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5">
           {[
@@ -101,17 +158,17 @@ const Campaigns = () => {
           ))}
         </div>
 
-        {productData.map((product, key) => (
+        {productData.map((product, index) => (
           <div
             className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5"
-            key={key}
+            key={product.id}
           >
             <div className="col-span-2 flex items-center">
               <img src={productImg} alt="product" className="w-30 max-h-30" />
               <div className="block ml-2 text-graydark">
                 <Link to={"/campaigns-details"}>
                   <span className="block text-blue-600">
-                    Campaign #{key + 1}
+                    Campaign #{product.id}
                   </span>
                 </Link>
                 <span>www.com</span>
@@ -119,9 +176,9 @@ const Campaigns = () => {
             </div>
             <div className="col-span-1 hidden items-center sm:flex">
               <SwitcherThree
-                label="Open in new tab"
-                enabled={switchStates.openInNewTab}
-                onToggle={() => handleToggle("openInNewTab")}
+                label={`switch-${index}`}
+                enabled={switchStates[product.id] || false}
+                onToggle={() => handleToggle(product.id)}
               />
               <i
                 className="fa fa-exclamation-triangle text-red-500 text-2x"
@@ -151,59 +208,29 @@ const Campaigns = () => {
           </div>
         ))}
       </div>
+
       <h3 className="text-xl font-bold text-gray-800 my-4">Need Help?</h3>
       <div className="grid grid-cols-3 gap-4">
-        <div className="flex items-center">
-          <img src={productImg} alt="product" className="w-20 max-h-20" />
-          <div className="block">
+        {[...Array(3)].map((_, index) => (
+          <div className="flex items-center" key={index}>
+            <img src={productImg} alt="product" className="w-20 max-h-20" />
             <div className="block">
-              <h2 className="text-lg font-bold text-graydark">
-                Website Personalization Course
-              </h2>
-              <p className="block text-sm text-customGray">
-                Learn how to increase conversion rates with a proven website
-                personalization strategy
-              </p>
+              <div className="block">
+                <h2 className="text-lg font-bold text-graydark">
+                  Website Personalization Course
+                </h2>
+                <p className="block text-sm text-customGray">
+                  Learn how to increase conversion rates with a proven website
+                  personalization strategy
+                </p>
+              </div>
+              <a href="#" className="inline-block text-blue-600">
+                Watch course{" "}
+                <i className="fa fa-angle-right" aria-hidden="true"></i>
+              </a>
             </div>
-            <a href="#" className="inline-block text-blue-600">
-              Watch course <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </a>
           </div>
-        </div>
-        <div className="flex items-center">
-          <img src={productImg} alt="product" className="w-20 max-h-20" />
-          <div className="block">
-            <div className="block">
-              <h2 className="text-lg font-bold text-graydark">
-                Website Personalization Course
-              </h2>
-              <p className="block text-sm text-customGray">
-                Learn how to increase conversion rates with a proven website
-                personalization strategy
-              </p>
-            </div>
-            <a href="#" className="inline-block text-blue-600">
-              Watch course <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </a>
-          </div>
-        </div>
-        <div className="flex items-center">
-          <img src={productImg} alt="product" className="w-20 max-h-20" />
-          <div className="block">
-            <div className="block">
-              <h2 className="text-lg font-bold text-graydark">
-                Website Personalization Course
-              </h2>
-              <p className="block text-sm text-customGray">
-                Learn how to increase conversion rates with a proven website
-                personalization strategy
-              </p>
-            </div>
-            <a href="#" className="inline-block text-blue-600">
-              Watch course <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </a>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
