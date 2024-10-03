@@ -144,8 +144,8 @@ const SuggestionCompNew = () => {
   };
 
   // eslint-disable-next-line react/prop-types
-  const SettingIcon = ({ onClick }) => (
-    <span onClick={onClick} className="cursor-pointer">
+  const SettingIcon = ({ onClick, disabled }) => (
+    <span onClick={onClick} className={`${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`  }>
       ⚙️
     </span>
   );
@@ -398,14 +398,15 @@ const SuggestionCompNew = () => {
     }
   };
 
-  const renderActionTd = (suggestion, suggestionId) => {
+  const renderActionTd = (data) => {
+    const { suggestion, id, is_applied } = data;
     return (
       <div className="flex align-center">
-        <div title="Configuration" className="ml-2" data-id={suggestionId}>
+        <div title="Configuration" className="ml-2" data-id={id}>
           <SettingIcon
             onClick={() => {
               toggleModal();
-              setSuggestionId(suggestionId);
+              setSuggestionId(id);
               setInputTypeValue(suggestion.discount_percentage);
               setDiscountObj({
                 description: suggestion.description,
@@ -418,6 +419,7 @@ const SuggestionCompNew = () => {
                 discount_percentage: suggestion.discount_percentage,
               });
             }}
+            disabled={is_applied}
           />
         </div>
       </div>
@@ -554,7 +556,7 @@ const SuggestionCompNew = () => {
                           aria-label="suggestions"
                           className={`${comTdClass} px-4 py-5`}
                         >
-                          {renderActionTd(suggestion.suggestion, suggestion.id)}
+                          {renderActionTd(suggestion)}
                         </td>
                       </tr>
                     );
