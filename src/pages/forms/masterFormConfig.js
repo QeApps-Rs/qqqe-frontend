@@ -1,23 +1,25 @@
 export const templateDefaultCss = {
   "styles": {
     "form_type": {
-      "type": "popup",
-      "width": "small",
-      "min_height": "500",
+      "type": "full page",
+      "width": "large",
+      "min_height": "500px",
       "show_on": "both",
-      "background_color": "#ffffff",
-      "overlay_color": "#cccccc",
+      "background_color": "rgb(255,255,255)",
+      "overlay_color": "rgb(255,255,255)",
       "corner_radius": "",
       "border_style": "none",
       "padding": {
-        "top": "0px",
-        "bottom": "0px",
-        "left": "0px",
-        "right": "0px"
+        "top": "8px",
+        "bottom": "8px",
+        "left": "8px",
+        "right": "8px"
       },
       "margin": {
-        "top_bottom": "0px",
-        "left_right": "0px"
+        "top": "8px",
+        "bottom":"8px",
+        "left":"8px",
+        "right": "8px"
       },
       "input_fields_style": {
         "font_family": "Arial",
@@ -38,8 +40,8 @@ export const templateDefaultCss = {
     "form_parameters": {
       "title": {
         "text": "Unlock 20% off your first order",
-        "color": "#000000",
-        "font_size": "12px",
+        "color": "rgb(0, 0, 0)",
+        "font_size": "32px",
         "section_background_color": "#ffffff",
         "section_padding": {
           "top": "15px",
@@ -117,32 +119,32 @@ export const templateFieldCss = {
   textColor: "rgb(0, 0, 0)", // styles.form_type.input_fields_style.text_color
   letterSpacing: "1px", // styles.form_type.input_fields_style.letter_spacing
   inputFontSize: "14px",  // styles.form_type.input_fields_style.font_size - missing
-  templateBgColor: "rgb(255,255,255)",
-  templateOverlayColor: "rgb(255, 255, 255)",
+  templateBgColor: "rgb(255,255,255)",// styles.form_type.background_color
+  templateOverlayColor: "rgb(255, 255, 255)",// styles.form_type.overlay_color
   fontWeight: "normal", // styles.form_type.input_fields_style.font_weight
   fontFamily: "Arial",// styles.form_type.input_fields_style.font_family
   borderRadius: "",// styles.form_type.corner_radius
   borderWidth: "2px",// styles.form_type.border_width - missing
   templateBorderColor: "rgb(255, 255, 255)", // styles.form_type.template_border_color - missing
-  templatePaddingTop: "8px", 
-  templatePaddingBottom: "8px",
-  templatePaddingLeft: "8px",
-  templatePaddingRight: "8px",
-  templateMarginTop: "8px",
-  templateMarginBottom: "8px",
-  templateMarginLeft: "8px",
-  templateMarginRight: "8px",
-  formBorderStyle: "none",
-  formType: "full page",
-  formWidth: "large",
-  templateMinHeight: "500px",
-  templateHeadingFontSize: "32px",
+  templatePaddingTop: "8px", // styles.form_type.padding_top
+  templatePaddingBottom: "8px",// styles.form_type.padding_bottom
+  templatePaddingLeft: "8px",// styles.form_type.padding_left
+  templatePaddingRight: "8px",// styles.form_type.padding_right
+  templateMarginTop: "8px",// styles.form_type.margin_top
+  templateMarginBottom: "8px",// styles.form_type.margin_bottom
+  templateMarginLeft: "8px",// styles.form_type.margin_left
+  templateMarginRight: "8px",// styles.form_type.margin_right
+  formBorderStyle: "none",// styles.form_type.border_style
+  formType: "full page",// styles.form_type.type
+  formWidth: "large",// styles.form_type.width
+  templateMinHeight: "500px",// styles.form_type.min_height
+  templateHeadingFontSize: "32px",// styles.form_parameters.font_size
   templateOfferFontSize: "24px",
   templateSubHeadingFontSize: "16px",
-  templateHeadingFontFamily: "Arial",
+  templateHeadingFontFamily: "Arial",// styles.form_parameters.template_heading_font_family - missing
   templateOfferFontFamily: "Arial",
   templateSubHeadingFontFamily: "Arial",
-  templateHeadingColor: "rgb(0, 0, 0)",
+  templateHeadingColor: "rgb(0, 0, 0)",// styles.form_parameters.color
   templateSubHeadingColor: "rgb(0, 0, 0)",
   templateOfferColor: "rgb(0, 0, 0)",
   templateButtonBgColor: "rgb(0, 0, 0)",
