@@ -34,17 +34,6 @@ const MasterForm = () => {
   const [templateDesign, setTemplateDesign] = useState(templateFieldCss);
   console.log(["templateDesign", templateDesign]);
 
-  const [templateData, setTemplateData] = useState({
-    heading: "",
-    button: "",
-    offerAmount: "",
-    subHeading: "",
-    image: "",
-    successImage: "",
-    successHeading: "",
-    successSubHeading: "",
-    successDescription: "",
-  });
   const [inputControllerEditState, setInputControllerEditState] = useState({
     index: null,
     fieldType: "",
@@ -187,8 +176,8 @@ const MasterForm = () => {
     return classes.trim();
   };
   const imageSrc = !success
-    ? templateData.image || popup_img
-    : templateData.successImage || popup_img;
+    ? templateDesign.image || popup_img
+    : templateDesign.successImage || popup_img;
 
   const getStyle = (design, type) => ({
     fontSize: design[`${type}FontSize`],
@@ -407,6 +396,7 @@ const MasterForm = () => {
     defaultCount = 5,
     borderColor = "border-grey-400"
   ) => {
+    console.log(["defaultCount", defaultCount]);
     const minCount = templateDesign.ratingMinCount || 1;
     const maxCount = templateDesign.ratingMaxCount || 15;
     const validCount = Math.min(Math.max(count, minCount), maxCount);
@@ -431,7 +421,6 @@ const MasterForm = () => {
   const reviewCount = parseInt(templateDesign.reviewCount, 10) || 5;
   const ratingCount = parseInt(templateDesign.ratingCount, 10) || 5;
 
-
   const otherProps = {
     isView,
     templateDesign,
@@ -442,7 +431,6 @@ const MasterForm = () => {
     formClasses,
     success,
     successImg,
-    templateData,
     getStyle,
     handleDeleteField,
     handleInputChange,
@@ -531,14 +519,13 @@ const MasterForm = () => {
                     <Toaster />
                     <InputControllerComponent
                       setAddedFields={setAddedFields}
-                      templateData={templateData}
-                      setTemplateData={setTemplateData}
                       templateDesign={templateDesign}
                       onTemplateChange={handleTemplateChange}
                       inputControllerEditState={inputControllerEditState}
                       isProductBundle={
                         suggestionTemplateStatus?.isProductBundle
                       }
+                      setTemplateDesign={setTemplateDesign}
                     />
                   </>
                 )}
@@ -547,11 +534,10 @@ const MasterForm = () => {
                     <Toaster />
                     <SuccessControllerComponent
                       setAddedFields={setAddedFields}
-                      templateData={templateData}
-                      setTemplateData={setTemplateData}
                       templateDesign={templateDesign}
                       onTemplateChange={handleTemplateChange}
                       inputControllerEditState={inputControllerEditState}
+                      setTemplateDesign={setTemplateDesign}
                     />
                   </>
                 )}
@@ -1068,7 +1054,6 @@ const MasterForm = () => {
               productData={productListForPopUp}
               noOfProducts={noOfProducts}
               templateDesign={templateDesign}
-              templateData={templateData}
               getStyle={getStyle}
             />
           </div>
@@ -1140,13 +1125,13 @@ const MasterForm = () => {
                     className="text-8xl font-bold mb-4 relative"
                     style={{ width: "150%" }}
                   >
-                    {templateData.heading || "HI, THANKS FOR STOPPING BY!"}
+                    {templateDesign.heading || "HI, THANKS FOR STOPPING BY!"}
                   </h1>
                   <p
                     className="text-lg mb-6"
                     style={getStyle(templateDesign, "templateSubheading")}
                   >
-                    {templateData.subHeading ||
+                    {templateDesign.subHeading ||
                       "How would you rate your overall experience with us?"}
                   </p>
                   <hr class="w-48 h-1 my-4 bg-[#d0d5d9] border-0 rounded md:my-10 dark:bg-gray-700"></hr>
@@ -1290,7 +1275,7 @@ const MasterForm = () => {
               </div>
             </div>
 
-           <PreviewComponent  {...otherProps}  />
+            <PreviewComponent {...otherProps} />
           </div>
         </>
       )}

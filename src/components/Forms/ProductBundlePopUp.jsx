@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/prop-types */
 import defaultProductImg from "../../images/default_product.png";
 import { Tooltip } from "react-tippy";
 
@@ -6,7 +6,6 @@ function ProductBundlePopUp({
   productData,
   noOfProducts,
   templateDesign,
-  templateData,
   getStyle,
 }) {
   const DefaultProductDiv = ({ noOfProducts, defaultProductImg }) => {
@@ -16,7 +15,10 @@ function ProductBundlePopUp({
           <div
             key={index}
             className="border rounded-lg "
-            style={{ padding: combinedPadding  , backgroundColor:templateDesign.templateOverlayColor}}
+            style={{
+              padding: combinedPadding,
+              backgroundColor: templateDesign.templateOverlayColor,
+            }}
           >
             <div className="mb-4">
               <a href="#">
@@ -42,7 +44,7 @@ function ProductBundlePopUp({
                 backgroundColor: templateDesign.templateButtonBgColor,
               }}
             >
-              {templateData.button || "Continue"}
+              {templateDesign.button || "Continue"}
             </a>
           </div>
         ))}
@@ -81,24 +83,27 @@ function ProductBundlePopUp({
         >
           <div className="text-center mb-4">
             <h5 style={getStyle(templateDesign, "templateHeading")}>
-              {templateData.heading || "Welcome back!"}
+              {templateDesign.heading || "Welcome back!"}
             </h5>
             <h4
               className="text-lg font-semibold"
               style={getStyle(templateDesign, "templateOffer")}
             >
-              {templateData.offerAmount || "Pick up where you left off"}
+              {templateDesign.offerAmount || "Pick up where you left off"}
             </h4>
             <p
               className="text-lg mt-4"
               style={getStyle(templateDesign, "templateSubHeading")}
             >
-              {templateData.subHeading ||
+              {templateDesign.subHeading ||
                 "Save on your first order and get email-only offers when you join."}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-h-[360px] overflow-auto" style={{margin:combinedMargin}}>
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-h-[360px] overflow-auto"
+            style={{ margin: combinedMargin }}
+          >
             {productData && productData.length > 0 ? (
               productData.map((product, index) => (
                 <div
@@ -139,8 +144,7 @@ function ProductBundlePopUp({
                       backgroundColor: templateDesign.templateButtonBgColor,
                     }}
                   >
-                                      {templateData.button || "Continue"}
-
+                    {templateDesign.button || "Continue"}
                   </a>
                 </div>
               ))

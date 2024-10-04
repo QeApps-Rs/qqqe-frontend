@@ -39,7 +39,7 @@ export const templateDefaultCss = {
     },
     "form_parameters": {
       "title": {
-        "text": "Unlock 20% off your first order",
+        "text": "Default Heading",
         "color": "rgb(0, 0, 0)",
         "font_size": "32px",
         "section_background_color": "#ffffff",
@@ -52,8 +52,8 @@ export const templateDefaultCss = {
       },
       "sub_title": {
         "text": "Save on your first order and get email only offers when you join.",
-        "color": "#000000",
-        "font_size": "12px",
+        "color": "rgb(0, 0, 0)",
+        "font_size": "16px",
         "section_background_color": "#ffffff",
         "section_padding": {
           "top": "15px",
@@ -75,11 +75,11 @@ export const templateDefaultCss = {
         }
       },
       "button": {
-        "text": "Email",
+        "text": "Continue",
         "font_weight": "bold",
         "letter_spacing": "2px",
         "color": "#000000",
-        "background_color": "#ffffff",
+        "background_color": "rgb(0, 0, 0)",
         "corner_radius": "5px",
         "border_style": "none",
         "font_size": "12px",
@@ -101,7 +101,7 @@ export const templateDefaultCss = {
         }
       },
       "image": {
-        "link": "https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/public/images/popup/subscriber_img.png",
+        "link": "",
         "alt_text": "banner image",
         "image_position": "contain",
         "section_background_color": "#ffffff"
@@ -138,18 +138,18 @@ export const templateFieldCss = {
   formType: "full page",// styles.form_type.type
   formWidth: "large",// styles.form_type.width
   templateMinHeight: "500px",// styles.form_type.min_height
-  templateHeadingFontSize: "32px",// styles.form_parameters.font_size
-  templateOfferFontSize: "24px",
-  templateSubHeadingFontSize: "16px",
-  templateHeadingFontFamily: "Arial",// styles.form_parameters.template_heading_font_family - missing
-  templateOfferFontFamily: "Arial",
-  templateSubHeadingFontFamily: "Arial",
-  templateHeadingColor: "rgb(0, 0, 0)",// styles.form_parameters.color
-  templateSubHeadingColor: "rgb(0, 0, 0)",
-  templateOfferColor: "rgb(0, 0, 0)",
-  templateButtonBgColor: "rgb(0, 0, 0)",
+  templateHeadingFontSize: "32px",// styles.form_parameters.title.font_size
+  templateOfferFontSize: "24px",// styles.form_parameters.offer_title.template_offer_font_size - missing
+  templateSubHeadingFontSize: "16px",// styles.form_parameters.sub_title.font_size
+  templateHeadingFontFamily: "Arial",// styles.form_parameters.title.template_heading_font_family - missing
+  templateOfferFontFamily: "Arial",// styles.form_parameters.offer_title.template_offer_font_family - missing
+  templateSubHeadingFontFamily: "Arial",// styles.form_parameters.sub_title.template_heading_font_family - missing
+  templateHeadingColor: "rgb(0, 0, 0)",// styles.form_parameters.title.color
+  templateSubHeadingColor: "rgb(0, 0, 0)",// styles.form_parameters.sub_title.color
+  templateOfferColor: "rgb(0, 0, 0)",// styles.form_parameters.offer_title.template_offer_color - missing
+  templateButtonBgColor: "rgb(0, 0, 0)",// styles.form_parameters.button.background_color
   templateProductOverlayColor: "rgb(0, 0, 0)",
-  imagePosition: "0",
+  imagePosition: "0",// styles.form_parameters.side_image.side
   successHeadingFontSize: "32px",
   successDescriptionFontSize: "24px",
   successSubHeadingFontSize: "16px",
@@ -166,6 +166,15 @@ export const templateFieldCss = {
   ratingCount: "5",
   ratingMinCount: "1",
   ratingMaxCount: "15",
+  heading:"Default Heading",// styles.form_parameters.title.text
+  button:"Continue",// styles.form_parameters.button.text
+  offerAmount:"10% Off",// styles.form_parameters.offer_title.template_offer_amount - missing
+  subHeading:"Save on your first order and get email-only offers when you join.",// styles.form_parameters.sub_title.text
+  image:"",// styles.form_parameters.image.link
+  successImage:"",
+  successHeading:"Thanks for sharing. Please check your email for confirmation message",
+  successSubHeading:"Thanks for sharing. Please check your email for confirmation message",
+  successDescription :"Thanks for sharing. Please check your email for confirmation message",
 };
 
 export const inputColorFields = [

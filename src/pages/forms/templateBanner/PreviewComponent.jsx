@@ -12,7 +12,6 @@ const PreviewComponent = ({
   formClasses,
   success,
   successImg,
-  templateData,
   getStyle,
   handleDeleteField,
   handleInputChange,
@@ -108,22 +107,19 @@ const PreviewComponent = ({
                 className="text-4xl font-bold mt-4"
                 style={getStyle(templateDesign, "successHeading")}
               >
-                {templateData.successHeading ||
-                  "Thanks for sharing. Please check your email for confirmation message"}
+                {templateDesign.successHeading}
               </h2>
               <span
                 className="text-xl font-bold mt-4"
                 style={getStyle(templateDesign, "successSubHeading")}
               >
-                {templateData.successSubHeading ||
-                  "Thanks for sharing. Please check your email for confirmation message"}
+                {templateDesign.successSubHeading}
               </span>
               <p
                 className="text-lg mt-4"
                 style={getStyle(templateDesign, "successDescription")}
               >
-                {templateData.successDescription ||
-                  "Thanks for sharing. Please check your email for confirmation message"}
+                {templateDesign.successDescription}
               </p>
             </div>
           ) : (
@@ -132,20 +128,20 @@ const PreviewComponent = ({
                 className="text-4xl font-bold mb-4"
                 style={getStyle(templateDesign, "templateHeading")}
               >
-                {templateData.heading || "Default Heading"}
+                {templateDesign.heading}
               </h2>
               <h2
                 className="text-4xl font-bold mb-4"
                 style={getStyle(templateDesign, "templateOffer")}
               >
-                {templateData.offerAmount || "10% Off"}
+                {templateDesign.offerAmount}
               </h2>
               <p
                 className="text-lg mb-6"
                 style={getStyle(templateDesign, "templateSubHeading")}
               >
-                {templateData.subHeading ||
-                  "Save on your first order and get email-only offers when you join."}
+                {templateDesign.subHeading ||
+                  ""}
               </p>
               <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
                 {addedFields.map((field, index) => (
@@ -180,7 +176,7 @@ const PreviewComponent = ({
                     backgroundColor: templateDesign.templateButtonBgColor,
                   }}
                 >
-                  {templateData.button || "Continue"}
+                  {templateDesign.button}
                 </button>
 
                 {/* Display Stars Here */}
