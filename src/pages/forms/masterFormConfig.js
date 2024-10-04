@@ -9,6 +9,8 @@ export const templateDefaultCss = {
       "overlay_color": "rgb(255,255,255)",
       "corner_radius": "",
       "border_style": "none",
+      "border_width": "2px",
+      "template_border_color": "rgb(255, 255, 255)",
       "padding": {
         "top": "8px",
         "bottom": "8px",
@@ -30,7 +32,8 @@ export const templateDefaultCss = {
         "placeholder_color": "rgb(107 114 128)",
         "background_color": "rgb(255, 255, 255)",
         "border_color": "rgb(209, 213, 219)",
-        "focus_border_color": "rgb(0, 123, 255)"
+        "focus_border_color": "rgb(0, 123, 255)",
+        "input_font_size":"14px",
       }
     },
     "side_image": {
@@ -40,6 +43,7 @@ export const templateDefaultCss = {
     "form_parameters": {
       "title": {
         "text": "Default Heading",
+        "template_heading_font_family": "Arial",
         "color": "rgb(0, 0, 0)",
         "font_size": "32px",
         "section_background_color": "#ffffff",
@@ -52,6 +56,7 @@ export const templateDefaultCss = {
       },
       "sub_title": {
         "text": "Save on your first order and get email only offers when you join.",
+        "template_sub_heading_font_family": "Arial",
         "color": "rgb(0, 0, 0)",
         "font_size": "16px",
         "section_background_color": "#ffffff",
@@ -105,7 +110,13 @@ export const templateDefaultCss = {
         "alt_text": "banner image",
         "image_position": "contain",
         "section_background_color": "#ffffff"
-      }
+      },
+      "offer_title": {
+        "template_offer_amount": "10% Off",
+        "template_offer_font_size": "24px",
+        "template_offer_font_family": "Arial",
+        "template_offer_color": "rgb(0, 0, 0)",
+      },
     }
   },
 };
@@ -118,14 +129,14 @@ export const templateFieldCss = {
   formHeadingColor: "rgb(0, 0, 0)", // styles.form_type.input_fields_style.label_color
   textColor: "rgb(0, 0, 0)", // styles.form_type.input_fields_style.text_color
   letterSpacing: "1px", // styles.form_type.input_fields_style.letter_spacing
-  inputFontSize: "14px",  // styles.form_type.input_fields_style.font_size - missing
+  inputFontSize: "14px",  // styles.form_type.input_fields_style.font_size
   templateBgColor: "rgb(255,255,255)",// styles.form_type.background_color
   templateOverlayColor: "rgb(255, 255, 255)",// styles.form_type.overlay_color
   fontWeight: "normal", // styles.form_type.input_fields_style.font_weight
   fontFamily: "Arial",// styles.form_type.input_fields_style.font_family
   borderRadius: "",// styles.form_type.corner_radius
-  borderWidth: "2px",// styles.form_type.border_width - missing
-  templateBorderColor: "rgb(255, 255, 255)", // styles.form_type.template_border_color - missing
+  borderWidth: "2px",// styles.form_type.border_width
+  templateBorderColor: "rgb(255, 255, 255)", // styles.form_type.template_border_color
   templatePaddingTop: "8px", // styles.form_type.padding_top
   templatePaddingBottom: "8px",// styles.form_type.padding_bottom
   templatePaddingLeft: "8px",// styles.form_type.padding_left
@@ -139,14 +150,14 @@ export const templateFieldCss = {
   formWidth: "large",// styles.form_type.width
   templateMinHeight: "500px",// styles.form_type.min_height
   templateHeadingFontSize: "32px",// styles.form_parameters.title.font_size
-  templateOfferFontSize: "24px",// styles.form_parameters.offer_title.template_offer_font_size - missing
+  templateOfferFontSize: "24px",// styles.form_parameters.offer_title.template_offer_font_size
   templateSubHeadingFontSize: "16px",// styles.form_parameters.sub_title.font_size
-  templateHeadingFontFamily: "Arial",// styles.form_parameters.title.template_heading_font_family - missing
-  templateOfferFontFamily: "Arial",// styles.form_parameters.offer_title.template_offer_font_family - missing
-  templateSubHeadingFontFamily: "Arial",// styles.form_parameters.sub_title.template_heading_font_family - missing
+  templateHeadingFontFamily: "Arial",// styles.form_parameters.title.template_heading_font_family
+  templateOfferFontFamily: "Arial",// styles.form_parameters.offer_title.template_offer_font_family
+  templateSubHeadingFontFamily: "Arial",// styles.form_parameters.sub_title.template_sub_heading_font_family
   templateHeadingColor: "rgb(0, 0, 0)",// styles.form_parameters.title.color
   templateSubHeadingColor: "rgb(0, 0, 0)",// styles.form_parameters.sub_title.color
-  templateOfferColor: "rgb(0, 0, 0)",// styles.form_parameters.offer_title.template_offer_color - missing
+  templateOfferColor: "rgb(0, 0, 0)",// styles.form_parameters.offer_title.template_offer_color
   templateButtonBgColor: "rgb(0, 0, 0)",// styles.form_parameters.button.background_color
   templateProductOverlayColor: "rgb(0, 0, 0)",
   imagePosition: "0",// styles.form_parameters.side_image.side
@@ -168,7 +179,7 @@ export const templateFieldCss = {
   ratingMaxCount: "15",
   heading:"Default Heading",// styles.form_parameters.title.text
   button:"Continue",// styles.form_parameters.button.text
-  offerAmount:"10% Off",// styles.form_parameters.offer_title.template_offer_amount - missing
+  offerAmount:"10% Off",// styles.form_parameters.offer_title.template_offer_amount
   subHeading:"Save on your first order and get email-only offers when you join.",// styles.form_parameters.sub_title.text
   image:"",// styles.form_parameters.image.link
   successImage:"",

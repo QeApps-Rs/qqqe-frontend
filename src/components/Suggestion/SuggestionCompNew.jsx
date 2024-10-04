@@ -145,7 +145,7 @@ const SuggestionCompNew = () => {
 
   // eslint-disable-next-line react/prop-types
   const SettingIcon = ({ onClick, disabled }) => (
-    <span onClick={onClick} className={`${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`  }>
+    <span onClick={disabled ? null : onClick} className={`${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`  }>
       ⚙️
     </span>
   );

@@ -32,6 +32,7 @@ const MasterForm = () => {
   //  shiv code start
   const [loading, setLoading] = useState(false);
   const [templateDesign, setTemplateDesign] = useState(templateFieldCss);
+  console.log(["templateDesign", templateDesign]);
 
   const [inputControllerEditState, setInputControllerEditState] = useState({
     index: null,
@@ -68,58 +69,6 @@ const MasterForm = () => {
   const [inputValues, setInputValues] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [inputSurveyValues, setInputSurveyValues] = useState({});
-
-  const [suggestionTemplateStatus, setSuggestionTemplateStatus] = useState({
-    isProductBundle: false,
-    isPurchaseSatisfactionSurvey: false,
-    isFeedbackSurvey: false,
-  });
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const [checkedItems, setCheckedItems] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [frequency, setFrequency] = useState(5);
-  const [checkDesktop, setDesktop] = useState(false);
-  const [checkMobile, setMobile] = useState(false);
-  const [showUrl, setURL] = useState(false);
-  const [notShowUrl, setNotShow] = useState(false);
-  const [showLocation, setLocation] = useState(false);
-  const [notShowLocation, setNotShowLocation] = useState(false);
-  const [isView, setView] = useState("Desktop");
-  const [selectedTiming, setTiming] = useState("");
-  const [productList, setProductList] = useState([]);
-  const [productListState, setProductListState] = useState(false);
-  const [collectionList, setCollectionList] = useState([]);
-  const [collectionListState, setCollectionListState] = useState(false);
-  const [productListForPopUp, setProductListForPopUp] = useState([]);
-  const [selectedProducts, setSelectedProducts] = useState({});
-  const [checkedRules, setRules] = useState({
-    type: "",
-    settings: {
-      existing_page: {
-        is_selected: "",
-      },
-      after_delay_time: {
-        is_selected: false,
-        key: "seconds",
-        value: "",
-      },
-      after_scroll_distance: {
-        is_selected: false,
-        key: "percentage",
-        value: "",
-      },
-      after_pages_visit: {
-        is_selected: false,
-        key: "pages",
-        value: "",
-      },
-    },
-  });
-  const [noOfProducts, setNoOfProducts] = useState(3);
-  const location = useLocation();
-  const { keywords, subTemplateId } = location.state || {}; // Safely access state
-
   const handleInputChange = (fieldName, value) => {
     setInputValues((prev) => ({ ...prev, [fieldName]: value }));
   };
@@ -242,6 +191,59 @@ const MasterForm = () => {
     setAdvanceSetting(!advanceSetting);
   };
 
+  //  shiv code end
+
+  const [suggestionTemplateStatus, setSuggestionTemplateStatus] = useState({
+    isProductBundle: false,
+    isPurchaseSatisfactionSurvey: false,
+    isFeedbackSurvey: false,
+  });
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [checkedItems, setCheckedItems] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [frequency, setFrequency] = useState(5);
+  const [checkDesktop, setDesktop] = useState(false);
+  const [checkMobile, setMobile] = useState(false);
+  const [showUrl, setURL] = useState(false);
+  const [notShowUrl, setNotShow] = useState(false);
+  const [showLocation, setLocation] = useState(false);
+  const [notShowLocation, setNotShowLocation] = useState(false);
+  const [isView, setView] = useState("Desktop");
+  const [selectedTiming, setTiming] = useState("");
+  const [productList, setProductList] = useState([]);
+  const [productListState, setProductListState] = useState(false);
+  const [collectionList, setCollectionList] = useState([]);
+  const [collectionListState, setCollectionListState] = useState(false);
+  const [productListForPopUp, setProductListForPopUp] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState({});
+  const [checkedRules, setRules] = useState({
+    type: "",
+    settings: {
+      existing_page: {
+        is_selected: "",
+      },
+      after_delay_time: {
+        is_selected: false,
+        key: "seconds",
+        value: "",
+      },
+      after_scroll_distance: {
+        is_selected: false,
+        key: "percentage",
+        value: "",
+      },
+      after_pages_visit: {
+        is_selected: false,
+        key: "pages",
+        value: "",
+      },
+    },
+  });
+  const [noOfProducts, setNoOfProducts] = useState(3);
+  const location = useLocation();
+  const { keywords, subTemplateId } = location.state || {}; // Safely access state
+
   useEffect(() => {
     const fetchSubTemplateData = async () => {
       try {
@@ -299,7 +301,6 @@ const MasterForm = () => {
       method: "post",
       url: `suggestion/publish`,
       data: {
-        styles: await convertStateToNestedObject(templateDesign),
         pid: pid,
         sid: sid,
         json_response: defaultPublishTemplateJson,
@@ -447,129 +448,6 @@ const MasterForm = () => {
     renderNumbers,
     reviewCount,
     ratingCount,
-  };
-
-  const convertStateToNestedObject = (state) => {
-    return {
-      form_type: {
-        type: state.formType,
-        width: state.formWidth,
-        min_height: state.templateMinHeight,
-        show_on: "both",
-        background_color: state.templateBgColor,
-        overlay_color: state.templateOverlayColor,
-        corner_radius: state.borderRadius,
-        border_style: state.formBorderStyle,
-        border_width: state.borderWidth,
-        template_border_color: state.templateBorderColor,
-        padding: {
-          top: state.templatePaddingTop,
-          bottom: state.templatePaddingBottom,
-          left: state.templatePaddingLeft,
-          right: state.templatePaddingRight,
-        },
-        margin: {
-          top: state.templateMarginTop,
-          bottom: state.templateMarginBottom,
-          left: state.templateMarginLeft,
-          right: state.templateMarginRight,
-        },
-        input_fields_style: {
-          font_family: state.fontFamily,
-          font_weight: state.fontWeight,
-          letter_spacing: state.letterSpacing,
-          label_color: state.formHeadingColor,
-          text_color: state.textColor,
-          placeholder_color: state.placeholderTextColor,
-          background_color: state.bgColor,
-          border_color: state.borderColor,
-          focus_border_color: state.focusBorderColor,
-          input_font_size: "14px",
-        },
-      },
-      side_image: {
-        side: state.imagePosition,
-        show_on: "both", // You can adjust this if needed
-      },
-      form_parameters: {
-        title: {
-          text: state.heading,
-          template_heading_font_family: state.templateHeadingFontFamily,
-          color: state.templateHeadingColor,
-          font_size: state.templateHeadingFontSize,
-          section_background_color: "#ffffff",
-          section_padding: {
-            top: "15px",
-            bottom: "15px",
-            left: "15px",
-            right: "15px",
-          },
-        },
-        sub_title: {
-          text: state.subHeading,
-          template_sub_heading_font_family: state.templateSubHeadingFontFamily,
-          color: state.templateSubHeadingColor,
-          font_size: state.templateSubHeadingFontSize,
-          section_background_color: "#ffffff",
-          section_padding: {
-            top: "15px",
-            bottom: "15px",
-            left: "15px",
-            right: "15px",
-          },
-        },
-        input: {
-          placeholder: "Email",
-          required: true,
-          required_text: "This field is required",
-          section_background_color: "#ffffff",
-          section_padding: {
-            top: "15px",
-            bottom: "15px",
-            left: "15px",
-            right: "15px",
-          },
-        },
-        button: {
-          text: state.button,
-          font_weight: "bold",
-          letter_spacing: "2px", // Example, adjust if dynamic
-          color: "#000000", // Adjust if dynamic
-          background_color: state.templateButtonBgColor,
-          corner_radius: "5px", // Example, adjust if dynamic
-          border_style: "none",
-          font_size: "12px", // Example, adjust if dynamic
-          section_background_color: "#ffffff",
-          section_padding: {
-            top: "15px",
-            bottom: "15px",
-            left: "15px",
-            right: "15px",
-          },
-        },
-        close_button: {
-          color: "#000000",
-          background_color: "#ffffff",
-          border_color: "#000000",
-          section_margin: {
-            top_bottom: "15px",
-            left_right: "15px",
-          },
-        },
-        image: {
-          link: state.image,
-          alt_text: "banner image",
-          image_position: state.containPosition,
-          section_background_color: "#ffffff",
-        },
-        offer_title: {
-          template_offer_amount: state.offerAmount,
-          template_offer_font_size: state.templateOfferFontSize,
-          template_offer_font_family: state.templateOfferFontFamily,
-          template_offer_color: state.templateOfferColor,
-        },
-      },
-    };
   };
 
   return (
