@@ -13,7 +13,6 @@ import {
   timingOptions,
   deviceOptions,
   templateEditorCollapseOptions,
-  defaultPublishTemplateJson,
 } from "./masterFormConfig";
 import ProductBundleTab from "../../components/Forms/ProductBundleTab";
 import ProductBundlePopUp from "../../components/Forms/ProductBundlePopUp";
@@ -91,6 +90,7 @@ const MasterForm = () => {
   const [productListState, setProductListState] = useState(false);
   const [collectionList, setCollectionList] = useState([]);
   const [collectionListState, setCollectionListState] = useState(false);
+  const [collectionListForPopup, setCollectionListForPopup] = useState([]);
   const [productListForPopUp, setProductListForPopUp] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState({});
   const [checkedRules, setRules] = useState({
@@ -299,10 +299,21 @@ const MasterForm = () => {
       method: "post",
       url: `suggestion/publish`,
       data: {
-        styles: await convertStateToNestedObject(templateDesign),
         pid: pid,
         sid: sid,
-        json_response: defaultPublishTemplateJson,
+        json_response: {
+          styles: await convertStateToNestedObject(templateDesign),
+          inputs_controller: await convertInputControllerStateToNestedObject(
+            templateDesign
+          ),
+          target_behaviors: await convertTargetBehaviorStateToNestedObject(
+            templateDesign
+          ),
+          items: await convertItemStateToNestedObject(templateDesign),
+          survey_controller: await convertSurveyControllerStateToNestedObject(),
+          custom_js: {},
+          custom_css: {},
+        },
       },
     })
       .then((response) => {
@@ -569,6 +580,115 @@ const MasterForm = () => {
           template_offer_color: state.templateOfferColor,
         },
       },
+    };
+  };
+
+  const convertInputControllerStateToNestedObject = async (state) => {
+    return {
+      image: {
+        src: state.image,
+        alt: "",
+        side: state.imagePosition,
+      },
+      heading: {
+        heading: state.heading,
+        heading_font_size: state.templateHeadingFontSize,
+        sub_heading: state.subHeading,
+        sub_heading_font_size: state.templateSubHeadingFontSize,
+        description: state.offerAmount,
+        description_font_size: state.templateOfferFontSize,
+      },
+      input_line_items: await inputLineItems,
+    };
+  };
+
+  const inputLineItems = () => {
+    return addedFields.map((addedField) => {
+      return {
+        field_name: addedField.fieldName,
+        field_placeholder: addedField.placeholderText,
+        field_validation: addedField.fieldValidation,
+        field_type: addedField.fieldType,
+      };
+    });
+  };
+
+  const convertTargetBehaviorStateToNestedObject = () => {
+    return {
+      display: {
+        timing: {
+          type: "on_rules",
+          settings: {
+            existing_page: {
+              is_selected: false,
+            },
+            after_delay_time: {
+              is_selected: true,
+              key: "seconds",
+              value: 10,
+            },
+            after_scroll_distance: {
+              is_selected: true,
+              key: "percentage",
+              value: 30,
+            },
+            after_pages_visit: {
+              is_selected: false,
+              key: "pages",
+              value: 0,
+            },
+          },
+        },
+        frequency: {
+          after_show_days: "3",
+          validation: "yes",
+        },
+        devices: {
+          display_on: "desktop",
+          click_outside_close: {
+            on_desktop: true,
+            on_mobile: false,
+          },
+        },
+      },
+      targeting: {
+        visitors: "all",
+        locations: {
+          show_visitors_certain_locations: {
+            location: "Europe",
+          },
+          not_show_visitors_certain_locations: {
+            location: "Europe",
+          },
+        },
+      },
+    };
+  };
+
+  const convertItemStateToNestedObject = () => {
+    return {
+      products: productListForPopUp,
+      collections: collectionListForPopup,
+    };
+  };
+
+  const convertSurveyControllerStateToNestedObject = () => {
+    return {
+      survey_type: "Rating",
+      rating: "5",
+      review: "10",
+      survey: [
+        {
+          question: "",
+          answers: ["option 1", "option 2", "option 3"],
+        },
+      ],
+      quiz: [
+        {
+          question: "",
+          answers: ["option 1", "option 2", "option 3"],
+        },
+      ],
     };
   };
 
