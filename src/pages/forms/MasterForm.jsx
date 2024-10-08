@@ -13,6 +13,7 @@ import {
   timingOptions,
   deviceOptions,
   templateEditorCollapseOptions,
+  surveyControllerDefaults,
 } from "./masterFormConfig";
 import ProductBundleTab from "../../components/Forms/ProductBundleTab";
 import ProductBundlePopUp from "../../components/Forms/ProductBundlePopUp";
@@ -27,13 +28,18 @@ import SuccessControllerComponent from "./SuccessControllerComponent";
 import purchaseSatisfactionSurveyDefaultImage from "../../../src/images/templates/purchase-satisfaction-survey-default.jpg";
 import Loader from "../../common/Loader";
 import { BackIcon } from "../../components/custIcon/svgIcon";
-
+import SurveyButtonComponent from "./SurveyButtonComponent";
+import ProductUpSellPopUp from "../../components/Forms/ProductUpSellPopUp";
+import ProductCrossSellPopUp from "../../components/Forms/ProductCrossSellPopUp";
 const MasterForm = () => {
   //  shiv code start
   const [loading, setLoading] = useState(false);
   const [templateDesign, setTemplateDesign] = useState(templateFieldCss);
-  console.log(['templateDesign', templateDesign]);
-  
+  const [surveyController, setSurveyController] = useState(
+    surveyControllerDefaults
+  );
+  console.log(["templateDesign", templateDesign]);
+  console.log("surveyController", surveyController);
   const [templateData, setTemplateData] = useState({
     heading: "",
     button: "",
@@ -60,7 +66,13 @@ const MasterForm = () => {
   const [addedFields, setAddedFields] = useState([]);
   const [addedQuestion, setAddedQuestion] = useState([]);
   const [success, setSuccess] = useState(false);
+  const [addedButton, setAddedButton] = useState(surveyControllerDefaults?.new_button);
+  const [inputBtnSurveyValues, setInputBtnSurveyValues] = useState({});
+  const isOdd = addedButton.length % 2 !== 0;
 
+  const handleBtnInputChange = (buttonText, value) => {
+    setInputBtnSurveyValues((prev) => ({ ...prev, [buttonText]: value }));
+  };
   const handleTemplateChange = (colorType) => (templateDesign) => {
     setTemplateDesign((prev) => ({ ...prev, [colorType]: templateDesign }));
   };
@@ -144,6 +156,31 @@ const MasterForm = () => {
     });
   };
 
+  const handleSurveyBtnDeleteField = (buttonText) => {
+    setAddedButton((prevFields) =>
+      prevFields.filter((field) => field.buttonText !== buttonText)
+    );
+  };
+
+  const handleAddButton = (buttonText, buttonLink, isEditMode, editIndex) => {
+    setAddedButton((prevButtons) => {
+      if (isEditMode && editIndex !== null) {
+        const updatedButtons = [...prevButtons];
+        updatedButtons[editIndex] = { buttonText, buttonLink };
+        return updatedButtons;
+      } else {
+        return [...prevButtons, { buttonText, buttonLink }];
+      }
+    });
+  };
+  const handleSurveyBtnEdit = (field, index) => {
+    setSurveyControllerEditState({
+      index,
+      buttonText: field.buttonText,
+      buttonLink: field.buttonLink,
+    });
+  };
+
   const formClasses = () => {
     const { formWidth, formType } = templateDesign;
     let classes = "h-auto ";
@@ -208,6 +245,9 @@ const MasterForm = () => {
     isProductBundle: false,
     isPurchaseSatisfactionSurvey: false,
     isFeedbackSurvey: false,
+    isAttributionSurvey: false,
+    isUpSellPopup: false,
+    isCrossSellPopup: false,
   });
   const navigate = useNavigate();
   const { id } = useParams();
@@ -227,6 +267,7 @@ const MasterForm = () => {
   const [collectionList, setCollectionList] = useState([]);
   const [collectionListState, setCollectionListState] = useState(false);
   const [productListForPopUp, setProductListForPopUp] = useState([]);
+  const [collectionListForPopUp, setCollectionListForPopUp] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState({});
   const [checkedRules, setRules] = useState({
     type: "",
@@ -282,6 +323,21 @@ const MasterForm = () => {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isFeedbackSurvey: true,
+            });
+          } else if (responseKeywords?.includes("Survey Popup")) {
+            setSuggestionTemplateStatus({
+              ...suggestionTemplateStatus,
+              isAttributionSurvey: true,
+            });
+          } else if (responseKeywords?.includes("Up-selling")) {
+            setSuggestionTemplateStatus({
+              ...suggestionTemplateStatus,
+              isUpSellPopup: true,
+            });
+          } else if (responseKeywords?.includes("Cross-Selling Popup")) {
+            setSuggestionTemplateStatus({
+              ...suggestionTemplateStatus,
+              isCrossSellPopup: true,
             });
           }
         }
@@ -456,7 +512,11 @@ const MasterForm = () => {
 
                 return item.tag === "style" && !excludedTags.includes(item.tag);
               }
-              if (suggestionTemplateStatus?.isProductBundle) {
+              if (
+                suggestionTemplateStatus?.isProductBundle ||
+                suggestionTemplateStatus?.isUpSellPopup ||
+                suggestionTemplateStatus?.isCrossSellPopup
+              ) {
                 return (
                   // item.tag !== "inputController" &&
                   item.tag !== "surveyController" &&
@@ -890,9 +950,11 @@ const MasterForm = () => {
                   </div>
                 )}
 
-                {suggestionTemplateStatus?.isProductBundle &&
-                  activeIndex === index &&
-                  item.tag === "bundle" &&
+                {(suggestionTemplateStatus?.isProductBundle ||
+                  suggestionTemplateStatus?.isUpSellPopup ||
+                  (suggestionTemplateStatus?.isCrossSellPopup &&
+                    activeIndex === index &&
+                    item.tag === "bundle")) &&
                   productListState && (
                     <ProductBundleTab
                       productListState={productListState}
@@ -902,11 +964,14 @@ const MasterForm = () => {
                       selectedProducts={selectedProducts}
                       setSelectedProducts={setSelectedProducts}
                       setProductListForPopUp={setProductListForPopUp}
+                      setCollectionListForPopUp={setCollectionListForPopUp}
                       setNoOfProducts={setNoOfProducts}
                       noOfProducts={noOfProducts}
                       productListForPopUp={productListForPopUp}
+                      collectionListForPopUp={collectionListForPopUp}
                     />
                   )}
+
                 {!suggestionTemplateStatus?.isProductBundle &&
                   activeIndex === index &&
                   item.tag === "surveyController" && (
@@ -915,6 +980,9 @@ const MasterForm = () => {
                       onTemplateChange={handleTemplateChange}
                       setAddedQuestion={setAddedQuestion}
                       surveyControllerEditState={surveyControllerEditState}
+                      onAddButton={handleAddButton}
+                      setSurveyController={setSurveyController}
+                      surveyController={surveyController}
                     />
                   )}
                 {activeIndex === index && item.tag === "custom_style" && (
@@ -1009,7 +1077,6 @@ const MasterForm = () => {
           Discard
         </span>
       </div>
-      
 
       {suggestionTemplateStatus.isProductBundle ? (
         <>
@@ -1127,10 +1194,10 @@ const MasterForm = () => {
                     onSubmit={handleSubmit}
                   >
                     {/* Display Stars Here */}
-                    {templateDesign.formBorderStyle === "review" && (
+                    {templateDesign.reviewType === "review" && (
                       <>{renderStars(reviewCount)}</>
                     )}
-                    {templateDesign.formBorderStyle === "rating" && (
+                    {templateDesign.reviewType === "rating" && (
                       <>{renderNumbers(ratingCount)}</>
                     )}
                   </form>
@@ -1197,21 +1264,175 @@ const MasterForm = () => {
                       onSubmit={handleSubmit}
                     >
                       {/* Display Stars or Numbers here */}
-                      {templateDesign.formBorderStyle === "review" && (
+                      {templateDesign.reviewType === "review" && (
                         <>{renderStars(reviewCount)}</>
                       )}
-                      {templateDesign.formBorderStyle === "rating" && (
-                        <>{renderNumbers(
-                          ratingCount,
-                          5,
-                          "border-[#f1e7df]"
-                        )}</>
+                      {templateDesign.reviewType === "rating" && (
+                        <>{renderNumbers(ratingCount, 5, "border-[#f1e7df]")}</>
                       )}
                     </form>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+        </>
+      ) : suggestionTemplateStatus.isAttributionSurvey ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <div className="flex mb-4 justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
+              <div className="w-[70%] flex justify-center">
+                <div
+                  className={`border border-[#323359] ${
+                    !success ? "bg-[#d0d5d9]" : "bg-white"
+                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
+                  onClick={() => setSuccess(false)}
+                >
+                  Teaser
+                </div>
+                <div
+                  className={`border border-[#323359] ${
+                    success ? "bg-[#d0d5d9]" : "bg-white"
+                  } inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
+                  onClick={() => setSuccess(true)}
+                >
+                  Success
+                </div>
+              </div>
+
+              <div className="flex">
+                <button
+                  type="submit"
+                  onClick={() => onPublish()}
+                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
+                >
+                  Publish
+                </button>
+                <a
+                  className={`rounded-l-md  ${
+                    isView === "Desktop" ? "bg-[#d0d5d9]" : ""
+                  }  p-1.5 px-2.5 text-base border border-[#ccc] -ml-px text-black leading-[22px]`}
+                  href="#"
+                  onClick={() => setView("Desktop")}
+                >
+                  <i className="fa fa-desktop" aria-hidden="true"></i>
+                </a>
+                <a
+                  className={`rounded-r-md text-lg border border-[#ccc] -ml-px text-black leading-[22px]  ${
+                    isView === "Mobile" ? "bg-[#eaedef]" : ""
+                  } p-1.5 px-2.5`}
+                  href="#"
+                  onClick={() => setView("Mobile")}
+                >
+                  <i className="fa fa-mobile" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+
+            <div className="w-full flex justify-center items-center h-full">
+              <div className="relative bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg p-8 w-1/3 shadow-lg">
+                <button className="absolute top-4 right-4 text-white text-lg font-semibold">
+                  &times;
+                </button>
+
+                <h2 className="text-center text-white text-xl font-bold mb-2">
+                  THANKS FOR YOUR PURCHASE
+                </h2>
+
+                <p className="text-center text-white mb-6">
+                  Before you go we would like to hear your feedback
+                </p>
+
+                <h1 className="text-2xl text-white font-bold text-center mb-6">
+                  {surveyControllerEditState.fieldName}
+                </h1>
+                <div className="grid gap-4 text-center justify-center grid-cols-2">
+                  {addedButton.map((field, index) => (
+                    <SurveyButtonComponent
+                      key={index}
+                      templateDesign={templateDesign}
+                      buttonLink={field.buttonLink}
+                      buttonText={field.buttonText}
+                      inputValue={inputBtnSurveyValues[field.buttonText] || ""}
+                      onInputChange={handleBtnInputChange}
+                      isSubmitted={isSubmitted}
+                      onDelete={() =>
+                        handleSurveyBtnDeleteField(field.buttonText)
+                      }
+                      onEdit={() => handleSurveyBtnEdit(field, index)}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : suggestionTemplateStatus.isUpSellPopup ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
+              <div className="w-[70%] flex justify-center">
+                <div
+                  className={`border border-[#323359] ${
+                    !success ? "bg-[#d0d5d9]" : "bg-white"
+                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
+                  onClick={() => setSuccess(false)}
+                >
+                  Teaser
+                </div>
+              </div>
+
+              <div className="flex">
+                <button
+                  type="submit"
+                  onClick={() => onPublish()}
+                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
+                >
+                  Publish
+                </button>
+              </div>
+            </div>
+            <ProductUpSellPopUp
+              productData={productListForPopUp}
+              noOfProducts={noOfProducts}
+              templateDesign={templateDesign}
+              templateData={templateData}
+              getStyle={getStyle}
+            />
+          </div>
+        </>
+      ) : suggestionTemplateStatus.isCrossSellPopup ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
+              <div className="w-[70%] flex justify-center">
+                <div
+                  className={`border border-[#323359] ${
+                    !success ? "bg-[#d0d5d9]" : "bg-white"
+                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
+                  onClick={() => setSuccess(false)}
+                >
+                  Teaser
+                </div>
+              </div>
+
+              <div className="flex">
+                <button
+                  type="submit"
+                  onClick={() => onPublish()}
+                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
+                >
+                  Publish
+                </button>
+              </div>
+            </div>
+            <ProductCrossSellPopUp
+              productData={productListForPopUp}
+              noOfProducts={noOfProducts}
+              templateDesign={templateDesign}
+              templateData={templateData}
+              getStyle={getStyle}
+            />
           </div>
         </>
       ) : (
@@ -1426,10 +1647,10 @@ const MasterForm = () => {
                         </button>
 
                         {/* Display Stars Here */}
-                        {templateDesign.formBorderStyle === "review" && (
+                        {templateDesign.reviewType === "review" && (
                           <>{renderStars(reviewCount)}</>
                         )}
-                        {templateDesign.formBorderStyle === "rating" && (
+                        {templateDesign.reviewType === "rating" && (
                           <>{renderNumbers(ratingCount)}</>
                         )}
                       </form>
