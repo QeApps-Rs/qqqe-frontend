@@ -171,6 +171,7 @@ export const templateFieldCss = {
   successSubHeadingColor: "rgb(0, 0, 0)",
   successDescriptionColor: "rgb(0, 0, 0)",
   containPosition: "center",
+  reviewType: "none",
   reviewCount: '5',
   reviewMinCount: "5",
   reviewMaxCount: "10",
@@ -432,219 +433,34 @@ export const surveyReviewCount = [
   { value: "10", label: "10" },
 ];
 
-export const defaultPublishTemplateJson = {
-  "styles": {
-    "form_type": {
-      "type": "popup",
-      "width": "small",
-      "min_height": "500",
-      "show_on": "both",
-      "background_color": "#ffffff",
-      "overlay_color": "#cccccc",
-      "corner_radius": "12px",
-      "border_style": "none",
-      "padding": {
-        "top": "0px",
-        "bottom": "0px",
-        "left": "0px",
-        "right": "0px"
-      },
-      "margin": {
-        "top_bottom": "0px",
-        "left_right": "0px"
-      },
-      "input_fields_style": {
-        "font_family": "ariel",
-        "font_weight": "",
-        "letter_spacing": "",
-        "Label Color": "",
-        "Text Color": "",
-        "Placeholder Color": "",
-        "Background Color": "",
-        "Border Color": "",
-        "Focus Border Color": ""
-      }
+export const surveyControllerDefaults = {
+  survey_type: "Rating",
+  rating: "5",
+  review: "10",
+  new_button: [
+    {
+      buttonText: "Google",
+      buttonLink: "https://www.google.com",
     },
-    "side_image": {
-      "side": "right",
-      "show_on": "both"
+    {
+      buttonText: "Facebook",
+      buttonLink: "https://www.facebook.com",
     },
-    "form_parameters": {
-      "title": {
-        "text": "Unlock 20% off your first order",
-        "color": "#000000",
-        "font_size": "12px",
-        "section_background_color": "#ffffff",
-        "section_padding": {
-          "top": "15px",
-          "bottom": "15px",
-          "left": "15px",
-          "right": "15px"
-        }
-      },
-      "sub_title": {
-        "text": "Save on your first order and get email only offers when you join.",
-        "color": "#000000",
-        "font_size": "12px",
-        "section_background_color": "#ffffff",
-        "section_padding": {
-          "top": "15px",
-          "bottom": "15px",
-          "left": "15px",
-          "right": "15px"
-        }
-      },
-      "input": {
-        "placeholder": "Email",
-        "required": true,
-        "required_text": "This field is required",
-        "section_background_color": "#ffffff",
-        "section_padding": {
-          "top": "15px",
-          "bottom": "15px",
-          "left": "15px",
-          "right": "15px"
-        }
-      },
-      "button": {
-        "text": "Email",
-        "font_weight": "bold",
-        "letter_spacing": "2px",
-        "color": "#000000",
-        "background_color": "#ffffff",
-        "corner_radius": "5px",
-        "border_style": "none",
-        "font_size": "12px",
-        "section_background_color": "#ffffff",
-        "section_padding": {
-          "top": "15px",
-          "bottom": "15px",
-          "left": "15px",
-          "right": "15px"
-        }
-      },
-      "close_button": {
-        "color": "#000000",
-        "background_color": "#ffffff",
-        "border_color": "#000000",
-        "section_margin": {
-          "top_bottom": "15px",
-          "left_right": "15px"
-        }
-      },
-      "image": {
-        "link": "https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/public/images/popup/subscriber_img.png",
-        "alt_text": "banner image",
-        "image_position": "contain",
-        "section_background_color": "#ffffff"
-      }
-    }
-  },
-  "inputs_controller": {
-    "image": {
-      "src": "",
-      "alt": "",
-      "side": "right"
+    {
+      buttonText: "Twitter",
+      buttonLink: "https://twitter.com",
     },
-    "heading": {
-      "heading": "",
-      "heading_font_size": "",
-      "sub_heading": "",
-      "sub_heading_font_size": "",
-      "description": "",
-      "description_font_size": ""
+  ],
+  survey: [
+    {
+      question: "",
+      answers: [],
     },
-    "input_line_items": [
-      {
-        "Field Name": "",
-        "Field Placeholder": "",
-        "Field Validation": "",
-        "Field Type": ""
-      }
-    ]
-  },
-  "target_behaviors": {
-    "display": {
-      "timing": {
-        "type": "on_rules",
-        "settings": {
-          "existing_page": {
-            "is_selected": false
-          },
-          "after_delay_time": {
-            "is_selected": true,
-            "key": "seconds",
-            "value": 10
-          },
-          "after_scroll_distance": {
-            "is_selected": true,
-            "key": "percentage",
-            "value": 30
-          },
-          "after_pages_visit": {
-            "is_selected": false,
-            "key": "pages",
-            "value": 0
-          }
-        }
-      },
-      "frequency": {
-        "after_show_days": "3",
-        "validation": "yes"
-      },
-      "devices": {
-        "display_on": "desktop",
-        "click_outside_close": {
-          "on_desktop": true,
-          "on_mobile": false
-        }
-      }
+  ],
+  quiz: [
+    {
+      question: "",
+      answers: [],
     },
-    "targeting": {
-      "visitors": "all",
-      "locations": {
-        "show_visitors_certain_locations": {
-          "location": "Europe"
-        },
-        "not_show_visitors_certain_locations": {
-          "location": "Europe"
-        }
-      }
-    }
-  },
-  "items": {
-    "products": [
-      "Product Handle"
-    ],
-    "collections": [
-      "Collection Handle"
-    ]
-  },
-  "survey_controller": {
-    "survey_type": "Rating",
-    "rating": "5",
-    "review": "10",
-    "survey": [
-      {
-        "question": "",
-        "answers": [
-          "option 1",
-          "option 2",
-          "option 3"
-        ]
-      }
-    ],
-    "quiz": [
-      {
-        "question": "",
-        "answers": [
-          "option 1",
-          "option 2",
-          "option 3"
-        ]
-      }
-    ]
-  },
-  "custom_js": {},
-  "custom_css": {}
+  ],
 }
