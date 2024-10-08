@@ -47,7 +47,8 @@ export const templateFieldCss = {
   successHeadingColor: "rgb(0, 0, 0)",
   successSubHeadingColor: "rgb(0, 0, 0)",
   successDescriptionColor: "rgb(0, 0, 0)",
-  containPosition:"center",
+  containPosition: "center",
+  reviewType: "none",
   reviewCount: '5',
   reviewMinCount: "5",
   reviewMaxCount: "10",
@@ -299,3 +300,35 @@ export const surveyReviewCount = [
   { value: "5", label: "5" },
   { value: "10", label: "10" },
 ];
+
+export const surveyControllerDefaults = {
+  survey_type: "Rating",
+  rating: "5",
+  review: "10",
+  new_button: [
+    {
+      buttonText: "Google",
+      buttonLink: "https://www.google.com",
+    },
+    {
+      buttonText: "Facebook",
+      buttonLink: "https://www.facebook.com",
+    },
+    {
+      buttonText: "Twitter",
+      buttonLink: "https://twitter.com",
+    },
+  ],
+  survey: [
+    {
+      question: "",
+      answers: [],
+    },
+  ],
+  quiz: [
+    {
+      question: "",
+      answers: [],
+    },
+  ],
+}
