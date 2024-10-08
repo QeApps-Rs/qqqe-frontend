@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import DropDown from "../../components/higherOrderComponent/Dropdown/Dropdown";
 import {
@@ -11,13 +12,12 @@ import {
 import { CameraIcon } from "../../components/custIcon/svgIcon";
 import ColorPicker from "../../components/higherOrderComponent/ColorPicker/ColorPicker";
 const InputControllerComponent = ({
-  templateData,
-  setTemplateData,
   setAddedFields,
   templateDesign,
   onTemplateChange,
   inputControllerEditState,
   isProductBundle,
+  setTemplateDesign,
 }) => {
   const [fieldState, setFieldState] = useState({
     fieldType: "",
@@ -85,8 +85,6 @@ const InputControllerComponent = ({
 
   const inputControllerFieldClass =
     "p-3 rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark";
-  const styleControllerFieldClass =
-    "mt-3 flex justify-between flex-row items-center";
 
   return (
     <div className="p-4 border-t">
@@ -116,7 +114,7 @@ const InputControllerComponent = ({
                               if (file) {
                                 const reader = new FileReader();
                                 reader.onloadend = () => {
-                                  setTemplateData((prev) => ({
+                                  setTemplateDesign((prev) => ({
                                     ...prev,
                                     image: reader.result,
                                   }));
@@ -151,9 +149,9 @@ const InputControllerComponent = ({
                     </label>
                     <input
                       type="text"
-                      value={templateData.heading}
+                      value={templateDesign.heading}
                       onChange={(e) =>
-                        setTemplateData((prev) => ({
+                        setTemplateDesign((prev) => ({
                           ...prev,
                           heading: e.target.value,
                         }))
@@ -213,9 +211,9 @@ const InputControllerComponent = ({
                     </label>
                     <input
                       type="text"
-                      value={templateData.offerAmount}
+                      value={templateDesign.offerAmount}
                       onChange={(e) =>
-                        setTemplateData((prev) => ({
+                        setTemplateDesign((prev) => ({
                           ...prev,
                           offerAmount: e.target.value,
                         }))
@@ -275,9 +273,9 @@ const InputControllerComponent = ({
 
                     <input
                       type="text"
-                      value={templateData.subHeading}
+                      value={templateDesign.subHeading}
                       onChange={(e) =>
-                        setTemplateData((prev) => ({
+                        setTemplateDesign((prev) => ({
                           ...prev,
                           subHeading: e.target.value,
                         }))
@@ -308,13 +306,13 @@ const InputControllerComponent = ({
                         placeholder="px"
                         className={`${defaultBoxClassName} h-12`}
                         value={
-                          templateDesign.templateSubheadingFontSize.replace(
+                          templateDesign.templateSubHeadingFontSize.replace(
                             "px",
                             ""
                           ) || ""
                         }
                         onChange={(e) =>
-                          onTemplateChange("templateSubheadingFontSize")(
+                          onTemplateChange("templateSubHeadingFontSize")(
                             e.target.value + "px"
                           )
                         }
@@ -323,9 +321,9 @@ const InputControllerComponent = ({
                     <div className="flex items-center mt-3">
                       <span className="mr-2">Color:</span>
                       <ColorPicker
-                        defaultColor={templateDesign.templateSubheadingColor}
+                        defaultColor={templateDesign.templateSubHeadingColor}
                         onChange={(color) =>
-                          onTemplateChange("templateSubheadingColor")(color)
+                          onTemplateChange("templateSubHeadingColor")(color)
                         }
                       />
                     </div>
@@ -337,9 +335,9 @@ const InputControllerComponent = ({
                       </label>
                       <input
                         type="text"
-                        value={templateData.button}
+                        value={templateDesign.button}
                         onChange={(e) =>
-                          setTemplateData((prev) => ({
+                          setTemplateDesign((prev) => ({
                             ...prev,
                             button: e.target.value,
                           }))
@@ -420,7 +418,6 @@ const InputControllerComponent = ({
                       >
                         {isEditMode ? "Update Field" : "Add Field"}
                       </button>
-                      
                     </>
                   ) : (
                     ""
