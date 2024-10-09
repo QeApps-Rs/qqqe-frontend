@@ -103,6 +103,8 @@ const MasterForm = () => {
   });
   const navigate = useNavigate();
   const { id } = useParams();
+  const [locationInput, setLocationInput] = useState("");
+  const [notShowLocationInput , setNotShowLocationInput] = useState("")
   const [checkedItems, setCheckedItems] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [frequency, setFrequency] = useState(5);
@@ -475,6 +477,7 @@ const MasterForm = () => {
   const onTimingChange = (value) => {
     setTiming(value);
   };
+  // onChange={(e) => setLocationInput(e.target.value.split(',').map(loc => loc.trim()))}
 
   const onPublish = async () => {
     setLoading(true);
@@ -913,7 +916,7 @@ const MasterForm = () => {
   return (
     <>
       {loading && <Loader />}
-      <aside className="w-1/4  fixed left-[4.7rem] p-4 shadow-lg h-screen overflow-auto top-20">
+      <aside className="w-1/4  fixed left-[4.7rem] p-4 shadow-lg h-full overflow-auto top-20">
         <div className="flex justify-between items-center border-b pb-3 mb-4">
           <p className="font-semibold text-lg">Template Editor</p>
         </div>
@@ -1350,6 +1353,17 @@ const MasterForm = () => {
                                   checked={showLocation}
                                   onChange={() => setLocation(!showLocation)}
                                 />
+                                {showLocation && (
+                                  <input
+                                    type="text"
+                                    placeholder="Please enter locations, separated by commas"
+                                    className="w-full p-2 border rounded-md focus:outline-none mt-2"
+                                    value={locationInput}
+                                    onChange={(e) =>
+                                      setLocationInput(e.target.value)
+                                    }
+                                  />
+                                )}
                               </div>
                               <div className="mb-4.5">
                                 <Checkbox
@@ -1360,6 +1374,17 @@ const MasterForm = () => {
                                     setNotShowLocation(!notShowLocation)
                                   }
                                 />
+                                {notShowLocation && (
+                                  <input
+                                    type="text"
+                                    placeholder="Please enter locations, separated by commas"
+                                    className="w-full p-2 border rounded-md focus:outline-none mt-2"
+                                    value={notShowLocationInput}
+                                    onChange={(e) =>
+                                      setNotShowLocationInput(e.target.value)
+                                    }
+                                  />
+                                )}
                               </div>
                             </div>
                           </div>
@@ -1474,7 +1499,7 @@ const MasterForm = () => {
             ))}
           <button
             onClick={advanceSettingHandleChange}
-            className="bg-blue-500 w-full p-2 rounded-md"
+            className="border rounded-lg border-gray-300 w-full p-4 font-semibold text-lg"
           >
             {advanceSetting
               ? "Hide Advanced Settings"
