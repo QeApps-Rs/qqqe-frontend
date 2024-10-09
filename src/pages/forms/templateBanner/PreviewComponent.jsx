@@ -84,8 +84,8 @@ const PreviewComponent = ({
                 templateDesign.containPosition === "center"
                   ? "text-center"
                   : templateDesign.containPosition === "right"
-                  ? "text-left"
-                  : "text-right"
+                  ? "text-right"
+                  : "text-left"
               } flex flex-col justify-center`}
             >
               <div
@@ -93,8 +93,8 @@ const PreviewComponent = ({
                   templateDesign.containPosition === "center"
                     ? "justify-center"
                     : templateDesign.containPosition === "left"
-                    ? "justify-end"
-                    : "justify-right"
+                    ? "justify-start"
+                    : "justify-end"
                 } flex w-full`}
               >
                 <img
