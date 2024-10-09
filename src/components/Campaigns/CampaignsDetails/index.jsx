@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
 import SwitcherThree from "../../Switchers/SwitcherThree";
-import productImg from "../../../images/product.png";
 import { Link, useLocation } from "react-router-dom";
 import { defaultBoxClassName } from "../../../pages/forms/masterFormConfig";
 import SalesLineGraph from "../Graphs/SalesLineGraph";
@@ -10,6 +10,8 @@ import Loader from "../../../common/Loader";
 import FormSubmitHandler from "../../FormSubmitHandler";
 import product1Img from "../../../images/product1.png";
 import customerImg from "../../../images/customer-standing.png";
+import toast from "react-hot-toast";
+
 const CampaignsDetailsPage = ({ id }) => {
   const { state } = useLocation();
   const { openInNewTab, switch: initialSwitchState } = state || {};
@@ -50,7 +52,8 @@ const CampaignsDetailsPage = ({ id }) => {
   );
   const handleChange = (e) => {
     const selectedValue = e.target.value;
-    onTemplateChange(selectedValue);
+    console.log(['selectedValue', selectedValue]);
+    
   };
 
   const renderCampaignBox = (title, value, rate, item1) => (
@@ -228,7 +231,7 @@ const CampaignsDetailsPage = ({ id }) => {
   ];
   const chartTitle = "Sales by Product Category";
 
-  const [productDetailsData, setProductDetailsData] = useState([]);
+  const [productDetailsData, setProductDetailsData] = useState({});
 
   const [loading, setLoading] = useState(false);
 
@@ -435,6 +438,16 @@ const CampaignsDetailsPage = ({ id }) => {
             <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
               Edit Setting{" "}
             </button>
+            <Link
+              to={`/master-form/${productDetailsData.pid}s${productDetailsData.sid}`}
+              state={{
+                subTemplateId: productDetailsData.sub_template_id,
+              }}
+            >
+              <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
+                Edit Template
+              </button>
+            </Link>
           </div>
         </div>
 

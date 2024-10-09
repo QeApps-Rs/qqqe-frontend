@@ -158,9 +158,11 @@ const Campaigns = () => {
         <div className="flex justify-between items-center mt-4">
           <h1 className="text-lg font-bold text-gray-800">Campaigns</h1>
           <div className="flex items-center">
-            <Link to="/dashboard"><button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
-              New Campaigns
-            </button></Link>
+            <Link to="/dashboard">
+              <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
+                New Campaigns
+              </button>
+            </Link>
           </div>
         </div>
         <div className="rounded-sm border border-stroke bg-white shadow-default mt-4">
@@ -190,6 +192,12 @@ const Campaigns = () => {
               </div>
             ))}
           </div>
+
+          {productData.length == 0 && (
+            <div className="w-full text-center my-4">
+              <p className="text-gray-400 font-bold text-lg">Not Found</p>
+            </div>
+          )}
 
           {productData?.map((product, index) => (
             <div
