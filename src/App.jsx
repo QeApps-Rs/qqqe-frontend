@@ -119,7 +119,7 @@ const App = () => {
               <Route path="/promotion-dashboard" element={<PromotionPage />} />
               <Route path="/video-player" element={<VideoPlayer />} />
               <Route path="/campaigns" element={<CampaignsPage />} />
-              <Route path="/campaigns-details" element={<CampaignsDetailsPage/>} />
+              <Route path="/campaigns-details/:id" element={<CampaignsDetailsPage/>} />
 
 
             </Route>
