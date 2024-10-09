@@ -112,7 +112,7 @@ const App = () => {
               <Route path="/templates" element={<Templates />} />
               <Route path="/suggestion/list/:id" element={<SuggestionCompNew />} />
               <Route path="/template/list/:id" element={<Template />} />
-              <Route path="/master-form/:id" element={<MasterForm />} />
+              <Route path="/master-form/:id" element={<ProtectedRoute element={MasterForm} />} />
               <Route path="/people-dashboard" element={<Peoplepage />} />
               <Route path="/product-dashboard" element={<Productpage />} />
               <Route path="/price-dashboard" element={<PricePage />} />

@@ -104,7 +104,7 @@ const MasterForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [locationInput, setLocationInput] = useState("");
-  const [notShowLocationInput , setNotShowLocationInput] = useState("")
+  const [notShowLocationInput, setNotShowLocationInput] = useState("");
   const [checkedItems, setCheckedItems] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [frequency, setFrequency] = useState(5);
@@ -148,7 +148,7 @@ const MasterForm = () => {
   });
   const [noOfProducts, setNoOfProducts] = useState(3);
   const location = useLocation();
-  const { keywords, subTemplateId } = location.state || {}; // Safely access state
+  const { subTemplateId } = location.state || {}; // Safely access state
 
   const handleInputChange = (fieldName, value) => {
     setInputValues((prev) => ({ ...prev, [fieldName]: value }));
@@ -341,7 +341,15 @@ const MasterForm = () => {
               isCrossSellPopup: true,
             });
           }
-          const jsonObject = response?.data?.params;
+          let jsonObject = response?.data?.params;
+          const sid = id.split("s")[1];
+          const customerTemplate = await FormSubmitHandler({
+            method: "get",
+            url: `customer/template/${sid}`,
+          });
+          if (customerTemplate.success && customerTemplate.data) {
+            jsonObject = customerTemplate?.data?.json_response;
+          }
           if (jsonObject) {
             const resData = await revertStyleStateController(
               jsonObject?.styles
@@ -371,7 +379,7 @@ const MasterForm = () => {
     if (subTemplateId) {
       fetchSubTemplateData();
     }
-  }, [keywords, subTemplateId]);
+  }, [subTemplateId]);
 
   const revertStyleStateController = (styles) => {
     return {
@@ -489,6 +497,7 @@ const MasterForm = () => {
       data: {
         pid: pid,
         sid: sid,
+        sub_template_id: subTemplateId,
         json_response: {
           styles: await convertStateToNestedObject(templateDesign),
           inputs_controller: await convertInputControllerStateToNestedObject(
