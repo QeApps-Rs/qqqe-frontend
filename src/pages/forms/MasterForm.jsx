@@ -38,8 +38,6 @@ const MasterForm = () => {
   const [surveyController, setSurveyController] = useState(
     surveyControllerDefaults
   );
-  console.log(["templateDesign", templateDesign]);
-  console.log("surveyController", surveyController);
   const [templateData, setTemplateData] = useState({
     heading: "",
     button: "",
@@ -120,7 +118,7 @@ const MasterForm = () => {
   const [productListState, setProductListState] = useState(false);
   const [collectionList, setCollectionList] = useState([]);
   const [collectionListState, setCollectionListState] = useState(false);
-  const [collectionListForPopup, setCollectionListForPopup] = useState([]);
+  const [collectionListForPopUp, setCollectionListForPopUp] = useState([]);
   const [productListForPopUp, setProductListForPopUp] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState({});
   const [checkedRules, setRules] = useState({
@@ -341,6 +339,26 @@ const MasterForm = () => {
               isCrossSellPopup: true,
             });
           }
+          const jsonObject = response?.data?.params;
+          if (jsonObject) {
+            const resData = await revertStyleStateController(
+              jsonObject?.styles
+            );
+
+            const successData = await revertSuccessStateController(
+              jsonObject?.success_controller
+            );
+            setTemplateDesign({
+              ...resData,
+              ...successData,
+            });
+            const addedFieldsData = await reverceInputLineItems(
+              jsonObject?.inputs_controller?.input_line_items
+            );
+            if (addedFieldsData.length > 0) {
+              setAddedFields(addedFieldsData);
+            }
+          }
         }
       } catch (error) {
         console.error("Error fetching sub-template:", error);
@@ -353,6 +371,103 @@ const MasterForm = () => {
     }
   }, [keywords, subTemplateId]);
 
+  const revertStyleStateController = (styles) => {
+    return {
+      bgColor: styles.form_type.input_fields_style.background_color,
+      borderColor: styles.form_type.input_fields_style.border_color,
+      focusBorderColor: styles.form_type.input_fields_style.focus_border_color,
+      placeholderTextColor:
+        styles.form_type.input_fields_style.placeholder_color,
+      formHeadingColor: styles.form_type.input_fields_style.label_color,
+      textColor: styles.form_type.input_fields_style.text_color,
+      letterSpacing: styles.form_type.input_fields_style.letter_spacing,
+      inputFontSize: styles.form_type.input_fields_style.input_font_size,
+      templateBgColor: styles.form_type.background_color,
+      templateOverlayColor: styles.form_type.overlay_color,
+      fontWeight: styles.form_type.input_fields_style.font_weight,
+      fontFamily: styles.form_type.input_fields_style.font_family,
+      borderRadius: styles.form_type.corner_radius,
+      borderWidth: styles.form_type.border_width,
+      templateBorderColor: styles.form_type.template_border_color,
+      templatePaddingTop: styles.form_type.padding.top,
+      templatePaddingBottom: styles.form_type.padding.bottom,
+      templatePaddingLeft: styles.form_type.padding.left,
+      templatePaddingRight: styles.form_type.padding.right,
+      templateMarginTop: styles.form_type.margin.top,
+      templateMarginBottom: styles.form_type.margin.bottom,
+      templateMarginLeft: styles.form_type.margin.left,
+      templateMarginRight: styles.form_type.margin.right,
+      formBorderStyle: styles.form_type.border_style,
+      formType: styles.form_type.type,
+      formWidth: styles.form_type.width,
+      templateMinHeight: styles.form_type.min_height,
+      templateHeadingFontSize: styles.form_parameters.title.font_size,
+      templateOfferFontSize:
+        styles.form_parameters.offer_title.template_offer_font_size,
+      templateSubHeadingFontSize: styles.form_parameters.sub_title.font_size,
+      templateHeadingFontFamily:
+        styles.form_parameters.title.template_heading_font_family,
+      templateOfferFontFamily:
+        styles.form_parameters.offer_title.template_offer_font_family,
+      templateSubHeadingFontFamily:
+        styles.form_parameters.sub_title.template_sub_heading_font_family,
+      templateHeadingColor: styles.form_parameters.title.color,
+      templateSubHeadingColor: styles.form_parameters.sub_title.color,
+      templateOfferColor:
+        styles.form_parameters.offer_title.template_offer_color,
+      templateButtonBgColor: styles.form_parameters.button.background_color,
+      templateProductOverlayColor: "rgb(0, 0, 0)",
+      imagePosition: styles.side_image.side,
+      successHeadingFontSize: "32px",
+      successDescriptionFontSize: "24px",
+      successSubHeadingFontSize: "16px",
+      successHeadingFontFamily: "Arial",
+      successDescriptionFontFamily: "Arial",
+      successSubHeadingFontFamily: "Arial",
+      successHeadingColor: "rgb(0, 0, 0)",
+      successSubHeadingColor: "rgb(0, 0, 0)",
+      successDescriptionColor: "rgb(0, 0, 0)",
+      containPosition: "center",
+      reviewType: "none",
+      reviewCount: "5",
+      reviewMinCount: "5",
+      reviewMaxCount: "10",
+      ratingCount: "5",
+      ratingMinCount: "1",
+      ratingMaxCount: "15",
+      heading: styles.form_parameters.title.text,
+      button: styles.form_parameters.button.text,
+      offerAmount: styles.form_parameters.offer_title.template_offer_amount,
+      subHeading: styles.form_parameters.sub_title.text,
+      image: styles.form_parameters.image.link,
+      successImage: "",
+      successHeading:
+        "Thanks for sharing. Please check your email for confirmation message",
+      successSubHeading:
+        "Thanks for sharing. Please check your email for confirmation message",
+      successDescription:
+        "Thanks for sharing. Please check your email for confirmation message",
+    };
+  };
+
+  const revertSuccessStateController = (state) => {
+    return {
+      containPosition: state.position,
+      successHeading: state.heading,
+      successHeadingColor: state.heading_color,
+      successHeadingFontSize: state.heading_font_size,
+      successHeadingFontFamily: state.heading_font_family,
+      successSubHeading: state.sub_heading,
+      successSubHeadingColor: state.sub_heading_color,
+      successSubHeadingFontSize: state.sub_heading_font_size,
+      successSubHeadingFontFamily: state.sub_heading_font_family,
+      successDescription: state.description,
+      successDescriptionColor: state.description_color,
+      successDescriptionFontSize: state.description_font_size,
+      successDescriptionFontFamily: state.description_font_family,
+      successImage: state.image,
+    };
+  };
   const toggleAccordion = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
@@ -377,6 +492,9 @@ const MasterForm = () => {
             templateDesign
           ),
           target_behaviors: await convertTargetBehaviorStateToNestedObject(
+            templateDesign
+          ),
+          success_controller: await convertSuccessControllerStateToNestedObject(
             templateDesign
           ),
           items: await convertItemStateToNestedObject(templateDesign),
@@ -668,7 +786,26 @@ const MasterForm = () => {
         description: state.offerAmount,
         description_font_size: state.templateOfferFontSize,
       },
-      input_line_items: await inputLineItems,
+      input_line_items: await inputLineItems(),
+    };
+  };
+
+  const convertSuccessControllerStateToNestedObject = async (state) => {
+    return {
+      position: state.containPosition,
+      heading: state.successHeading,
+      heading_color: state.successHeadingColor,
+      heading_font_size: state.successHeadingFontSize,
+      heading_font_family: state.successHeadingFontFamily,
+      sub_heading: state.successSubHeading,
+      sub_heading_color: state.successSubHeadingColor,
+      sub_heading_font_size: state.successSubHeadingFontSize,
+      sub_heading_font_family: state.successSubHeadingFontFamily,
+      description: state.successDescription,
+      description_color: state.successDescriptionColor,
+      description_font_size: state.successDescriptionFontSize,
+      description_font_family: state.successDescriptionFontFamily,
+      image: state.successImage,
     };
   };
 
@@ -679,6 +816,17 @@ const MasterForm = () => {
         field_placeholder: addedField.placeholderText,
         field_validation: addedField.fieldValidation,
         field_type: addedField.fieldType,
+      };
+    });
+  };
+
+  const reverceInputLineItems = (addedFieldsRecords) => {
+    return addedFieldsRecords.map((addedFieldsRecord) => {
+      return {
+        fieldName: addedFieldsRecord.field_name,
+        placeholderText: addedFieldsRecord.field_placeholder,
+        fieldValidation: addedFieldsRecord.field_validation,
+        fieldType: addedFieldsRecord.field_type,
       };
     });
   };
@@ -738,7 +886,7 @@ const MasterForm = () => {
   const convertItemStateToNestedObject = () => {
     return {
       products: productListForPopUp,
-      collections: collectionListForPopup,
+      collections: collectionListForPopUp,
     };
   };
 
