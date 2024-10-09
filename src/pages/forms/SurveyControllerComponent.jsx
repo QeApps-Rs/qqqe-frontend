@@ -4,14 +4,17 @@ import {
   surveyTypeStyles,
   surveyReviewCount,
 } from "./masterFormConfig";
-import toast from "react-hot-toast";
 
 const SurveyControllerComponent = ({
   templateDesign,
   onTemplateChange,
   setAddedQuestion,
   surveyControllerEditState,
+  onAddButton,
+  setSurveyController,
+  surveyController,
 }) => {
+  console.log('surveyController ++++++++++++++++++++++++++ ', surveyController)
   const styleFieldTitleClass =
     "mb-2.5 block text-black dark:text-white font-semibold";
   const [fieldName, setFieldName] = useState("");
@@ -20,11 +23,19 @@ const SurveyControllerComponent = ({
   const [editIndex, setEditIndex] = useState(null);
   const [renderKey, setRenderKey] = useState(0);
   const [optionsText, setOptionsText] = useState("");
+  const [buttonText, setButtonText] = useState("");
+  const [buttonLink, setButtonLink] = useState("");
 
   useEffect(() => {
     if (surveyControllerEditState?.fieldName) {
       setFieldName(surveyControllerEditState?.fieldName);
       setOptionsText(surveyControllerEditState?.options);
+      setIsEditMode(true);
+      setEditIndex(surveyControllerEditState?.index); // Store the index of the button being edited
+    }
+    if (surveyControllerEditState?.buttonText) {
+      setButtonText(surveyControllerEditState?.buttonText || "");
+      setButtonLink(surveyControllerEditState?.buttonLink || "");
       setIsEditMode(true);
       setEditIndex(surveyControllerEditState?.index);
     }
@@ -33,32 +44,32 @@ const SurveyControllerComponent = ({
   const handleAddField = (e) => {
     e.preventDefault();
     const optionsArray = optionsText.split(",").map((option) => option.trim());
-
-    if (optionsArray.length === 0 || optionsArray[0] === "") {
-      toast.error("Please fill all fields before adding.");
-      return;
-    }
-
     setOptions(optionsArray);
 
-    setAddedQuestion((prevFields) => {
-      if (isEditMode && editIndex !== null) {
-        const updatedFields = [...prevFields];
-        updatedFields[editIndex] = {
-          fieldName,
-          options: optionsArray,
-        };
-        return updatedFields;
-      } else {
-        return [
-          ...prevFields,
-          {
+    if (fieldName) {
+      setAddedQuestion((prevFields) => {
+        if (isEditMode && editIndex !== null) {
+          const updatedFields = [...prevFields];
+          updatedFields[editIndex] = {
             fieldName,
             options: optionsArray,
-          },
-        ];
-      }
-    });
+          };
+          return updatedFields;
+        } else {
+          return [
+            ...prevFields,
+            {
+              fieldName,
+              options: optionsArray,
+            },
+          ];
+        }
+      });
+    }
+
+    if (buttonText && buttonLink) {
+      onAddButton(buttonText, buttonLink, isEditMode, editIndex);
+    }
 
     resetForm();
   };
@@ -70,10 +81,8 @@ const SurveyControllerComponent = ({
     setIsEditMode(false);
     setEditIndex(null);
     setRenderKey((prevKey) => prevKey + 1);
-  };
-
-  const handleAddButton = () => {
-    
+    setButtonText("");
+    setButtonLink("");
   };
 
   return (
@@ -93,10 +102,14 @@ const SurveyControllerComponent = ({
                       <div className="mt-3 flex justify-between flex-row items-center">
                         <span>Survey Type style:</span>
                         <select
-                          onChange={(e) =>
-                            onTemplateChange("formBorderStyle")(e.target.value)
-                          }
-                          value={templateDesign.formBorderStyle}
+                          onChange={(e) => {
+                            setSurveyController({
+                              ...surveyController,
+                              survey_type: e.target.value,
+                            });
+                            onTemplateChange("reviewType")(e.target.value);
+                          }}
+                          value={templateDesign.reviewType}
                           className={`${defaultBoxClassName} h-12`}
                         >
                           {surveyTypeStyles.map((style) => (
@@ -106,14 +119,19 @@ const SurveyControllerComponent = ({
                           ))}
                         </select>
                       </div>
-                      {templateDesign.formBorderStyle === "review" && (
+                      {templateDesign.reviewType === "review" && (
                         <>
                           <div className="mt-3 flex justify-between flex-row">
                             <span>Review Count:</span>
                             <select
                               onChange={(e) =>
-                                onTemplateChange("reviewCount")(e.target.value)
-                              }
+                               {
+                                setSurveyController({
+                                  ...surveyController,
+                                  review: e.target.value,
+                                });
+                                onTemplateChange("reviewCount")(e.target.value);
+                              }}
                               value={templateDesign.reviewCount || "5"}
                               className={`${defaultBoxClassName} h-12`}
                             >
@@ -126,7 +144,7 @@ const SurveyControllerComponent = ({
                           </div>
                         </>
                       )}
-                      {templateDesign.formBorderStyle === "rating" && (
+                      {templateDesign.reviewType === "rating" && (
                         <>
                           <div className="mt-3 flex justify-between flex-row">
                             <span>Rating Count:</span>
@@ -140,13 +158,17 @@ const SurveyControllerComponent = ({
                               max={templateDesign.ratingMaxCount || ""}
                               onChange={(e) => {
                                 const count = parseInt(e.target.value, 10) || 0;
+                                setSurveyController({
+                                  ...surveyController,
+                                  rating: e.target.value,
+                                });
                                 onTemplateChange("ratingCount")(count);
                               }}
                             />
                           </div>
                         </>
                       )}
-                      {templateDesign.formBorderStyle === "survey" && (
+                      {templateDesign.reviewType === "survey" && (
                         <>
                           <div className="mb-6">
                             <label className="mb-2.5 block text-black dark:text-white font-semibold">
@@ -157,7 +179,7 @@ const SurveyControllerComponent = ({
                               type="text"
                               value={fieldName}
                               onChange={(e) => setFieldName(e.target.value)}
-                              placeholder="Please Enter The Question"
+                              placeholder="pleaser enter survey question"
                               className="w-full p-2 border rounded-md focus:outline-none"
                             />
                           </div>
@@ -169,58 +191,47 @@ const SurveyControllerComponent = ({
                               type="text"
                               value={optionsText}
                               onChange={(e) => setOptionsText(e.target.value)}
-                              placeholder="Ex. Good, Better, As Expected"
+                              placeholder="e.g., good, better, as expected"
                               className="w-full p-2 border rounded-md focus:outline-none"
                             />
                           </div>
                         </>
                       )}
-                       {templateDesign.formBorderStyle === "button" && (
+                      {templateDesign.reviewType === "button" && (
                         <>
                           <div className="mb-6">
                             <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                              Button Label
+                              Button Text
                             </label>
-
                             <input
                               type="text"
-                              value={fieldName}
-                              onChange={(e) => setFieldName(e.target.value)}
-                              placeholder="Please Enter The Question"
+                              value={buttonText}
+                              onChange={(e) => setButtonText(e.target.value)}
+                              placeholder="Please enter Button Text"
                               className="w-full p-2 border rounded-md focus:outline-none"
                             />
                           </div>
                           <div className="mb-6">
                             <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                             Button Link
+                              Button Link
                             </label>
                             <input
                               type="text"
-                              value={optionsText}
-                              onChange={(e) => setOptionsText(e.target.value)}
-                              placeholder="Ex. fb.com/username"
+                              value={buttonLink}
+                              onChange={(e) => setButtonLink(e.target.value)}
+                              placeholder="Please enter Button Link"
                               className="w-full p-2 border rounded-md focus:outline-none"
                             />
                           </div>
                         </>
                       )}
                     </div>
-                    {templateDesign.formBorderStyle === "survey" && (
-                      <button
-                        className="bg-blue-500 text-white py-2 px-4 rounded w-full"
-                        onClick={handleAddField}
-                      >
-                        {isEditMode ? "Update Field" : "Add Field"}
-                      </button>
-                    )}
-                    {templateDesign.formBorderStyle === "button" && (
-                      <button
-                        className="bg-blue-500 text-white py-2 px-4 rounded w-full"
-                        onClick={handleAddButton}
-                      >
-                        {isEditMode ? "Update Button" : "Add Button"}
-                      </button>
-                    )}
+                    <button
+                      className="bg-blue-500 text-white py-2 px-4 rounded w-full"
+                      onClick={handleAddField}
+                    >
+                      {isEditMode ? "Update Field" : "Add Field"}
+                    </button>
                   </div>
                 </form>
               </div>

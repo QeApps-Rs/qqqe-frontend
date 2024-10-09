@@ -19,6 +19,8 @@ const ProductBundleTab = ({
   noOfProducts,
   setNoOfProducts,
   productListForPopUp,
+  collectionListForPopUp,
+  setCollectionListForPopUp,
 }) => {
   const [selectedCollections, setSelectedCollections] = useState({});
   const [targetedProducts, setTargetedProducts] = useState([]);
@@ -87,11 +89,20 @@ const ProductBundleTab = ({
     }));
   };
 
-  const handleCollectionCheckboxChange = (id) => {
-    setSelectedCollections((prevCheckedItems) => ({
-      ...prevCheckedItems,
-      [id]: !prevCheckedItems[id],
-    }));
+  const handleCollectionCheckboxChange = (id, title = "",handle = "") => {
+    setSelectedCollections((prevCheckedItems) => {
+      const isChecked = !prevCheckedItems[id];
+      setCollectionListForPopUp((prevItems) => {
+        const itemExists = prevItems.some((item) => item.id === id);
+        return itemExists
+          ? prevItems.filter((item) => item.id !== id)
+          : [...prevItems, { id, title,handle }];
+      });
+      return {
+        ...prevCheckedItems,
+        [id]: isChecked,
+      };
+    });
   };
 
   const handleTargetedCollectionCheckboxChange = (id) => {
@@ -222,7 +233,13 @@ const ProductBundleTab = ({
                   id={collection.id}
                   label={collection.title}
                   checked={selectedCollections[collection.id] || false}
-                  onChange={() => handleCollectionCheckboxChange(collection.id)}
+                  onChange={() =>
+                    handleCollectionCheckboxChange(
+                      collection.id,
+                      collection.title,
+                      collection.handle
+                    )
+                  }
                 />
               </div>
             ) : null
@@ -270,7 +287,6 @@ const ProductBundleTab = ({
       </>
     );
   };
-
   return (
     <>
       <div className="p-4 border-t">
@@ -357,21 +373,6 @@ const ProductBundleTab = ({
                         </Tabs>
                       </div>
 
-                      {/* <div className="mb-4.5 border-b border-black pb-4">
-                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                          Select Product
-                        </label>
-                        {productListState && (
-                          <ProductListComponent
-                            productList={productList}
-                            selectedProducts={selectedProducts}
-                            handleProductCheckboxChange={
-                              handleProductCheckboxChange
-                            }
-                          />
-                        )}
-                      </div> */}
-
                       <div className="mb-4.5 border-b border-black pb-4">
                         <label className="mb-2.5 block text-black dark:text-white font-semibold">
                           Targeted Preference
@@ -418,36 +419,6 @@ const ProductBundleTab = ({
                           </TabPanel>
                         </Tabs>
                       </div>
-
-                      {/* <div className="mb-4.5 border-b border-black pb-4">
-                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                          Targeted Product
-                        </label>
-                        {productListState && (
-                          <TargetedProductListComponent
-                            productList={productList}
-                            targetedProducts={targetedProducts}
-                            handleTargetedProductCheckboxChange={
-                              handleTargetedProductCheckboxChange
-                            }
-                          />
-                        )}
-                      </div>
-
-                      <div className="mb-4.5 border-b border-black pb-4">
-                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                          Targeted Collection
-                        </label>
-                        {collectionListState && (
-                          <TargetedCollectionListComponent
-                            collectionList={collectionList}
-                            targetedCollections={targetedCollections}
-                            handleTargetedCollectionCheckboxChange={
-                              handleTargetedCollectionCheckboxChange
-                            }
-                          />
-                        )}
-                      </div> */}
 
                       <div className="mb-4.5 border-b border-black pb-4">
                         <label className="mb-2.5 block text-black dark:text-white font-semibold">
