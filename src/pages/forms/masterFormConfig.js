@@ -302,7 +302,7 @@ export const surveyReviewCount = [
 ];
 
 export const surveyControllerDefaults = {
-  survey_type: "Rating",
+  survey_type: "none",
   rating: "5",
   review: "10",
   new_button: [
@@ -319,12 +319,7 @@ export const surveyControllerDefaults = {
       buttonLink: "https://twitter.com",
     },
   ],
-  survey: [
-    {
-      question: "",
-      answers: [],
-    },
-  ],
+  survey: [],
   quiz: [
     {
       question: "",

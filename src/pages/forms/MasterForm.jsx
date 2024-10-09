@@ -31,6 +31,7 @@ import { BackIcon } from "../../components/custIcon/svgIcon";
 import SurveyButtonComponent from "./SurveyButtonComponent";
 import ProductUpSellPopUp from "../../components/Forms/ProductUpSellPopUp";
 import ProductCrossSellPopUp from "../../components/Forms/ProductCrossSellPopUp";
+import CartAbandonmentPopUp from "../../components/Forms/CartAbandonmentPopUp";
 const MasterForm = () => {
   //  shiv code start
   const [loading, setLoading] = useState(false);
@@ -66,7 +67,10 @@ const MasterForm = () => {
   const [addedFields, setAddedFields] = useState([]);
   const [addedQuestion, setAddedQuestion] = useState([]);
   const [success, setSuccess] = useState(false);
-  const [addedButton, setAddedButton] = useState(surveyControllerDefaults?.new_button);
+  const [addedButton, setAddedButton] = useState(
+    surveyControllerDefaults?.new_button
+  );
+  const [questionsArray, setQuestionsArray] = useState([]);
   const [inputBtnSurveyValues, setInputBtnSurveyValues] = useState({});
   const isOdd = addedButton.length % 2 !== 0;
 
@@ -248,6 +252,7 @@ const MasterForm = () => {
     isAttributionSurvey: false,
     isUpSellPopup: false,
     isCrossSellPopup: false,
+    isCartAbandonmentSurvey: false,
   });
   const navigate = useNavigate();
   const { id } = useParams();
@@ -338,6 +343,11 @@ const MasterForm = () => {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isCrossSellPopup: true,
+            });
+          } else if (responseKeywords?.includes("Cart Abandonment Offer")) {
+            setSuggestionTemplateStatus({
+              ...suggestionTemplateStatus,
+              isCartAbandonmentSurvey: true,
             });
           }
         }
@@ -488,7 +498,7 @@ const MasterForm = () => {
 
   const reviewCount = parseInt(templateDesign.reviewCount, 10) || 5;
   const ratingCount = parseInt(templateDesign.ratingCount, 10) || 5;
-
+console.log('questionsArray', questionsArray)
   return (
     <>
       {loading && <Loader />}
@@ -515,7 +525,8 @@ const MasterForm = () => {
               if (
                 suggestionTemplateStatus?.isProductBundle ||
                 suggestionTemplateStatus?.isUpSellPopup ||
-                suggestionTemplateStatus?.isCrossSellPopup
+                suggestionTemplateStatus?.isCrossSellPopup ||
+                suggestionTemplateStatus?.isCartAbandonmentSurvey
               ) {
                 return (
                   // item.tag !== "inputController" &&
@@ -952,6 +963,7 @@ const MasterForm = () => {
 
                 {(suggestionTemplateStatus?.isProductBundle ||
                   suggestionTemplateStatus?.isUpSellPopup ||
+                  suggestionTemplateStatus?.isCartAbandonmentSurvey ||
                   (suggestionTemplateStatus?.isCrossSellPopup &&
                     activeIndex === index &&
                     item.tag === "bundle")) &&
@@ -983,6 +995,7 @@ const MasterForm = () => {
                       onAddButton={handleAddButton}
                       setSurveyController={setSurveyController}
                       surveyController={surveyController}
+                      setQuestionsArray={setQuestionsArray}
                     />
                   )}
                 {activeIndex === index && item.tag === "custom_style" && (
@@ -1427,6 +1440,40 @@ const MasterForm = () => {
               </div>
             </div>
             <ProductCrossSellPopUp
+              productData={productListForPopUp}
+              noOfProducts={noOfProducts}
+              templateDesign={templateDesign}
+              templateData={templateData}
+              getStyle={getStyle}
+            />
+          </div>
+        </>
+      ) : suggestionTemplateStatus?.isCartAbandonmentSurvey ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
+              <div className="w-[70%] flex justify-center">
+                <div
+                  className={`border border-[#323359] ${
+                    !success ? "bg-[#d0d5d9]" : "bg-white"
+                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
+                  onClick={() => setSuccess(false)}
+                >
+                  Teaser
+                </div>
+              </div>
+
+              <div className="flex">
+                <button
+                  type="submit"
+                  onClick={() => onPublish()}
+                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
+                >
+                  Publish
+                </button>
+              </div>
+            </div>
+            <CartAbandonmentPopUp
               productData={productListForPopUp}
               noOfProducts={noOfProducts}
               templateDesign={templateDesign}
