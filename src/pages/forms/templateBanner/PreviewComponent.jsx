@@ -165,7 +165,7 @@ const PreviewComponent = ({
                     inputValue={inputSurveyValues[field.fieldName] || ""}
                     onInputChange={handleSurveyInputChange}
                     isSubmitted={isSubmitted}
-                    onDelete={() => handleSurveyDeleteField(field.fieldName)}
+                    onDelete={() => handleSurveyDeleteField(field.fieldName,index)}
                     onEdit={() => handleSurveyEdit(field, index)}
                   />
                 ))}
