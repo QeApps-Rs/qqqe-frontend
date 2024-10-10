@@ -1,32 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SalesLineGraph from "./Graphs/SalesLineGraph";
 import SalesPieGraph from "./Graphs/SalesPieGraph";
 import SalesBarGraph from "./Graphs/SaleBarChart";
 import SwitcherThree from "../Switchers/SwitcherThree";
 import productImg from "../../images/product.png";
 import { Link } from "react-router-dom";
+import Loader from "../../common/Loader";
+import FormSubmitHandler from "../FormSubmitHandler";
 
 const Campaigns = () => {
-  const productData = [
-    {
-      id: 1,
-      conversions_rate: "0%",
-      conversions: 0,
-      impressions: 0,
-      date_created: "sep 16, 2024",
-    },
-    {
-      id: 2,
-      conversions_rate: "0%",
-      conversions: 0,
-      impressions: 0,
-      date_created: "sep 16, 2024",
-    },
-  ];
+  // const productData = [
+  //   {
+  //     id: 1,
+  //     conversions_rate: "0%",
+  //     conversions: 0,
+  //     impressions: 0,
+  //     date_created: "sep 16, 2024",
+  //   },
+  //   {
+  //     id: 2,
+  //     conversions_rate: "0%",
+  //     conversions: 0,
+  //     impressions: 0,
+  //     date_created: "sep 16, 2024",
+  //   },
+  // ];
 
   const [switchStates, setSwitchStates] = useState({});
 
-  // Toggle handler
   const handleToggle = (productId) => {
     setSwitchStates((prevStates) => ({
       ...prevStates,
@@ -83,155 +84,214 @@ const Campaigns = () => {
     "Product E",
   ];
   const chartTitle = "Sales by Product Category";
+  const [productData, setProductData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const fetchSuggestionData = async () => {
+      try {
+        setLoading(true);
+        await FormSubmitHandler({
+          method: "get",
+          url: "applied/suggestion/list",
+        })
+          .then((res) => {
+            if (res.data) {
+              setProductData(res.data);
+
+              const initialSwitchStates = res.data.reduce((acc, product) => {
+                acc[product.id] = product.service_status;
+                return acc;
+              }, {});
+              setSwitchStates(initialSwitchStates);
+            }
+          })
+          .catch((err) => {
+            toast.error(err.message);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchSuggestionData();
+  }, []);
   return (
-    <div className="mb-25">
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">Campaigns</h1>
-      <div className="grid grid-cols-3 gap-4">
-        {renderCampaignBox("Impressions", 0, "0%")}
-        {renderCampaignBox("Clicks", "0.00%", "0%")}
-        {renderCampaignBox("Conversions", 0, "0%")}
-      </div>
-
-      <div className="grid gap-4 mt-4">
-        <SalesLineGraph
-          salesLineData={salesLineData}
-          lineCategories={lineCategories}
-          lineyAxisTitle={lineyAxisTitle}
-        />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <SalesPieGraph
-            seriesData={seriesData}
-            labels={labels}
-            chartTitle={chartTitle}
-          />
-          <SalesBarGraph
-            salesBarData={salesBarData}
-            barCategories={barCategories}
-            baryAxisTitle={baryAxisTitle}
-          />
-          <SalesPieGraph
-            seriesData={seriesData}
-            labels={labels}
-            chartTitle={chartTitle}
-          />
+    <>
+      {loading && <Loader />}
+      <div className="mb-25">
+        <h1 className="text-3xl font-bold text-gray-800 mb-4">Campaigns</h1>
+        <div className="grid grid-cols-3 gap-4">
+          {renderCampaignBox("Impressions", 0, "0%")}
+          {renderCampaignBox("Clicks", "0.00%", "0%")}
+          {renderCampaignBox("Conversions", 0, "0%")}
         </div>
-      </div>
 
-      <div className="flex justify-between items-center mt-4">
-        <h1 className="text-lg font-bold text-gray-800">Campaigns</h1>
-        <div className="flex items-center">
-          <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
-            New Campaigns
-          </button>
-          <button className="text-blue-500 border border-blue-500 font-bold py-2 px-4 rounded hover:bg-blue-500 hover:text-white">
-            All Campaigns
-          </button>
+        <div className="grid gap-4 mt-4">
+          <SalesLineGraph
+            salesLineData={salesLineData}
+            lineCategories={lineCategories}
+            lineyAxisTitle={lineyAxisTitle}
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <SalesPieGraph
+              seriesData={seriesData}
+              labels={labels}
+              chartTitle={chartTitle}
+            />
+            <SalesBarGraph
+              salesBarData={salesBarData}
+              barCategories={barCategories}
+              baryAxisTitle={baryAxisTitle}
+            />
+            <SalesPieGraph
+              seriesData={seriesData}
+              labels={labels}
+              chartTitle={chartTitle}
+            />
+          </div>
         </div>
-      </div>
-      <div className="rounded-sm border border-stroke bg-white shadow-default mt-4">
-        <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5">
-          {[
-            "Latest",
-            "Status",
-            "Devices",
-            "Impressions",
-            "Conversions",
-            "Conversions rate",
-            "Date Created",
-          ].map((header, index) => (
-            <div
-              className={`${
-                header === "Latest" ? "col-span-2" : "col-span-1"
-              } flex items-center`}
-              key={index}
-            >
-              <p
-                className={`text-black font-bold ${
-                  header === "Latest" ? "col-span-2" : ""
-                }`}
+
+        <div className="flex justify-between items-center mt-4">
+          <h1 className="text-lg font-bold text-gray-800">Campaigns</h1>
+          <div className="flex items-center">
+            <Link to="/dashboard">
+              <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
+                New Campaigns
+              </button>
+            </Link>
+          </div>
+        </div>
+        <div className="rounded-sm border border-stroke bg-white shadow-default mt-4">
+          <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5">
+            {[
+              "Latest",
+              "Status",
+              "Devices",
+              "Impressions",
+              "Conversions",
+              "Conversions rate",
+              "Applied Date",
+            ].map((header, index) => (
+              <div
+                className={`${
+                  header === "Latest" ? "col-span-2" : "col-span-1"
+                } flex items-center`}
+                key={index}
               >
-                {header}
-              </p>
+                <p
+                  className={`text-black font-bold ${
+                    header === "Latest" ? "col-span-2" : ""
+                  }`}
+                >
+                  {header}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {productData.length == 0 && (
+            <div className="w-full text-center my-4">
+              <p className="text-gray-400 font-bold text-lg">Not Found</p>
+            </div>
+          )}
+
+          {productData?.map((product, index) => (
+            <div
+              className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5"
+              key={product.id}
+            >
+              <div className="col-span-2 flex items-center">
+                <img src={productImg} alt="product" className="w-30 max-h-30" />
+                <div className="block ml-2 text-graydark">
+                  <Link
+                    to={`/campaigns-details/${product.id}`}
+                    state={{
+                      title: product.problem_statement,
+                      switch: product.service_status,
+                      description: product.suggestion.description,
+                      openInNewTab: switchStates[product.id] || false,
+                      id: product.id,
+                    }}
+                  >
+                    <span className="block text-blue-600">
+                      {product.problem_statement}
+                    </span>
+                  </Link>
+                  <span> {product.suggestion.description}</span>
+                </div>
+              </div>
+              <div className="col-span-1 hidden items-center sm:flex">
+                <SwitcherThree
+                  label={`switch-${index}`}
+                  enabled={switchStates[product.id] || false}
+                  onToggle={() => handleToggle(product.id)}
+                />
+                <i
+                  className="fa fa-exclamation-triangle text-red-500 text-2x"
+                  aria-hidden="true"
+                ></i>
+              </div>
+              <div className="col-span-1 flex items-center">
+                <i
+                  className="fa fa-desktop mr-3 text-red-500 text-2xl"
+                  aria-hidden="true"
+                ></i>
+                <i
+                  className="fa fa-mobile text-red-500 text-4xl"
+                  aria-hidden="true"
+                ></i>
+              </div>
+              {[
+                "impressions",
+                "conversions",
+                "conversions_rate",
+                "date_created",
+              ].map((key, index) => (
+                <div className="col-span-1 flex items-center" key={index}>
+                  <p className="text-sm text-graydark">
+                    {key === "date_created"
+                      ? product.applied_at
+                      : key === "conversions_rate"
+                      ? product[key]
+                        ? `${product[key]}%`
+                        : "0%"
+                      : product[key] || 0}
+                  </p>
+                </div>
+              ))}
             </div>
           ))}
         </div>
 
-        {productData.map((product, index) => (
-          <div
-            className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5"
-            key={product.id}
-          >
-            <div className="col-span-2 flex items-center">
-              <img src={productImg} alt="product" className="w-30 max-h-30" />
-              <div className="block ml-2 text-graydark">
-                <Link to={"/campaigns-details"}>
-                  <span className="block text-blue-600">
-                    Campaign #{product.id}
-                  </span>
-                </Link>
-                <span>www.com</span>
-              </div>
-            </div>
-            <div className="col-span-1 hidden items-center sm:flex">
-              <SwitcherThree
-                label={`switch-${index}`}
-                enabled={switchStates[product.id] || false}
-                onToggle={() => handleToggle(product.id)}
-              />
-              <i
-                className="fa fa-exclamation-triangle text-red-500 text-2x"
-                aria-hidden="true"
-              ></i>
-            </div>
-            <div className="col-span-1 flex items-center">
-              <i
-                className="fa fa-desktop mr-3 text-red-500 text-2xl"
-                aria-hidden="true"
-              ></i>
-              <i
-                className="fa fa-mobile text-red-500 text-4xl"
-                aria-hidden="true"
-              ></i>
-            </div>
-            {[
-              "impressions",
-              "conversions",
-              "conversions_rate",
-              "date_created",
-            ].map((key, index) => (
-              <div className="col-span-1 flex items-center" key={index}>
-                <p className="text-sm text-graydark">{product[key]}</p>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-
-      <h3 className="text-xl font-bold text-gray-800 my-4">Need Help?</h3>
-      <div className="grid grid-cols-3 gap-4">
-        {[...Array(3)].map((_, index) => (
-          <div className="flex items-center" key={index}>
-            <img src={productImg} alt="product" className="w-20 max-h-20" />
-            <div className="block">
+        <h3 className="text-xl font-bold text-gray-800 my-4">Need Help?</h3>
+        <div className="grid grid-cols-3 gap-4">
+          {[...Array(3)].map((_, index) => (
+            <div className="flex items-center" key={index}>
+              <img src={productImg} alt="product" className="w-20 max-h-20" />
               <div className="block">
-                <h2 className="text-lg font-bold text-graydark">
-                  Website Personalization Course
-                </h2>
-                <p className="block text-sm text-customGray">
-                  Learn how to increase conversion rates with a proven website
-                  personalization strategy
-                </p>
+                <div className="block">
+                  <h2 className="text-lg font-bold text-graydark">
+                    Website Personalization Course
+                  </h2>
+                  <p className="block text-sm text-customGray">
+                    Learn how to increase conversion rates with a proven website
+                    personalization strategy
+                  </p>
+                </div>
+                <a href="#" className="inline-block text-blue-600">
+                  Watch course{" "}
+                  <i className="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
               </div>
-              <a href="#" className="inline-block text-blue-600">
-                Watch course{" "}
-                <i className="fa fa-angle-right" aria-hidden="true"></i>
-              </a>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

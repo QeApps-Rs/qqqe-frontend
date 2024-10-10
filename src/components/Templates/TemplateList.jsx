@@ -21,8 +21,6 @@ const TemplateList = () => {
     })
       .then((res) => {
         if (res.data) {
-          console.log(['data', res.data]);
-          
           setTemplateList(res.data);
         }
       })
@@ -52,7 +50,6 @@ const TemplateList = () => {
                 <Link
                   to={`/master-form/${id}`}
                   state={{
-                    keywords: subTemplate.keywords,
                     subTemplateId: subTemplate.id,
                   }}
                 >
@@ -94,11 +91,11 @@ const TemplateList = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-4 w-full">
         <RenderTemplates templateListProp={templateList} />
-        {
-          templateList.length == 0 && <div className="text-center text-black font-semibold">
+        {templateList.length == 0 && (
+          <div className="text-center text-black font-semibold">
             No Template Found
           </div>
-        }
+        )}
       </div>
     </>
   );
