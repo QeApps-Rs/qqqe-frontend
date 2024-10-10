@@ -130,7 +130,7 @@ const MasterForm = () => {
     });
   };
 
-  const handleSurveyDeleteField = (fieldName) => {
+  const handleSurveyDeleteField = (fieldName,index) => {
     setAddedQuestion((prevFields) =>
       prevFields.filter((field) => field.fieldName !== fieldName)
     );
@@ -1404,7 +1404,7 @@ const MasterForm = () => {
                             onInputChange={handleSurveyInputChange}
                             isSubmitted={isSubmitted}
                             onDelete={() =>
-                              handleSurveyDeleteField(field.fieldName)
+                              handleSurveyDeleteField(field.fieldName,index)
                             }
                             onEdit={() => handleSurveyEdit(field, index)}
                           />

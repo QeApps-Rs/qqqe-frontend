@@ -30,6 +30,7 @@ import SurveyButtonComponent from "./SurveyButtonComponent";
 import ProductUpSellPopUp from "../../components/Forms/ProductUpSellPopUp";
 import ProductCrossSellPopUp from "../../components/Forms/ProductCrossSellPopUp";
 import PreviewComponent from "./templateBanner/PreviewComponent";
+import CartAbandonmentPopUp from "../../components/Forms/CartAbandonmentPopUp";
 
 const MasterForm = () => {
   //  shiv code start
@@ -100,6 +101,7 @@ const MasterForm = () => {
     isAttributionSurvey: false,
     isUpSellPopup: false,
     isCrossSellPopup: false,
+    isAbandonmentPopup: false,
   });
   const navigate = useNavigate();
   const { id } = useParams();
@@ -182,14 +184,12 @@ const MasterForm = () => {
     }
   };
 
-  // Modify the handleDeleteField function
   const handleDeleteField = (fieldName) => {
     setAddedFields((prevFields) =>
       prevFields.filter((field) => field.fieldName !== fieldName)
     );
   };
 
-  // Modify the handleEdit function
   const handleEdit = (field, index) => {
     setInputControllerEditState({
       index,
@@ -200,10 +200,18 @@ const MasterForm = () => {
     });
   };
 
-  const handleSurveyDeleteField = (fieldName) => {
+  const handleSurveyDeleteField = (fieldName,index) => {
     setAddedQuestion((prevFields) =>
       prevFields.filter((field) => field.fieldName !== fieldName)
     );
+    setSurveyController((prevState) => {
+      const updatedSurvey = [...prevState.survey];
+      updatedSurvey.splice(index, 1); 
+      return {
+        ...prevState,
+        survey: updatedSurvey,
+      };
+    });
   };
 
   const handleSurveyEdit = (field, index) => {
@@ -214,10 +222,18 @@ const MasterForm = () => {
     });
   };
 
-  const handleSurveyBtnDeleteField = (buttonText) => {
+  const handleSurveyBtnDeleteField = (buttonText,index) => {
     setAddedButton((prevFields) =>
       prevFields.filter((field) => field.buttonText !== buttonText)
     );
+    setSurveyController((prevState) => {
+      const updatedButtons = [...prevState.new_button];
+      updatedButtons.splice(index, 1); // Remove the button at the specified index
+      return {
+        ...prevState,
+        new_button: updatedButtons,
+      };
+    });
   };
 
   const handleAddButton = (buttonText, buttonLink, isEditMode, editIndex) => {
@@ -340,6 +356,11 @@ const MasterForm = () => {
               ...suggestionTemplateStatus,
               isCrossSellPopup: true,
             });
+          } else if (responseKeywords?.includes("Cart Abandonment Offer")) {
+            setSuggestionTemplateStatus({
+              ...suggestionTemplateStatus,
+              isAbandonmentPopup: true,
+            });
           }
           let jsonObject = response?.data?.params;
           const sid = id.split("s")[1];
@@ -362,7 +383,7 @@ const MasterForm = () => {
               ...resData,
               ...successData,
             });
-            const addedFieldsData = await reverceInputLineItems(
+            const addedFieldsData = await reverseInputLineItems(
               jsonObject?.inputs_controller?.input_line_items
             );
             if (addedFieldsData.length > 0) {
@@ -832,7 +853,7 @@ const MasterForm = () => {
     });
   };
 
-  const reverceInputLineItems = (addedFieldsRecords) => {
+  const reverseInputLineItems = (addedFieldsRecords) => {
     return addedFieldsRecords.map((addedFieldsRecord) => {
       return {
         fieldName: addedFieldsRecord.field_name,
@@ -903,23 +924,7 @@ const MasterForm = () => {
   };
 
   const convertSurveyControllerStateToNestedObject = () => {
-    return {
-      survey_type: "Rating",
-      rating: "5",
-      review: "10",
-      survey: [
-        {
-          question: "",
-          answers: ["option 1", "option 2", "option 3"],
-        },
-      ],
-      quiz: [
-        {
-          question: "",
-          answers: ["option 1", "option 2", "option 3"],
-        },
-      ],
-    };
+    return surveyController
   };
 
   return (
@@ -948,7 +953,8 @@ const MasterForm = () => {
               if (
                 suggestionTemplateStatus?.isProductBundle ||
                 suggestionTemplateStatus?.isUpSellPopup ||
-                suggestionTemplateStatus?.isCrossSellPopup
+                suggestionTemplateStatus?.isCrossSellPopup ||
+                suggestionTemplateStatus?.isAbandonmentPopup
               ) {
                 return (
                   // item.tag !== "inputController" &&
@@ -1405,6 +1411,7 @@ const MasterForm = () => {
 
                 {(suggestionTemplateStatus?.isProductBundle ||
                   suggestionTemplateStatus?.isUpSellPopup ||
+                  suggestionTemplateStatus?.isAbandonmentPopup ||
                   (suggestionTemplateStatus?.isCrossSellPopup &&
                     activeIndex === index &&
                     item.tag === "bundle")) &&
@@ -1809,7 +1816,7 @@ const MasterForm = () => {
                       onInputChange={handleBtnInputChange}
                       isSubmitted={isSubmitted}
                       onDelete={() =>
-                        handleSurveyBtnDeleteField(field.buttonText)
+                        handleSurveyBtnDeleteField(field.buttonText,index)
                       }
                       onEdit={() => handleSurveyBtnEdit(field, index)}
                     />
@@ -1884,6 +1891,41 @@ const MasterForm = () => {
               templateDesign={templateDesign}
               templateData={templateData}
               getStyle={getStyle}
+            />
+          </div>
+        </>
+      ) : suggestionTemplateStatus?.isAbandonmentPopup ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
+              <div className="w-[70%] flex justify-center">
+                <div
+                  className={`border border-[#323359] ${
+                    !success ? "bg-[#d0d5d9]" : "bg-white"
+                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
+                  onClick={() => setSuccess(false)}
+                >
+                  Teaser
+                </div>
+              </div>
+
+              <div className="flex">
+                <button
+                  type="submit"
+                  onClick={() => onPublish()}
+                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
+                >
+                  Publish
+                </button>
+              </div>
+            </div>
+            <CartAbandonmentPopUp
+              productData={productListForPopUp}
+              noOfProducts={noOfProducts}
+              templateDesign={templateDesign}
+              templateData={templateData}
+              getStyle={getStyle}
+              combinedPadding={combinedPadding} 
             />
           </div>
         </>

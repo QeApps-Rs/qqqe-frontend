@@ -15,34 +15,19 @@ function CartAbandonmentPopUp({
         {Array.from({ length: noOfProducts }, (_, index) => (
           <div
             key={index}
-            className="flex items-center text-center rounded-lg"
+            className="text-center p-4"
             style={{
-              padding: combinedPadding,
               backgroundColor: templateDesign.templateOverlayColor,
             }}
           >
-            <div className="block">
-            <a href="#" className="mb-4">
+            <div className="mb-4">
               <img
                 src={defaultProductImg}
                 alt={`product- ${index + 1}`}
-                className="w-32 h-32 rounded-lg"
+                className="w-32 h-32 object-contain mx-auto"
               />
-            </a>
             </div>
-            <div className="block">
-            <p className="text-lg font-small mb-2">{`Product ${index + 1}`}</p>
-            <p className="text-xl font-bold mb-4">${Math.floor(Math.random() * 1000)}</p>
-            <a
-              className="block w-full bg-[#2db775] text-white py-2 rounded hover:bg-gray-800"
-              href="#"
-              style={{
-                backgroundColor: "bg-[#2db775]",
-              }}
-            >
-              {templateData.button || "Shop Now"}
-            </a>
-            </div>
+            <p className="text-base font-medium">{`Product ${index + 1}`}</p>
           </div>
         ))}
       </>
@@ -66,39 +51,36 @@ function CartAbandonmentPopUp({
   return (
     <div
       id="product-bundle"
-      className="flex h-full justify-center items-center w-full bg-white "
+      className="flex justify-center items-center w-full h-full bg-white"
     >
       <div
-        className="rounded-lg p-6 w-full max-w-4xl shadow-xl  border-l border-[#eaedef]"
+        className="rounded-lg p-6 w-full max-w-6xl shadow-xl border border-gray-200"
         style={{
           backgroundColor: templateDesign.templateBgColor,
-          border: templateDesign.formBorderStyle,
           borderRadius: templateDesign.borderRadius,
-          borderWidth: templateDesign.borderWidth,
-          borderColor: templateDesign.templateBorderColor,
-          borderStyle: templateDesign.formBorderStyle,
         }}
       >
-        <div className="text-center mb-4">
+        <div className="text-center mb-6">
+          <h5 style={getStyle(templateDesign, "templateHeading")}>
+            {templateDesign.heading || "Recommended for You!"}
+          </h5>
           <h4
             className="text-lg font-semibold"
             style={getStyle(templateDesign, "templateOffer")}
           >
-            {templateData.offerAmount || "You might also like these ..."}
+            {templateData.offerAmount ||
+              "Check out these products we picked just for you!"}
           </h4>
         </div>
 
         {/* Red dotted border around products */}
         <div className="border-2 border-red-500 border-dotted rounded-lg p-4">
-          <div
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
-            style={{ margin: combinedMargin }}
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {productData && productData.length > 0 ? (
               productData.map((product, index) => (
                 <div
                   key={index}
-                  className="flex flex-col items-center text-center rounded-lg p-4"
+                  className="text-center p-4"
                   style={{
                     backgroundColor: templateDesign.templateOverlayColor,
                   }}
@@ -107,7 +89,7 @@ function CartAbandonmentPopUp({
                     <img
                       src={product.image}
                       alt={product.variantHandle}
-                      className="w-32 h-32 rounded-lg"
+                      className="w-32 h-32 object-contain mx-auto"
                     />
                   </a>
                   <Tooltip
@@ -115,17 +97,10 @@ function CartAbandonmentPopUp({
                     position="bottom"
                     trigger="mouseenter"
                   >
-                    <p className="text-lg font-small mb-2 max-w-[350px] truncate">
+                    <p className="text-base font-medium max-w-xs mx-auto truncate">
                       <a href="#">{product.title}</a>
                     </p>
                   </Tooltip>
-                  <p className="text-xl font-bold mb-4">${product.price}</p>
-                  <a
-                    className="block w-full bg-black text-white py-2 rounded hover:bg-gray-800"
-                    href="#"
-                  >
-                    Shop now
-                  </a>
                 </div>
               ))
             ) : (
@@ -135,6 +110,29 @@ function CartAbandonmentPopUp({
               />
             )}
           </div>
+        </div>
+
+        {/* Shop Now buttons below red border */}
+        <div className="flex justify-around mt-6">
+          {productData && productData.length > 0
+            ? productData.map((_, index) => (
+                <a
+                  key={index}
+                  href="#"
+                  className="bg-red-500 text-white py-2 px-6 rounded-lg inline-block"
+                >
+                  Shop Now
+                </a>
+              ))
+            : Array.from({ length: noOfProducts }).map((_, index) => (
+                <a
+                  key={index}
+                  href="#"
+                  className="bg-red-500 text-white py-2 px-6 rounded-lg inline-block"
+                >
+                  Shop Now
+                </a>
+              ))}
         </div>
       </div>
     </div>
