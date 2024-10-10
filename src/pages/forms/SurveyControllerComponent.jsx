@@ -13,8 +13,8 @@ const SurveyControllerComponent = ({
   onAddButton,
   setSurveyController,
   surveyController,
+  setQuestionsArray,
 }) => {
-  console.log('surveyController ++++++++++++++++++++++++++ ', surveyController)
   const styleFieldTitleClass =
     "mb-2.5 block text-black dark:text-white font-semibold";
   const [fieldName, setFieldName] = useState("");
@@ -25,6 +25,8 @@ const SurveyControllerComponent = ({
   const [optionsText, setOptionsText] = useState("");
   const [buttonText, setButtonText] = useState("");
   const [buttonLink, setButtonLink] = useState("");
+
+  const [buttonsArray, setButtonsArray] = useState([]);
 
   useEffect(() => {
     if (surveyControllerEditState?.fieldName) {
@@ -44,31 +46,65 @@ const SurveyControllerComponent = ({
   const handleAddField = (e) => {
     e.preventDefault();
     const optionsArray = optionsText.split(",").map((option) => option.trim());
-    setOptions(optionsArray);
 
     if (fieldName) {
-      setAddedQuestion((prevFields) => {
-        if (isEditMode && editIndex !== null) {
+      if (isEditMode && editIndex !== null) {
+        setSurveyController((prevState) => {
+          const updatedSurvey = [...prevState.survey];
+          updatedSurvey[editIndex] = {
+            question: fieldName,
+            answers: optionsArray,
+          };
+          return {
+            ...prevState,
+            survey: updatedSurvey,
+          };
+        });
+
+        setAddedQuestion((prevFields) => {
           const updatedFields = [...prevFields];
           updatedFields[editIndex] = {
             fieldName,
             options: optionsArray,
           };
           return updatedFields;
-        } else {
-          return [
-            ...prevFields,
+        });
+      } else {
+        setSurveyController((prevState) => ({
+          ...prevState,
+          survey: [
+            ...prevState.survey,
             {
-              fieldName,
-              options: optionsArray,
+              question: fieldName,
+              answers: optionsArray,
             },
-          ];
-        }
-      });
+          ],
+        }));
+
+        setAddedQuestion((prevFields) => [
+          ...prevFields,
+          {
+            fieldName,
+            options: optionsArray,
+          },
+        ]);
+      }
     }
 
     if (buttonText && buttonLink) {
       onAddButton(buttonText, buttonLink, isEditMode, editIndex);
+      setSurveyController((prevState) => {
+        const updatedButtons = [...prevState.new_button];
+        if (isEditMode && editIndex !== null) {
+          updatedButtons[editIndex] = { buttonText, buttonLink };
+        } else {
+          updatedButtons.push({ buttonText, buttonLink });
+        }
+        return {
+          ...prevState,
+          new_button: updatedButtons,
+        };
+      });
     }
 
     resetForm();
@@ -124,8 +160,7 @@ const SurveyControllerComponent = ({
                           <div className="mt-3 flex justify-between flex-row">
                             <span>Review Count:</span>
                             <select
-                              onChange={(e) =>
-                               {
+                              onChange={(e) => {
                                 setSurveyController({
                                   ...surveyController,
                                   review: e.target.value,
