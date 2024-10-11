@@ -106,7 +106,7 @@ const MasterForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [locationInput, setLocationInput] = useState("");
-  const [notShowLocationInput , setNotShowLocationInput] = useState("")
+  const [notShowLocationInput, setNotShowLocationInput] = useState("");
   const [checkedItems, setCheckedItems] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [frequency, setFrequency] = useState(5);
@@ -200,13 +200,13 @@ const MasterForm = () => {
     });
   };
 
-  const handleSurveyDeleteField = (fieldName,index) => {
+  const handleSurveyDeleteField = (fieldName, index) => {
     setAddedQuestion((prevFields) =>
       prevFields.filter((field) => field.fieldName !== fieldName)
     );
     setSurveyController((prevState) => {
       const updatedSurvey = [...prevState.survey];
-      updatedSurvey.splice(index, 1); 
+      updatedSurvey.splice(index, 1);
       return {
         ...prevState,
         survey: updatedSurvey,
@@ -222,7 +222,7 @@ const MasterForm = () => {
     });
   };
 
-  const handleSurveyBtnDeleteField = (buttonText,index) => {
+  const handleSurveyBtnDeleteField = (buttonText, index) => {
     setAddedButton((prevFields) =>
       prevFields.filter((field) => field.buttonText !== buttonText)
     );
@@ -362,7 +362,16 @@ const MasterForm = () => {
               isAbandonmentPopup: true,
             });
           }
-          const jsonObject = response?.data?.params;
+
+          let jsonObject = response?.data?.params;
+          const sid = id.split("s")[1];
+          const customerTemplate = await FormSubmitHandler({
+            method: "get",
+            url: `customer/template/${sid}`,
+          });
+          if (customerTemplate.success && customerTemplate.data) {
+            jsonObject = customerTemplate?.data?.json_response;
+          }
           if (jsonObject) {
             const resData = await revertStyleStateController(
               jsonObject?.styles
@@ -915,7 +924,7 @@ const MasterForm = () => {
   };
 
   const convertSurveyControllerStateToNestedObject = () => {
-    return surveyController
+    return surveyController;
   };
 
   return (
@@ -1807,7 +1816,7 @@ const MasterForm = () => {
                       onInputChange={handleBtnInputChange}
                       isSubmitted={isSubmitted}
                       onDelete={() =>
-                        handleSurveyBtnDeleteField(field.buttonText,index)
+                        handleSurveyBtnDeleteField(field.buttonText, index)
                       }
                       onEdit={() => handleSurveyBtnEdit(field, index)}
                     />
@@ -1916,7 +1925,7 @@ const MasterForm = () => {
               templateDesign={templateDesign}
               templateData={templateData}
               getStyle={getStyle}
-              combinedPadding={combinedPadding} 
+              combinedPadding={combinedPadding}
             />
           </div>
         </>
