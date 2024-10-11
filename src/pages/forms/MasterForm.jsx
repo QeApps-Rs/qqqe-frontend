@@ -1,19 +1,14 @@
 /* eslint-disable react/no-unknown-property */
 import { useState, useEffect } from "react";
-import Checkbox from "../../components/higherOrderComponent/Checkboxes/Checkbox";
-import Radio from "../../components/higherOrderComponent/Radios/Radio";
-import DropDown from "../../components/higherOrderComponent/Dropdown/Dropdown";
 import popup_img from "../../../src/images/newsletter_left_img.png";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import successImg from "../../../src/images/success_fn.png";
 import FormSubmitHandler from "../../components/FormSubmitHandler";
 import {
   templateFieldCss,
-  visitorsDropdown,
-  timingOptions,
-  deviceOptions,
   templateEditorCollapseOptions,
   surveyControllerDefaults,
+  targetAndBehaviourDefaultState,
 } from "./masterFormConfig";
 import ProductBundleTab from "../../components/Forms/ProductBundleTab";
 import ProductBundlePopUp from "../../components/Forms/ProductBundlePopUp";
@@ -31,6 +26,7 @@ import ProductUpSellPopUp from "../../components/Forms/ProductUpSellPopUp";
 import ProductCrossSellPopUp from "../../components/Forms/ProductCrossSellPopUp";
 import PreviewComponent from "./templateBanner/PreviewComponent";
 import CartAbandonmentPopUp from "../../components/Forms/CartAbandonmentPopUp";
+import TargetingAndBehaviorControlComponent from "./TargetingAndBehaviorControlComponent";
 
 const MasterForm = () => {
   //  shiv code start
@@ -39,7 +35,7 @@ const MasterForm = () => {
   const [surveyController, setSurveyController] = useState(
     surveyControllerDefaults
   );
-  const [templateData, setTemplateData] = useState({
+  const templateData = useState({
     heading: "",
     button: "",
     offerAmount: "",
@@ -69,7 +65,6 @@ const MasterForm = () => {
     surveyControllerDefaults?.new_button
   );
   const [inputBtnSurveyValues, setInputBtnSurveyValues] = useState({});
-  const isOdd = addedButton.length % 2 !== 0;
 
   const handleBtnInputChange = (buttonText, value) => {
     setInputBtnSurveyValues((prev) => ({ ...prev, [buttonText]: value }));
@@ -105,19 +100,8 @@ const MasterForm = () => {
   });
   const navigate = useNavigate();
   const { id } = useParams();
-  const [locationInput, setLocationInput] = useState("");
-  const [notShowLocationInput, setNotShowLocationInput] = useState("");
-  const [checkedItems, setCheckedItems] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [frequency, setFrequency] = useState(5);
-  const [checkDesktop, setDesktop] = useState(false);
-  const [checkMobile, setMobile] = useState(false);
-  const [showUrl, setURL] = useState(false);
-  const [notShowUrl, setNotShow] = useState(false);
-  const [showLocation, setLocation] = useState(false);
-  const [notShowLocation, setNotShowLocation] = useState(false);
   const [isView, setView] = useState("Desktop");
-  const [selectedTiming, setTiming] = useState("");
   const [productList, setProductList] = useState([]);
   const [productListState, setProductListState] = useState(false);
   const [collectionList, setCollectionList] = useState([]);
@@ -125,32 +109,15 @@ const MasterForm = () => {
   const [collectionListForPopUp, setCollectionListForPopUp] = useState([]);
   const [productListForPopUp, setProductListForPopUp] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState({});
-  const [checkedRules, setRules] = useState({
-    type: "",
-    settings: {
-      existing_page: {
-        is_selected: "",
-      },
-      after_delay_time: {
-        is_selected: false,
-        key: "seconds",
-        value: "",
-      },
-      after_scroll_distance: {
-        is_selected: false,
-        key: "percentage",
-        value: "",
-      },
-      after_pages_visit: {
-        is_selected: false,
-        key: "pages",
-        value: "",
-      },
-    },
-  });
   const [noOfProducts, setNoOfProducts] = useState(3);
   const location = useLocation();
   const { keywords, subTemplateId } = location.state || {}; // Safely access state
+
+  // TAGETING AND BEHAVIOUR START
+  const [targetingAndBehaviour, setTargetingAndBehaviour] = useState(
+    targetAndBehaviourDefaultState
+  );
+  // TAGETING AND BEHAVIOUR END
 
   const handleInputChange = (fieldName, value) => {
     setInputValues((prev) => ({ ...prev, [fieldName]: value }));
@@ -390,6 +357,7 @@ const MasterForm = () => {
             if (addedFieldsData.length > 0) {
               setAddedFields(addedFieldsData);
             }
+            setTargetingAndBehaviour(jsonObject?.target_behaviors);
           }
         }
       } catch (error) {
@@ -504,11 +472,6 @@ const MasterForm = () => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-  const onTimingChange = (value) => {
-    setTiming(value);
-  };
-  // onChange={(e) => setLocationInput(e.target.value.split(',').map(loc => loc.trim()))}
-
   const onPublish = async () => {
     setLoading(true);
     const pid = id.split("s")[0];
@@ -524,9 +487,7 @@ const MasterForm = () => {
           inputs_controller: await convertInputControllerStateToNestedObject(
             templateDesign
           ),
-          target_behaviors: await convertTargetBehaviorStateToNestedObject(
-            templateDesign
-          ),
+          target_behaviors: targetingAndBehaviour,
           success_controller: await convertSuccessControllerStateToNestedObject(
             templateDesign
           ),
@@ -864,58 +825,6 @@ const MasterForm = () => {
     });
   };
 
-  const convertTargetBehaviorStateToNestedObject = () => {
-    return {
-      display: {
-        timing: {
-          type: "on_rules",
-          settings: {
-            existing_page: {
-              is_selected: false,
-            },
-            after_delay_time: {
-              is_selected: true,
-              key: "seconds",
-              value: 10,
-            },
-            after_scroll_distance: {
-              is_selected: true,
-              key: "percentage",
-              value: 30,
-            },
-            after_pages_visit: {
-              is_selected: false,
-              key: "pages",
-              value: 0,
-            },
-          },
-        },
-        frequency: {
-          after_show_days: "3",
-          validation: "yes",
-        },
-        devices: {
-          display_on: "desktop",
-          click_outside_close: {
-            on_desktop: true,
-            on_mobile: false,
-          },
-        },
-      },
-      targeting: {
-        visitors: "all",
-        locations: {
-          show_visitors_certain_locations: {
-            location: "Europe",
-          },
-          not_show_visitors_certain_locations: {
-            location: "Europe",
-          },
-        },
-      },
-    };
-  };
-
   const convertItemStateToNestedObject = () => {
     return {
       products: productListForPopUp,
@@ -1031,382 +940,10 @@ const MasterForm = () => {
                   />
                 )} */}
                 {activeIndex === index && item.tag === "target" && (
-                  <div className="col-span-12 xl:col-span-12">
-                    <div className="p-4 border-t">
-                      <div className=" bg-white">
-                        <div className="mb-4 border-b border-black border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark rounded-lg">
-                          <div className="mb-8 p-3">
-                            <div className="mb-4 border-b border-black pb-5">
-                              <label className="mb-2.5 block text-lg font-semibold">
-                                Timing
-                              </label>
-                              <Radio
-                                jsonData={timingOptions}
-                                onChange={onTimingChange}
-                              />
-                              {selectedTiming == "Based on rules" && (
-                                <div className="mb-4 mt-3">
-                                  <div className="text-sm font-semibold">
-                                    Select the rules
-                                  </div>
-                                  <div className="mb-4.5 mt-3">
-                                    <Checkbox
-                                      key={1}
-                                      label="When visitor is exiting the page"
-                                      checked={
-                                        checkedRules?.settings?.existing_page
-                                          ?.is_selected
-                                      }
-                                      onChange={() =>
-                                        setRules((prevState) => ({
-                                          ...prevState,
-                                          settings: {
-                                            ...prevState.settings,
-                                            existing_page: {
-                                              ...prevState.settings
-                                                .existing_page.is_selected,
-                                              is_selected:
-                                                !checkedRules?.settings
-                                                  ?.existing_page?.is_selected,
-                                            },
-                                          },
-                                        }))
-                                      }
-                                    />
-                                  </div>
-                                  <div className="mb-4.5">
-                                    <Checkbox
-                                      key={2}
-                                      label="After time delay"
-                                      checked={
-                                        checkedRules?.settings?.after_delay_time
-                                          .is_selected
-                                      }
-                                      onChange={() =>
-                                        setRules((prevState) => ({
-                                          ...prevState,
-                                          settings: {
-                                            ...prevState.settings,
-                                            after_delay_time: {
-                                              ...prevState.settings
-                                                .after_delay_time.is_selected,
-                                              is_selected:
-                                                !checkedRules?.settings
-                                                  ?.after_delay_time
-                                                  .is_selected,
-                                              key: "seconds",
-                                              value: "",
-                                            },
-                                          },
-                                        }))
-                                      }
-                                    />
-                                    {checkedRules?.settings?.after_delay_time
-                                      .is_selected && (
-                                      <div className="ml-9">
-                                        <div>Show again after</div>
-                                        <input
-                                          type="number"
-                                          value={
-                                            checkedRules?.settings
-                                              ?.after_delay_time?.value
-                                              ? checkedRules?.settings
-                                                  ?.after_delay_time?.value
-                                              : 0
-                                          }
-                                          onChange={(event) =>
-                                            setRules((prevState) => ({
-                                              ...prevState,
-                                              settings: {
-                                                ...prevState.settings,
-                                                after_delay_time: {
-                                                  ...prevState.settings
-                                                    .after_delay_time.value,
-                                                  is_selected:
-                                                    checkedRules?.settings
-                                                      ?.after_delay_time
-                                                      .is_selected,
-                                                  key: "seconds",
-                                                  value: event.target.value,
-                                                },
-                                              },
-                                            }))
-                                          }
-                                          className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
-                                          placeholder="seconds"
-                                        />
-                                      </div>
-                                    )}
-                                  </div>
-                                  <div className="mb-4.5">
-                                    <Checkbox
-                                      key={3}
-                                      label="After visitor has scrolled a certain amount"
-                                      checked={
-                                        checkedRules?.settings
-                                          ?.after_scroll_distance.is_selected
-                                      }
-                                      onChange={() =>
-                                        setRules((prevState) => ({
-                                          ...prevState,
-                                          settings: {
-                                            ...prevState.settings,
-                                            after_scroll_distance: {
-                                              ...prevState.settings
-                                                .after_scroll_distance,
-                                              is_selected:
-                                                !checkedRules?.settings
-                                                  ?.after_scroll_distance
-                                                  .is_selected,
-                                            },
-                                          },
-                                        }))
-                                      }
-                                    />
-                                    {checkedRules?.settings
-                                      ?.after_scroll_distance.is_selected && (
-                                      <div className="ml-9">
-                                        <div>Scroll distance</div>
-                                        <input
-                                          type="number"
-                                          value={
-                                            checkedRules?.settings
-                                              ?.after_scroll_distance?.value
-                                          }
-                                          onChange={(event) =>
-                                            setRules((prevState) => ({
-                                              ...prevState,
-                                              settings: {
-                                                ...prevState.settings,
-                                                after_scroll_distance: {
-                                                  ...prevState.settings
-                                                    .after_scroll_distance,
-                                                  is_selected:
-                                                    checkedRules?.settings
-                                                      ?.after_scroll_distance
-                                                      .is_selected,
-                                                  key: "seconds",
-                                                  value: event.target.value,
-                                                },
-                                              },
-                                            }))
-                                          }
-                                          className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
-                                          placeholder="%"
-                                        />
-                                      </div>
-                                    )}
-                                  </div>
-                                  <div className="mb-4.5">
-                                    <Checkbox
-                                      key={4}
-                                      label="After visitor sees a certain number of pages"
-                                      checked={
-                                        checkedRules?.settings
-                                          ?.after_pages_visit.is_selected
-                                      }
-                                      onChange={() =>
-                                        setRules((prevState) => ({
-                                          ...prevState,
-                                          settings: {
-                                            ...prevState.settings,
-                                            after_pages_visit: {
-                                              ...prevState.settings
-                                                .after_pages_visit,
-                                              is_selected:
-                                                !checkedRules?.settings
-                                                  ?.after_pages_visit
-                                                  .is_selected,
-                                            },
-                                          },
-                                        }))
-                                      }
-                                    />
-                                    {checkedRules?.settings?.after_pages_visit
-                                      .is_selected && (
-                                      <div className="ml-9">
-                                        <div>After</div>
-                                        <input
-                                          type="number"
-                                          value={
-                                            checkedRules?.settings
-                                              ?.after_pages_visit?.value
-                                          }
-                                          onChange={(event) =>
-                                            setRules((prevState) => ({
-                                              ...prevState,
-                                              settings: {
-                                                ...prevState.settings,
-                                                after_pages_visit: {
-                                                  ...prevState.settings
-                                                    .after_pages_visit,
-                                                  is_selected:
-                                                    checkedRules?.settings
-                                                      ?.after_pages_visit
-                                                      .is_selected,
-                                                  key: "pages",
-                                                  value: event.target.value,
-                                                },
-                                              },
-                                            }))
-                                          }
-                                          className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
-                                          placeholder="pages"
-                                        />
-                                      </div>
-                                    )}
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-
-                            <div className="mb-4 border-b border-black">
-                              <h3 className="text-lg font-semibold">
-                                Frequency
-                              </h3>
-                              <div className="flex items-center mt-3">
-                                <div className="text-black">
-                                  After a visitor closes this form, show again
-                                  after{" "}
-                                </div>
-                              </div>
-                              <input
-                                type="number"
-                                value={frequency}
-                                onChange={(e) => setFrequency(e.target.value)}
-                                className="mt-2 w-25 border border-gray-300 rounded p-1 text-center"
-                                placeholder="5 days"
-                              />
-                              <span className="ml-2">days</span>
-                              <div className="mb-4.5 mt-6">
-                                <Checkbox
-                                  key={"abc"}
-                                  label="Don’t show again if form was submitted or if go to URL button was clicked"
-                                  checked={checkedItems}
-                                  onChange={() =>
-                                    setCheckedItems(!checkedItems)
-                                  }
-                                />
-                              </div>
-                            </div>
-
-                            <div className="mb-4 border-b border-black pb-5">
-                              <label className="mb-2.5 block text-lg font-semibold">
-                                Devices
-                              </label>
-                              <Radio
-                                jsonData={deviceOptions}
-                                onChange={() => {}}
-                              />
-                            </div>
-                            <div className="mb-4 border-b border-black">
-                              <div className="text-lg font-semibold">
-                                Click outside form to close
-                              </div>
-                              <span className="text-sm font-medium">
-                                Select all that apply.
-                              </span>
-                              <div className="mb-4.5 mt-6">
-                                <Checkbox
-                                  key={2}
-                                  label="On desktop"
-                                  checked={checkDesktop}
-                                  onChange={() => setDesktop(!checkDesktop)}
-                                />
-                              </div>
-                              <div className="mb-4.5">
-                                <Checkbox
-                                  key={3}
-                                  label="On mobile"
-                                  checked={checkMobile}
-                                  onChange={() => setMobile(!checkMobile)}
-                                />
-                              </div>
-                            </div>
-
-                            <div className="mb-4 border-b border-black">
-                              <label className="mb-2.5 block text-lg ">
-                                <div className="mb-6">
-                                  <DropDown jsonData={visitorsDropdown} />
-                                </div>
-                              </label>
-                            </div>
-
-                            <div className="mb-4 border-b border-black">
-                              <h3 className="text-lg font-semibold">URLS</h3>
-                              <div className="mb-4.5 mt-6">
-                                <Checkbox
-                                  key={2}
-                                  label="Only show on certain URLs"
-                                  checked={showUrl}
-                                  onChange={() => setURL(!showUrl)}
-                                />
-                              </div>
-                              <div className="mb-4.5">
-                                <Checkbox
-                                  key={3}
-                                  label="Don’t show on certain URLs"
-                                  checked={notShowUrl}
-                                  onChange={() => setNotShow(!notShowUrl)}
-                                />
-                              </div>
-                            </div>
-
-                            <div className="mb-4 border-b border-black">
-                              <h3 className="text-lg font-semibold">
-                                Location
-                              </h3>
-                              <div className="flex items-center mt-3">
-                                <div className="text-black font-medium">
-                                  Based on visitors IP address
-                                </div>
-                              </div>
-                              <div className="mb-4.5 mt-6">
-                                <Checkbox
-                                  key={2}
-                                  label="Show to visitors in certain locations"
-                                  checked={showLocation}
-                                  onChange={() => setLocation(!showLocation)}
-                                />
-                                {showLocation && (
-                                  <input
-                                    type="text"
-                                    placeholder="Please enter locations, separated by commas"
-                                    className="w-full p-2 border rounded-md focus:outline-none mt-2"
-                                    value={locationInput}
-                                    onChange={(e) =>
-                                      setLocationInput(e.target.value)
-                                    }
-                                  />
-                                )}
-                              </div>
-                              <div className="mb-4.5">
-                                <Checkbox
-                                  key={3}
-                                  label="Don’t show to visitors in certain locations"
-                                  checked={notShowLocation}
-                                  onChange={() =>
-                                    setNotShowLocation(!notShowLocation)
-                                  }
-                                />
-                                {notShowLocation && (
-                                  <input
-                                    type="text"
-                                    placeholder="Please enter locations, separated by commas"
-                                    className="w-full p-2 border rounded-md focus:outline-none mt-2"
-                                    value={notShowLocationInput}
-                                    onChange={(e) =>
-                                      setNotShowLocationInput(e.target.value)
-                                    }
-                                  />
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <TargetingAndBehaviorControlComponent
+                    targetingAndBehaviour={targetingAndBehaviour}
+                    setTargetingAndBehaviour={setTargetingAndBehaviour}
+                  />
                 )}
 
                 {(suggestionTemplateStatus?.isProductBundle ||
