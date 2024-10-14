@@ -31,6 +31,8 @@ import TargetingAndBehaviorControlComponent from "./TargetingAndBehaviorControlC
 const MasterForm = () => {
   //  shiv code start
   const [loading, setLoading] = useState(false);
+  const [customCssState, setCustomCssState] = useState("");
+  const [customJsState, setCustomJsState] = useState("");
   const [templateDesign, setTemplateDesign] = useState(templateFieldCss);
   const [surveyController, setSurveyController] = useState(
     surveyControllerDefaults
@@ -358,6 +360,9 @@ const MasterForm = () => {
               setAddedFields(addedFieldsData);
             }
             setTargetingAndBehaviour(jsonObject?.target_behaviors);
+            setCustomCssState(jsonObject?.custom_css);
+            setSurveyController(jsonObject?.survey_controller);
+            setCustomJsState(jsonObject?.custom_js);
           }
         }
       } catch (error) {
@@ -493,9 +498,9 @@ const MasterForm = () => {
             templateDesign
           ),
           items: await convertItemStateToNestedObject(templateDesign),
-          survey_controller: await convertSurveyControllerStateToNestedObject(),
-          custom_js: {},
-          custom_css: {},
+          survey_controller: surveyController,
+          custom_js: customJsState,
+          custom_css: customCssState,
         },
       },
     })
@@ -833,10 +838,6 @@ const MasterForm = () => {
     };
   };
 
-  const convertSurveyControllerStateToNestedObject = () => {
-    return surveyController;
-  };
-
   return (
     <>
       {loading && <Loader />}
@@ -1001,12 +1002,16 @@ const MasterForm = () => {
                                         className="w-full mt-2 w-25 border border-gray-300 rounded p-1 h-40"
                                         id="custom-css"
                                         name="custom-css"
+                                        value={customCssState}
+                                        onChange={(e) =>
+                                          setCustomCssState(e.target.value)
+                                        }
                                       />
                                     </div>
                                   </div>
-                                  <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
+                                  {/* <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
                                     Save
-                                  </button>
+                                  </button> */}
                                 </div>
                               </form>
                             </div>
@@ -1034,12 +1039,16 @@ const MasterForm = () => {
                                         id="custom-js"
                                         name="custom-js"
                                         className="w-full mt-2 w-25 border border-gray-300 rounded p-1 h-40"
+                                        value={customJsState}
+                                        onChange={(e) =>
+                                          setCustomJsState(e.target.value)
+                                        }
                                       />
                                     </div>
                                   </div>
-                                  <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
+                                  {/* <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
                                     Save
-                                  </button>
+                                  </button> */}
                                 </div>
                               </form>
                             </div>

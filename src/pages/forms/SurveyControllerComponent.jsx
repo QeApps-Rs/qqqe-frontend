@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
 import {
   defaultBoxClassName,
   surveyTypeStyles,
@@ -13,7 +14,6 @@ const SurveyControllerComponent = ({
   onAddButton,
   setSurveyController,
   surveyController,
-  setQuestionsArray,
 }) => {
   const styleFieldTitleClass =
     "mb-2.5 block text-black dark:text-white font-semibold";
