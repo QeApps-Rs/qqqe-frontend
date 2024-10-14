@@ -50,8 +50,7 @@ const ForgotPassword = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="h-screen bg-[url('/src/images/purple-bg.jpg')] bg-no-repeat bg-cover">
-        <div className="w-full absolute inset-0 backdrop-brightness-50 opacity-90 z-0 p-4 sm:p-12.5 xl:p-8 flex justify-center text-center">
+ 
           {/* <div className="hidden w-full xl:block xl:w-1/2">
                         <div className="py-17.5 px-26 text-center">
                             <Link className="mb-5.5 inline-block" to="/">
@@ -70,7 +69,7 @@ const ForgotPassword = () => {
                             </span>
                         </div>
                     </div> */}
-
+<div className="w-full text-center justify-center flex p-10">
           <div className="lg:w-1/3 mt-15 ">
             <h2 className="mb-4 text-2xl font-bold text-white sm:text-title-xl2">
               Forgot Password?
@@ -126,8 +125,7 @@ const ForgotPassword = () => {
               </div>
             </form>
           </div>
-        </div>
-      </div>
+          </div>
     </>
   );
 };

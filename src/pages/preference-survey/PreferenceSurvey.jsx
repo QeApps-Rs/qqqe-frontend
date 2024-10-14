@@ -127,83 +127,79 @@ const PreferenceSurvey = ({ isTitleDisplay = true }) => {
     <>
       {loading && <Loader />}
 
-      {/* {isTitleDisplay && <Breadcrumb pageName={false} breadcrumb={false} />} */}
+      {isTitleDisplay && (
+        <Breadcrumb pageName={"Preference Survey"} breadcrumb={false} />
+      )}
+      <div className="p-10 h-full">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 ">
+          <div className="col-span-1 inline-flex justify-end">
+            <img src={welcomeImg} alt="welcome-img" className="w-80 h-70" />
+          </div>
 
-      <div className="h-screen bg-[url('/src/images/purple-bg.jpg')] bg-no-repeat bg-cover">
-        <div className="absolute inset-0 backdrop-brightness-0  opacity-90 z-0">
-          <div className="relative z-10  p-4 sm:p-12.5 xl:p-8">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mt-20">
-              <div className="col-span-1 inline-flex justify-end">
-                <img src={welcomeImg} alt="welcome-img" className="w-80 h-70" />
+          <div className="col-span-3 ">
+            {currentStep === 0 && (
+              <div className="mb-8 text-white font-bold text-2xl">
+                Great, iet's get started!
               </div>
+            )}
+            {checkedItems && checkedItems.length > 0 && (
+              <form onSubmit={handleSubmit} className="relative">
+                {/* Render only the current question */}
 
-              <div className="col-span-3 ">
-                <div className="mb-8 text-white font-bold text-2xl">
-                  Great, iet's get started!
+                <h3 className="text-3xl text-white font-bold">
+                  {checkedItems[currentStep].question}
+                </h3>
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mt-15">
+                  {checkedItems[currentStep].answers.map((answer) => (
+                    <div className="col-span-2">
+                      <Checkbox
+                        key={answer.id}
+                        id={answer.id}
+                        label={answer.answer.replace(/_/g, " ")}
+                        checked={isChecked(
+                          checkedItems[currentStep].id,
+                          answer.id
+                        )}
+                        onChange={() =>
+                          handleChange(checkedItems[currentStep].id, answer.id)
+                        }
+                      />
+                    </div>
+                  ))}
                 </div>
-                {checkedItems && checkedItems.length > 0 && (
-                  <form onSubmit={handleSubmit}>
-                    {/* Render only the current question */}
 
-                    <h3 className="text-3xl text-white font-bold">
-                      {checkedItems[currentStep].question}
-                    </h3>
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mt-15">
-                      {checkedItems[currentStep].answers.map((answer) => (
-                        <div className="col-span-2">
-                          <Checkbox
-                            key={answer.id}
-                            id={answer.id}
-                            label={answer.answer.replace(/_/g, " ")}
-                            checked={isChecked(
-                              checkedItems[currentStep].id,
-                              answer.id
-                            )}
-                            onChange={() =>
-                              handleChange(
-                                checkedItems[currentStep].id,
-                                answer.id
-                              )
-                            }
-                          />
-                        </div>
-                      ))}
-                    </div>
+                {/* Next and Previous Buttons */}
+                <div className="flex justify-between mt-6 lg:fixed bottom-8 left-18  right-18">
+                  <button
+                    type="button"
+                    className={`bg-blue-500 text-white px-4 py-2 rounded ${
+                      currentStep === 0 ? "opacity-50" : ""
+                    }`}
+                    onClick={handlePrevious}
+                    disabled={currentStep === 0}
+                  >
+                    Previous
+                  </button>
 
-                    {/* Next and Previous Buttons */}
-                    <div className="flex justify-between mt-6 fixed bottom-8 left-18  right-18">
-                      <button
-                        type="button"
-                        className={`bg-blue-500 text-white px-4 py-2 rounded ${
-                          currentStep === 0 ? "opacity-50" : ""
-                        }`}
-                        onClick={handlePrevious}
-                        disabled={currentStep === 0}
-                      >
-                        Previous
-                      </button>
-
-                      {currentStep === checkedItems.length - 1 ? (
-                        <button
-                          type="submit"
-                          className="bg-green-700 text-white px-4 py-2 rounded font-semibold"
-                        >
-                          Submit
-                        </button>
-                      ) : (
-                        <button
-                          type="button"
-                          className="bg-blue-700 text-white px-4 py-2 rounded font-semibold"
-                          onClick={handleNext}
-                        >
-                          Next
-                        </button>
-                      )}
-                    </div>
-                  </form>
-                )}
-              </div>
-            </div>
+                  {currentStep === checkedItems.length - 1 ? (
+                    <button
+                      type="submit"
+                      className="bg-green-700 text-white px-4 py-2 rounded font-semibold"
+                    >
+                      Submit
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="bg-blue-700 text-white px-4 py-2 rounded font-semibold"
+                      onClick={handleNext}
+                    >
+                      Next
+                    </button>
+                  )}
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </div>
