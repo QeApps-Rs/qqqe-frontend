@@ -5,7 +5,6 @@ const AuthLayout = () => {
   return (
     <div className="dark:bg-boxdark-2 dark:text-bodydark auth-layout">
     {/* <!-- ===== Page Wrapper Start ===== --> */}
-    <div className="h-screen overflow-hidden">
 
 
       {/* <!-- ===== Content Area Start ===== --> */}
@@ -20,7 +19,6 @@ const AuthLayout = () => {
         {/* <!-- ===== Main Content End ===== --> */}
       {/* </div> */}
       {/* <!-- ===== Content Area End ===== --> */}
-    </div>
     {/* <!-- ===== Page Wrapper End ===== --> */}
   </div>
   );
