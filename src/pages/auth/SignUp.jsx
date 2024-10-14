@@ -149,194 +149,189 @@ const SignUp = () => {
   return (
     <>
       {/* <Breadcrumb pageName="Sign Up" breadcrumb={false} /> */}
-
-      <div className="h-screen bg-[url('/src/images/purple-bg.jpg')] bg-no-repeat bg-cover">
-      <div className="absolute inset-0 backdrop-brightness-50  opacity-90 z-0">
       <div className="flex h-screen  relative z-10 ">
-            <div className="w-full lg:block hidden xl:w-[35%] ">
-              <div className="h-full justify-center items-center flex text-center flex-col	border-r-2 border-white">
-                <h3 className="text-white text-xl font-bold mb-8">
-                  The future of CRO is here
-                </h3>
-                <Link className="block" to="/">
-                  {/* <img className="hidden dark:block" src={Logo} alt="Logo" /> */}
-                  <img className="dark:hidden" src={Logo} alt="Logo" />
-                </Link>
-                <button
-                  type="button"
-                  className="  text-white font-medium rounded-md px-5 py-4 border-2 mt-8"
-                >
-                  Load more
-                </button>
-                {/* <span className="mt-15 inline-block">
+        <div className="w-full lg:block hidden xl:w-[35%] ">
+          <div className="h-full justify-center items-center flex text-center flex-col	border-r-2 border-white">
+            <h3 className="text-white text-xl font-bold mb-8">
+              The future of CRO is here
+            </h3>
+            <Link className="block" to="/">
+              {/* <img className="hidden dark:block" src={Logo} alt="Logo" /> */}
+              <img className="dark:hidden" src={Logo} alt="Logo" />
+            </Link>
+            <button
+              type="button"
+              className="  text-white font-medium rounded-md px-5 py-4 border-2 mt-8"
+            >
+              Load more
+            </button>
+            {/* <span className="mt-15 inline-block">
                                 <img src={PhoneIcon} alt="" />
                             </span> */}
-              </div>
-            </div>
-            <div className="w-full flex justify-center items-center">
-              <div className="w-full xl:w-[45%] p-4 sm:p-12.5 xl:p-8">
-                <h2 className="mb-9 text-2xl font-bold text-white dark:text-white sm:text-title-xl2">
-                  Sign Up
-                </h2>
+          </div>
+        </div>
+        <div className="w-full flex justify-center items-center">
+          <div className="w-full xl:w-[45%] p-4 sm:p-12.5 xl:p-8">
+            <h2 className="mb-9 text-2xl font-bold text-white dark:text-white sm:text-title-xl2">
+              Sign Up
+            </h2>
 
-                <form onSubmit={handleSubmit(submitRegister)}>
-                  <div className="mb-4">
-                    {/* <label className="mb-2.5 block font-medium text-black dark:text-white">
+            <form onSubmit={handleSubmit(submitRegister)}>
+              <div className="mb-4">
+                {/* <label className="mb-2.5 block font-medium text-black dark:text-white">
                       Name
                     </label> */}
-                    <div className="relative">
-                      <input
-                        {...register("name", nameValidationType)}
-                        type="text"
-                        id="name"
-                        name="name"
-                        onChange={handleInput}
-                        value={registerField.name}
-                        placeholder="Enter your full name"
-                        className="w-full rounded-lg border border-stroke bg-transparent bg-white py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      />
-                      {errors.name && (
-                        <span className="text-red-300 font-blod text-md mt-2 block italic">
-                          {errors.name.message}
-                        </span>
-                      )}
-                      <span className="absolute right-4 top-4 text-black">
-                        <UserSvg />
-                      </span>
-                    </div>
-                  </div>
+                <div className="relative">
+                  <input
+                    {...register("name", nameValidationType)}
+                    type="text"
+                    id="name"
+                    name="name"
+                    onChange={handleInput}
+                    value={registerField.name}
+                    placeholder="Enter your full name"
+                    className="w-full rounded-lg border border-stroke bg-transparent bg-white py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  />
+                  {errors.name && (
+                    <span className="text-red-300 font-blod text-md mt-2 block italic">
+                      {errors.name.message}
+                    </span>
+                  )}
+                  <span className="absolute right-4 top-4 text-black">
+                    <UserSvg />
+                  </span>
+                </div>
+              </div>
 
-                  <div className="mb-4">
-                    {/* <label className="mb-2.5 block font-medium text-black dark:text-white">
+              <div className="mb-4">
+                {/* <label className="mb-2.5 block font-medium text-black dark:text-white">
                       Email
                     </label> */}
-                    <div className="relative">
-                      <input
-                        {...register("email", emailValidationType)}
-                        type="email"
-                        id="email"
-                        name="email"
-                        onChange={handleInput}
-                        value={registerField.email}
-                        placeholder="Enter your email"
-                        className="w-full rounded-lg border border-stroke bg-transparent bg-white py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      />
-                      {errors.email && (
-                        <span className="text-red-300 font-blod text-md mt-2 block italic">
-                          {errors.email.message}
-                        </span>
-                      )}
-                      <span className="absolute right-4 top-4 text-black">
-                        <SmsSvg />
-                      </span>
-                    </div>
-                  </div>
-                  <div className="mb-6 ">
-                    <DropDown jsonData={dropdownData} />
-                  </div>
+                <div className="relative">
+                  <input
+                    {...register("email", emailValidationType)}
+                    type="email"
+                    id="email"
+                    name="email"
+                    onChange={handleInput}
+                    value={registerField.email}
+                    placeholder="Enter your email"
+                    className="w-full rounded-lg border border-stroke bg-transparent bg-white py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  />
+                  {errors.email && (
+                    <span className="text-red-300 font-blod text-md mt-2 block italic">
+                      {errors.email.message}
+                    </span>
+                  )}
+                  <span className="absolute right-4 top-4 text-black">
+                    <SmsSvg />
+                  </span>
+                </div>
+              </div>
+              <div className="mb-6 ">
+                <DropDown jsonData={dropdownData} />
+              </div>
 
-                  <div className="mb-4">
-                    {/* <label className="mb-2.5 block font-medium text-black dark:text-white">
+              <div className="mb-4">
+                {/* <label className="mb-2.5 block font-medium text-black dark:text-white">
                       Enter Domain
                     </label> */}
-                    <div className="relative">
-                      <input
-                        {...register("domain", domainValidationType)}
-                        type="text"
-                        disabled={!isDomainEnabled}
-                        id="domain"
-                        name="domain"
-                        onChange={handleInput}
-                        value={registerField.domain}
-                        placeholder="Enter your domain"
-                        className="w-full rounded-lg border border-stroke bg-transparent bg-white py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      />
-                      {errors.domain && (
-                        <span className="text-red-300 font-blod text-md mt-2 block italic">
-                          {errors.domain.message}
-                        </span>
-                      )}
-                      <span className="absolute right-4 top-4 text-black">
-                        <DomainSvg />
-                      </span>
-                    </div>
-                  </div>
+                <div className="relative">
+                  <input
+                    {...register("domain", domainValidationType)}
+                    type="text"
+                    disabled={!isDomainEnabled}
+                    id="domain"
+                    name="domain"
+                    onChange={handleInput}
+                    value={registerField.domain}
+                    placeholder="Enter your domain"
+                    className="w-full rounded-lg border border-stroke bg-transparent bg-white py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  />
+                  {errors.domain && (
+                    <span className="text-red-300 font-blod text-md mt-2 block italic">
+                      {errors.domain.message}
+                    </span>
+                  )}
+                  <span className="absolute right-4 top-4 text-black">
+                    <DomainSvg />
+                  </span>
+                </div>
+              </div>
 
-                  <div className="mb-4">
-                    {/* <label className="mb-2.5 block font-medium text-black dark:text-white">
+              <div className="mb-4">
+                {/* <label className="mb-2.5 block font-medium text-black dark:text-white">
                       Password
                     </label> */}
-                    <div className="relative">
-                      <input
-                        {...register("password", passwordValidationType)}
-                        type="password"
-                        id="password"
-                        name="password"
-                        onChange={handleInput}
-                        value={registerField.password}
-                        placeholder="Enter your password"
-                        className="w-full rounded-lg border border-stroke bg-transparent bg-white py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      />
-                      {errors.password && (
-                        <span className="text-red-300 font-blod text-md mt-2 block italic">
-                          {errors.password.message}
-                        </span>
-                      )}
-                      <span className="absolute right-4 top-4 text-black">
-                        <LockSvg />
-                      </span>
-                    </div>
-                  </div>
+                <div className="relative">
+                  <input
+                    {...register("password", passwordValidationType)}
+                    type="password"
+                    id="password"
+                    name="password"
+                    onChange={handleInput}
+                    value={registerField.password}
+                    placeholder="Enter your password"
+                    className="w-full rounded-lg border border-stroke bg-transparent bg-white py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  />
+                  {errors.password && (
+                    <span className="text-red-300 font-blod text-md mt-2 block italic">
+                      {errors.password.message}
+                    </span>
+                  )}
+                  <span className="absolute right-4 top-4 text-black">
+                    <LockSvg />
+                  </span>
+                </div>
+              </div>
 
-                  <div className="mb-6">
-                    {/* <label className="mb-2.5 block font-medium text-black dark:text-white">
+              <div className="mb-6">
+                {/* <label className="mb-2.5 block font-medium text-black dark:text-white">
                       Re-type Password
                     </label> */}
-                    <div className="relative">
-                      <input
-                        {...register(
-                          "confirm_password",
-                          confirmPasswordValidationType
-                        )}
-                        type="password"
-                        id="confirm_password"
-                        name="confirm_password"
-                        onChange={handleInput}
-                        value={registerField.confirm_password}
-                        placeholder="Re-enter your password"
-                        className="w-full rounded-lg border border-stroke bg-transparent bg-white py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      />
-                      {errors.confirm_password && (
-                        <span className="text-red-300 font-blod text-md mt-2 block italic">
-                          {errors.confirm_password.message}
-                        </span>
-                      )}
-                      <span className="absolute right-4 top-4 text-black">
-                        <LockSvg />
-                      </span>
-                    </div>
-                  </div>
+                <div className="relative">
+                  <input
+                    {...register(
+                      "confirm_password",
+                      confirmPasswordValidationType
+                    )}
+                    type="password"
+                    id="confirm_password"
+                    name="confirm_password"
+                    onChange={handleInput}
+                    value={registerField.confirm_password}
+                    placeholder="Re-enter your password"
+                    className="w-full rounded-lg border border-stroke bg-transparent bg-white py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  />
+                  {errors.confirm_password && (
+                    <span className="text-red-300 font-blod text-md mt-2 block italic">
+                      {errors.confirm_password.message}
+                    </span>
+                  )}
+                  <span className="absolute right-4 top-4 text-black">
+                    <LockSvg />
+                  </span>
+                </div>
+              </div>
 
-                  <div className="mb-5">
-                    <input
-                      type="submit"
-                      value="Create account"
-                      className="w-full block text-center no-underline font-extrabold text-white uppercase rounded-lg  py-4 px-12 bg-gradient-to-r from-blue-700 via-blue-500 to-blue-700 
+              <div className="mb-5">
+                <input
+                  type="submit"
+                  value="Create account"
+                  className="w-full block text-center no-underline font-extrabold text-white uppercase rounded-lg  py-4 px-12 bg-gradient-to-r from-blue-700 via-blue-500 to-blue-700 
                       bg-[length:200%_auto] shadow-lg shadow-blue-300/20 
                       transition-all duration-500 ease-in-out 
                       hover:bg-[position:right_center]"
-                    />
-                  </div>
-
-                  <div className="mt-6 text-center text-white flex items-center justify-center gap-2 ">
-                    Already have an account?
-                    <Link to="/" className="text-md font-bold text-blue-500 ">
-                      Sign in
-                    </Link>
-                  </div>
-                </form>
+                />
               </div>
-            </div>
+
+              <div className="mt-6 text-center text-white flex items-center justify-center gap-2 ">
+                Already have an account?
+                <Link to="/" className="text-md font-bold text-blue-500 ">
+                  Sign in
+                </Link>
+              </div>
+            </form>
           </div>
         </div>
       </div>

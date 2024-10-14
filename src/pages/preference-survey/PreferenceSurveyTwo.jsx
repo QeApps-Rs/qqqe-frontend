@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import FormSubmitHandler from "../../components/FormSubmitHandler";
 import toast from "react-hot-toast";
 import Loader from "../../common/Loader/index.jsx";
+import welcomeImg from "../../images/welcome.png";
 
 const PreferenceSurveyTwo = ({ isTitleDisplay = true }) => {
   const navigate = useNavigate();
@@ -133,75 +134,76 @@ const PreferenceSurveyTwo = ({ isTitleDisplay = true }) => {
       {loading && <Loader />}
 
       {isTitleDisplay && (
-        <Breadcrumb pageName="Preference Survey" breadcrumb={false} />
+        <Breadcrumb pageName="Preference Survey Multi" breadcrumb={false} />
       )}
+      <div className="p-6 h-full">
+        <div className="grid grid-cols-2 xl:grid-cols-4 gap-8 ">
+          <div className="col-span-1 inline-flex justify-end xl:block hidden">
+            <img src={welcomeImg} alt="welcome-img" className="w-80 h-70" />
+          </div>
+          <div className="col-span-3 ">
+            {currentStep === 0 && (
+              <div className="mb-8 text-white font-bold text-2xl">
+                Great, iet's get started!
+              </div>
+            )}
 
-      <div className="grid grid-cols-1 gap-9 sm:grid-cols-1">
-        {checkedItems && checkedItems.length > 0 && (
-          <div className="flex flex-col gap-9">
-            <div className="rounded-sm bg-white dark:bg-boxdark">
-              <form onSubmit={handleSubmit}>
-                <div className="p-6.5">
-                  <div className="mb-4.5 flex xl:flex-row flex-wrap gap-6">
-                    {currentQuestions.map((question) => (
-                      <div className="w-[calc(50%-1rem)]" key={question.id}>
-                        <div className="flex flex-col h-full">
-                          <div className="flex flex-col h-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                            <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-                              <h3 className="font-medium text-black dark:text-white">
-                                {question.question}
-                              </h3>
-                            </div>
-                            <div className="flex flex-col gap-5.5 p-6.5 flex-1">
-                              {question.answers.map((answer) => (
-                                <Checkbox
-                                  key={answer.id}
-                                  id={answer.id}
-                                  label={answer.answer.replace(/_/g, " ")}
-                                  checked={isChecked(question.id, answer.id)}
-                                  onChange={() =>
-                                    handleChange(question.id, answer.id)
-                                  }
-                                />
-                              ))}
-                            </div>
-                          </div>
-                        </div>
+            {checkedItems && checkedItems.length > 0 && (
+              <form onSubmit={handleSubmit} className="relative">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-18 mb-4.5">
+                  {currentQuestions.map((question) => (
+                    <div className="col-span-2 " key={question.id}>
+                      <h3 className="text-3xl text-white font-bold max-h-25 min-h-25">
+                        {question.question}
+                      </h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 mt-15">
+                        {" "}
+                        {question.answers.map((answer) => (
+                          <Checkbox
+                            key={answer.id}
+                            id={answer.id}
+                            label={answer.answer.replace(/_/g, " ")}
+                            checked={isChecked(question.id, answer.id)}
+                            onChange={() =>
+                              handleChange(question.id, answer.id)
+                            }
+                          />
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                  <div className="flex justify-between mt-4">
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-between mt-6 lg:fixed bottom-8 left-18  right-18">
+                  <button
+                    type="button"
+                    className="bg-gray-300 px-4 py-2 rounded"
+                    onClick={handlePrevious}
+                    disabled={currentStep === 0}
+                  >
+                    Previous
+                  </button>
+                  {currentStep ===
+                  Math.ceil(checkedItems.length / questionsPerStep) - 1 ? (
+                    <button
+                      type="submit"
+                      className="bg-blue-500 text-white px-4 py-2 rounded"
+                    >
+                      Submit
+                    </button>
+                  ) : (
                     <button
                       type="button"
-                      className="bg-gray-300 px-4 py-2 rounded"
-                      onClick={handlePrevious}
-                      disabled={currentStep === 0}
+                      className="bg-blue-500 text-white px-4 py-2 rounded"
+                      onClick={handleNext}
                     >
-                      Previous
+                      Next
                     </button>
-                    {currentStep ===
-                    Math.ceil(checkedItems.length / questionsPerStep) - 1 ? (
-                      <button
-                        type="submit"
-                        className="bg-blue-500 text-white px-4 py-2 rounded"
-                      >
-                        Submit
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        className="bg-blue-500 text-white px-4 py-2 rounded"
-                        onClick={handleNext}
-                      >
-                        Next
-                      </button>
-                    )}
-                  </div>
+                  )}
                 </div>
               </form>
-            </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </>
   );
