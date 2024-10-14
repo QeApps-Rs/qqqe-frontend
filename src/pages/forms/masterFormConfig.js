@@ -1,126 +1,3 @@
-export const templateDefaultCss = {
-  "styles": {
-    "form_type": {
-      "type": "full page",
-      "width": "large",
-      "min_height": "500px",
-      "show_on": "both",
-      "background_color": "rgb(255,255,255)",
-      "overlay_color": "rgb(255,255,255)",
-      "corner_radius": "",
-      "border_style": "none",
-      "border_width": "2px",
-      "template_border_color": "rgb(255, 255, 255)",
-      "padding": {
-        "top": "8px",
-        "bottom": "8px",
-        "left": "8px",
-        "right": "8px"
-      },
-      "margin": {
-        "top": "8px",
-        "bottom":"8px",
-        "left":"8px",
-        "right": "8px"
-      },
-      "input_fields_style": {
-        "font_family": "Arial",
-        "font_weight": "normal",
-        "letter_spacing": "1px",
-        "label_color": "rgb(0, 0, 0)",
-        "text_color": "rgb(0, 0, 0)",
-        "placeholder_color": "rgb(107 114 128)",
-        "background_color": "rgb(255, 255, 255)",
-        "border_color": "rgb(209, 213, 219)",
-        "focus_border_color": "rgb(0, 123, 255)",
-        "input_font_size":"14px",
-      }
-    },
-    "side_image": {
-      "side": "right",
-      "show_on": "both"
-    },
-    "form_parameters": {
-      "title": {
-        "text": "Default Heading",
-        "template_heading_font_family": "Arial",
-        "color": "rgb(0, 0, 0)",
-        "font_size": "32px",
-        "section_background_color": "#ffffff",
-        "section_padding": {
-          "top": "15px",
-          "bottom": "15px",
-          "left": "15px",
-          "right": "15px"
-        }
-      },
-      "sub_title": {
-        "text": "Save on your first order and get email only offers when you join.",
-        "template_sub_heading_font_family": "Arial",
-        "color": "rgb(0, 0, 0)",
-        "font_size": "16px",
-        "section_background_color": "#ffffff",
-        "section_padding": {
-          "top": "15px",
-          "bottom": "15px",
-          "left": "15px",
-          "right": "15px"
-        }
-      },
-      "input": {
-        "placeholder": "Email",
-        "required": true,
-        "required_text": "This field is required",
-        "section_background_color": "rgb(255, 255, 255)",
-        "section_padding": {
-          "top": "15px",
-          "bottom": "15px",
-          "left": "15px",
-          "right": "15px"
-        }
-      },
-      "button": {
-        "text": "Continue",
-        "font_weight": "bold",
-        "letter_spacing": "2px",
-        "color": "#000000",
-        "background_color": "rgb(0, 0, 0)",
-        "corner_radius": "5px",
-        "border_style": "none",
-        "font_size": "12px",
-        "section_background_color": "#ffffff",
-        "section_padding": {
-          "top": "15px",
-          "bottom": "15px",
-          "left": "15px",
-          "right": "15px"
-        }
-      },
-      "close_button": {
-        "color": "#000000",
-        "background_color": "#ffffff",
-        "border_color": "#000000",
-        "section_margin": {
-          "top_bottom": "15px",
-          "left_right": "15px"
-        }
-      },
-      "image": {
-        "link": "",
-        "alt_text": "banner image",
-        "image_position": "contain",
-        "section_background_color": "#ffffff"
-      },
-      "offer_title": {
-        "template_offer_amount": "10% Off",
-        "template_offer_font_size": "24px",
-        "template_offer_font_family": "Arial",
-        "template_offer_color": "rgb(0, 0, 0)",
-      },
-    }
-  },
-};
-
 export const templateFieldCss = {
   bgColor: "rgb(255, 255, 255)", // styles.form_type.input_fields_style.background_color
   borderColor: "rgb(209, 213, 219)", // styles.form_type.input_fields_style.border_color 
@@ -178,16 +55,68 @@ export const templateFieldCss = {
   ratingCount: "5",
   ratingMinCount: "1",
   ratingMaxCount: "15",
-  heading:"Default Heading",// styles.form_parameters.title.text
-  button:"Continue",// styles.form_parameters.button.text
-  offerAmount:"10% Off",// styles.form_parameters.offer_title.template_offer_amount
-  subHeading:"Save on your first order and get email-only offers when you join.",// styles.form_parameters.sub_title.text
-  image:"",// styles.form_parameters.image.link
-  successImage:"",
-  successHeading:"Thanks for sharing. Please check your email for confirmation message",
-  successSubHeading:"Thanks for sharing. Please check your email for confirmation message",
-  successDescription :"Thanks for sharing. Please check your email for confirmation message",
+  heading: "Default Heading",// styles.form_parameters.title.text
+  button: "Continue",// styles.form_parameters.button.text
+  offerAmount: "10% Off",// styles.form_parameters.offer_title.template_offer_amount
+  subHeading: "Save on your first order and get email-only offers when you join.",// styles.form_parameters.sub_title.text
+  image: "",// styles.form_parameters.image.link
+  successImage: "",
+  successHeading: "Thanks for sharing. Please check your email for confirmation message",
+  successSubHeading: "Thanks for sharing. Please check your email for confirmation message",
+  successDescription: "Thanks for sharing. Please check your email for confirmation message",
 };
+
+export const targetAndBehaviourDefaultState = {
+  display: {
+    timing: {
+      type: "immediately",
+      settings: {
+        existing_page: {
+          is_selected: false,
+        },
+        after_delay_time: {
+          is_selected: false,
+          key: "seconds",
+          value: 0,
+        },
+        after_scroll_distance: {
+          is_selected: false,
+          key: "percentage",
+          value: 0,
+        },
+        after_pages_visit: {
+          is_selected: false,
+          key: "pages",
+          value: 0,
+        },
+      },
+    },
+    frequency: {
+      after_show_days: "1",
+      validation: false,
+    },
+    devices: {
+      display_on: "desktop",
+      click_outside_close: {
+        on_desktop: true,
+        on_mobile: false,
+      },
+    },
+  },
+  targeting: {
+    visitors: "all",
+    locations: {
+      show_visitors_certain_locations: {
+        is_selected: false,
+        location: "",
+      },
+      not_show_visitors_certain_locations: {
+        is_selected: false,
+        location: "",
+      },
+    },
+  },
+}
 
 export const inputColorFields = [
   { label: "Background Color", colorType: "bgColor" },
@@ -231,24 +160,31 @@ export const visitorsDropdown = {
   placeholder: "Select your visitor",
   options: [
     {
-      value: "Don’t show to existing Klaviyo profiles",
+      value: "all",
+      label: "All",
+    },
+    {
+      value: "don_t_show_to_existing_klaviyo_profiles",
       label: "Don’t show to existing Klaviyo profiles",
     },
-    { value: "Show to all visitors", label: "Show to all visitors" },
     {
-      value: "Show to any existing profile",
+      value: "show_to_all_visitors",
+      label: "Show to all visitors"
+    },
+    {
+      value: "show_to_any_existing_profile",
       label: "Show to any existing profile",
     },
     {
-      value: "Show to email subscribers only",
+      value: "show_to_email_subscribers_only",
       label: "Show to email subscribers only",
     },
     {
-      value: "Show to SMS subscribers only",
+      value: "show_to_sms_subscribers_only",
       label: "Show to SMS subscribers only",
     },
     {
-      value: "Show to specific profiles in a list or segment",
+      value: "show_to_specific_profiles_in_a_list_or_segment",
       label: "Show to specific profiles in a list or segment",
     },
   ],
@@ -292,15 +228,15 @@ export const widthDropdown = {
 };
 
 export const timingOptions = [
-  { value: "Immediately", label: "Immediately" },
-  { value: "Based on rules", label: "Based on rules" },
-  { value: "Only on a custom trigger", label: "Only on a custom trigger" },
+  { value: "immediately", label: "Immediately" },
+  { value: "on_rules", label: "Based on rules" },
+  { value: "only_on_a_custom_trigger", label: "Only on a custom trigger" },
 ];
 
 export const deviceOptions = [
-  { value: "Both desktop and mobile", label: "Both desktop and mobile" },
-  { value: "Desktop only", label: "Desktop only" },
-  { value: "Mobile only", label: "Mobile only" },
+  { value: "both_desktop_and_mobile", label: "Both desktop and mobile" },
+  { value: "desktop", label: "Desktop only" },
+  { value: "mobile", label: "Mobile only" },
 ];
 
 export const tabs = [
