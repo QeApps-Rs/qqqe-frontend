@@ -1,5 +1,11 @@
 import { useEffect, useState, useRef } from "react";
-import { BrowserRouter as Router, Route, Routes, Link, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Link,
+  Navigate,
+} from "react-router-dom";
 import ContactUs from "./ContactUs";
 import About from "./About";
 import "./App.css";
@@ -32,6 +38,7 @@ import PreferenceSurveyTwo from "./pages/preference-survey/PreferenceSurveyTwo";
 import SuggestionAnalytics from "./pages/suggestion-analytics/SuggestionAnalytics";
 import CampaignsPage from "./pages/campaigns";
 import CampaignsDetailsPage from "./components/Campaigns/CampaignsDetails";
+import WelcomePage from "./pages/welcome";
 
 const env_type = import.meta.env.VITE_ENV;
 
@@ -41,7 +48,7 @@ const App = () => {
 
   useEffect(() => {
     if (buttonRef.current) {
-      if (env_type == 'production') {
+      if (env_type == "production") {
         buttonRef.current.click();
       }
     }
@@ -62,7 +69,9 @@ const App = () => {
   // eslint-disable-next-line react/prop-types
   const ProtectedRedirect = ({ element: Component }) => {
     const token = localStorage.getItem("token");
-    const route = localStorage.getItem("setup-preference") ? "dashboard" : "preference-survey";
+    const route = localStorage.getItem("setup-preference")
+      ? "dashboard"
+      : "preference-survey";
     return token ? <Navigate to={`/${route}`} /> : <Component />;
   };
 
@@ -92,36 +101,65 @@ const App = () => {
 
           <Routes>
             <Route element={<AuthLayout />}>
-              <Route path="/" element={<ProtectedRedirect element={SignIn} />} />
+              <Route
+                path="/"
+                element={<ProtectedRedirect element={SignIn} />}
+              />
               <Route path="/contact-us" element={<ContactUs />} />
               <Route path="/about" element={<About />} />
-              <Route path="/signin" element={<ProtectedRedirect element={SignIn} />} />
+              <Route
+                path="/signin"
+                element={<ProtectedRedirect element={SignIn} />}
+              />
               <Route path="/auth/signup" element={<SignUp />} />
-              <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+              <Route
+                path="/auth/forgot-password"
+                element={<ForgotPassword />}
+              />
               <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/preference-survey" element={<ProtectedRoute element={PreferenceSurvey} />} />
-              <Route path="/preference-survey-multi" element={<ProtectedRoute element={PreferenceSurveyTwo} />} />
+              <Route
+                path="/preference-survey"
+                element={<ProtectedRoute element={PreferenceSurvey} />}
+              />
+              <Route
+                path="/preference-survey-multi"
+                element={<ProtectedRoute element={PreferenceSurveyTwo} />}
+              />
               <Route path="/level2" element={<SuggestionCompNew />} />
+              <Route path="/welcome" element={<WelcomePage />} />
             </Route>
             <Route element={<DefaultLayout />}>
-              <Route path="/dashboard" element={<ProtectedRoute element={Dashboard} />} />
+              <Route
+                path="/dashboard"
+                element={<ProtectedRoute element={Dashboard} />}
+              />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/analytics" element={<Analytics />} />
-              <Route path="/suggestion/analytics/:id" element={<SuggestionAnalytics />} />
+              <Route
+                path="/suggestion/analytics/:id"
+                element={<SuggestionAnalytics />}
+              />
               <Route path="/people-problem" element={<Problem />} />
               <Route path="/templates" element={<Templates />} />
-              <Route path="/suggestion/list/:id" element={<SuggestionCompNew />} />
+              <Route
+                path="/suggestion/list/:id"
+                element={<SuggestionCompNew />}
+              />
               <Route path="/template/list/:id" element={<Template />} />
-              <Route path="/master-form/:id" element={<ProtectedRoute element={MasterForm} />} />
+              <Route
+                path="/master-form/:id"
+                element={<ProtectedRoute element={MasterForm} />}
+              />
               <Route path="/people-dashboard" element={<Peoplepage />} />
               <Route path="/product-dashboard" element={<Productpage />} />
               <Route path="/price-dashboard" element={<PricePage />} />
               <Route path="/promotion-dashboard" element={<PromotionPage />} />
               <Route path="/video-player" element={<VideoPlayer />} />
               <Route path="/campaigns" element={<CampaignsPage />} />
-              <Route path="/campaigns-details/:id" element={<CampaignsDetailsPage/>} />
-
-
+              <Route
+                path="/campaigns-details/:id"
+                element={<CampaignsDetailsPage />}
+              />
             </Route>
           </Routes>
         </header>

@@ -6,7 +6,7 @@ const Checkbox = ({ id, label, checked, onChange }) => {
         <>
             <label
                 htmlFor={id + '' + label}
-                className="flex cursor-pointer select-none items-center"
+                className="flex cursor-pointer select-none items-center bg-white p-8 rounded-lg font-bold text-lg"
             >
                 <div className="relative">
                     <input

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Logo from "../../images/favicon-A.png";
+import Logo from "../../images/favicon.png";
 const Breadcrumb = ({ pageName, breadcrumb = true }) => {
   return (
     <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -11,9 +11,6 @@ const Breadcrumb = ({ pageName, breadcrumb = true }) => {
       ) : (
         <img
           className="dark:hidden"
-          style={{
-            backgroundColor: "#3a56dbdb",
-          }}
           src={Logo}
           alt="Logo"
         />
