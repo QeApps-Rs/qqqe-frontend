@@ -58,7 +58,11 @@ const TargetingAndBehaviorControlComponent = ({
                       <div className="mb-4.5 mt-3">
                         <Checkbox
                           key={1}
-                          label="When visitor is exiting the page"
+                          label={
+                            targetingAndBehaviour?.display?.timing?.settings
+                              ?.existing_page?.label ||
+                            "When visitor is exiting the page"
+                          }
                           checked={
                             targetingAndBehaviour?.display?.timing?.settings
                               ?.existing_page?.is_selected
@@ -75,7 +79,10 @@ const TargetingAndBehaviorControlComponent = ({
                       <div className="mb-4.5">
                         <Checkbox
                           key={2}
-                          label="After time delay"
+                          label={
+                            targetingAndBehaviour?.display?.timing?.settings
+                              ?.after_delay_time?.label || "After time delay"
+                          }
                           checked={
                             targetingAndBehaviour?.display?.timing?.settings
                               ?.after_delay_time?.is_selected
@@ -116,7 +123,11 @@ const TargetingAndBehaviorControlComponent = ({
                       <div className="mb-4.5">
                         <Checkbox
                           key={3}
-                          label="After visitor has scrolled a certain amount"
+                          label={
+                            targetingAndBehaviour?.display?.timing?.settings
+                              ?.after_scroll_distance?.label ||
+                            "After visitor has scrolled a certain amount"
+                          }
                           checked={
                             targetingAndBehaviour?.display?.timing?.settings
                               ?.after_scroll_distance?.is_selected
@@ -154,7 +165,11 @@ const TargetingAndBehaviorControlComponent = ({
                       <div className="mb-4.5">
                         <Checkbox
                           key={4}
-                          label="After visitor sees a certain number of pages"
+                          label={
+                            targetingAndBehaviour?.display?.timing?.settings
+                              ?.after_pages_visit?.label ||
+                            "After visitor sees a certain number of pages"
+                          }
                           checked={
                             targetingAndBehaviour?.display?.timing?.settings
                               ?.after_pages_visit?.is_selected

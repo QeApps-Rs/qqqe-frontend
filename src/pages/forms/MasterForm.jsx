@@ -482,6 +482,7 @@ const MasterForm = () => {
       data: {
         pid: pid,
         sid: sid,
+        sub_template_id: subTemplateId,
         json_response: {
           styles: await convertStateToNestedObject(templateDesign),
           inputs_controller: await convertInputControllerStateToNestedObject(
