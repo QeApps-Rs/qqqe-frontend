@@ -51,11 +51,6 @@ const SidebarLink = ({ href, iconType, label, sidebarOpen }) => {
               className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
               aria-hidden="true"
             ></i>
-          ) : iconType === "video" ? (
-            <i
-              className="fa fa-video-camera bg-orange-700 text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
-              aria-hidden="true"
-            ></i>
           ) : iconType === "campaigns" ? (
             <i
               className="fa fa-bullhorn  bg-orange-700 text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"

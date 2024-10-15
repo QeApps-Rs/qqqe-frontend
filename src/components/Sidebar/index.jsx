@@ -6,6 +6,8 @@ import Logo from "../../images/favicon.png";
 import SidebarLink from "./SidebarLink";
 import smallLogo from "../../images/qqqe-fav_new.png";
 import DropdownUser from "../Header/DropdownUser";
+import DropdownNotification from "../Header/DropdownNotification";
+import DropdownHelp from "../Header/DropdownHelp";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
@@ -34,11 +36,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       iconType: "promotion",
       label: "Promotion",
     },
-    {
-      href: "/video-player",
-      iconType: "video",
-      label: "QQQE-Video",
-    },
+    // {
+    //   href: "/video-player",
+    //   iconType: "video",
+    //   label: "QQQE-Video",
+    // },
     {
       href: "/campaigns",
       iconType: "campaigns",
@@ -64,7 +66,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         {/* <!-- Sidebar Menu --> */}
 
-        <nav className="mt-5 py-4 lg:mt-4 ">
+        <nav className="mt-2">
           {/* <!-- Menu Group --> */}
           <div>
             {/* <ul className="mb-6 flex flex-col gap-1.5"> */}
@@ -81,11 +83,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             ))}
           </div>
         </nav>
-        <div className="fixed w-20 bottom-0 flex left-0">
+        <div className="fixed w-20 bottom-0 flex left-0 pb-4">
           <p className="grid justify-center text-center w-full">
             <Link
               to="https://web.whatsapp.com/"
-              className="h-10 items-center flex justify-center"
+              className="min-h-10 items-center flex justify-center"
               target="#"
             >
               <i
@@ -94,14 +96,22 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               ></i>
             </Link>{" "}
             {/* <span className="text-white">|</span>{" "} */}
-            <Link to="https://calendly.com/" className="h-10 items-center flex justify-center" target="#">
+            <Link
+              to="https://calendly.com/"
+              className="min-h-10 items-center flex justify-center"
+              target="#"
+            >
               <i
                 className="fa fa-calendar-check-o text-blue-400 text-[20px]"
                 aria-hidden="true"
               ></i>
             </Link>{" "}
             {/* <span className="text-white">|</span>{" "} */}
-            <Link to="https://www.tawk.to/" className="h-10 items-center flex justify-center" target="#">
+            <Link
+              to="https://www.tawk.to/"
+              className="min-h-10 items-center flex justify-center"
+              target="#"
+            >
               <i
                 className="fa fa-commenting text-[20px] text-pink-400"
                 aria-hidden="true"
@@ -110,7 +120,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             {/* <span className="text-white">|</span>{" "} */}
             <Link
               to="https://www.calrik.com/"
-              className="h-10 items-center flex justify-center"
+              className="min-h-10 items-center flex justify-center"
               target="#"
             >
               <i
@@ -118,6 +128,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 aria-hidden="true"
               ></i>
             </Link>
+            <DropdownNotification />
+            <DropdownHelp />
             <DropdownUser />
           </p>
         </div>

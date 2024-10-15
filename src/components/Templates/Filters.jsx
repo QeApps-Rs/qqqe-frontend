@@ -2,7 +2,7 @@ import React from 'react';
 
 const FilterBar = () => {
     return (
-        <div className='mt-4 p-4 bg-slate-100 rounded-lg'>
+        <div className='mt-4 p-4  rounded-lg'>
             <div className="flex items-center">
                 <span className="font-semibold text-gray-600 mr-4">Filter:</span>
                 <div className="flex space-x-6 ml-4">
