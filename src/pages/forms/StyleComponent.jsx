@@ -31,6 +31,8 @@ const StyleComponent = ({
           onChange: onTemplateChange(dropdownConfig.name),
           defaultValue: dropdownConfig.defaultValue,
         }}
+        selectedValue={templateDesign[dropdownConfig.name]}
+        setSelectedValue={onTemplateChange(dropdownConfig.name)}
       />
     </div>
   );

@@ -28,6 +28,7 @@ import PreviewComponent from "./templateBanner/PreviewComponent";
 import CartAbandonmentPopUp from "../../components/Forms/CartAbandonmentPopUp";
 import TargetingAndBehaviorControlComponent from "./TargetingAndBehaviorControlComponent";
 import ExitProductRecommenderPopup from "../../components/Forms/ExitProductRecommenderPopup";
+import TemplateHeader from "../../components/Forms/TemplateHeader";
 
 const MasterForm = () => {
   //  shiv code start
@@ -91,6 +92,13 @@ const MasterForm = () => {
   const [inputValues, setInputValues] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [inputSurveyValues, setInputSurveyValues] = useState({});
+  const [templateHeaderState, setTemplateHeaderState] = useState({
+    teaser: true,
+    success: true,
+    publish: true,
+    desktop: true,
+    mobile: true,
+  });
 
   const [suggestionTemplateStatus, setSuggestionTemplateStatus] = useState({
     isProductBundle: false,
@@ -187,7 +195,7 @@ const MasterForm = () => {
       placeholderText: field.placeholderText,
     });
   };
-
+  
   const handleSurveyDeleteField = (fieldName, index) => {
     setAddedQuestion((prevFields) =>
       prevFields.filter((field) => field.fieldName !== fieldName)
@@ -317,6 +325,10 @@ const MasterForm = () => {
               ...suggestionTemplateStatus,
               isProductBundle: true,
             });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+            });
           } else if (
             responseKeywords?.includes("Purchase Satisfaction Survey")
           ) {
@@ -329,6 +341,10 @@ const MasterForm = () => {
               ...suggestionTemplateStatus,
               isFeedbackSurvey: true,
             });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+            });
           } else if (responseKeywords?.includes("Survey Popup")) {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
@@ -339,25 +355,55 @@ const MasterForm = () => {
               ...suggestionTemplateStatus,
               isUpSellPopup: true,
             });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+              desktop: false,
+              mobile: false,
+            });
           } else if (responseKeywords?.includes("Cross-Selling Popup")) {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isCrossSellPopup: true,
+            });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+              desktop: false,
+              mobile: false,
             });
           } else if (responseKeywords?.includes("Cart Abandonment Offer")) {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isAbandonmentPopup: true,
             });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+              desktop: false,
+              mobile: false,
+            });
           } else if (responseKeywords?.includes("Exit Product Recommender")) {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isExitProductRecommenderPopup: true,
             });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+              desktop: false,
+              mobile: false,
+            });
           } else if (responseKeywords?.includes("Social Media Connect")) {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isSocialMediaConnectPopup: true,
+            });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+              desktop: false,
+              mobile: false,
             });
           }
 
@@ -413,6 +459,7 @@ const MasterForm = () => {
               jsonObject?.items?.discount_details?.discount_amount
             );
             setSwitchStates(jsonObject?.items?.bundle_attribute);
+            setAddedQuestion(jsonObject?.survey_controller?.survey)
           }
         }
       } catch (error) {
@@ -892,20 +939,20 @@ const MasterForm = () => {
   const [productDiscountAmountDetails, setProductDiscountAmountDetails] =
     useState(0);
 
-    const convertItemStateToNestedObject = () => {
-      return {
-        selected_products: productListForPopUp,
-        selected_collections: collectionListForPopUp,
-        targeted_products: targetedProducts,
-        targeted_collections: targetedCollections,
-        discount_details: {
-          discount_for: productDiscountForDetails,
-          discount_type: productDiscountTypeDetails,
-          discount_amount: productDiscountAmountDetails,
-        },
-        bundle_attribute: switchStates,
-      };
+  const convertItemStateToNestedObject = () => {
+    return {
+      selected_products: productListForPopUp,
+      selected_collections: collectionListForPopUp,
+      targeted_products: targetedProducts,
+      targeted_collections: targetedCollections,
+      discount_details: {
+        discount_for: productDiscountForDetails,
+        discount_type: productDiscountTypeDetails,
+        discount_amount: productDiscountAmountDetails,
+      },
+      bundle_attribute: switchStates,
     };
+  };
   return (
     <>
       {loading && <Loader />}
@@ -1180,28 +1227,13 @@ const MasterForm = () => {
       {suggestionTemplateStatus.isProductBundle ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-              </div>
-            </div>
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
             <ProductBundlePopUp
               productData={productListForPopUp}
               noOfProducts={noOfProducts}
@@ -1213,55 +1245,13 @@ const MasterForm = () => {
       ) : suggestionTemplateStatus.isPurchaseSatisfactionSurvey ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="flex mb-4 justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-                <div
-                  className={`border border-[#323359] ${
-                    success ? "bg-[#d0d5d9]" : "bg-white"
-                  } inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(true)}
-                >
-                  Success
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-                <a
-                  className={`rounded-l-md  ${
-                    isView === "Desktop" ? "bg-[#d0d5d9]" : ""
-                  }  p-1.5 px-2.5 text-base border border-[#ccc] -ml-px text-black leading-[22px]`}
-                  href="#"
-                  onClick={() => setView("Desktop")}
-                >
-                  <i className="fa fa-desktop" aria-hidden="true"></i>
-                </a>
-                <a
-                  className={`rounded-r-md text-lg border border-[#ccc] -ml-px text-black leading-[22px]  ${
-                    isView === "Mobile" ? "bg-[#eaedef]" : ""
-                  } p-1.5 px-2.5`}
-                  href="#"
-                  onClick={() => setView("Mobile")}
-                >
-                  <i className="fa fa-mobile" aria-hidden="true"></i>
-                </a>
-              </div>
-            </div>
-
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
             <div
               className={`h-full flex items-center justify-center border-8 border-indigo-600 ${
                 isView !== "Desktop"
@@ -1316,28 +1306,13 @@ const MasterForm = () => {
       ) : suggestionTemplateStatus.isFeedbackSurvey ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-              </div>
-            </div>
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
             <div className="h-full items-center justify-center flex">
               <div className="relative rounded-lg w-full shadow-[7px_-7px_57px_#ccc] flex items-center bg-white">
                 <div className="w-[16%] bg-[#fcf1e9] flex justify-center py-[30px] rounded-l-none rounded-r-[90px]">
@@ -1379,54 +1354,13 @@ const MasterForm = () => {
       ) : suggestionTemplateStatus.isAttributionSurvey ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="flex mb-4 justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-                <div
-                  className={`border border-[#323359] ${
-                    success ? "bg-[#d0d5d9]" : "bg-white"
-                  } inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(true)}
-                >
-                  Success
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-                <a
-                  className={`rounded-l-md  ${
-                    isView === "Desktop" ? "bg-[#d0d5d9]" : ""
-                  }  p-1.5 px-2.5 text-base border border-[#ccc] -ml-px text-black leading-[22px]`}
-                  href="#"
-                  onClick={() => setView("Desktop")}
-                >
-                  <i className="fa fa-desktop" aria-hidden="true"></i>
-                </a>
-                <a
-                  className={`rounded-r-md text-lg border border-[#ccc] -ml-px text-black leading-[22px]  ${
-                    isView === "Mobile" ? "bg-[#eaedef]" : ""
-                  } p-1.5 px-2.5`}
-                  href="#"
-                  onClick={() => setView("Mobile")}
-                >
-                  <i className="fa fa-mobile" aria-hidden="true"></i>
-                </a>
-              </div>
-            </div>
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
 
             <div className="w-full flex justify-center items-center h-full">
               <div className="relative bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg p-8 w-1/3 shadow-lg">
@@ -1469,28 +1403,13 @@ const MasterForm = () => {
       ) : suggestionTemplateStatus.isUpSellPopup ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-              </div>
-            </div>
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
             <ProductUpSellPopUp
               productData={productListForPopUp}
               noOfProducts={noOfProducts}
@@ -1503,28 +1422,13 @@ const MasterForm = () => {
       ) : suggestionTemplateStatus.isCrossSellPopup ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-              </div>
-            </div>
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
             <ProductCrossSellPopUp
               productData={productListForPopUp}
               noOfProducts={noOfProducts}
@@ -1537,28 +1441,13 @@ const MasterForm = () => {
       ) : suggestionTemplateStatus?.isAbandonmentPopup ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-              </div>
-            </div>
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
             <CartAbandonmentPopUp
               productData={productListForPopUp}
               noOfProducts={noOfProducts}
@@ -1572,28 +1461,13 @@ const MasterForm = () => {
       ) : suggestionTemplateStatus?.isExitProductRecommenderPopup ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-              </div>
-            </div>
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
             <ExitProductRecommenderPopup
               productData={productListForPopUp}
               noOfProducts={noOfProducts}
@@ -1607,28 +1481,13 @@ const MasterForm = () => {
       ) : suggestionTemplateStatus?.isSocialMediaConnectPopup ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-              </div>
-            </div>
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
             <ExitProductRecommenderPopup
               productData={productListForPopUp}
               noOfProducts={noOfProducts}
@@ -1642,55 +1501,13 @@ const MasterForm = () => {
       ) : (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="flex mb-4 justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-                <div
-                  className={`border border-[#323359] ${
-                    success ? "bg-[#d0d5d9]" : "bg-white"
-                  } inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(true)}
-                >
-                  Success
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-                <a
-                  className={`rounded-l-md  ${
-                    isView === "Desktop" ? "bg-[#d0d5d9]" : ""
-                  }  p-1.5 px-2.5 text-base border border-[#ccc] -ml-px text-black leading-[22px]`}
-                  href="#"
-                  onClick={() => setView("Desktop")}
-                >
-                  <i className="fa fa-desktop" aria-hidden="true"></i>
-                </a>
-                <a
-                  className={`rounded-r-md text-lg border border-[#ccc] -ml-px text-black leading-[22px]  ${
-                    isView === "Mobile" ? "bg-[#eaedef]" : ""
-                  } p-1.5 px-2.5`}
-                  href="#"
-                  onClick={() => setView("Mobile")}
-                >
-                  <i className="fa fa-mobile" aria-hidden="true"></i>
-                </a>
-              </div>
-            </div>
-
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
             <PreviewComponent {...otherProps} />
           </div>
         </>

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
 const DropDown = ({ jsonData, selectedValue, setSelectedValue }) => {
-  console.log(['selectedValue', jsonData, selectedValue]);
   
   const [isOptionSelected, setIsOptionSelected] = useState(!!selectedValue);
 
