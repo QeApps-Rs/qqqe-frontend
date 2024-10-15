@@ -66,7 +66,7 @@ export const templateFieldCss = {
   successDescription: "Thanks for sharing. Please check your email for confirmation message",
 };
 
-export const targetAndBehaviourDefaultState = {
+export const targetAndBehaviorDefaultState = {
   display: {
     timing: {
       type: "immediately",
@@ -200,12 +200,22 @@ export const formTypeDropdown = {
 };
 
 export const discountForDropdown = {
-  label: "",
+  label: "Select discount for",
   placeholder: "Select discount for",
   options: [
     { value: "dis_for_order", label: "Order" },
     { value: "dis_for_product", label: "Product" },
   ],
+  validationLogic: (data) => {
+    // Optional validation logic
+    return {};
+  },
+  name: "discount_type", // Optional name
+  id: "discount-select", // Optional id
+  onChange: (value) => {
+    console.log("Selected value in ParentComponent:", value);
+  },
+  errors: {}, // Optional error handling
 };
 
 export const discountTypeDropdown = {

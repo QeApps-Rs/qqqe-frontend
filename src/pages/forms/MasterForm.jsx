@@ -8,7 +8,7 @@ import {
   templateFieldCss,
   templateEditorCollapseOptions,
   surveyControllerDefaults,
-  targetAndBehaviourDefaultState,
+  targetAndBehaviorDefaultState as targetAndBehaviorDefaultState,
 } from "./masterFormConfig";
 import ProductBundleTab from "../../components/Forms/ProductBundleTab";
 import ProductBundlePopUp from "../../components/Forms/ProductBundlePopUp";
@@ -27,6 +27,8 @@ import ProductCrossSellPopUp from "../../components/Forms/ProductCrossSellPopUp"
 import PreviewComponent from "./templateBanner/PreviewComponent";
 import CartAbandonmentPopUp from "../../components/Forms/CartAbandonmentPopUp";
 import TargetingAndBehaviorControlComponent from "./TargetingAndBehaviorControlComponent";
+import ExitProductRecommenderPopup from "../../components/Forms/ExitProductRecommenderPopup";
+import TemplateHeader from "../../components/Forms/TemplateHeader";
 
 const MasterForm = () => {
   //  shiv code start
@@ -90,6 +92,13 @@ const MasterForm = () => {
   const [inputValues, setInputValues] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [inputSurveyValues, setInputSurveyValues] = useState({});
+  const [templateHeaderState, setTemplateHeaderState] = useState({
+    teaser: true,
+    success: true,
+    publish: true,
+    desktop: true,
+    mobile: true,
+  });
 
   const [suggestionTemplateStatus, setSuggestionTemplateStatus] = useState({
     isProductBundle: false,
@@ -99,7 +108,24 @@ const MasterForm = () => {
     isUpSellPopup: false,
     isCrossSellPopup: false,
     isAbandonmentPopup: false,
+    isExitProductRecommenderPopup: false,
+    isSocialMediaConnectPopup: false,
   });
+
+  const [switchStates, setSwitchStates] = useState({
+    openInNewTab: false,
+    image: false,
+    name: false,
+    sku: false,
+    price: false,
+    variantSwatch: false,
+    atcButton: false,
+  });
+
+  const [targetedProducts, setTargetedProducts] = useState([]);
+  const [targetedCollections, setTargetedCollections] = useState([]);
+  console.log("targetedProducts", targetedProducts);
+  console.log("targetedCollections", targetedCollections);
   const navigate = useNavigate();
   const { id } = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -114,12 +140,13 @@ const MasterForm = () => {
   const [noOfProducts, setNoOfProducts] = useState(3);
   const location = useLocation();
   const { keywords, subTemplateId } = location.state || {}; // Safely access state
-
-  // TAGETING AND BEHAVIOUR START
-  const [targetingAndBehaviour, setTargetingAndBehaviour] = useState(
-    targetAndBehaviourDefaultState
+  console.log("productListForPopUp", productListForPopUp);
+  console.log("selectedProducts", selectedProducts);
+  // TARGETING AND BEHAVIOR START
+  const [targetingAndBehavior, setTargetingAndBehavior] = useState(
+    targetAndBehaviorDefaultState
   );
-  // TAGETING AND BEHAVIOUR END
+  // TARGETING AND BEHAVIOR END
 
   const handleInputChange = (fieldName, value) => {
     setInputValues((prev) => ({ ...prev, [fieldName]: value }));
@@ -298,6 +325,10 @@ const MasterForm = () => {
               ...suggestionTemplateStatus,
               isProductBundle: true,
             });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+            });
           } else if (
             responseKeywords?.includes("Purchase Satisfaction Survey")
           ) {
@@ -310,6 +341,10 @@ const MasterForm = () => {
               ...suggestionTemplateStatus,
               isFeedbackSurvey: true,
             });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+            });
           } else if (responseKeywords?.includes("Survey Popup")) {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
@@ -320,15 +355,55 @@ const MasterForm = () => {
               ...suggestionTemplateStatus,
               isUpSellPopup: true,
             });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+              desktop: false,
+              mobile: false,
+            });
           } else if (responseKeywords?.includes("Cross-Selling Popup")) {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isCrossSellPopup: true,
             });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+              desktop: false,
+              mobile: false,
+            });
           } else if (responseKeywords?.includes("Cart Abandonment Offer")) {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isAbandonmentPopup: true,
+            });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+              desktop: false,
+              mobile: false,
+            });
+          } else if (responseKeywords?.includes("Exit Product Recommender")) {
+            setSuggestionTemplateStatus({
+              ...suggestionTemplateStatus,
+              isExitProductRecommenderPopup: true,
+            });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+              desktop: false,
+              mobile: false,
+            });
+          } else if (responseKeywords?.includes("Social Media Connect")) {
+            setSuggestionTemplateStatus({
+              ...suggestionTemplateStatus,
+              isSocialMediaConnectPopup: true,
+            });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+              desktop: false,
+              mobile: false,
             });
           }
 
@@ -359,10 +434,38 @@ const MasterForm = () => {
             if (addedFieldsData.length > 0) {
               setAddedFields(addedFieldsData);
             }
-            setTargetingAndBehaviour(jsonObject?.target_behaviors);
+            setTargetingAndBehavior(jsonObject?.target_behaviors);
             setCustomCssState(jsonObject?.custom_css);
             setSurveyController(jsonObject?.survey_controller);
             setCustomJsState(jsonObject?.custom_js);
+            setAddedButton(jsonObject?.survey_controller?.new_button);
+            setProductListForPopUp(jsonObject?.items?.selected_products);
+            const selectedProductIds =
+              jsonObject?.items?.selected_products.reduce((acc, product) => {
+                acc[product.id] = true;
+                return acc;
+              }, {});
+            setSelectedProducts(selectedProductIds);
+            setTargetedProducts(jsonObject?.items?.targeted_products);
+            setCollectionListForPopUp(jsonObject?.items?.selected_collections);
+            setTargetedCollections(jsonObject?.items?.targeted_collections);
+            setProductDiscountForDetails(
+              jsonObject?.items?.discount_details?.discount_for
+            );
+            setProductDiscountTypeDetails(
+              jsonObject?.items?.discount_details?.discount_type
+            );
+            setProductDiscountAmountDetails(
+              jsonObject?.items?.discount_details?.discount_amount
+            );
+            setSwitchStates(jsonObject?.items?.bundle_attribute);
+            const updatedSurveyState = jsonObject?.survey_controller?.survey?.map((sitem) => {
+              return {
+                fieldName: sitem.question,
+                options: sitem.answers,
+              };
+            });
+            setAddedQuestion(updatedSurveyState || [])
           }
         }
       } catch (error) {
@@ -493,7 +596,7 @@ const MasterForm = () => {
           inputs_controller: await convertInputControllerStateToNestedObject(
             templateDesign
           ),
-          target_behaviors: targetingAndBehaviour,
+          target_behaviors: targetingAndBehavior,
           success_controller: await convertSuccessControllerStateToNestedObject(
             templateDesign
           ),
@@ -616,8 +719,12 @@ const MasterForm = () => {
     );
   };
 
-  const reviewCount = parseInt(templateDesign.reviewCount, 10) || 5;
-  const ratingCount = parseInt(templateDesign.ratingCount, 10) || 5;
+  const reviewCount =
+    parseInt(surveyController.review, 10) ??
+    parseInt(templateDesign.reviewCount, 10);
+  const ratingCount =
+    parseInt(surveyController.rating, 10) ??
+    parseInt(templateDesign.ratingCount, 10);
 
   const otherProps = {
     isView,
@@ -831,20 +938,27 @@ const MasterForm = () => {
     });
   };
 
+  const [productDiscountForDetails, setProductDiscountForDetails] =
+    useState("");
+  const [productDiscountTypeDetails, setProductDiscountTypeDetails] =
+    useState("");
+  const [productDiscountAmountDetails, setProductDiscountAmountDetails] =
+    useState(0);
+
   const convertItemStateToNestedObject = () => {
     return {
       selected_products: productListForPopUp,
       selected_collections: collectionListForPopUp,
-      targeted_products: productListForPopUp,
-      targeted_collections: collectionListForPopUp,
+      targeted_products: targetedProducts,
+      targeted_collections: targetedCollections,
       discount_details: {
-        discount_for: "dis_for_order",
-        discount_type: "dis_type_amt",
-        discount_amount: "10",
+        discount_for: productDiscountForDetails,
+        discount_type: productDiscountTypeDetails,
+        discount_amount: productDiscountAmountDetails,
       },
+      bundle_attribute: switchStates,
     };
   };
-
   return (
     <>
       {loading && <Loader />}
@@ -872,7 +986,9 @@ const MasterForm = () => {
                 suggestionTemplateStatus?.isProductBundle ||
                 suggestionTemplateStatus?.isUpSellPopup ||
                 suggestionTemplateStatus?.isCrossSellPopup ||
-                suggestionTemplateStatus?.isAbandonmentPopup
+                suggestionTemplateStatus?.isAbandonmentPopup ||
+                suggestionTemplateStatus?.isExitProductRecommenderPopup ||
+                suggestionTemplateStatus?.isSocialMediaConnectPopup
               ) {
                 return (
                   // item.tag !== "inputController" &&
@@ -950,17 +1066,19 @@ const MasterForm = () => {
                 )} */}
                 {activeIndex === index && item.tag === "target" && (
                   <TargetingAndBehaviorControlComponent
-                    targetingAndBehaviour={targetingAndBehaviour}
-                    setTargetingAndBehaviour={setTargetingAndBehaviour}
+                    targetingAndBehavior={targetingAndBehavior}
+                    setTargetingAndBehaviour={setTargetingAndBehavior}
                   />
                 )}
 
                 {((suggestionTemplateStatus?.isProductBundle ||
                   suggestionTemplateStatus?.isUpSellPopup ||
                   suggestionTemplateStatus?.isAbandonmentPopup ||
-                  suggestionTemplateStatus?.isCrossSellPopup) &&
-                    activeIndex === index &&
-                    item.tag === "bundle") &&
+                  suggestionTemplateStatus?.isCrossSellPopup ||
+                  suggestionTemplateStatus?.isExitProductRecommenderPopup ||
+                  suggestionTemplateStatus?.isSocialMediaConnectPopup) &&
+                  activeIndex === index &&
+                  item.tag === "bundle" &&
                   productListState && (
                     <ProductBundleTab
                       productListState={productListState}
@@ -975,8 +1093,28 @@ const MasterForm = () => {
                       noOfProducts={noOfProducts}
                       productListForPopUp={productListForPopUp}
                       collectionListForPopUp={collectionListForPopUp}
+                      setProductDiscountForDetails={
+                        setProductDiscountForDetails
+                      }
+                      productDiscountForDetails={productDiscountForDetails}
+                      setProductDiscountTypeDetails={
+                        setProductDiscountTypeDetails
+                      }
+                      productDiscountTypeDetails={productDiscountTypeDetails}
+                      setProductDiscountAmountDetails={
+                        setProductDiscountAmountDetails
+                      }
+                      productDiscountAmountDetails={
+                        productDiscountAmountDetails
+                      }
+                      switchStates={switchStates}
+                      setSwitchStates={setSwitchStates}
+                      targetedProducts={targetedProducts}
+                      setTargetedProducts={setTargetedProducts}
+                      targetedCollections={targetedCollections}
+                      setTargetedCollections={setTargetedCollections}
                     />
-                  )}
+                  ))}
 
                 {!suggestionTemplateStatus?.isProductBundle &&
                   activeIndex === index &&
@@ -1095,28 +1233,13 @@ const MasterForm = () => {
       {suggestionTemplateStatus.isProductBundle ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-              </div>
-            </div>
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
             <ProductBundlePopUp
               productData={productListForPopUp}
               noOfProducts={noOfProducts}
@@ -1128,55 +1251,13 @@ const MasterForm = () => {
       ) : suggestionTemplateStatus.isPurchaseSatisfactionSurvey ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="flex mb-4 justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-                <div
-                  className={`border border-[#323359] ${
-                    success ? "bg-[#d0d5d9]" : "bg-white"
-                  } inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(true)}
-                >
-                  Success
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-                <a
-                  className={`rounded-l-md  ${
-                    isView === "Desktop" ? "bg-[#d0d5d9]" : ""
-                  }  p-1.5 px-2.5 text-base border border-[#ccc] -ml-px text-black leading-[22px]`}
-                  href="#"
-                  onClick={() => setView("Desktop")}
-                >
-                  <i className="fa fa-desktop" aria-hidden="true"></i>
-                </a>
-                <a
-                  className={`rounded-r-md text-lg border border-[#ccc] -ml-px text-black leading-[22px]  ${
-                    isView === "Mobile" ? "bg-[#eaedef]" : ""
-                  } p-1.5 px-2.5`}
-                  href="#"
-                  onClick={() => setView("Mobile")}
-                >
-                  <i className="fa fa-mobile" aria-hidden="true"></i>
-                </a>
-              </div>
-            </div>
-
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
             <div
               className={`h-full flex items-center justify-center border-8 border-indigo-600 ${
                 isView !== "Desktop"
@@ -1231,28 +1312,13 @@ const MasterForm = () => {
       ) : suggestionTemplateStatus.isFeedbackSurvey ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-              </div>
-            </div>
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
             <div className="h-full items-center justify-center flex">
               <div className="relative rounded-lg w-full shadow-[7px_-7px_57px_#ccc] flex items-center bg-white">
                 <div className="w-[16%] bg-[#fcf1e9] flex justify-center py-[30px] rounded-l-none rounded-r-[90px]">
@@ -1276,11 +1342,12 @@ const MasterForm = () => {
                       className="w-full flex flex-col items-center space-y-4"
                       onSubmit={handleSubmit}
                     >
-                      {/* Display Stars or Numbers here */}
-                      {templateDesign.reviewType === "review" && (
+                      {(templateDesign.reviewType === "review" ||
+                        surveyController.survey_type === "review") && (
                         <>{renderStars(reviewCount)}</>
                       )}
-                      {templateDesign.reviewType === "rating" && (
+                      {(templateDesign.reviewType === "rating" ||
+                        surveyController.survey_type === "rating") && (
                         <>{renderNumbers(ratingCount, 5, "border-[#f1e7df]")}</>
                       )}
                     </form>
@@ -1293,54 +1360,13 @@ const MasterForm = () => {
       ) : suggestionTemplateStatus.isAttributionSurvey ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="flex mb-4 justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-                <div
-                  className={`border border-[#323359] ${
-                    success ? "bg-[#d0d5d9]" : "bg-white"
-                  } inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(true)}
-                >
-                  Success
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-                <a
-                  className={`rounded-l-md  ${
-                    isView === "Desktop" ? "bg-[#d0d5d9]" : ""
-                  }  p-1.5 px-2.5 text-base border border-[#ccc] -ml-px text-black leading-[22px]`}
-                  href="#"
-                  onClick={() => setView("Desktop")}
-                >
-                  <i className="fa fa-desktop" aria-hidden="true"></i>
-                </a>
-                <a
-                  className={`rounded-r-md text-lg border border-[#ccc] -ml-px text-black leading-[22px]  ${
-                    isView === "Mobile" ? "bg-[#eaedef]" : ""
-                  } p-1.5 px-2.5`}
-                  href="#"
-                  onClick={() => setView("Mobile")}
-                >
-                  <i className="fa fa-mobile" aria-hidden="true"></i>
-                </a>
-              </div>
-            </div>
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
 
             <div className="w-full flex justify-center items-center h-full">
               <div className="relative bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg p-8 w-1/3 shadow-lg">
@@ -1383,28 +1409,13 @@ const MasterForm = () => {
       ) : suggestionTemplateStatus.isUpSellPopup ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-              </div>
-            </div>
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
             <ProductUpSellPopUp
               productData={productListForPopUp}
               noOfProducts={noOfProducts}
@@ -1417,28 +1428,13 @@ const MasterForm = () => {
       ) : suggestionTemplateStatus.isCrossSellPopup ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-              </div>
-            </div>
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
             <ProductCrossSellPopUp
               productData={productListForPopUp}
               noOfProducts={noOfProducts}
@@ -1451,29 +1447,54 @@ const MasterForm = () => {
       ) : suggestionTemplateStatus?.isAbandonmentPopup ? (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="mb-4 flex justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-              </div>
-            </div>
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
             <CartAbandonmentPopUp
+              productData={productListForPopUp}
+              noOfProducts={noOfProducts}
+              templateDesign={templateDesign}
+              templateData={templateData}
+              getStyle={getStyle}
+              combinedPadding={combinedPadding}
+            />
+          </div>
+        </>
+      ) : suggestionTemplateStatus?.isExitProductRecommenderPopup ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
+            <ExitProductRecommenderPopup
+              productData={productListForPopUp}
+              noOfProducts={noOfProducts}
+              templateDesign={templateDesign}
+              templateData={templateData}
+              getStyle={getStyle}
+              combinedPadding={combinedPadding}
+            />
+          </div>
+        </>
+      ) : suggestionTemplateStatus?.isSocialMediaConnectPopup ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
+            <ExitProductRecommenderPopup
               productData={productListForPopUp}
               noOfProducts={noOfProducts}
               templateDesign={templateDesign}
@@ -1486,55 +1507,13 @@ const MasterForm = () => {
       ) : (
         <>
           <div className="w-3/4 float-right p-0 h-[83.90vh]">
-            <div className="flex mb-4 justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
-              <div className="w-[70%] flex justify-center">
-                <div
-                  className={`border border-[#323359] ${
-                    !success ? "bg-[#d0d5d9]" : "bg-white"
-                  }  inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Teaser
-                </div>
-                <div
-                  className={`border border-[#323359] ${
-                    success ? "bg-[#d0d5d9]" : "bg-white"
-                  } inline-block p-2 px-3 mr-5 text-black text-sm font-semibold rounded relative cursor-pointer`}
-                  onClick={() => setSuccess(true)}
-                >
-                  Success
-                </div>
-              </div>
-
-              <div className="flex">
-                <button
-                  type="submit"
-                  onClick={() => onPublish()}
-                  className="inline-block p-2 px-3 mr-5 text-white text-sm font-semibold rounded relative bg-black"
-                >
-                  Publish
-                </button>
-                <a
-                  className={`rounded-l-md  ${
-                    isView === "Desktop" ? "bg-[#d0d5d9]" : ""
-                  }  p-1.5 px-2.5 text-base border border-[#ccc] -ml-px text-black leading-[22px]`}
-                  href="#"
-                  onClick={() => setView("Desktop")}
-                >
-                  <i className="fa fa-desktop" aria-hidden="true"></i>
-                </a>
-                <a
-                  className={`rounded-r-md text-lg border border-[#ccc] -ml-px text-black leading-[22px]  ${
-                    isView === "Mobile" ? "bg-[#eaedef]" : ""
-                  } p-1.5 px-2.5`}
-                  href="#"
-                  onClick={() => setView("Mobile")}
-                >
-                  <i className="fa fa-mobile" aria-hidden="true"></i>
-                </a>
-              </div>
-            </div>
-
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
             <PreviewComponent {...otherProps} />
           </div>
         </>

@@ -21,20 +21,22 @@ const ProductBundleTab = ({
   productListForPopUp,
   collectionListForPopUp,
   setCollectionListForPopUp,
+  setProductDiscountForDetails,
+  productDiscountForDetails,
+  setProductDiscountTypeDetails,
+  productDiscountTypeDetails,
+  setProductDiscountAmountDetails,
+  productDiscountAmountDetails,
+  switchStates,
+  setSwitchStates,
+  targetedProducts,
+  setTargetedProducts,
+  targetedCollections,
+  setTargetedCollections,
 }) => {
   const [selectedCollections, setSelectedCollections] = useState({});
-  const [targetedProducts, setTargetedProducts] = useState([]);
-  const [targetedCollections, setTargetedCollections] = useState([]);
-
-  const [switchStates, setSwitchStates] = useState({
-    openInNewTab: false,
-    image: false,
-    name: false,
-    sku: false,
-    price: false,
-    variantSwatch: false,
-    atcButton: false,
-  });
+  // const [targetedProducts, setTargetedProducts] = useState([]);
+  // const [targetedCollections, setTargetedCollections] = useState([]);
 
   const handleToggle = (key) => {
     setSwitchStates((prevStates) => ({
@@ -42,7 +44,6 @@ const ProductBundleTab = ({
       [key]: !prevStates[key],
     }));
   };
-
   const onNoOfProductsSelect = (e) => {
     setNoOfProducts(e.target.value);
   };
@@ -89,14 +90,14 @@ const ProductBundleTab = ({
     }));
   };
 
-  const handleCollectionCheckboxChange = (id, title = "",handle = "") => {
+  const handleCollectionCheckboxChange = (id, title = "", handle = "") => {
     setSelectedCollections((prevCheckedItems) => {
       const isChecked = !prevCheckedItems[id];
       setCollectionListForPopUp((prevItems) => {
         const itemExists = prevItems.some((item) => item.id === id);
         return itemExists
           ? prevItems.filter((item) => item.id !== id)
-          : [...prevItems, { id, title,handle }];
+          : [...prevItems, { id, title, handle }];
       });
       return {
         ...prevCheckedItems,
@@ -431,9 +432,9 @@ const ProductBundleTab = ({
                           <label className="mb-2.5 block">
                             <div className="mb-6">
                               <DropDown
-                                jsonData={{
-                                  ...discountForDropdown,
-                                }}
+                                jsonData={discountForDropdown}
+                                selectedValue={productDiscountForDetails} // Pass the value to child
+                                setSelectedValue={setProductDiscountForDetails} // Pass the setter to child
                               />
                             </div>
                           </label>
@@ -446,9 +447,9 @@ const ProductBundleTab = ({
                           <label className="mb-2.5 block">
                             <div className="mb-6">
                               <DropDown
-                                jsonData={{
-                                  ...discountTypeDropdown,
-                                }}
+                                jsonData={discountTypeDropdown}
+                                selectedValue={productDiscountTypeDetails} // Pass the value to child
+                                setSelectedValue={setProductDiscountTypeDetails} // Pass the setter to child
                               />
                             </div>
                           </label>
@@ -464,6 +465,12 @@ const ProductBundleTab = ({
                                 type="number"
                                 name="dis_amount"
                                 id="dis_amount"
+                                value={productDiscountAmountDetails}
+                                onChange={(e) =>
+                                  setProductDiscountAmountDetails(
+                                    e.target.value
+                                  )
+                                }
                               />
                             </div>
                           </label>
@@ -505,9 +512,6 @@ const ProductBundleTab = ({
                         enabled={switchStates.atcButton}
                         onToggle={() => handleToggle("atcButton")}
                       />
-                      <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-                        Save
-                      </button>
                     </div>
                   </form>
                 </div>
