@@ -885,21 +885,6 @@ const MasterForm = () => {
     });
   };
 
-  const convertItemStateToNestedObject = () => {
-    return {
-      selected_products: productListForPopUp,
-      selected_collections: collectionListForPopUp,
-      targeted_products: targetedProducts,
-      targeted_collections: targetedCollections,
-      discount_details: {
-        discount_for: productDiscountForDetails,
-        discount_type: productDiscountTypeDetails,
-        discount_amount: productDiscountAmountDetails,
-      },
-      bundle_attribute: switchStates,
-    };
-  };
-
   const [productDiscountForDetails, setProductDiscountForDetails] =
     useState("");
   const [productDiscountTypeDetails, setProductDiscountTypeDetails] =
@@ -907,6 +892,20 @@ const MasterForm = () => {
   const [productDiscountAmountDetails, setProductDiscountAmountDetails] =
     useState(0);
 
+    const convertItemStateToNestedObject = () => {
+      return {
+        selected_products: productListForPopUp,
+        selected_collections: collectionListForPopUp,
+        targeted_products: targetedProducts,
+        targeted_collections: targetedCollections,
+        discount_details: {
+          discount_for: productDiscountForDetails,
+          discount_type: productDiscountTypeDetails,
+          discount_amount: productDiscountAmountDetails,
+        },
+        bundle_attribute: switchStates,
+      };
+    };
   return (
     <>
       {loading && <Loader />}
