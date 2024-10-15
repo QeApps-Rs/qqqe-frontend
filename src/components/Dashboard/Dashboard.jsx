@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DashboardCard from "./DashboardCard";
 import FormSubmitHandler from "../FormSubmitHandler";
+import NeedHelpPage from "../NeedHelp";
 const chart = {
     series: [
         {
@@ -81,7 +82,7 @@ const Dashboard = () => {
 
     return (
         <React.Fragment>
-            <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+            <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
                 <DashboardCard
                     cardTitle="People"
                     cardProcess={false}
@@ -108,6 +109,8 @@ const Dashboard = () => {
           chart={chart}
         /> */}
             </div>
+    <NeedHelpPage/>
+
         </React.Fragment>
     );
 };

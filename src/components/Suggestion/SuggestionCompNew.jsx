@@ -14,6 +14,7 @@ import MinusSvg from "../../images/svg-icons/minusSvg";
 import SwitcherThree from "../Switchers/SwitcherThree";
 import toast from "react-hot-toast";
 import Loader from "../../common/Loader";
+import NeedHelpPage from "../NeedHelp";
 
 const SuggestionCompNew = () => {
   const navigate = useNavigate();
@@ -615,6 +616,7 @@ const SuggestionCompNew = () => {
           )}
         </div>
         <Support />
+        <NeedHelpPage/>
       </div>
     </>
   );

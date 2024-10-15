@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 import BundleCampaignComponent from "./BundleCampaignComponent";
 import TargetingAndBehaviorControlComponent from "./TargetAndBehaviourCampaignComponent";
 import SurveyCampaignCompon from "./SurveyCampaignComponent";
+import NeedHelpPage from "../../NeedHelp";
 
 const CampaignsDetailsPage = ({ id }) => {
   const { state } = useLocation();
@@ -465,6 +466,7 @@ const CampaignsDetailsPage = ({ id }) => {
         <SurveyCampaignCompon productDetailsData={productDetailsData} />
 
         <BundleCampaignComponent productDetailsData={productDetailsData} />
+        <NeedHelpPage />
       </div>
     </>
   );
