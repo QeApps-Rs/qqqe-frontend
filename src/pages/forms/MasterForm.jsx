@@ -848,7 +848,7 @@ const MasterForm = () => {
   return (
     <>
       {loading && <Loader />}
-      <aside className="w-1/4  fixed left-[4.7rem] p-4 shadow-lg h-full overflow-auto top-20">
+      <aside className="w-1/4  fixed left-[4.7rem] px-6 pt-6 pb-20 shadow-2xl h-full overflow-auto top-0 bg-white">
         <div className="flex justify-between items-center border-b pb-3 mb-4">
           <p className="font-semibold text-lg">Template Editor</p>
         </div>
@@ -955,12 +955,12 @@ const MasterForm = () => {
                   />
                 )}
 
-                {(suggestionTemplateStatus?.isProductBundle ||
+                {((suggestionTemplateStatus?.isProductBundle ||
                   suggestionTemplateStatus?.isUpSellPopup ||
                   suggestionTemplateStatus?.isAbandonmentPopup ||
-                  (suggestionTemplateStatus?.isCrossSellPopup &&
+                  suggestionTemplateStatus?.isCrossSellPopup) &&
                     activeIndex === index &&
-                    item.tag === "bundle")) &&
+                    item.tag === "bundle") &&
                   productListState && (
                     <ProductBundleTab
                       productListState={productListState}
