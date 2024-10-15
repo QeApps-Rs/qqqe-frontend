@@ -18,15 +18,12 @@ const SurveyControllerComponent = ({
   const styleFieldTitleClass =
     "mb-2.5 block text-black dark:text-white font-semibold";
   const [fieldName, setFieldName] = useState("");
-  const [options, setOptions] = useState("");
+  const [optionsText, setOptionsText] = useState("");
   const [isEditMode, setIsEditMode] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
   const [renderKey, setRenderKey] = useState(0);
-  const [optionsText, setOptionsText] = useState("");
   const [buttonText, setButtonText] = useState("");
   const [buttonLink, setButtonLink] = useState("");
-
-  const [buttonsArray, setButtonsArray] = useState([]);
 
   useEffect(() => {
     if (surveyControllerEditState?.fieldName) {
@@ -112,7 +109,6 @@ const SurveyControllerComponent = ({
 
   const resetForm = () => {
     setFieldName("");
-    setOptions("");
     setOptionsText("");
     setIsEditMode(false);
     setEditIndex(null);
@@ -145,7 +141,7 @@ const SurveyControllerComponent = ({
                             });
                             onTemplateChange("reviewType")(e.target.value);
                           }}
-                          value={templateDesign.reviewType}
+                          value={surveyController.survey_type}
                           className={`${defaultBoxClassName} h-12`}
                         >
                           {surveyTypeStyles.map((style) => (
@@ -155,55 +151,60 @@ const SurveyControllerComponent = ({
                           ))}
                         </select>
                       </div>
-                      {templateDesign.reviewType === "review" && (
-                        <>
-                          <div className="mt-3 flex justify-between flex-row">
-                            <span>Review Count:</span>
-                            <select
-                              onChange={(e) => {
-                                setSurveyController({
-                                  ...surveyController,
-                                  review: e.target.value,
-                                });
-                                onTemplateChange("reviewCount")(e.target.value);
-                              }}
-                              value={templateDesign.reviewCount || "5"}
-                              className={`${defaultBoxClassName} h-12`}
-                            >
-                              {surveyReviewCount.map((style) => (
-                                <option key={style.value} value={style.value}>
-                                  {style.label}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        </>
+
+                      {surveyController.survey_type === "review" && (
+                        <div className="mt-3 flex justify-between flex-row">
+                          <span>Review Count:</span>
+                          <select
+                            onChange={(e) => {
+                              setSurveyController({
+                                ...surveyController,
+                                review: e.target.value,
+                              });
+                              onTemplateChange("reviewCount")(e.target.value);
+                            }}
+                            value={
+                              surveyController.review ??
+                              templateDesign.reviewCount
+                            }
+                            className={`${defaultBoxClassName} h-12`}
+                          >
+                            {surveyReviewCount.map((style) => (
+                              <option key={style.value} value={style.value}>
+                                {style.label}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
                       )}
-                      {templateDesign.reviewType === "rating" && (
-                        <>
-                          <div className="mt-3 flex justify-between flex-row">
-                            <span>Rating Count:</span>
-                            <input
-                              id="rating-count"
-                              type="number"
-                              placeholder="count"
-                              className={`${defaultBoxClassName} h-10`}
-                              value={templateDesign.ratingCount || ""}
-                              min={templateDesign.ratingMinCount || ""}
-                              max={templateDesign.ratingMaxCount || ""}
-                              onChange={(e) => {
-                                const count = parseInt(e.target.value, 10) || 0;
-                                setSurveyController({
-                                  ...surveyController,
-                                  rating: e.target.value,
-                                });
-                                onTemplateChange("ratingCount")(count);
-                              }}
-                            />
-                          </div>
-                        </>
+
+                      {surveyController.survey_type === "rating" && (
+                        <div className="mt-3 flex justify-between flex-row">
+                          <span>Rating Count:</span>
+                          <input
+                            id="rating-count"
+                            type="number"
+                            placeholder="count"
+                            className={`${defaultBoxClassName} h-10`}
+                            value={
+                              surveyController.rating ??
+                              templateDesign.ratingCount
+                            }
+                            min={templateDesign.ratingMinCount || ""}
+                            max={templateDesign.ratingMaxCount || ""}
+                            onChange={(e) => {
+                              const count = parseInt(e.target.value, 10) || 0;
+                              setSurveyController({
+                                ...surveyController,
+                                rating: e.target.value,
+                              });
+                              onTemplateChange("ratingCount")(count);
+                            }}
+                          />
+                        </div>
                       )}
-                      {templateDesign.reviewType === "survey" && (
+
+                      {surveyController.survey_type === "survey" && (
                         <>
                           <div className="mb-6">
                             <label className="mb-2.5 block text-black dark:text-white font-semibold">
@@ -214,7 +215,7 @@ const SurveyControllerComponent = ({
                               type="text"
                               value={fieldName}
                               onChange={(e) => setFieldName(e.target.value)}
-                              placeholder="pleaser enter survey question"
+                              placeholder="Please enter survey question"
                               className="w-full p-2 border rounded-md focus:outline-none"
                             />
                           </div>
@@ -232,7 +233,8 @@ const SurveyControllerComponent = ({
                           </div>
                         </>
                       )}
-                      {templateDesign.reviewType === "button" && (
+
+                      {surveyController.survey_type === "button" && (
                         <>
                           <div className="mb-6">
                             <label className="mb-2.5 block text-black dark:text-white font-semibold">
@@ -261,12 +263,15 @@ const SurveyControllerComponent = ({
                         </>
                       )}
                     </div>
-                    <button
-                      className="bg-blue-500 text-white py-2 px-4 rounded w-full"
-                      onClick={handleAddField}
-                    >
-                      {isEditMode ? "Update Field" : "Add Field"}
-                    </button>
+                    {(surveyController.survey_type === "survey" ||
+                      surveyController.survey_type === "button") && (
+                      <button
+                        className="bg-blue-500 text-white py-2 px-4 rounded w-full"
+                        onClick={handleAddField}
+                      >
+                        {isEditMode ? "Update Field" : "Add Field"}
+                      </button>
+                    )}
                   </div>
                 </form>
               </div>

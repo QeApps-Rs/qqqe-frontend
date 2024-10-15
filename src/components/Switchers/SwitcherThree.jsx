@@ -55,7 +55,7 @@ const SwitcherThree = ({ label, isLabel = true, enabled, onToggle }) => {
             </span>
           </div>
         </div>
-        <span className="ml-5">{isLabel ?? label}</span>
+        <span className="ml-5">{isLabel == true ? label : ""}</span>
       </label>
     </div>
   );
