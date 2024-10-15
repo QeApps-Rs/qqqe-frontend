@@ -7,6 +7,7 @@ import productImg from "../../images/product.png";
 import { Link } from "react-router-dom";
 import Loader from "../../common/Loader";
 import FormSubmitHandler from "../FormSubmitHandler";
+import NeedHelpPage from "../NeedHelp";
 
 const Campaigns = () => {
   // const productData = [
@@ -267,29 +268,7 @@ const Campaigns = () => {
           ))}
         </div>
 
-        <h3 className="text-xl font-bold text-gray-800 my-4">Need Help?</h3>
-        <div className="grid grid-cols-3 gap-4">
-          {[...Array(3)].map((_, index) => (
-            <div className="flex items-center" key={index}>
-              <img src={productImg} alt="product" className="w-20 max-h-20" />
-              <div className="block">
-                <div className="block">
-                  <h2 className="text-lg font-bold text-graydark">
-                    Website Personalization Course
-                  </h2>
-                  <p className="block text-sm text-customGray">
-                    Learn how to increase conversion rates with a proven website
-                    personalization strategy
-                  </p>
-                </div>
-                <a href="#" className="inline-block text-blue-600">
-                  Watch course{" "}
-                  <i className="fa fa-angle-right" aria-hidden="true"></i>
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
+        <NeedHelpPage />
       </div>
     </>
   );

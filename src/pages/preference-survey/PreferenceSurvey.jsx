@@ -151,7 +151,7 @@ const PreferenceSurvey = ({ isTitleDisplay = true }) => {
                 </h3>
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mt-15">
                   {checkedItems[currentStep].answers.map((answer) => (
-                    <div className="col-span-2">
+                    <div className="col-span-2" key={answer.id}>
                       <Checkbox
                         key={answer.id}
                         id={answer.id}

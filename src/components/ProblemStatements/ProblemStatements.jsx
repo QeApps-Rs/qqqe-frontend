@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Support from "../Support/Support";
 import toast from "react-hot-toast";
 import Loader from "../../common/Loader";
+import NeedHelpPage from "../NeedHelp";
 
 const ProblemStatements = () => {
 
@@ -124,6 +125,7 @@ const ProblemStatements = () => {
                     </div>
                 </div>
                 <Support />
+                <NeedHelpPage/>
             </main>
         </>
     );
