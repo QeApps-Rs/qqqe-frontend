@@ -833,8 +833,15 @@ const MasterForm = () => {
 
   const convertItemStateToNestedObject = () => {
     return {
-      products: productListForPopUp,
-      collections: collectionListForPopUp,
+      selected_products: productListForPopUp,
+      selected_collections: collectionListForPopUp,
+      targeted_products: productListForPopUp,
+      targeted_collections: collectionListForPopUp,
+      discount_details: {
+        discount_for: "dis_for_order",
+        discount_type: "dis_type_amt",
+        discount_amount: "10",
+      },
     };
   };
 
