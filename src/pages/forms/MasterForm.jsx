@@ -195,7 +195,7 @@ const MasterForm = () => {
       placeholderText: field.placeholderText,
     });
   };
-  
+
   const handleSurveyDeleteField = (fieldName, index) => {
     setAddedQuestion((prevFields) =>
       prevFields.filter((field) => field.fieldName !== fieldName)
@@ -459,7 +459,13 @@ const MasterForm = () => {
               jsonObject?.items?.discount_details?.discount_amount
             );
             setSwitchStates(jsonObject?.items?.bundle_attribute);
-            setAddedQuestion(jsonObject?.survey_controller?.survey)
+            const updatedSurveyState = jsonObject?.survey_controller?.survey?.map((sitem) => {
+              return {
+                fieldName: sitem.question,
+                options: sitem.answers,
+              };
+            });
+            setAddedQuestion(updatedSurveyState || [])
           }
         }
       } catch (error) {
