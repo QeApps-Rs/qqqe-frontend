@@ -1114,7 +1114,7 @@ const MasterForm = () => {
                       targetedCollections={targetedCollections}
                       setTargetedCollections={setTargetedCollections}
                     />
-                  )}
+                  ))}
 
                 {!suggestionTemplateStatus?.isProductBundle &&
                   activeIndex === index &&
