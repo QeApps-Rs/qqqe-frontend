@@ -91,7 +91,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               target="#"
             >
               <i
-                className="fa fa-whatsapp text-green-500 text-[20px]"
+                className="fa fa-whatsapp bg-green-500  text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
                 aria-hidden="true"
               ></i>
             </Link>{" "}
@@ -102,7 +102,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               target="#"
             >
               <i
-                className="fa fa-calendar-check-o text-blue-400 text-[20px]"
+                className="fa fa-calendar-check-o bg-blue-400  text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
                 aria-hidden="true"
               ></i>
             </Link>{" "}
@@ -113,18 +113,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               target="#"
             >
               <i
-                className="fa fa-commenting text-[20px] text-pink-400"
+                className="fa fa-commenting bg-pink-400  text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
                 aria-hidden="true"
               ></i>
             </Link>{" "}
             {/* <span className="text-white">|</span>{" "} */}
             <Link
               to="https://www.calrik.com/"
-              className="min-h-10 items-center flex justify-center"
+              className="min-h-10 items-center flex justify-center "
               target="#"
             >
               <i
-                className="fa fa-phone text-[20px] text-cyan-300"
+                className="fa fa-phone bg-cyan-300  text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
                 aria-hidden="true"
               ></i>
             </Link>
