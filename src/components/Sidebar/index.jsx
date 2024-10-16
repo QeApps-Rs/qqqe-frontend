@@ -84,7 +84,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           </div>
         </nav>
         <div className="fixed w-20 bottom-0 flex left-0 pb-4">
-          <p className="grid justify-center text-center w-full">
+          <div className="grid justify-center text-center w-full">
             <Link
               to="https://web.whatsapp.com/"
               className="min-h-10 items-center flex justify-center"
@@ -131,7 +131,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             <DropdownNotification />
             <DropdownHelp />
             <DropdownUser />
-          </p>
+          </div>
         </div>
       </div>
     </aside>

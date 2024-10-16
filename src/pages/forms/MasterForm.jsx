@@ -125,8 +125,6 @@ const MasterForm = () => {
 
   const [targetedProducts, setTargetedProducts] = useState([]);
   const [targetedCollections, setTargetedCollections] = useState([]);
-  console.log("targetedProducts", targetedProducts);
-  console.log("targetedCollections", targetedCollections);
   const navigate = useNavigate();
   const { id } = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -141,8 +139,6 @@ const MasterForm = () => {
   const [noOfProducts, setNoOfProducts] = useState(3);
   const location = useLocation();
   const { keywords, subTemplateId } = location.state || {}; // Safely access state
-  console.log("productListForPopUp", productListForPopUp);
-  console.log("selectedProducts", selectedProducts);
   // TARGETING AND BEHAVIOR START
   const [targetingAndBehavior, setTargetingAndBehavior] = useState(
     targetAndBehaviorDefaultState
@@ -531,7 +527,7 @@ const MasterForm = () => {
       templateOfferColor:
         styles.form_parameters.offer_title.template_offer_color,
       templateButtonBgColor: styles.form_parameters.button.background_color,
-      templateProductOverlayColor: "rgb(0, 0, 0)",
+      templateProductOverlayColor: "#000000",
       imagePosition: styles.side_image.side,
       successHeadingFontSize: "32px",
       successDescriptionFontSize: "24px",
@@ -539,9 +535,9 @@ const MasterForm = () => {
       successHeadingFontFamily: "Arial",
       successDescriptionFontFamily: "Arial",
       successSubHeadingFontFamily: "Arial",
-      successHeadingColor: "rgb(0, 0, 0)",
-      successSubHeadingColor: "rgb(0, 0, 0)",
-      successDescriptionColor: "rgb(0, 0, 0)",
+      successHeadingColor: "#000000",
+      successSubHeadingColor: "#000000",
+      successDescriptionColor: "#000000",
       containPosition: "center",
       reviewType: "none",
       reviewCount: "5",
