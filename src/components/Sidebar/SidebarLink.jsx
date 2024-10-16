@@ -1,6 +1,4 @@
-import React from "react";
-
-import Icon from "../custIcon/Icon";
+/* eslint-disable react/prop-types */
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const SidebarLink = ({ href, iconType, label, sidebarOpen }) => {
@@ -11,20 +9,18 @@ const SidebarLink = ({ href, iconType, label, sidebarOpen }) => {
   const isActive = pathname === href || pathname.includes(href);
 
   return (
-    <li className={`${sidebarOpen ? "mb-3" : "mb-6"}   flex flex-col gap-1.5`}>
-      <Link
-        to={href}
-        className={`group relative flex items-center ${
-          sidebarOpen
-            ? "gap-2.5 rounded-sm px-4 py-3 font-medium text-black duration-300 ease-in-out"
-            : "sidebarrounded-lg justify-center py-2"
-        } hover:bg-graydark dark:hover:bg-meta-4 hover:text-white ${
-          isActive && "bg-graydark dark:bg-meta-4 text-white"
-        }`}
-        onClick={() => navigate(href)}
-        title={label}
-      >
-        <span className="">
+    <Link
+      to={href}
+      className={`relative
+          hover:bg-slate-400  hover:text-white list-none min-h-15 text-center flex justify-center py-2  ${
+            isActive && "bg-white  min-h-15 text-white items-center"
+          } `}
+      onClick={() => navigate(href)}
+      title={label}
+    >
+      {" "}
+      <li className="min-h-15 grid items-center">
+        <span className="flex justify-center">
           {iconType === "home" ? (
             <i
               className="fa fa-home bg-[#4680ff] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-lg"
@@ -55,11 +51,6 @@ const SidebarLink = ({ href, iconType, label, sidebarOpen }) => {
               className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
               aria-hidden="true"
             ></i>
-          ) : iconType === "video" ? (
-            <i
-              className="fa fa-video-camera bg-orange-700 text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
-              aria-hidden="true"
-            ></i>
           ) : iconType === "campaigns" ? (
             <i
               className="fa fa-bullhorn  bg-orange-700 text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
@@ -68,9 +59,15 @@ const SidebarLink = ({ href, iconType, label, sidebarOpen }) => {
           ) : null}
         </span>
         {/* <span className={`icon ${iconType} 'mr-0' `} /> */}
-        <span className="lg:block hidden">{sidebarOpen ? label : ""}</span>
-      </Link>
-    </li>
+        <span
+          className={`block text-xs font-medium  ${
+            isActive ? "text-black" : "text-white"
+          }`}
+        >
+          {label}
+        </span>
+      </li>
+    </Link>
   );
 };
 

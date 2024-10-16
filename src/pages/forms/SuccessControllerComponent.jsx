@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { toast } from "react-hot-toast";
+/* eslint-disable react/prop-types */
 import DropDown from "../../components/higherOrderComponent/Dropdown/Dropdown";
 import {
   defaultBoxClassName,
@@ -9,10 +8,9 @@ import {
 import { CameraIcon } from "../../components/custIcon/svgIcon";
 import ColorPicker from "../../components/higherOrderComponent/ColorPicker/ColorPicker";
 const SuccessControllerComponent = ({
-  templateData,
-  setTemplateData,
   templateDesign,
   onTemplateChange,
+  setTemplateDesign
 }) => {
   const inputControllerFieldClass =
     "p-3 rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark";
@@ -43,7 +41,7 @@ const SuccessControllerComponent = ({
                           if (file) {
                             const reader = new FileReader();
                             reader.onloadend = () => {
-                              setTemplateData((prev) => ({
+                              setTemplateDesign((prev) => ({
                                 ...prev,
                                 successImage: reader.result,
                               }));
@@ -73,9 +71,9 @@ const SuccessControllerComponent = ({
                     </label>
                     <input
                       type="text"
-                      value={templateData.successHeading}
+                      value={templateDesign.successHeading}
                       onChange={(e) =>
-                        setTemplateData((prev) => ({
+                        setTemplateDesign((prev) => ({
                           ...prev,
                           successHeading: e.target.value,
                         }))
@@ -136,9 +134,9 @@ const SuccessControllerComponent = ({
 
                     <input
                       type="text"
-                      value={templateData.successSubHeading}
+                      value={templateDesign.successSubHeading}
                       onChange={(e) =>
-                        setTemplateData((prev) => ({
+                        setTemplateDesign((prev) => ({
                           ...prev,
                           successSubHeading: e.target.value,
                         }))
@@ -197,9 +195,9 @@ const SuccessControllerComponent = ({
                     </label>
                     <input
                       type="text"
-                      value={templateData.successDescription}
+                      value={templateDesign.successDescription}
                       onChange={(e) =>
-                        setTemplateData((prev) => ({
+                        setTemplateDesign((prev) => ({
                           ...prev,
                           successDescription: e.target.value,
                         }))

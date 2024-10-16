@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react/prop-types */
+import { useState } from "react";
 import DropDown from "../../components/higherOrderComponent/Dropdown/Dropdown";
 import ColorPicker from "../../components/higherOrderComponent/ColorPicker/ColorPicker";
 import {
@@ -30,6 +31,8 @@ const StyleComponent = ({
           onChange: onTemplateChange(dropdownConfig.name),
           defaultValue: dropdownConfig.defaultValue,
         }}
+        selectedValue={templateDesign[dropdownConfig.name]}
+        setSelectedValue={onTemplateChange(dropdownConfig.name)}
       />
     </div>
   );
@@ -52,9 +55,9 @@ const StyleComponent = ({
     value,
     onChange,
     id,
-    placeholder
+    placeholder, index = 1
   ) => (
-    <div className="mt-3 grid justify-end">
+    <div key={index} className="mt-3 grid justify-end">
       <span className="block">{label}:</span>
       <input
         id={id}
@@ -66,8 +69,8 @@ const StyleComponent = ({
       />
     </div>
   );
-  const renderColorPicker = (label, colorType) => (
-    <div className="mt-3 flex justify-between items-center">
+  const renderColorPicker = (label, colorType, index = 1) => (
+    <div key={index} className="mt-3 flex justify-between items-center">
       <span>{label}:</span>
       <ColorPicker
         defaultColor={templateDesign[colorType]}
@@ -128,8 +131,8 @@ const StyleComponent = ({
                       <label className="mb-2 block text-black dark:text-white font-semibold">
                         Form Background
                       </label>
-                      {templateBgField.map(({ label, colorType }) =>
-                        renderColorPicker(label, colorType)
+                      {templateBgField.map(({ label, colorType }, i) =>
+                        renderColorPicker(label, colorType, i)
                       )}
                     </div>
 
@@ -179,25 +182,27 @@ const StyleComponent = ({
 
                       <label className="block mt-4">Padding (px):</label>
                       <div className="grid grid-cols-2">
-                        {["Top", "Bottom", "Left", "Right"].map((position) =>
+                        {["Top", "Bottom", "Left", "Right"].map((position, i) =>
                           renderPaddingMarginField(
                             `${position}`,
                             templateDesign[`templatePadding${position}`],
                             onTemplateChange(`templatePadding${position}`),
                             `templatePadding${position}`,
-                            "px"
+                            "px",
+                            i
                           )
                         )}
                       </div>
                       <label className="block mt-4">Margin (px):</label>
                       <div className="grid grid-cols-2">
-                        {["Top", "Bottom", "Left", "Right"].map((position) =>
+                        {["Top", "Bottom", "Left", "Right"].map((position, i) =>
                           renderPaddingMarginField(
                             `${position}`,
                             templateDesign[`templateMargin${position}`],
                             onTemplateChange(`templateMargin${position}`),
                             `templateMargin${position}`,
-                            "px"
+                            "px",
+                            i
                           )
                         )}
                       </div>
@@ -242,16 +247,16 @@ const StyleComponent = ({
                               }
                             />
                           </div>
-                          {inputTextColorFields.map(({ label, colorType }) =>
-                            renderColorPicker(label, colorType)
+                          {inputTextColorFields.map(({ label, colorType }, i) =>
+                            renderColorPicker(label, colorType, i)
                           )}
                         </div>
                         <div className="mb-4.5 border-b border-black pb-4">
                           <label className="mb-2 block text-black dark:text-white font-semibold">
                             Input Field Styles
                           </label>
-                          {inputColorFields.map(({ label, colorType }) =>
-                            renderColorPicker(label, colorType)
+                          {inputColorFields.map(({ label, colorType }, i) =>
+                            renderColorPicker(label, colorType, i)
                           )}
                         </div>
                       </>

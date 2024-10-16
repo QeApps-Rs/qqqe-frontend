@@ -12,9 +12,9 @@ import UserOne from "../../images/user/user-01.png";
 import PlusSvg from "../../images/svg-icons/plusSvg";
 import MinusSvg from "../../images/svg-icons/minusSvg";
 import SwitcherThree from "../Switchers/SwitcherThree";
-import { set } from "react-hook-form";
 import toast from "react-hot-toast";
 import Loader from "../../common/Loader";
+import NeedHelpPage from "../NeedHelp";
 
 const SuggestionCompNew = () => {
   const navigate = useNavigate();
@@ -51,53 +51,65 @@ const SuggestionCompNew = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isShowAnalyticsModal, setAnalyticsModal] = useState(false);
 
-    const [problemStatement, setProblemStatement] = useState({});
-    const [suggestionId, setSuggestionId] = useState(null);
-    const [manageAccordions, setManageAccordions] = useState([]);
-    const [accordionTab, setAccordionTab] = useState({});
-    const [discountObj, setDiscountObj] = useState({});
-    const [updatedDiscountObj, setUpdatedDiscountObj] = useState({});
-    const [inputTypeValue, setInputTypeValue] = useState(0);
-    const [plusMinus, setPlusMinus] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const { id } = useParams();
+  const [problemStatement, setProblemStatement] = useState({});
+  const [suggestionId, setSuggestionId] = useState(null);
+  const [manageAccordions, setManageAccordions] = useState([]);
+  const [accordionTab, setAccordionTab] = useState({});
+  const [discountObj, setDiscountObj] = useState({});
+  const [updatedDiscountObj, setUpdatedDiscountObj] = useState({});
+  const [inputTypeValue, setInputTypeValue] = useState(0);
+  const [plusMinus, setPlusMinus] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { id } = useParams();
 
-    useEffect(() => {
-        const fetchLevel2Suggestions = async () => {
-            try {
-                setLoading(true);
-                await FormSubmitHandler({
-                    method: "get",
-                    url: `level2/suggestion/${id}`,
-                }).then((res) => {
-                    if (res.data) {
-                        setProblemStatement(res.data);
-                        const initialAccordions = [];
-                        const innerAccordions = [];
-                        res.data?.tblLevel2?.map((tblLevel) => {
-                            initialAccordions.push(collapsedAccordionState);
-                            return tblLevel?.suggestion?.data?.map((items) => {
-                                Object.keys(items).map((item) => {
-                                    const defaultClass = (item == 'Customer_ID' || item == 'Customer_IP' || item == 'Days_After_Onboarding') ? activeTabObj : hiddenTabObj;
-                                    setAccordionTab(prev => ({ ...prev, [item]: defaultClass }));
-                                    return true;
-                                })
-                                return innerAccordions.push(defaultInnerAccordion)
-                            })
-                        });
+  useEffect(() => {
+    const fetchLevel2Suggestions = async () => {
+      try {
+        setLoading(true);
+        await FormSubmitHandler({
+          method: "get",
+          url: `level2/suggestion/${id}`,
+        })
+          .then((res) => {
+            if (res.data) {
+              setProblemStatement(res.data);
+              const initialAccordions = [];
+              const innerAccordions = [];
+              res.data?.tblLevel2?.map((tblLevel) => {
+                initialAccordions.push(collapsedAccordionState);
+                Object.keys(tblLevel?.suggestion?.data).length > 0 &&
+                  tblLevel?.suggestion?.data?.map((items) => {
+                    Object.keys(items).map((item) => {
+                      const defaultClass =
+                        item == "Customer_ID" ||
+                        item == "Customer_IP" ||
+                        item == "Days_After_Onboarding"
+                          ? activeTabObj
+                          : hiddenTabObj;
+                      setAccordionTab((prev) => ({
+                        ...prev,
+                        [item]: defaultClass,
+                      }));
+                      return true;
+                    });
+                    return innerAccordions.push(defaultInnerAccordion);
+                  });
+              });
 
-                        setManageAccordions(initialAccordions);
-                        setPlusMinus(innerAccordions);
-                    }
-                }).catch((err) => {
-                    toast.error(err.message);
-                }).finally(() => {
-                    setLoading(false);
-                });
-            } catch (error) {
-                console.error("Error fetching user data:", error);
+              setManageAccordions(initialAccordions);
+              setPlusMinus(innerAccordions);
             }
-        };
+          })
+          .catch((err) => {
+            toast.error(err.message);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
 
     fetchLevel2Suggestions();
   }, []);
@@ -133,8 +145,9 @@ const SuggestionCompNew = () => {
   };
 
   // eslint-disable-next-line react/prop-types
-  const SettingIcon = ({ onClick }) => (
-    <span onClick={onClick} className="cursor-pointer">
+  const SettingIcon = ({ onClick, disabled }) => (
+    // <span onClick={disabled ? null : onClick} className={`${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`  }>
+    <span onClick={onClick} className={`cursor-pointer`}>
       ⚙️
     </span>
   );
@@ -313,8 +326,12 @@ const SuggestionCompNew = () => {
   const changeAppliedStatus = async (problemId, statementId, currentStatus) => {
     try {
       const result = await FormSubmitHandler({
-        method: "get",
-        url: `suggestion/service-status/${statementId}`,
+        method: "post",
+        url: `suggestion/service-status`,
+        data: {
+          pid: problemId,
+          sid: statementId,
+        },
       });
       if (result.data) {
         console.log("result data ", result.data);
@@ -383,14 +400,15 @@ const SuggestionCompNew = () => {
     }
   };
 
-  const renderActionTd = (suggestion, suggestionId) => {
+  const renderActionTd = (data) => {
+    const { suggestion, id, is_applied } = data;
     return (
       <div className="flex align-center">
-        <div title="Configuration" className="ml-2" data-id={suggestionId}>
+        <div title="Configuration" className="ml-2" data-id={id}>
           <SettingIcon
             onClick={() => {
               toggleModal();
-              setSuggestionId(suggestionId);
+              setSuggestionId(id);
               setInputTypeValue(suggestion.discount_percentage);
               setDiscountObj({
                 description: suggestion.description,
@@ -403,6 +421,7 @@ const SuggestionCompNew = () => {
                 discount_percentage: suggestion.discount_percentage,
               });
             }}
+            disabled={is_applied}
           />
         </div>
       </div>
@@ -474,21 +493,21 @@ const SuggestionCompNew = () => {
   const accordionTabClass =
     "border-b-2 py-4 text-sm font-medium hover:text-primary md:text-base";
 
-    return (
-        <>
-            {loading && <Loader />}
-            <div>
-                <div className={titleClass}>
-                    <h2 className="text-lg text-title-md2 font-semibold text-black dark:text-white">
-                        Discover the Solution
-                    </h2>
-                    <span onClick={() => navigate(-1)} className={backBtnClass} >
-                        <BackIcon /> Back
-                    </span>
-                </div>
-                <span className="p-2 text-sm text-black mb-3">
-                    Find effective strategies to solve these challenges.
-                </span>
+  return (
+    <>
+      {loading && <Loader />}
+      <div>
+        <div className={titleClass}>
+          <h2 className="text-lg text-title-md2 font-semibold text-black dark:text-white">
+            Discover the Solution
+          </h2>
+          <span onClick={() => navigate(-1)} className={backBtnClass}>
+            <BackIcon /> Back
+          </span>
+        </div>
+        <span className="p-2 text-sm text-black mb-3">
+          Find effective strategies to solve these challenges.
+        </span>
 
         <div className={prblmStmtClass}>
           <p className="text-md text-lg font-bold text-gray-900 leading-relaxed mb-2">
@@ -533,13 +552,13 @@ const SuggestionCompNew = () => {
                           aria-label="suggestions"
                           className={`${comTdClass} px-4 py-5`}
                         >
-                          {renderPublishedDateTd(suggestion.published_date)}
+                          {renderPublishedDateTd(suggestion.applied_at)}
                         </td>
                         <td
                           aria-label="suggestions"
                           className={`${comTdClass} px-4 py-5`}
                         >
-                          {renderActionTd(suggestion.suggestion, suggestion.id)}
+                          {renderActionTd(suggestion)}
                         </td>
                       </tr>
                     );
@@ -597,6 +616,7 @@ const SuggestionCompNew = () => {
           )}
         </div>
         <Support />
+        <NeedHelpPage/>
       </div>
     </>
   );

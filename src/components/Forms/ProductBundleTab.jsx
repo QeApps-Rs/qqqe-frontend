@@ -19,20 +19,24 @@ const ProductBundleTab = ({
   noOfProducts,
   setNoOfProducts,
   productListForPopUp,
+  collectionListForPopUp,
+  setCollectionListForPopUp,
+  setProductDiscountForDetails,
+  productDiscountForDetails,
+  setProductDiscountTypeDetails,
+  productDiscountTypeDetails,
+  setProductDiscountAmountDetails,
+  productDiscountAmountDetails,
+  switchStates,
+  setSwitchStates,
+  targetedProducts,
+  setTargetedProducts,
+  targetedCollections,
+  setTargetedCollections,
 }) => {
   const [selectedCollections, setSelectedCollections] = useState({});
-  const [targetedProducts, setTargetedProducts] = useState([]);
-  const [targetedCollections, setTargetedCollections] = useState([]);
-
-  const [switchStates, setSwitchStates] = useState({
-    openInNewTab: false,
-    image: false,
-    name: false,
-    sku: false,
-    price: false,
-    variantSwatch: false,
-    atcButton: false,
-  });
+  // const [targetedProducts, setTargetedProducts] = useState([]);
+  // const [targetedCollections, setTargetedCollections] = useState([]);
 
   const handleToggle = (key) => {
     setSwitchStates((prevStates) => ({
@@ -40,7 +44,6 @@ const ProductBundleTab = ({
       [key]: !prevStates[key],
     }));
   };
-
   const onNoOfProductsSelect = (e) => {
     setNoOfProducts(e.target.value);
   };
@@ -87,11 +90,20 @@ const ProductBundleTab = ({
     }));
   };
 
-  const handleCollectionCheckboxChange = (id) => {
-    setSelectedCollections((prevCheckedItems) => ({
-      ...prevCheckedItems,
-      [id]: !prevCheckedItems[id],
-    }));
+  const handleCollectionCheckboxChange = (id, title = "", handle = "") => {
+    setSelectedCollections((prevCheckedItems) => {
+      const isChecked = !prevCheckedItems[id];
+      setCollectionListForPopUp((prevItems) => {
+        const itemExists = prevItems.some((item) => item.id === id);
+        return itemExists
+          ? prevItems.filter((item) => item.id !== id)
+          : [...prevItems, { id, title, handle }];
+      });
+      return {
+        ...prevCheckedItems,
+        [id]: isChecked,
+      };
+    });
   };
 
   const handleTargetedCollectionCheckboxChange = (id) => {
@@ -222,7 +234,13 @@ const ProductBundleTab = ({
                   id={collection.id}
                   label={collection.title}
                   checked={selectedCollections[collection.id] || false}
-                  onChange={() => handleCollectionCheckboxChange(collection.id)}
+                  onChange={() =>
+                    handleCollectionCheckboxChange(
+                      collection.id,
+                      collection.title,
+                      collection.handle
+                    )
+                  }
                 />
               </div>
             ) : null
@@ -270,7 +288,6 @@ const ProductBundleTab = ({
       </>
     );
   };
-
   return (
     <>
       <div className="p-4 border-t">
@@ -357,21 +374,6 @@ const ProductBundleTab = ({
                         </Tabs>
                       </div>
 
-                      {/* <div className="mb-4.5 border-b border-black pb-4">
-                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                          Select Product
-                        </label>
-                        {productListState && (
-                          <ProductListComponent
-                            productList={productList}
-                            selectedProducts={selectedProducts}
-                            handleProductCheckboxChange={
-                              handleProductCheckboxChange
-                            }
-                          />
-                        )}
-                      </div> */}
-
                       <div className="mb-4.5 border-b border-black pb-4">
                         <label className="mb-2.5 block text-black dark:text-white font-semibold">
                           Targeted Preference
@@ -419,36 +421,6 @@ const ProductBundleTab = ({
                         </Tabs>
                       </div>
 
-                      {/* <div className="mb-4.5 border-b border-black pb-4">
-                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                          Targeted Product
-                        </label>
-                        {productListState && (
-                          <TargetedProductListComponent
-                            productList={productList}
-                            targetedProducts={targetedProducts}
-                            handleTargetedProductCheckboxChange={
-                              handleTargetedProductCheckboxChange
-                            }
-                          />
-                        )}
-                      </div>
-
-                      <div className="mb-4.5 border-b border-black pb-4">
-                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                          Targeted Collection
-                        </label>
-                        {collectionListState && (
-                          <TargetedCollectionListComponent
-                            collectionList={collectionList}
-                            targetedCollections={targetedCollections}
-                            handleTargetedCollectionCheckboxChange={
-                              handleTargetedCollectionCheckboxChange
-                            }
-                          />
-                        )}
-                      </div> */}
-
                       <div className="mb-4.5 border-b border-black pb-4">
                         <label className="mb-2.5 block text-black dark:text-white font-semibold">
                           Discount Configuration
@@ -460,9 +432,9 @@ const ProductBundleTab = ({
                           <label className="mb-2.5 block">
                             <div className="mb-6">
                               <DropDown
-                                jsonData={{
-                                  ...discountForDropdown,
-                                }}
+                                jsonData={discountForDropdown}
+                                selectedValue={productDiscountForDetails} // Pass the value to child
+                                setSelectedValue={setProductDiscountForDetails} // Pass the setter to child
                               />
                             </div>
                           </label>
@@ -475,9 +447,9 @@ const ProductBundleTab = ({
                           <label className="mb-2.5 block">
                             <div className="mb-6">
                               <DropDown
-                                jsonData={{
-                                  ...discountTypeDropdown,
-                                }}
+                                jsonData={discountTypeDropdown}
+                                selectedValue={productDiscountTypeDetails} // Pass the value to child
+                                setSelectedValue={setProductDiscountTypeDetails} // Pass the setter to child
                               />
                             </div>
                           </label>
@@ -493,6 +465,12 @@ const ProductBundleTab = ({
                                 type="number"
                                 name="dis_amount"
                                 id="dis_amount"
+                                value={productDiscountAmountDetails}
+                                onChange={(e) =>
+                                  setProductDiscountAmountDetails(
+                                    e.target.value
+                                  )
+                                }
                               />
                             </div>
                           </label>
@@ -534,9 +512,6 @@ const ProductBundleTab = ({
                         enabled={switchStates.atcButton}
                         onToggle={() => handleToggle("atcButton")}
                       />
-                      <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-                        Save
-                      </button>
                     </div>
                   </form>
                 </div>

@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+/* eslint-disable react/prop-types */
+import { useState } from "react";
 
-const Radio = ({ jsonData,onChange }) => {
-  const [selectedValue, setSelectedValue] = useState("");
+const Radio = ({ jsonData, onChange, defaultValue = "" }) => {
+  const [selectedValue, setSelectedValue] = useState(defaultValue);
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
-    onChange(event.target.value)
+    onChange(event.target.value);
   };
 
   return (
     <>
       {jsonData.map((item) => (
-        <label key={item.value} className="flex cursor-pointer select-none items-center mt-2">
+        <label
+          key={item.value}
+          className="flex cursor-pointer select-none items-center mt-2"
+        >
           <div className="relative">
             <input
               type="radio"

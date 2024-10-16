@@ -21,8 +21,6 @@ const TemplateList = () => {
     })
       .then((res) => {
         if (res.data) {
-          console.log(['data', res.data]);
-          
           setTemplateList(res.data);
         }
       })
@@ -48,19 +46,20 @@ const TemplateList = () => {
         return template.subTemplates.map((subTemplate) => {
           if (subTemplate.is_active == "active") {
             return (
-              <div className={subTemplate.keywords} key={subTemplate.id}>
+              <div className={`${subTemplate.keywords} transition-transform transform hover:scale-105 hover:shadow-lg`} key={subTemplate.id}>
                 <Link
                   to={`/master-form/${id}`}
                   state={{
-                    keywords: subTemplate.keywords,
                     subTemplateId: subTemplate.id,
                   }}
                 >
-                  <img
-                    className="mb-3 shadow-lg border border-slate-300 rounded-md w-full"
-                    src={subTemplate.image_path}
-                    alt={subTemplate.description}
-                  />
+                  <div className="px-10 py-6 h-[400px] bg-[#e6e6e6e6] shadow-md shadow-black/28 rounded-lg">
+                    <img
+                      className="mb-3  w-full h-full object-contain"
+                      src={subTemplate.image_path}
+                      alt={subTemplate.description}
+                    />
+                  </div>
                 </Link>
               </div>
             );
@@ -92,13 +91,13 @@ const TemplateList = () => {
       </span>
       <FilterBar />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-4 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 my-10 w-full">
         <RenderTemplates templateListProp={templateList} />
-        {
-          templateList.length == 0 && <div className="text-center text-black font-semibold">
+        {templateList.length == 0 && (
+          <div className="text-center text-black font-semibold">
             No Template Found
           </div>
-        }
+        )}
       </div>
     </>
   );
