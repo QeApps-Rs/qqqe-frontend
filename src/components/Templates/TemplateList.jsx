@@ -13,6 +13,8 @@ const TemplateList = () => {
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const [templateList, setTemplateList] = useState([]);
+  const [keywords, setKeywords] = useState([]);
+  const [filterKeyword, setFilterKeyword] = useState("");
 
   const getTemplateList = async () => {
     setLoading(true);
@@ -33,43 +35,68 @@ const TemplateList = () => {
       });
   };
 
+  const getKeywordList = async () => {
+    setLoading(true);
+    await FormSubmitHandler({
+      method: "get",
+      url: `features`,
+    })
+      .then((res) => {
+        if (res.data) {
+          setKeywords(res.data);
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     getTemplateList();
+    getKeywordList();
   }, []);
 
   const RenderTemplates = ({ templateListProp }) => {
-    return templateListProp.map((template) => {
+    return templateListProp?.map((template) => {
       if (
         template &&
         template.subTemplates &&
         template.subTemplates.length > 0
       ) {
-        return template.subTemplates.map((subTemplate) => {
-          if (subTemplate.is_active == "active") {
-            return (
-              <div
-                className={`${subTemplate.keywords} transition-transform transform hover:scale-105 hover:shadow-lg md:col-span-1`}
-                key={subTemplate.id}
-              >
-                <Link
-                  to={`/master-form/${id}`}
-                  state={{
-                    subTemplateId: subTemplate.id,
-                  }}
+        return template.subTemplates
+          ?.filter((subTemplate) =>
+            subTemplate?.keywords?.includes(filterKeyword)
+          )
+          ?.map((subTemplate) => {
+            if (subTemplate.is_active == "active") {
+              return (
+                <div
+                  data-keywords={subTemplate.keywords}
+                  className={`transition-transform transform hover:scale-105 hover:shadow-lg md:col-span-1`}
+                  key={subTemplate.id}
                 >
-                  <div className="px-10 py-6 h-[350px] bg-[url('/src/images/template-background.svg')] bg-no-repeat bg-cover shadow-md shadow-black/28 rounded-lg">
-                    <img
-                      className="mb-3  w-full h-full object-contain"
-                      src={subTemplate.image_path}
-                      alt={subTemplate.description}
-                    />
-                  </div>
-                </Link>
-              </div>
-            );
-          }
-          return null;
-        });
+                  <Link
+                    to={`/master-form/${id}`}
+                    state={{
+                      subTemplateId: subTemplate.id,
+                    }}
+                  >
+                    <div className="px-10 py-6 h-[350px] bg-[url('/src/images/template-background.svg')] bg-no-repeat bg-cover shadow-md shadow-black/28 rounded-lg">
+                      <img
+                        className="mb-3  w-full h-full object-contain"
+                        src={subTemplate.image_path}
+                        alt={subTemplate.description}
+                      />
+                    </div>
+                  </Link>
+                </div>
+              );
+            }
+            return null;
+          });
       }
       return null;
     });
@@ -171,7 +198,7 @@ const TemplateList = () => {
       <span className="p-2 text-sm text-black mb-3">
         Apply solutions to improve your store and derive results
       </span>
-      <FilterBar />
+      <FilterBar keywords={keywords} setFilterKeyword={setFilterKeyword} />
       <div className="flex">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10 my-10 w-full">
           {/* Left side content occupying 2/3 of the space */}
