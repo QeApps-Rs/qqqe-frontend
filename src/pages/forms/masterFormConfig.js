@@ -1,19 +1,19 @@
 export const templateFieldCss = {
-  bgColor: "rgb(255, 255, 255)", // styles.form_type.input_fields_style.background_color
-  borderColor: "rgb(209, 213, 219)", // styles.form_type.input_fields_style.border_color 
-  focusBorderColor: "rgb(0, 123, 255)",  // styles.form_type.input_fields_style.focus_border_color 
-  placeholderTextColor: "rgb(107 114 128)", // styles.form_type.input_fields_style.placeholder_color
-  formHeadingColor: "rgb(0, 0, 0)", // styles.form_type.input_fields_style.label_color
-  textColor: "rgb(0, 0, 0)", // styles.form_type.input_fields_style.text_color
+  bgColor: "#FFFFFF", // styles.form_type.input_fields_style.background_color
+  borderColor: "#D1D5DB", // styles.form_type.input_fields_style.border_color 
+  focusBorderColor: "#007BFF",  // styles.form_type.input_fields_style.focus_border_color 
+  placeholderTextColor: "#6B7280", // styles.form_type.input_fields_style.placeholder_color
+  formHeadingColor: "#000000", // styles.form_type.input_fields_style.label_color
+  textColor: "#000000", // styles.form_type.input_fields_style.text_color
   letterSpacing: "1px", // styles.form_type.input_fields_style.letter_spacing
   inputFontSize: "14px",  // styles.form_type.input_fields_style.font_size
-  templateBgColor: "rgb(255,255,255)",// styles.form_type.background_color
-  templateOverlayColor: "rgb(255, 255, 255)",// styles.form_type.overlay_color
+  templateBgColor: "#FFFFFF",// styles.form_type.background_color
+  templateOverlayColor: "#FFFFFF",// styles.form_type.overlay_color
   fontWeight: "normal", // styles.form_type.input_fields_style.font_weight
   fontFamily: "Arial",// styles.form_type.input_fields_style.font_family
   borderRadius: "",// styles.form_type.corner_radius
   borderWidth: "2px",// styles.form_type.border_width
-  templateBorderColor: "rgb(255, 255, 255)", // styles.form_type.template_border_color
+  templateBorderColor: "#FFFFFF", // styles.form_type.template_border_color
   templatePaddingTop: "8px", // styles.form_type.padding_top
   templatePaddingBottom: "8px",// styles.form_type.padding_bottom
   templatePaddingLeft: "8px",// styles.form_type.padding_left
@@ -32,11 +32,11 @@ export const templateFieldCss = {
   templateHeadingFontFamily: "Arial",// styles.form_parameters.title.template_heading_font_family
   templateOfferFontFamily: "Arial",// styles.form_parameters.offer_title.template_offer_font_family
   templateSubHeadingFontFamily: "Arial",// styles.form_parameters.sub_title.template_sub_heading_font_family
-  templateHeadingColor: "rgb(0, 0, 0)",// styles.form_parameters.title.color
-  templateSubHeadingColor: "rgb(0, 0, 0)",// styles.form_parameters.sub_title.color
-  templateOfferColor: "rgb(0, 0, 0)",// styles.form_parameters.offer_title.template_offer_color
-  templateButtonBgColor: "rgb(0, 0, 0)",// styles.form_parameters.button.background_color
-  templateProductOverlayColor: "rgb(0, 0, 0)",
+  templateHeadingColor: "#000000",// styles.form_parameters.title.color
+  templateSubHeadingColor: "#000000",// styles.form_parameters.sub_title.color
+  templateOfferColor: "#000000",// styles.form_parameters.offer_title.template_offer_color
+  templateButtonBgColor: "#000000",// styles.form_parameters.button.background_color
+  templateProductOverlayColor: "#000000",
   imagePosition: "0",// styles.form_parameters.side_image.side
   successHeadingFontSize: "32px",
   successDescriptionFontSize: "24px",
@@ -44,9 +44,9 @@ export const templateFieldCss = {
   successHeadingFontFamily: "Arial",
   successDescriptionFontFamily: "Arial",
   successSubHeadingFontFamily: "Arial",
-  successHeadingColor: "rgb(0, 0, 0)",
-  successSubHeadingColor: "rgb(0, 0, 0)",
-  successDescriptionColor: "rgb(0, 0, 0)",
+  successHeadingColor: "#000000",
+  successSubHeadingColor: "#000000",
+  successDescriptionColor: "#000000",
   containPosition: "center",
   reviewType: "none",
   reviewCount: '5',
@@ -206,7 +206,7 @@ export const discountForDropdown = {
     { value: "dis_for_order", label: "Order" },
     { value: "dis_for_product", label: "Product" },
   ],
-  validationLogic: (data) => {
+  validationLogic: () => {
     // Optional validation logic
     return {};
   },
