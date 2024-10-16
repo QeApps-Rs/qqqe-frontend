@@ -124,8 +124,6 @@ const MasterForm = () => {
 
   const [targetedProducts, setTargetedProducts] = useState([]);
   const [targetedCollections, setTargetedCollections] = useState([]);
-  console.log("targetedProducts", targetedProducts);
-  console.log("targetedCollections", targetedCollections);
   const navigate = useNavigate();
   const { id } = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -140,8 +138,6 @@ const MasterForm = () => {
   const [noOfProducts, setNoOfProducts] = useState(3);
   const location = useLocation();
   const { keywords, subTemplateId } = location.state || {}; // Safely access state
-  console.log("productListForPopUp", productListForPopUp);
-  console.log("selectedProducts", selectedProducts);
   // TARGETING AND BEHAVIOR START
   const [targetingAndBehavior, setTargetingAndBehavior] = useState(
     targetAndBehaviorDefaultState
