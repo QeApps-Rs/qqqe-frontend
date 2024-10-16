@@ -1070,7 +1070,7 @@ const MasterForm = () => {
                 {activeIndex === index && item.tag === "target" && (
                   <TargetingAndBehaviorControlComponent
                     targetingAndBehavior={targetingAndBehavior}
-                    setTargetingAndBehaviour={setTargetingAndBehavior}
+                    setTargetingAndBehavior={setTargetingAndBehavior}
                   />
                 )}
 

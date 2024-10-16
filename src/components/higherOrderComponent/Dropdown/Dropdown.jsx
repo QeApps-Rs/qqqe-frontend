@@ -1,7 +1,7 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 
 const DropDown = ({ jsonData, selectedValue, setSelectedValue }) => {
-  
   const [isOptionSelected, setIsOptionSelected] = useState(!!selectedValue);
 
   const changeTextColor = () => {

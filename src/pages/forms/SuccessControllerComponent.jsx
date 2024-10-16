@@ -10,7 +10,7 @@ import ColorPicker from "../../components/higherOrderComponent/ColorPicker/Color
 const SuccessControllerComponent = ({
   templateDesign,
   onTemplateChange,
-  setTemplateDesign
+  setTemplateDesign,
 }) => {
   const inputControllerFieldClass =
     "p-3 rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark";
@@ -60,9 +60,9 @@ const SuccessControllerComponent = ({
                     <DropDown
                       jsonData={{
                         ...successContainPositionDropdownData,
-                        onChange: onTemplateChange("containPosition"),
-                        defaultValue: templateDesign.containPosition,
                       }}
+                      selectedValue={templateDesign.containPosition}
+                      setSelectedValue={onTemplateChange("containPosition")}
                     />
                   </div>
                   <div className={inputControllerFieldClass}>
