@@ -133,9 +133,9 @@ const InputControllerComponent = ({
                         <DropDown
                           jsonData={{
                             ...imagePositionDropdownData,
-                            onChange: onTemplateChange("imagePosition"),
-                            defaultValue: templateDesign.imagePosition,
                           }}
+                          selectedValue={templateDesign.imagePosition}
+                          setSelectedValue={onTemplateChange("imagePosition")}
                         />
                       </div>
                     </>
@@ -389,13 +389,14 @@ const InputControllerComponent = ({
                           key={`fieldValidation-${renderKey}`}
                           jsonData={{
                             ...fieldValidationDropdownData,
-                            defaultValue: fieldState.fieldValidation,
-                            onChange: (value) =>
-                              setFieldState((prevState) => ({
-                                ...prevState,
-                                fieldValidation: value,
-                              })),
                           }}
+                          selectedValue={fieldState.fieldValidation}
+                          setSelectedValue={(value) =>
+                            setFieldState((prevState) => ({
+                              ...prevState,
+                              fieldValidation: value,
+                            }))
+                          }
                         />
                       </div>
                       <div className="mb-6">
@@ -403,13 +404,14 @@ const InputControllerComponent = ({
                           key={`fieldType-${renderKey}`}
                           jsonData={{
                             ...fieldTypeDropdownData,
-                            defaultValue: fieldState.fieldType,
-                            onChange: (value) =>
-                              setFieldState((prevState) => ({
-                                ...prevState,
-                                fieldType: value,
-                              })),
                           }}
+                          selectedValue={fieldState.fieldType}
+                          setSelectedValue={(value) =>
+                            setFieldState((prevState) => ({
+                              ...prevState,
+                              fieldType: value,
+                            }))
+                          }
                         />
                       </div>
                       <button
