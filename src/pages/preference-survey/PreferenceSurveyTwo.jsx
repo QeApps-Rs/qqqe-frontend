@@ -156,18 +156,23 @@ const PreferenceSurveyTwo = ({ isTitleDisplay = true }) => {
                       <h3 className="text-3xl text-white font-bold max-h-25 min-h-25">
                         {question.question}
                       </h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 mt-15">
+                      <div className="grid grid-cols-2 sm:grid-cols-2 gap-12 mt-15 ">
                         {" "}
                         {question.answers.map((answer) => (
-                          <Checkbox
+                          <div
+                            className="col-span-1 bg-white p-7 rounded-lg"
                             key={answer.id}
-                            id={answer.id}
-                            label={answer.answer.replace(/_/g, " ")}
-                            checked={isChecked(question.id, answer.id)}
-                            onChange={() =>
-                              handleChange(question.id, answer.id)
-                            }
-                          />
+                          >
+                            <Checkbox
+                              key={answer.id}
+                              id={answer.id}
+                              label={answer.answer.replace(/_/g, " ")}
+                              checked={isChecked(question.id, answer.id)}
+                              onChange={() =>
+                                handleChange(question.id, answer.id)
+                              }
+                            />
+                          </div>
                         ))}
                       </div>
                     </div>
