@@ -101,7 +101,6 @@ const MasterForm = () => {
   });
 
   const [suggestionTemplateStatus, setSuggestionTemplateStatus] = useState({
-    isPreviewPopup: false,
     isProductBundle: false,
     isPurchaseSatisfactionSurvey: false,
     isFeedbackSurvey: false,
@@ -125,6 +124,8 @@ const MasterForm = () => {
 
   const [targetedProducts, setTargetedProducts] = useState([]);
   const [targetedCollections, setTargetedCollections] = useState([]);
+  console.log("targetedProducts", targetedProducts);
+  console.log("targetedCollections", targetedCollections);
   const navigate = useNavigate();
   const { id } = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -139,6 +140,8 @@ const MasterForm = () => {
   const [noOfProducts, setNoOfProducts] = useState(3);
   const location = useLocation();
   const { keywords, subTemplateId } = location.state || {}; // Safely access state
+  console.log("productListForPopUp", productListForPopUp);
+  console.log("selectedProducts", selectedProducts);
   // TARGETING AND BEHAVIOR START
   const [targetingAndBehavior, setTargetingAndBehavior] = useState(
     targetAndBehaviorDefaultState
@@ -402,11 +405,6 @@ const MasterForm = () => {
               desktop: false,
               mobile: false,
             });
-          } else {
-            setSuggestionTemplateStatus({
-              ...suggestionTemplateStatus,
-              isPreviewPopup: true,
-            });
           }
 
           let jsonObject = response?.data?.params;
@@ -461,14 +459,13 @@ const MasterForm = () => {
               jsonObject?.items?.discount_details?.discount_amount
             );
             setSwitchStates(jsonObject?.items?.bundle_attribute);
-            const updatedSurveyState =
-              jsonObject?.survey_controller?.survey?.map((sitem) => {
-                return {
-                  fieldName: sitem.question,
-                  options: sitem.answers,
-                };
-              });
-            setAddedQuestion(updatedSurveyState || []);
+            const updatedSurveyState = jsonObject?.survey_controller?.survey?.map((sitem) => {
+              return {
+                fieldName: sitem.question,
+                options: sitem.answers,
+              };
+            });
+            setAddedQuestion(updatedSurveyState || [])
           }
         }
       } catch (error) {
@@ -1074,7 +1071,7 @@ const MasterForm = () => {
                   />
                 )}
 
-                {(suggestionTemplateStatus?.isProductBundle ||
+                {((suggestionTemplateStatus?.isProductBundle ||
                   suggestionTemplateStatus?.isUpSellPopup ||
                   suggestionTemplateStatus?.isAbandonmentPopup ||
                   suggestionTemplateStatus?.isCrossSellPopup ||
@@ -1117,7 +1114,7 @@ const MasterForm = () => {
                       targetedCollections={targetedCollections}
                       setTargetedCollections={setTargetedCollections}
                     />
-                  )}
+                  ))}
 
                 {!suggestionTemplateStatus?.isProductBundle &&
                   activeIndex === index &&
@@ -1233,197 +1230,294 @@ const MasterForm = () => {
         </span>
       </div>
 
-      <div className="w-3/4 float-right p-0 h-[83.90vh]">
-        <TemplateHeader
-          isView={isView}
-          success={success}
-          setSuccess={setSuccess}
-          templateHeaderState={templateHeaderState}
-          onPublish={onPublish}
-        />
-        {suggestionTemplateStatus.isProductBundle && (
-          <ProductBundlePopUp
-            productData={productListForPopUp}
-            noOfProducts={noOfProducts}
-            templateDesign={templateDesign}
-            getStyle={getStyle}
-          />
-        )}
-        {suggestionTemplateStatus.isPurchaseSatisfactionSurvey && (
-          <div
-            className={`h-full flex items-center justify-center border-8 border-indigo-600 ${
-              isView !== "Desktop"
-                ? "min-h-[785px] bg-no-repeat bg-top bg-center"
-                : "gap-8 overflow-auto"
-            }`}
-          >
-            <div className={formClasses()}>
-              <div className={`p-8 flex flex-col justify-center xl:col-span-6`}>
-                <h1
-                  className="text-8xl font-bold mb-4 relative"
-                  style={{ width: "150%" }}
-                >
-                  {templateDesign.heading || "HI, THANKS FOR STOPPING BY!"}
-                </h1>
-                <p
-                  className="text-lg mb-6"
-                  style={getStyle(templateDesign, "templateSubheading")}
-                >
-                  {templateDesign.subHeading ||
-                    "How would you rate your overall experience with us?"}
-                </p>
-                <hr class="w-48 h-1 my-4 bg-[#d0d5d9] border-0 rounded md:my-10 dark:bg-gray-700"></hr>
-                <form
-                  className="flex flex-col space-y-4"
-                  onSubmit={handleSubmit}
-                >
-                  {/* Display Stars Here */}
-                  {templateDesign.reviewType === "review" && (
-                    <>{renderStars(reviewCount)}</>
-                  )}
-                  {templateDesign.reviewType === "rating" && (
-                    <>{renderNumbers(ratingCount)}</>
-                  )}
-                </form>
-              </div>
-              <div className={`p-8 flex flex-col justify-center xl:col-span-6`}>
-                <img
-                  src={purchaseSatisfactionSurveyDefaultImage}
-                  alt="Promo"
-                  className="h-full w-full object-fill"
-                />
-              </div>
-            </div>
+      {suggestionTemplateStatus.isProductBundle ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
+            <ProductBundlePopUp
+              productData={productListForPopUp}
+              noOfProducts={noOfProducts}
+              templateDesign={templateDesign}
+              getStyle={getStyle}
+            />
           </div>
-        )}
-        {suggestionTemplateStatus.isFeedbackSurvey && (
-          <div className="h-full items-center justify-center flex">
-            <div className="relative rounded-lg w-full shadow-[7px_-7px_57px_#ccc] flex items-center bg-white">
-              <div className="w-[16%] bg-[#fcf1e9] flex justify-center py-[30px] rounded-l-none rounded-r-[90px]">
-                <img
-                  src={purchaseSatisfactionSurveyDefaultImage}
-                  alt="Round Image"
-                  className="w-[55%] object-cover"
-                />
-              </div>
-
-              <div className="w-[70%] pl-6 z-10">
-                <div className="mb-4 text-center">
-                  <span className="text-lg font-semibold">
-                    How satisfied were you with your purchase?
-                  </span>
-                </div>
-
-                <div className="flex flex-col items-center space-y-4">
-                  {/* Text is already centered within the div */}
+        </>
+      ) : suggestionTemplateStatus.isPurchaseSatisfactionSurvey ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
+            <div
+              className={`h-full flex items-center justify-center border-8 border-indigo-600 ${
+                isView !== "Desktop"
+                  ? "min-h-[785px] bg-no-repeat bg-top bg-center"
+                  : "gap-8 overflow-auto"
+              }`}
+            >
+              <div className={formClasses()}>
+                <div
+                  className={`p-8 flex flex-col justify-center xl:col-span-6`}
+                >
+                  <h1
+                    className="text-8xl font-bold mb-4 relative"
+                    style={{ width: "150%" }}
+                  >
+                    {templateDesign.heading || "HI, THANKS FOR STOPPING BY!"}
+                  </h1>
+                  <p
+                    className="text-lg mb-6"
+                    style={getStyle(templateDesign, "templateSubheading")}
+                  >
+                    {templateDesign.subHeading ||
+                      "How would you rate your overall experience with us?"}
+                  </p>
+                  <hr class="w-48 h-1 my-4 bg-[#d0d5d9] border-0 rounded md:my-10 dark:bg-gray-700"></hr>
                   <form
-                    className="w-full flex flex-col items-center space-y-4"
+                    className="flex flex-col space-y-4"
                     onSubmit={handleSubmit}
                   >
-                    {(templateDesign.reviewType === "review" ||
-                      surveyController.survey_type === "review") && (
+                    {/* Display Stars Here */}
+                    {templateDesign.reviewType === "review" && (
                       <>{renderStars(reviewCount)}</>
                     )}
-                    {(templateDesign.reviewType === "rating" ||
-                      surveyController.survey_type === "rating") && (
-                      <>{renderNumbers(ratingCount, 5, "border-[#f1e7df]")}</>
+                    {templateDesign.reviewType === "rating" && (
+                      <>{renderNumbers(ratingCount)}</>
                     )}
                   </form>
                 </div>
-              </div>
-            </div>
-          </div>
-        )}
-        {suggestionTemplateStatus.isAttributionSurvey && (
-          <div className="w-full flex justify-center items-center h-full">
-            <div className="relative bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg p-8 w-1/3 shadow-lg">
-              <button className="absolute top-4 right-4 text-white text-lg font-semibold">
-                &times;
-              </button>
-
-              <h2 className="text-center text-white text-xl font-bold mb-2">
-                THANKS FOR YOUR PURCHASE
-              </h2>
-
-              <p className="text-center text-white mb-6">
-                Before you go we would like to hear your feedback
-              </p>
-
-              <h1 className="text-2xl text-white font-bold text-center mb-6">
-                {surveyControllerEditState.fieldName}
-              </h1>
-              <div className="grid gap-4 text-center justify-center grid-cols-2">
-                {addedButton.map((field, index) => (
-                  <SurveyButtonComponent
-                    key={index}
-                    templateDesign={templateDesign}
-                    buttonLink={field.buttonLink}
-                    buttonText={field.buttonText}
-                    inputValue={inputBtnSurveyValues[field.buttonText] || ""}
-                    onInputChange={handleBtnInputChange}
-                    isSubmitted={isSubmitted}
-                    onDelete={() =>
-                      handleSurveyBtnDeleteField(field.buttonText, index)
-                    }
-                    onEdit={() => handleSurveyBtnEdit(field, index)}
+                <div
+                  className={`p-8 flex flex-col justify-center xl:col-span-6`}
+                >
+                  <img
+                    src={purchaseSatisfactionSurveyDefaultImage}
+                    alt="Promo"
+                    className="h-full w-full object-fill"
                   />
-                ))}
+                </div>
               </div>
             </div>
           </div>
-        )}
-        {suggestionTemplateStatus.isUpSellPopup && (
-          <ProductUpSellPopUp
-            productData={productListForPopUp}
-            noOfProducts={noOfProducts}
-            templateDesign={templateDesign}
-            templateData={templateData}
-            getStyle={getStyle}
-          />
-        )}
-        {suggestionTemplateStatus.isCrossSellPopup && (
-          <ProductCrossSellPopUp
-            productData={productListForPopUp}
-            noOfProducts={noOfProducts}
-            templateDesign={templateDesign}
-            templateData={templateData}
-            getStyle={getStyle}
-          />
-        )}
-        {suggestionTemplateStatus.isAbandonmentPopup && (
-          <CartAbandonmentPopUp
-            productData={productListForPopUp}
-            noOfProducts={noOfProducts}
-            templateDesign={templateDesign}
-            templateData={templateData}
-            getStyle={getStyle}
-            combinedPadding={combinedPadding}
-          />
-        )}
-        {suggestionTemplateStatus.isExitProductRecommenderPopup && (
-          <ExitProductRecommenderPopup
-            productData={productListForPopUp}
-            noOfProducts={noOfProducts}
-            templateDesign={templateDesign}
-            templateData={templateData}
-            getStyle={getStyle}
-            combinedPadding={combinedPadding}
-          />
-        )}
-        {suggestionTemplateStatus.isSocialMediaConnectPopup && (
-          <ExitProductRecommenderPopup
-            productData={productListForPopUp}
-            noOfProducts={noOfProducts}
-            templateDesign={templateDesign}
-            templateData={templateData}
-            getStyle={getStyle}
-            combinedPadding={combinedPadding}
-          />
-        )}
-        {suggestionTemplateStatus.isPreviewPopup && (
-          <PreviewComponent {...otherProps} />
-        )}
-      </div>
+        </>
+      ) : suggestionTemplateStatus.isFeedbackSurvey ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
+            <div className="h-full items-center justify-center flex">
+              <div className="relative rounded-lg w-full shadow-[7px_-7px_57px_#ccc] flex items-center bg-white">
+                <div className="w-[16%] bg-[#fcf1e9] flex justify-center py-[30px] rounded-l-none rounded-r-[90px]">
+                  <img
+                    src={purchaseSatisfactionSurveyDefaultImage}
+                    alt="Round Image"
+                    className="w-[55%] object-cover"
+                  />
+                </div>
+
+                <div className="w-[70%] pl-6 z-10">
+                  <div className="mb-4 text-center">
+                    <span className="text-lg font-semibold">
+                      How satisfied were you with your purchase?
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col items-center space-y-4">
+                    {/* Text is already centered within the div */}
+                    <form
+                      className="w-full flex flex-col items-center space-y-4"
+                      onSubmit={handleSubmit}
+                    >
+                      {(templateDesign.reviewType === "review" ||
+                        surveyController.survey_type === "review") && (
+                        <>{renderStars(reviewCount)}</>
+                      )}
+                      {(templateDesign.reviewType === "rating" ||
+                        surveyController.survey_type === "rating") && (
+                        <>{renderNumbers(ratingCount, 5, "border-[#f1e7df]")}</>
+                      )}
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : suggestionTemplateStatus.isAttributionSurvey ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
+
+            <div className="w-full flex justify-center items-center h-full">
+              <div className="relative bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg p-8 w-1/3 shadow-lg">
+                <button className="absolute top-4 right-4 text-white text-lg font-semibold">
+                  &times;
+                </button>
+
+                <h2 className="text-center text-white text-xl font-bold mb-2">
+                  THANKS FOR YOUR PURCHASE
+                </h2>
+
+                <p className="text-center text-white mb-6">
+                  Before you go we would like to hear your feedback
+                </p>
+
+                <h1 className="text-2xl text-white font-bold text-center mb-6">
+                  {surveyControllerEditState.fieldName}
+                </h1>
+                <div className="grid gap-4 text-center justify-center grid-cols-2">
+                  {addedButton.map((field, index) => (
+                    <SurveyButtonComponent
+                      key={index}
+                      templateDesign={templateDesign}
+                      buttonLink={field.buttonLink}
+                      buttonText={field.buttonText}
+                      inputValue={inputBtnSurveyValues[field.buttonText] || ""}
+                      onInputChange={handleBtnInputChange}
+                      isSubmitted={isSubmitted}
+                      onDelete={() =>
+                        handleSurveyBtnDeleteField(field.buttonText, index)
+                      }
+                      onEdit={() => handleSurveyBtnEdit(field, index)}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : suggestionTemplateStatus.isUpSellPopup ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
+            <ProductUpSellPopUp
+              productData={productListForPopUp}
+              noOfProducts={noOfProducts}
+              templateDesign={templateDesign}
+              templateData={templateData}
+              getStyle={getStyle}
+            />
+          </div>
+        </>
+      ) : suggestionTemplateStatus.isCrossSellPopup ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
+            <ProductCrossSellPopUp
+              productData={productListForPopUp}
+              noOfProducts={noOfProducts}
+              templateDesign={templateDesign}
+              templateData={templateData}
+              getStyle={getStyle}
+            />
+          </div>
+        </>
+      ) : suggestionTemplateStatus?.isAbandonmentPopup ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
+            <CartAbandonmentPopUp
+              productData={productListForPopUp}
+              noOfProducts={noOfProducts}
+              templateDesign={templateDesign}
+              templateData={templateData}
+              getStyle={getStyle}
+              combinedPadding={combinedPadding}
+            />
+          </div>
+        </>
+      ) : suggestionTemplateStatus?.isExitProductRecommenderPopup ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
+            <ExitProductRecommenderPopup
+              productData={productListForPopUp}
+              noOfProducts={noOfProducts}
+              templateDesign={templateDesign}
+              templateData={templateData}
+              getStyle={getStyle}
+              combinedPadding={combinedPadding}
+            />
+          </div>
+        </>
+      ) : suggestionTemplateStatus?.isSocialMediaConnectPopup ? (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
+            <ExitProductRecommenderPopup
+              productData={productListForPopUp}
+              noOfProducts={noOfProducts}
+              templateDesign={templateDesign}
+              templateData={templateData}
+              getStyle={getStyle}
+              combinedPadding={combinedPadding}
+            />
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="w-3/4 float-right p-0 h-[83.90vh]">
+            <TemplateHeader
+              isView={isView}
+              success={success}
+              setSuccess={setSuccess}
+              templateHeaderState={templateHeaderState}
+              onPublish={onPublish}
+            />
+            <PreviewComponent {...otherProps} />
+          </div>
+        </>
+      )}
 
       <div className="clear-both"></div>
       <style jsx="true">{`
