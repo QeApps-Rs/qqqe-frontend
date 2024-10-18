@@ -1272,7 +1272,7 @@ const MasterForm = () => {
                   {templateDesign.subHeading ||
                     "How would you rate your overall experience with us?"}
                 </p>
-                <hr class="w-48 h-1 my-4 bg-[#d0d5d9] border-0 rounded md:my-10 dark:bg-gray-700"></hr>
+                <hr className="w-48 h-1 my-4 bg-[#d0d5d9] border-0 rounded md:my-10 dark:bg-gray-700"></hr>
                 <form
                   className="flex flex-col space-y-4"
                   onSubmit={handleSubmit}
