@@ -146,8 +146,13 @@ const SuggestionCompNew = () => {
 
   // eslint-disable-next-line react/prop-types
   const SettingIcon = ({ onClick, disabled }) => (
-    <span onClick={disabled ? null : onClick} className={`${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`  }>
-    {/* <span onClick={onClick} className={`cursor-pointer`}> */}
+    <span
+      onClick={disabled ? null : onClick}
+      className={`${
+        disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+      }`}
+    >
+      {/* <span onClick={onClick} className={`cursor-pointer`}> */}
       ⚙️
     </span>
   );
@@ -192,17 +197,27 @@ const SuggestionCompNew = () => {
   };
 
   const renderAccordionTabs = (dataItem) => {
-    return Object.keys(dataItem).map((key, index) => {
-      return (
-        <a
-          key={index}
-          className={`${accordionTabClass} ${accordionTab?.[key]?.active_tab}`}
-          onClick={() => handleAccordionTab(key)}
-        >
-          {key}
-        </a>
-      );
-    });
+    return Object.keys(dataItem)
+      .filter(
+        (key) =>
+          ![
+            "product_list",
+            "customer_detail",
+            "top_abandoned_product_list",
+            "top_selling_product_list",
+          ].includes(key)
+      )
+      .map((key, index) => {
+        return (
+          <a
+            key={index}
+            className={`${accordionTabClass} ${accordionTab?.[key]?.active_tab}`}
+            onClick={() => handleAccordionTab(key)}
+          >
+            {key}
+          </a>
+        );
+      });
   };
 
   const renderProduct = (product, i) => (
@@ -236,7 +251,14 @@ const SuggestionCompNew = () => {
   const renderAccordionContent = (dataItem) => (
     <div>
       {Object.keys(accordionTab).map((tab, index) => {
-        if (!dataItem[tab]) return null;
+        if (
+          !dataItem[tab] ||
+          tab == "product_list" ||
+          tab == "customer_detail" ||
+          tab == "top_abandoned_product_list" ||
+          tab == "top_selling_product_list"
+        )
+          return null;
 
         if (Array.isArray(dataItem[tab])) {
           return (
@@ -616,7 +638,7 @@ const SuggestionCompNew = () => {
           )}
         </div>
         <Support />
-        <NeedHelpPage/>
+        <NeedHelpPage />
       </div>
     </>
   );
