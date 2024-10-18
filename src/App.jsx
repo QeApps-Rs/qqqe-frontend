@@ -39,6 +39,7 @@ import SuggestionAnalytics from "./pages/suggestion-analytics/SuggestionAnalytic
 import CampaignsPage from "./pages/campaigns";
 import CampaignsDetailsPage from "./components/Campaigns/CampaignsDetails";
 import WelcomePage from "./pages/welcome";
+import DetailedAnalytics from "./pages/detailed-analytics";
 
 const env_type = import.meta.env.VITE_ENV;
 
@@ -160,6 +161,7 @@ const App = () => {
                 path="/campaigns-details/:id"
                 element={<ProtectedRoute element={CampaignsDetailsPage} />}
               />
+              <Route path="/detailed-analytics" element={<DetailedAnalytics />} />
             </Route>
           </Routes>
         </header>
