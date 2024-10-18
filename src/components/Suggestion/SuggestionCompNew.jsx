@@ -258,7 +258,7 @@ const SuggestionCompNew = () => {
           <div className="flex items-center">
             <div className="mr-4 h-[50px] w-full max-w-[50px] overflow-hidden rounded-full">
               <img
-                src={UserOne}
+                src={product?.product_image}
                 alt="User"
                 className="rounded-full object-cover object-center"
               />
@@ -278,11 +278,9 @@ const SuggestionCompNew = () => {
               </span>
               <span className="block text-customGray">
                 Price:{" "}
-                <strong className="text-black font-bold text-md">100</strong>
-              </span>
-              <span className="block text-customGray">
-                Discount Price:{" "}
-                <strong className="text-black font-bold text-md">50</strong>
+                <strong className="text-black font-bold text-md">
+                  {product?.price}
+                </strong>
               </span>
             </div>
           </div>
@@ -302,39 +300,39 @@ const SuggestionCompNew = () => {
           tab == "top_selling_product_list"
         )
           return null;
-        if (tab == "Products" && dataItem?.Products?.length > 0) {
+        if (tab == "Products" && dataItem?.product_list?.length > 0) {
           return (
             <div
               key={index}
               className={`leading-relaxed ${accordionTab?.[tab]?.active_tab_body}`}
             >
-              {dataItem["product_list"].map(renderProductsWithDetails)}
+              {dataItem["product_list"]?.map(renderProductsWithDetails)}
             </div>
           );
         } else if (
           tab == "Top_Selling_Products" &&
-          dataItem?.Top_Selling_Products?.length > 0
+          dataItem?.top_selling_product_list?.length > 0
         ) {
           return (
             <div
               key={index}
               className={`leading-relaxed ${accordionTab?.[tab]?.active_tab_body}`}
             >
-              {dataItem["top_selling_product_list"].map(
+              {dataItem["top_selling_product_list"]?.map(
                 renderProductsWithDetails
               )}
             </div>
           );
         } else if (
           tab == "Top_Abandoned_Products" &&
-          dataItem?.Top_Abandoned_Products?.length > 0
+          dataItem?.top_abandoned_product_list?.length > 0
         ) {
           return (
             <div
               key={index}
               className={`leading-relaxed ${accordionTab?.[tab]?.active_tab_body}`}
             >
-              {dataItem["top_abandoned_product_list"].map(
+              {dataItem["top_abandoned_product_list"]?.map(
                 renderProductsWithDetails
               )}
             </div>
@@ -345,11 +343,14 @@ const SuggestionCompNew = () => {
               key={index}
               className={`leading-relaxed ${accordionTab?.[tab]?.active_tab_body}`}
             >
-              {dataItem[tab].map(renderProduct)}
+              {dataItem[tab]?.map(renderProduct)}
             </div>
           );
-        }
-        if (dataItem.Customer_ID && dataItem?.customer_detail?.displayName) {
+        } else if (
+          tab == "Customer_ID" &&
+          dataItem.Customer_ID &&
+          dataItem?.customer_detail?.displayName
+        ) {
           return (
             <div
               key={index}
