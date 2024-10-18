@@ -15,6 +15,7 @@ import Loader from "../../common/Loader";
 import { GraphCard, TabCard } from "./GraphCard";
 import PolarAnalytics from "./PolarAnalaytics";
 import NeedHelpPage from "../NeedHelp";
+import { Link } from "react-router-dom";
 
 const PeopleAnalytics = () => {
   const [loading, setLoading] = useState(false);
@@ -544,10 +545,12 @@ const PeopleAnalytics = () => {
         <PolarAnalytics />
         <div className="flex items-center mt-16 justify-center">
           <div className="flex items-center">
-            <i
-              className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
-              aria-hidden="true"
-            ></i>
+            <Link to="/detailed-analytics">
+              <i
+                className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
+                aria-hidden="true"
+              ></i>
+            </Link>
           </div>
           <h2 className="text-title-md2 font-semibold text-black dark:text-white pl-2">
             Analytics
