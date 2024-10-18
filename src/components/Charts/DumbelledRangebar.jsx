@@ -50,15 +50,11 @@ const convertDataToChartFormat = (data, topCustomers) => {
 };
 
 const DumbbellRangebarChart = ({ data }) => {
-    console.log('data', data)
   const [topN, setTopN] = useState(5);
 
   const customerCount = countCustomers(data);
   const topCustomers = getTopCustomers(customerCount, topN);
   const chartData = convertDataToChartFormat(data, topCustomers);
-  console.log("customerCount", customerCount);
-  console.log("topCustomers", topCustomers);
-  console.log("chartData", chartData);
   const chartOptions = {
     chart: {
       height: 400,
