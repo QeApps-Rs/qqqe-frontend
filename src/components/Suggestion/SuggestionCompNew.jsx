@@ -153,8 +153,8 @@ const SuggestionCompNew = () => {
       }`}
     >
       {/* <span onClick={onClick} className={`cursor-pointer`}> */}
-      <i class="fa fa-cog text-primary text-xl" aria-hidden="true"></i>
-      </span>
+      <i className="fa fa-cog text-primary text-xl" aria-hidden="true"></i>
+    </span>
   );
 
   const handleAccordionTab = (type) => {
@@ -354,7 +354,7 @@ const SuggestionCompNew = () => {
           return (
             <div
               key={index}
-              className="w-full rounded-md border border-stroke py-2.5 dark:border-strokedark"
+              className={`w-full rounded-md border border-stroke py-2.5 dark:border-strokedark ${accordionTab?.[tab]?.active_tab_body}`}
             >
               <div className="flex flex-col">
                 <div className="flex items-center justify-between p-4.5 hover:bg-[#F9FAFB] dark:hover:bg-meta-4">
@@ -644,7 +644,7 @@ const SuggestionCompNew = () => {
       {loading && <Loader />}
       <div>
         <div className={titleClass}>
-          <h2 className="text-3xl font-bold text-black"> 
+          <h2 className="text-3xl font-bold text-black">
             Discover the Solution
           </h2>
           <span onClick={() => navigate(-1)} className={backBtnClass}>
