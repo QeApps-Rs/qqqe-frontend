@@ -153,7 +153,7 @@ const SuggestionCompNew = () => {
       }`}
     >
       {/* <span onClick={onClick} className={`cursor-pointer`}> */}
-      <i class="fa fa-cog text-primary text-xl" aria-hidden="true"></i>
+      <i className="fa fa-cog text-primary text-xl" aria-hidden="true"></i>
       </span>
   );
 
