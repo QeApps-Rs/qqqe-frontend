@@ -257,14 +257,14 @@ const MasterForm = () => {
 
     // Handle full page or large form width
     if (formType === "full page" || formWidth === "large") {
-      classes += "h-full transition-all duration-300 ";
+      ("transition-all duration-300 h-100%");
     }
 
     // Handle view types
     if (isView === "Desktop") {
-      classes += "grid grid-cols-12 items-center shadow-lg  max-w-0";
+      classes += "grid grid-cols-12 items-center shadow-lg  ";
     } else {
-      classes += "max-h-[586px] overflow-y-auto ";
+      classes = "overflow-y-auto h-[500px] w-[380px]";
     }
 
     // Handle specific mobile conditions
@@ -277,7 +277,7 @@ const MasterForm = () => {
     }
 
     if (isView === "Mobile" && formType === "embed" && formWidth === "small") {
-      classes += "w-min ";
+      classes += "";
     }
     if (
       isView === "Mobile" &&
@@ -285,7 +285,7 @@ const MasterForm = () => {
       formWidth === "large"
     );
     {
-      classes += "max-w-[375px] ";
+      classes += "";
     }
 
     return classes.trim();
@@ -294,6 +294,8 @@ const MasterForm = () => {
     ? templateDesign.image || popup_img
     : templateDesign.successImage || popup_img;
 
+  const surveyImageSrc =
+    templateDesign.image || purchaseSatisfactionSurveyDefaultImage;
   const getStyle = (design, type) => ({
     fontSize: design[`${type}FontSize`],
     fontFamily: design[`${type}FontFamily`],
@@ -666,6 +668,7 @@ const MasterForm = () => {
     getProductList();
     getCollectionList();
   }, []);
+
   const containerClass = `
   ${templateDesign.formType === "full page" ? "h-full" : ""}
   ${
@@ -999,6 +1002,11 @@ const MasterForm = () => {
                   item.tag !== "successController"
                 );
               }
+              if (suggestionTemplateStatus?.isPurchaseSatisfactionSurvey) {
+                return (
+                  item.tag !== "successController" && item.tag !== "bundle"
+                );
+              }
               return item.tag !== "bundle";
             })
             .map((item, index) => (
@@ -1031,6 +1039,12 @@ const MasterForm = () => {
                     templateDesign={templateDesign}
                     onTemplateChange={handleTemplateChange}
                     isProductBundle={suggestionTemplateStatus?.isProductBundle}
+                    isCrossSellPopup={
+                      suggestionTemplateStatus?.isCrossSellPopup
+                    }
+                    isPurchaseSatisfactionSurvey={
+                      suggestionTemplateStatus?.isPurchaseSatisfactionSurvey
+                    }
                   />
                 )}
                 {activeIndex === index && item.tag === "inputController" && (
@@ -1045,6 +1059,12 @@ const MasterForm = () => {
                         suggestionTemplateStatus?.isProductBundle
                       }
                       setTemplateDesign={setTemplateDesign}
+                      isCrossSellPopup={
+                        suggestionTemplateStatus?.isCrossSellPopup
+                      }
+                      isPurchaseSatisfactionSurvey={
+                        suggestionTemplateStatus?.isPurchaseSatisfactionSurvey
+                      }
                     />
                   </>
                 )}
@@ -1221,7 +1241,7 @@ const MasterForm = () => {
       <div className="flex justify-end mb-4">
         <span
           onClick={() => navigate(-1)}
-          className="flex items-center gap-x-1 cursor-pointer bg-white border border-gray-300 pt-1.5 pb-1.5 pl-2.5 pr-2.5 text-[15px] rounded-md mr-4"
+          className="flex items-center gap-x-1 cursor-pointer bg-white border border-gray-300 pt-1.5 pb-1.5 pl-2.5 pr-2.5 text-[15px] rounded-md mr-4 hover:bg-black hover:text-white transition-colors duration-300"
         >
           <BackIcon /> Back
         </span>
@@ -1233,9 +1253,10 @@ const MasterForm = () => {
         </span>
       </div>
 
-      <div className="w-3/4 float-right p-0 h-[83.90vh]">
+      <div className="w-3/4 float-right p-0">
         <TemplateHeader
           isView={isView}
+          setView={setView}
           success={success}
           setSuccess={setSuccess}
           templateHeaderState={templateHeaderState}
@@ -1251,13 +1272,32 @@ const MasterForm = () => {
         )}
         {suggestionTemplateStatus.isPurchaseSatisfactionSurvey && (
           <div
-            className={`h-full flex items-center justify-center border-8 border-indigo-600 ${
+            className={`h-full flex items-center justify-center ${
               isView !== "Desktop"
                 ? "min-h-[785px] bg-no-repeat bg-top bg-center"
                 : "gap-8 overflow-auto"
             }`}
+            style={{
+              backgroundColor: templateDesign.templateBgColor,
+              margin: combinedMargin,
+              padding: combinedPadding,
+              minHeight: templateDesign.templateMinHeight,
+              backgroundImage:
+                isView !== "Desktop"
+                  ? "url('https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/src/images/mobile_bg.png')"
+                  : "",
+            }}
           >
-            <div className={formClasses()}>
+            <div
+              className={formClasses()}
+              style={{
+                backgroundColor: templateDesign.templateOverlayColor,
+                borderRadius: templateDesign.borderRadius,
+                borderWidth: templateDesign.borderWidth,
+                borderColor: templateDesign.templateBorderColor,
+                borderStyle: templateDesign.formBorderStyle,
+              }}
+            >
               <div className={`p-8 flex flex-col justify-center xl:col-span-6`}>
                 <h1
                   className="text-8xl font-bold mb-4 relative"
@@ -1286,9 +1326,9 @@ const MasterForm = () => {
                   )}
                 </form>
               </div>
-              <div className={`p-8 flex flex-col justify-center xl:col-span-6`}>
+              <div className={`flex flex-col justify-center xl:col-span-6`}>
                 <img
-                  src={purchaseSatisfactionSurveyDefaultImage}
+                  src={surveyImageSrc}
                   alt="Promo"
                   className="h-full w-full object-fill"
                 />
@@ -1379,6 +1419,7 @@ const MasterForm = () => {
             templateDesign={templateDesign}
             templateData={templateData}
             getStyle={getStyle}
+            setTemplateDesign={setTemplateDesign}
           />
         )}
         {suggestionTemplateStatus.isCrossSellPopup && (

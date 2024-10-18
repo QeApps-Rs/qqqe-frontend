@@ -18,6 +18,8 @@ const StyleComponent = ({
   templateDesign,
   onTemplateChange,
   isProductBundle,
+  isCrossSellPopup,
+  isPurchaseSatisfactionSurvey
 }) => {
   const [activeTab, setActiveTab] = useState("Desktop");
 
@@ -55,7 +57,8 @@ const StyleComponent = ({
     value,
     onChange,
     id,
-    placeholder, index = 1
+    placeholder,
+    index = 1
   ) => (
     <div key={index} className="mt-3 grid justify-end">
       <span className="block">{label}:</span>
@@ -88,27 +91,28 @@ const StyleComponent = ({
               <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                 <form>
                   <div className="p-3">
-                    {!isProductBundle && (
-                      <>
-                        {renderDropDown("Form Type", {
-                          ...formTypeDropdown,
-                          name: "formType",
-                          defaultValue: templateDesign.formType,
-                        })}
-                        {renderDropDown("Form Width", {
-                          ...widthDropdown,
-                          name: "formWidth",
-                          defaultValue: templateDesign.formWidth,
-                        })}
-                        {renderInputField(
-                          "Minimum Height(px)",
-                          templateDesign.templateMinHeight,
-                          onTemplateChange("templateMinHeight"),
-                          "minimum-height",
-                          "px"
-                        )}
-                      </>
-                    )}
+                    {!isProductBundle &&
+                      !isCrossSellPopup &&(
+                        <>
+                          {renderDropDown("Form Type", {
+                            ...formTypeDropdown,
+                            name: "formType",
+                            defaultValue: templateDesign.formType,
+                          })}
+                          {renderDropDown("Form Width", {
+                            ...widthDropdown,
+                            name: "formWidth",
+                            defaultValue: templateDesign.formWidth,
+                          })}
+                          {renderInputField(
+                            "Minimum Height(px)",
+                            templateDesign.templateMinHeight,
+                            onTemplateChange("templateMinHeight"),
+                            "minimum-height",
+                            "px"
+                          )}
+                        </>
+                      )}
 
                     <div className="mt-3 font-semibold text-black">Show On</div>
                     <div className="flex items-center space-x-2 bg-slate-100 p-2 rounded-md">
@@ -208,59 +212,61 @@ const StyleComponent = ({
                       </div>
                     </div>
 
-                    {!isProductBundle && (
-                      <>
-                        <div className="mb-4.5 border-b border-black pb-4">
-                          <label className="mb-2 block text-black dark:text-white font-semibold">
-                            Input Field Text Styles
-                          </label>
-                          <div className="mt-3 flex justify-between flex-row items-center">
-                            <span>Font:</span>
-                            <select
-                              onChange={(e) =>
-                                onTemplateChange("fontFamily")(e.target.value)
-                              }
-                              value={templateDesign.fontFamily}
-                              className={`${defaultBoxClassName} h-12`}
-                            >
-                              {fontFamilyList.map((item) => (
-                                <option key={item.label} value={item.label}>
-                                  {item.label}
-                                </option>
-                              ))}
-                            </select>
-                            <input
-                              id="font-size"
-                              type="number"
-                              className={`${defaultBoxClassName} h-10`}
-                              placeholder="px"
-                              value={
-                                templateDesign.inputFontSize.replace(
-                                  "px",
-                                  ""
-                                ) || ""
-                              }
-                              onChange={(e) =>
-                                onTemplateChange("inputFontSize")(
-                                  e.target.value + "px"
-                                )
-                              }
-                            />
+                    {!isProductBundle &&
+                      !isCrossSellPopup && !isPurchaseSatisfactionSurvey &&(
+                        <>
+                          <div className="mb-4.5 border-b border-black pb-4">
+                            <label className="mb-2 block text-black dark:text-white font-semibold">
+                              Input Field Text Styles
+                            </label>
+                            <div className="mt-3 flex justify-between flex-row items-center">
+                              <span>Font:</span>
+                              <select
+                                onChange={(e) =>
+                                  onTemplateChange("fontFamily")(e.target.value)
+                                }
+                                value={templateDesign.fontFamily}
+                                className={`${defaultBoxClassName} h-12`}
+                              >
+                                {fontFamilyList.map((item) => (
+                                  <option key={item.label} value={item.label}>
+                                    {item.label}
+                                  </option>
+                                ))}
+                              </select>
+                              <input
+                                id="font-size"
+                                type="number"
+                                className={`${defaultBoxClassName} h-10`}
+                                placeholder="px"
+                                value={
+                                  templateDesign.inputFontSize.replace(
+                                    "px",
+                                    ""
+                                  ) || ""
+                                }
+                                onChange={(e) =>
+                                  onTemplateChange("inputFontSize")(
+                                    e.target.value + "px"
+                                  )
+                                }
+                              />
+                            </div>
+                            {inputTextColorFields.map(
+                              ({ label, colorType }, i) =>
+                                renderColorPicker(label, colorType, i)
+                            )}
                           </div>
-                          {inputTextColorFields.map(({ label, colorType }, i) =>
-                            renderColorPicker(label, colorType, i)
-                          )}
-                        </div>
-                        <div className="mb-4.5 border-b border-black pb-4">
-                          <label className="mb-2 block text-black dark:text-white font-semibold">
-                            Input Field Styles
-                          </label>
-                          {inputColorFields.map(({ label, colorType }, i) =>
-                            renderColorPicker(label, colorType, i)
-                          )}
-                        </div>
-                      </>
-                    )}
+                          <div className="mb-4.5 border-b border-black pb-4">
+                            <label className="mb-2 block text-black dark:text-white font-semibold">
+                              Input Field Styles
+                            </label>
+                            {inputColorFields.map(({ label, colorType }, i) =>
+                              renderColorPicker(label, colorType, i)
+                            )}
+                          </div>
+                        </>
+                      )}
                     <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
                       Save
                     </button>

@@ -47,7 +47,7 @@ const DefaultLayout = () => {
 
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>
-            <div className={ pathname == '/master-form' ? '':` py-4 px-18  `}>
+            <div className={ pathname == '/master-form' ? '':` py-8 px-18  `}>
               <Outlet />
             </div>
           </main>

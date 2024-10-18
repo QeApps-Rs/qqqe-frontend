@@ -189,7 +189,7 @@ const TemplateList = () => {
         </h2>
         <span
           onClick={() => navigate(-1)}
-          className="flex items-center gap-x-1 cursor-pointer bg-white border border-gray-300 px-1.5 text-[15px] rounded-md"
+          className="flex items-center gap-x-1 cursor-pointer bg-white border border-gray-300 px-1.5 text-[15px] rounded-md hover:bg-black hover:text-white transition-colors duration-300"
         >
           <BackIcon />
           Back
