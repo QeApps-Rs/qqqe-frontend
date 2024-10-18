@@ -1,5 +1,6 @@
 const TemplateHeader = ({
   isView,
+  setView,
   success,
   setSuccess,
   templateHeaderState,

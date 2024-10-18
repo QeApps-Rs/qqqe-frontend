@@ -28,23 +28,25 @@ const PreviewComponent = ({
   renderStars,
   renderNumbers,
   reviewCount,
-  ratingCount
+  ratingCount,
 }) => {
   return (
     <div
-      className={`h-full flex items-center justify-center ${
+      className={`h-[700px] flex items-center justify-center  ${
         isView !== "Desktop"
-          ? "min-h-[785px] bg-no-repeat bg-top bg-center"
-          : "gap-8 overflow-auto"
+          ? "bg-no-repeat bg-top bg-center"
+          : "gap-8 overflow-hidden"
       }`}
       style={{
         backgroundColor: templateDesign.templateBgColor,
         margin: combinedMargin,
+        minHeight: templateDesign.templateMinHeight,
         backgroundImage:
           isView !== "Desktop"
             ? "url('https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/src/images/mobile_bg.png')"
             : "",
       }}
+      
     >
       <div
         className={formClasses()}
@@ -54,26 +56,20 @@ const PreviewComponent = ({
           borderColor: templateDesign.templateBorderColor,
           padding: combinedPadding,
           borderStyle: templateDesign.formBorderStyle,
-          minHeight: templateDesign.templateMinHeight,
         }}
       >
         <div className={containerClass}>
           <img
             src={imageSrc}
             alt="Promo"
-            className="h-full w-full object-fill"
+            className="h-full w-full object-cover"
           />
         </div>
 
         <div
-          className={`p-8 flex flex-col justify-center ${
+          className={`p-8 flex flex-col justify-center h-full ${
             isView === "Desktop" ? "xl:col-span-7" : "sm:col-span-12"
-          } ${
-            templateDesign.formType === "embed" &&
-            templateDesign.formWidth === "large"
-              ? "min-h-[518px]"
-              : "h-full"
-          }`}
+          } `}
           style={{
             backgroundColor: templateDesign.templateOverlayColor,
           }}
@@ -140,8 +136,7 @@ const PreviewComponent = ({
                 className="text-lg mb-6"
                 style={getStyle(templateDesign, "templateSubHeading")}
               >
-                {templateDesign.subHeading ||
-                  ""}
+                {templateDesign.subHeading || ""}
               </p>
               <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
                 {addedFields.map((field, index) => (
@@ -165,7 +160,9 @@ const PreviewComponent = ({
                     inputValue={inputSurveyValues[field.fieldName] || ""}
                     onInputChange={handleSurveyInputChange}
                     isSubmitted={isSubmitted}
-                    onDelete={() => handleSurveyDeleteField(field.fieldName,index)}
+                    onDelete={() =>
+                      handleSurveyDeleteField(field.fieldName, index)
+                    }
                     onEdit={() => handleSurveyEdit(field, index)}
                   />
                 ))}

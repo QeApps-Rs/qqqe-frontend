@@ -146,10 +146,15 @@ const SuggestionCompNew = () => {
 
   // eslint-disable-next-line react/prop-types
   const SettingIcon = ({ onClick, disabled }) => (
-    <span onClick={disabled ? null : onClick} className={`${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`  }>
-    {/* <span onClick={onClick} className={`cursor-pointer`}> */}
-      ⚙️
-    </span>
+    <span
+      onClick={disabled ? null : onClick}
+      className={`${
+        disabled ? "cursor-not-allowed opacity-50 " : "cursor-pointer "
+      }`}
+    >
+      {/* <span onClick={onClick} className={`cursor-pointer`}> */}
+      <i class="fa fa-cog text-primary text-xl" aria-hidden="true"></i>
+      </span>
   );
 
   const handleAccordionTab = (type) => {
@@ -294,7 +299,7 @@ const SuggestionCompNew = () => {
                       {dataItem.Customer_ID ||
                         dataItem.Customer_IP ||
                         dataItem.Days_After_Onboarding}
-                      <div className="flex h-9 w-full max-w-9 items-center justify-center rounded-full border border-primary dark:border-white">
+                      <div className="flex h-9 w-full max-w-9 items-center justify-center rounded-full border  bg-blue-600 text-white">
                         <PlusSvg plusMinus={plusMinus?.[i]} />
                         <MinusSvg plusMinus={plusMinus?.[i]} />
                       </div>
@@ -355,8 +360,8 @@ const SuggestionCompNew = () => {
       <div className="flex items-center">
         <span
           className={`${
-            is_applied ? "text-green-800" : "text-red-800"
-          } text-sm font-medium py-0.5 rounded dark:bg-gray-700 dark:text-gray-300`}
+            !is_applied ? "text-white bg-red-600 " : " "
+          }rounded-lg text-sm font-medium py-2 px-2 rounded dark:bg-gray-700 dark:text-gray-300`}
         >
           {is_applied ? (
             <SwitcherThree
@@ -392,7 +397,7 @@ const SuggestionCompNew = () => {
     if (formattedDate) {
       return (
         <button
-          className={`bg-[#637381] ml-2 inline-flex rounded-full py-1 px-3 text-sm font-medium text-white`}
+          className={`bg-green-500 ml-2 inline-flex rounded-full py-1 px-3 text-sm font-medium text-black`}
         >
           {formattedDate}
         </button>
@@ -404,7 +409,7 @@ const SuggestionCompNew = () => {
     const { suggestion, id, is_applied } = data;
     return (
       <div className="flex align-center">
-        <div title="Configuration" className="ml-2" data-id={id}>
+        <div title="Configuration" className="ml-2 " data-id={id}>
           <SettingIcon
             onClick={() => {
               toggleModal();
@@ -485,7 +490,7 @@ const SuggestionCompNew = () => {
   const titleClass =
     "mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__";
   const backBtnClass =
-    "flex items-center gap-x-1 cursor-pointer bg-white border border-gray-300 pt-1.5 pb-1.5 pl-2.5 pr-2.5 text-[15px] rounded-md";
+    "flex items-center gap-x-1 cursor-pointer bg-white border border-gray-300 pt-1.5 pb-1.5 pl-2.5 pr-2.5 text-[15px] rounded-md hover:bg-black hover:text-white transition-colors duration-300";
   const prblmStmtClass =
     "rounded-sm border mt-4 border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1";
   const lblHeaderClass = "px-4 py-4 font-medium text-black dark:text-white";
@@ -498,14 +503,14 @@ const SuggestionCompNew = () => {
       {loading && <Loader />}
       <div>
         <div className={titleClass}>
-          <h2 className="text-lg text-title-md2 font-semibold text-black dark:text-white">
+          <h2 className="text-3xl font-bold text-black"> 
             Discover the Solution
           </h2>
           <span onClick={() => navigate(-1)} className={backBtnClass}>
             <BackIcon /> Back
           </span>
         </div>
-        <span className="p-2 text-sm text-black mb-3">
+        <span className="p-2 text-md text-black mb-3">
           Find effective strategies to solve these challenges.
         </span>
 
@@ -615,8 +620,10 @@ const SuggestionCompNew = () => {
             />
           )}
         </div>
-        <Support />
-        <NeedHelpPage/>
+        <div className="my-20">
+          <Support />
+        </div>
+        <NeedHelpPage />
       </div>
     </>
   );

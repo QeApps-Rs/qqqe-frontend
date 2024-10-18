@@ -68,7 +68,7 @@ function ProductBundlePopUp({
     <>
       <div
         id="product-bundle"
-        className="h-full justify-center items-center flex  border-l border-[#eaedef] w-full bg-white shadow-[6px_0px_7px_#ccc]"
+        className="h-full justify-center items-center flex w-full"
       >
         <div
           className=" rounded-lg  p-6 w-full max-w-3xl relative  shadow-[7px_-7px_57px_#ccc]"
