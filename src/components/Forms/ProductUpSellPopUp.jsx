@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect } from "react";
 import defaultProductImg from "../../images/default_product.png";
 import { Tooltip } from "react-tippy";
 
@@ -8,11 +9,15 @@ function ProductUpSellPopUp({
   templateDesign,
   templateData,
   getStyle,
+  setTemplateDesign,
 }) {
   useEffect(() => {
-    templateDesign["templateBgColor"] = "#f13956";
-    templateDesign["templateHeadingColor"] = "#ffffff";
-    templateDesign["templateOfferColor"] = "#ffffff";
+    setTemplateDesign({
+      ...templateDesign,
+      templateBgColor: "#f13956",
+      templateHeadingColor: "#ffffff",
+      templateOfferColor: "#ffffff",
+    });
   }, []);
   const DefaultProductDiv = ({ noOfProducts, defaultProductImg }) => {
     return (
@@ -143,9 +148,9 @@ function ProductUpSellPopUp({
                       style={{
                         backgroundColor: "transparent",
                       }}
-                          >
-                    {templateData.button || "See Details"}
-                  </a>
+                    >
+                      {templateData.button || "See Details"}
+                    </a>
                   </div>
                 ))
               ) : (

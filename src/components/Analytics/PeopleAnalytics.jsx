@@ -328,7 +328,6 @@ const PeopleAnalytics = () => {
           url: "customer/count",
         });
         if (response.data) {
-          console.log(["customer", response.data]);
 
           /* COUNTRY WISE CUSTOMER COUNT START */
           const countryCount = response.data.countries;

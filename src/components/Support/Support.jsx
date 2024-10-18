@@ -1,22 +1,43 @@
-import React from 'react'
+import React from "react";
 
 const Support = () => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-3 mt-4 w-full max-w-[1130px] mx-auto">
-        <div className="mb-8 bg-white text-center p-5 mt-5 rounded-lg shadow-[0px_5px_10px_rgba(0,0,0,0.25)] border border-[#cccccc6b]">
-          <img src="https://www.qetail.com/apps/gift_box_builder/assets/images/community-box2.jpg" className="inline-block" />
-          <h3 className="text-[18px] my-4 mb-[10px] text-black font-semibold">Book an onboarding call</h3>
-          <p className="text-[14px] font-normal leading-[20px] mb-5">send us a message by chat and we will get back <br /> to you shorthly.</p>
-          <a href="https://calendly.com/qeapps-support/" target='_blank' className="px-4 py-2 text-sm leading-6 rounded-md inline-block text-white bg-black font-semibold mb-2 ">Book Call</a>
-        </div>
-        <div className="mb-8 bg-white text-center p-5 mt-5 shadow-[0px_5px_10px_rgba(0,0,0,0.25)] border border-[#cccccc6b] rounded-lg">
-          <img src="https://www.qetail.com/apps/gift_box_builder/assets/images/community-box3.jpg" className="inline-block"  />
-          <h3 className="text-[18px] my-4 mb-[10px] text-black font-semibold">Visit our HelpDesk</h3>
-          <p className="text-[14px] font-normal leading-[20px] mb-5">Please check out HelpDesk where you can get all <br /> answers of your question.</p>
-          <a href="#" target="_blank" className="px-4 py-2 text-sm leading-6 rounded-md inline-block text-white bg-black  font-semibold mb-2 pointer-events-none">HelpDesk</a>
-        </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8 w-full max-w-[1130px] mx-auto">
+      <div className="bg-[linear-gradient(320deg,rgba(22,39,167,0.206)0%,rgba(22,39,167,0.550)50%,rgba(5,35,98,0.780)95%)] text-center p-5 rounded-xl ">
+        <img src="/src/images/call.gif" className="inline-block w-20 h-20" />
+        <h3 className="text-[18px] my-4 mb-[10px] text-whiter font-semibold">
+          Book an onboarding call
+        </h3>
+        <p className="text-[14px] font-medium leading-[20px] mb-5 text-white">
+          send us a message by chat and we will get back <br /> to you shorthly.
+        </p>
+        <a
+          href="https://calendly.com/qeapps-support/"
+          target="_blank"
+          className="inline-block bg-[#ffffff] text-black hover:text-white px-4 py-2 rounded-md font-normal hover:font-bold text-md hover:bg-green-600 hover:scale-105 transition-all duration-200"
+        >
+          Book Call
+        </a>
       </div>
-  )
-}
+      <div className="bg-[linear-gradient(320deg,rgba(22,39,167,0.206)0%,rgba(22,39,167,0.550)50%,rgba(5,35,98,0.780)95%)] text-center p-5  rounded-xl">
+        <img src="/src/images/chat.gif " className="inline-block w-20 h-20" />
+        <h3 className="text-[18px] my-4 mb-[10px] text-whiter font-semibold">
+          Visit our HelpDesk
+        </h3>
+        <p className="text-[14px] font-medium leading-[20px] mb-5 text-white">
+          Please check out HelpDesk where you can get all <br /> answers of your
+          question.
+        </p>
+        <a
+          href="#"
+          target="_blank"
+          className="inline-block bg-[#ffffff] text-black hover:text-white px-4 py-2 rounded-md font-normal hover:font-bold text-md hover:bg-green-600 hover:scale-105 transition-all duration-200"
+        >
+          HelpDesk
+        </a>
+      </div>
+    </div>
+  );
+};
 
-export default Support
+export default Support;

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 const PlusSvg = ({ plusMinus }) => (
     <svg
-        className={`fill-primary duration-200 ease-in-out dark:fill-white ${plusMinus?.plus}`}
+        className={`fill-white duration-200 ease-in-out dark:fill-white ${plusMinus?.plus}`}
         width="15"
         height="15"
         viewBox="0 0 15 15"
