@@ -248,6 +248,49 @@ const SuggestionCompNew = () => {
     </div>
   );
 
+  const renderProductsWithDetails = (product, i) => (
+    <div
+      key={i}
+      className="w-full rounded-md border border-stroke py-2.5 dark:border-strokedark"
+    >
+      <div className="flex flex-col">
+        <div className="flex items-center justify-between p-4.5 hover:bg-[#F9FAFB] dark:hover:bg-meta-4">
+          <div className="flex items-center">
+            <div className="mr-4 h-[50px] w-full max-w-[50px] overflow-hidden rounded-full">
+              <img
+                src={UserOne}
+                alt="User"
+                className="rounded-full object-cover object-center"
+              />
+            </div>
+            <div>
+              <span className="block text-customGray">
+                Product ID:{" "}
+                <strong className="text-black font-bold text-md">
+                  {product?.product_id}
+                </strong>
+              </span>
+              <span className="block text-customGray">
+                Title:{" "}
+                <strong className="text-black font-bold text-md">
+                  {product?.title}
+                </strong>
+              </span>
+              <span className="block text-customGray">
+                Price:{" "}
+                <strong className="text-black font-bold text-md">100</strong>
+              </span>
+              <span className="block text-customGray">
+                Discount Price:{" "}
+                <strong className="text-black font-bold text-md">50</strong>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   const renderAccordionContent = (dataItem) => (
     <div>
       {Object.keys(accordionTab).map((tab, index) => {
@@ -259,8 +302,44 @@ const SuggestionCompNew = () => {
           tab == "top_selling_product_list"
         )
           return null;
-
-        if (Array.isArray(dataItem[tab])) {
+        if (tab == "Products" && dataItem?.Products?.length > 0) {
+          return (
+            <div
+              key={index}
+              className={`leading-relaxed ${accordionTab?.[tab]?.active_tab_body}`}
+            >
+              {dataItem["product_list"].map(renderProductsWithDetails)}
+            </div>
+          );
+        } else if (
+          tab == "Top_Selling_Products" &&
+          dataItem?.Top_Selling_Products?.length > 0
+        ) {
+          return (
+            <div
+              key={index}
+              className={`leading-relaxed ${accordionTab?.[tab]?.active_tab_body}`}
+            >
+              {dataItem["top_selling_product_list"].map(
+                renderProductsWithDetails
+              )}
+            </div>
+          );
+        } else if (
+          tab == "Top_Abandoned_Products" &&
+          dataItem?.Top_Abandoned_Products?.length > 0
+        ) {
+          return (
+            <div
+              key={index}
+              className={`leading-relaxed ${accordionTab?.[tab]?.active_tab_body}`}
+            >
+              {dataItem["top_abandoned_product_list"].map(
+                renderProductsWithDetails
+              )}
+            </div>
+          );
+        } else if (Array.isArray(dataItem[tab])) {
           return (
             <div
               key={index}
@@ -270,15 +349,50 @@ const SuggestionCompNew = () => {
             </div>
           );
         }
-
-        return (
-          <div
-            key={index}
-            className={`leading-relaxed ${accordionTab?.[tab]?.active_tab_body}`}
-          >
-            {dataItem[tab]}
-          </div>
-        );
+        if (dataItem.Customer_ID && dataItem?.customer_detail?.displayName) {
+          return (
+            <div
+              key={index}
+              className="w-full rounded-md border border-stroke py-2.5 dark:border-strokedark"
+            >
+              <div className="flex flex-col">
+                <div className="flex items-center justify-between p-4.5 hover:bg-[#F9FAFB] dark:hover:bg-meta-4">
+                  <div className="flex items-center">
+                    <div>
+                      <span className="block text-customGray">
+                        Customer ID:{" "}
+                        <strong className="text-black font-bold text-md">
+                          {dataItem.Customer_ID}{" "}
+                        </strong>
+                      </span>
+                      <span className="block text-customGray">
+                        Customer Name:{" "}
+                        <strong className="text-black font-bold text-md">
+                          {dataItem?.customer_detail?.displayName}
+                        </strong>
+                      </span>
+                      <span className="block text-customGray">
+                        Email:{" "}
+                        <strong className="text-black font-bold text-md">
+                          {dataItem?.customer_detail?.email}
+                        </strong>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        } else {
+          return (
+            <div
+              key={index}
+              className={`leading-relaxed ${accordionTab?.[tab]?.active_tab_body}`}
+            >
+              {dataItem[tab]}
+            </div>
+          );
+        }
       })}
     </div>
   );
@@ -313,9 +427,7 @@ const SuggestionCompNew = () => {
                       className="flex w-full items-center justify-between gap-2 "
                       onClick={() => handlePlusMinus(i)}
                     >
-                      {dataItem.Customer_ID ||
-                        dataItem.Customer_IP ||
-                        dataItem.Days_After_Onboarding}
+                      {renderTabTitle(dataItem)}
                       <div className="flex h-9 w-full max-w-9 items-center justify-center rounded-full border border-primary dark:border-white">
                         <PlusSvg plusMinus={plusMinus?.[i]} />
                         <MinusSvg plusMinus={plusMinus?.[i]} />
@@ -339,6 +451,17 @@ const SuggestionCompNew = () => {
             })}
         </div>
       </>
+    );
+  };
+
+  const renderTabTitle = (dataItem) => {
+    if (dataItem.Customer_ID) {
+      return dataItem?.customer_detail?.displayName || dataItem.Customer_ID;
+    }
+    return (
+      dataItem.Customer_ID ||
+      dataItem.Customer_IP ||
+      dataItem.Days_After_Onboarding
     );
   };
 
