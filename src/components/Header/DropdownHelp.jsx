@@ -27,7 +27,7 @@ const DropdownHelp = () => {
             <span className="absolute z-1 inline-flex h-full w-full animate-ping rounded-full bg-meta-1 opacity-75"></span>
           </span> */}
           <i
-            className="fa fa-info-circle text-[20px] text-white"
+            className="fa fa-info text-[20px] bg-green-700 text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
             aria-hidden="true"
           ></i>
         </div>

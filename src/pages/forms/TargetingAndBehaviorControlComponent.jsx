@@ -9,12 +9,12 @@ import {
 } from "./masterFormConfig";
 
 const TargetingAndBehaviorControlComponent = ({
-  targetingAndBehaviour,
-  setTargetingAndBehaviour,
+  targetingAndBehavior,
+  setTargetingAndBehavior,
 }) => {
   const handleTargetingAndBehaviourState = (key, value) => {
     const keys = key.split(".");
-    setTargetingAndBehaviour((prevState) => {
+    setTargetingAndBehavior((prevState) => {
       let newState = { ...prevState };
 
       let temp = newState;
@@ -47,9 +47,9 @@ const TargetingAndBehaviorControlComponent = ({
                         value
                       )
                     }
-                    defaultValue={targetingAndBehaviour?.display?.timing?.type}
+                    defaultValue={targetingAndBehavior?.display?.timing?.type}
                   />
-                  {targetingAndBehaviour?.display?.timing?.type ==
+                  {targetingAndBehavior?.display?.timing?.type ==
                     "on_rules" && (
                     <div className="mb-4 mt-3">
                       <div className="text-sm font-semibold">
@@ -59,18 +59,18 @@ const TargetingAndBehaviorControlComponent = ({
                         <Checkbox
                           key={1}
                           label={
-                            targetingAndBehaviour?.display?.timing?.settings
+                            targetingAndBehavior?.display?.timing?.settings
                               ?.existing_page?.label ||
                             "When visitor is exiting the page"
                           }
                           checked={
-                            targetingAndBehaviour?.display?.timing?.settings
+                            targetingAndBehavior?.display?.timing?.settings
                               ?.existing_page?.is_selected
                           }
                           onChange={() =>
                             handleTargetingAndBehaviourState(
                               "display.timing.settings.existing_page.is_selected",
-                              !targetingAndBehaviour?.display?.timing?.settings
+                              !targetingAndBehavior?.display?.timing?.settings
                                 ?.existing_page?.is_selected
                             )
                           }
@@ -80,31 +80,31 @@ const TargetingAndBehaviorControlComponent = ({
                         <Checkbox
                           key={2}
                           label={
-                            targetingAndBehaviour?.display?.timing?.settings
+                            targetingAndBehavior?.display?.timing?.settings
                               ?.after_delay_time?.label || "After time delay"
                           }
                           checked={
-                            targetingAndBehaviour?.display?.timing?.settings
+                            targetingAndBehavior?.display?.timing?.settings
                               ?.after_delay_time?.is_selected
                           }
                           onChange={() =>
                             handleTargetingAndBehaviourState(
                               "display.timing.settings.after_delay_time.is_selected",
-                              !targetingAndBehaviour?.display?.timing?.settings
+                              !targetingAndBehavior?.display?.timing?.settings
                                 ?.after_delay_time?.is_selected
                             )
                           }
                         />
-                        {targetingAndBehaviour?.display?.timing?.settings
+                        {targetingAndBehavior?.display?.timing?.settings
                           ?.after_delay_time.is_selected && (
                           <div className="ml-9">
                             <div>Show again after</div>
                             <input
                               type="number"
                               value={
-                                targetingAndBehaviour?.display?.timing?.settings
+                                targetingAndBehavior?.display?.timing?.settings
                                   ?.after_delay_time?.value
-                                  ? targetingAndBehaviour?.display?.timing
+                                  ? targetingAndBehavior?.display?.timing
                                       ?.settings?.after_delay_time?.value
                                   : 0
                               }
@@ -124,30 +124,30 @@ const TargetingAndBehaviorControlComponent = ({
                         <Checkbox
                           key={3}
                           label={
-                            targetingAndBehaviour?.display?.timing?.settings
+                            targetingAndBehavior?.display?.timing?.settings
                               ?.after_scroll_distance?.label ||
                             "After visitor has scrolled a certain amount"
                           }
                           checked={
-                            targetingAndBehaviour?.display?.timing?.settings
+                            targetingAndBehavior?.display?.timing?.settings
                               ?.after_scroll_distance?.is_selected
                           }
                           onChange={() =>
                             handleTargetingAndBehaviourState(
                               "display.timing.settings.after_scroll_distance.is_selected",
-                              !targetingAndBehaviour?.display?.timing?.settings
+                              !targetingAndBehavior?.display?.timing?.settings
                                 ?.after_scroll_distance?.is_selected
                             )
                           }
                         />
-                        {targetingAndBehaviour?.display?.timing?.settings
+                        {targetingAndBehavior?.display?.timing?.settings
                           ?.after_scroll_distance.is_selected && (
                           <div className="ml-9">
                             <div>Scroll distance</div>
                             <input
                               type="number"
                               value={
-                                targetingAndBehaviour?.display?.timing?.settings
+                                targetingAndBehavior?.display?.timing?.settings
                                   ?.after_scroll_distance?.value
                               }
                               onChange={(e) =>
@@ -166,30 +166,30 @@ const TargetingAndBehaviorControlComponent = ({
                         <Checkbox
                           key={4}
                           label={
-                            targetingAndBehaviour?.display?.timing?.settings
+                            targetingAndBehavior?.display?.timing?.settings
                               ?.after_pages_visit?.label ||
                             "After visitor sees a certain number of pages"
                           }
                           checked={
-                            targetingAndBehaviour?.display?.timing?.settings
+                            targetingAndBehavior?.display?.timing?.settings
                               ?.after_pages_visit?.is_selected
                           }
                           onChange={() =>
                             handleTargetingAndBehaviourState(
                               "display.timing.settings.after_pages_visit.is_selected",
-                              !targetingAndBehaviour?.display?.timing?.settings
+                              !targetingAndBehavior?.display?.timing?.settings
                                 ?.after_pages_visit?.is_selected
                             )
                           }
                         />
-                        {targetingAndBehaviour?.display?.timing?.settings
+                        {targetingAndBehavior?.display?.timing?.settings
                           ?.after_pages_visit.is_selected && (
                           <div className="ml-9">
                             <div>After</div>
                             <input
                               type="number"
                               value={
-                                targetingAndBehaviour?.display?.timing?.settings
+                                targetingAndBehavior?.display?.timing?.settings
                                   ?.after_pages_visit?.value
                               }
                               onChange={(e) =>
@@ -218,7 +218,7 @@ const TargetingAndBehaviorControlComponent = ({
                   <input
                     type="number"
                     value={
-                      targetingAndBehaviour?.display?.frequency?.after_show_days
+                      targetingAndBehavior?.display?.frequency?.after_show_days
                     }
                     onChange={(e) =>
                       handleTargetingAndBehaviourState(
@@ -235,12 +235,12 @@ const TargetingAndBehaviorControlComponent = ({
                       key={"abc"}
                       label="Don’t show again if form was submitted or if go to URL button was clicked"
                       checked={
-                        targetingAndBehaviour?.display?.frequency?.validation
+                        targetingAndBehavior?.display?.frequency?.validation
                       }
                       onChange={() =>
                         handleTargetingAndBehaviourState(
                           "display.frequency.validation",
-                          !targetingAndBehaviour?.display?.frequency?.validation
+                          !targetingAndBehavior?.display?.frequency?.validation
                         )
                       }
                     />
@@ -260,7 +260,7 @@ const TargetingAndBehaviorControlComponent = ({
                       )
                     }
                     defaultValue={
-                      targetingAndBehaviour?.display?.devices?.display_on
+                      targetingAndBehavior?.display?.devices?.display_on
                     }
                   />
                 </div>
@@ -276,13 +276,13 @@ const TargetingAndBehaviorControlComponent = ({
                       key={2}
                       label="On desktop"
                       checked={
-                        targetingAndBehaviour?.display?.devices
+                        targetingAndBehavior?.display?.devices
                           ?.click_outside_close?.on_desktop
                       }
                       onChange={() =>
                         handleTargetingAndBehaviourState(
                           "display.devices.click_outside_close.on_desktop",
-                          !targetingAndBehaviour?.display?.devices
+                          !targetingAndBehavior?.display?.devices
                             ?.click_outside_close?.on_desktop
                         )
                       }
@@ -293,13 +293,13 @@ const TargetingAndBehaviorControlComponent = ({
                       key={3}
                       label="On mobile"
                       checked={
-                        targetingAndBehaviour?.display?.devices
+                        targetingAndBehavior?.display?.devices
                           ?.click_outside_close?.on_mobile
                       }
                       onChange={() =>
                         handleTargetingAndBehaviourState(
                           "display.devices.click_outside_close.on_mobile",
-                          !targetingAndBehaviour?.display?.devices
+                          !targetingAndBehavior?.display?.devices
                             ?.click_outside_close?.on_mobile
                         )
                       }
@@ -313,14 +313,16 @@ const TargetingAndBehaviorControlComponent = ({
                       <DropDown
                         jsonData={{
                           ...visitorsDropdown,
-                          onChange: (value) =>
-                            handleTargetingAndBehaviourState(
-                              "targeting.visitors",
-                              value
-                            ),
-                          defaultValue:
-                            targetingAndBehaviour?.targeting?.visitors,
                         }}
+                        selectedValue={
+                          targetingAndBehavior?.targeting?.visitors
+                        }
+                        setSelectedValue={(value) =>
+                          handleTargetingAndBehaviourState(
+                            "targeting.visitors",
+                            value
+                          )
+                        }
                       />
                     </div>
                   </label>
@@ -359,25 +361,25 @@ const TargetingAndBehaviorControlComponent = ({
                       key={2}
                       label="Show to visitors in certain locations"
                       checked={
-                        targetingAndBehaviour?.targeting?.locations
+                        targetingAndBehavior?.targeting?.locations
                           ?.show_visitors_certain_locations?.is_selected
                       }
                       onChange={() =>
                         handleTargetingAndBehaviourState(
                           "targeting.locations.show_visitors_certain_locations.is_selected",
-                          !targetingAndBehaviour?.targeting?.locations
+                          !targetingAndBehavior?.targeting?.locations
                             ?.show_visitors_certain_locations?.is_selected
                         )
                       }
                     />
-                    {targetingAndBehaviour?.targeting?.locations
+                    {targetingAndBehavior?.targeting?.locations
                       ?.show_visitors_certain_locations?.is_selected && (
                       <input
                         type="text"
                         placeholder="Please enter locations, separated by commas"
                         className="w-full p-2 border rounded-md focus:outline-none mt-2"
                         value={
-                          targetingAndBehaviour?.targeting?.locations
+                          targetingAndBehavior?.targeting?.locations
                             ?.show_visitors_certain_locations?.location
                         }
                         onChange={(e) =>
@@ -394,25 +396,25 @@ const TargetingAndBehaviorControlComponent = ({
                       key={3}
                       label="Don’t show to visitors in certain locations"
                       checked={
-                        targetingAndBehaviour?.targeting?.locations
+                        targetingAndBehavior?.targeting?.locations
                           ?.not_show_visitors_certain_locations?.is_selected
                       }
                       onChange={() =>
                         handleTargetingAndBehaviourState(
                           "targeting.locations.not_show_visitors_certain_locations.is_selected",
-                          !targetingAndBehaviour?.targeting?.locations
+                          !targetingAndBehavior?.targeting?.locations
                             ?.not_show_visitors_certain_locations?.is_selected
                         )
                       }
                     />
-                    {targetingAndBehaviour?.targeting?.locations
+                    {targetingAndBehavior?.targeting?.locations
                       ?.not_show_visitors_certain_locations?.is_selected && (
                       <input
                         type="text"
                         placeholder="Please enter locations, separated by commas"
                         className="w-full p-2 border rounded-md focus:outline-none mt-2"
                         value={
-                          targetingAndBehaviour?.targeting?.locations
+                          targetingAndBehavior?.targeting?.locations
                             ?.not_show_visitors_certain_locations?.location
                         }
                         onChange={(e) =>
