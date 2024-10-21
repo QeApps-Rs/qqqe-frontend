@@ -29,6 +29,8 @@ import CartAbandonmentPopUp from "../../components/Forms/CartAbandonmentPopUp";
 import TargetingAndBehaviorControlComponent from "./TargetingAndBehaviorControlComponent";
 import ExitProductRecommenderPopup from "../../components/Forms/ExitProductRecommenderPopup";
 import TemplateHeader from "../../components/Forms/TemplateHeader";
+import SocialMediaConnectPopUp from "../../components/Forms/SocialMediaConnectPopUp";
+import WorldWideWelcomePopUp from "../../components/Forms/WorldWideWelcomePopUp";
 
 const MasterForm = () => {
   //  shiv code start
@@ -111,6 +113,7 @@ const MasterForm = () => {
     isAbandonmentPopup: false,
     isExitProductRecommenderPopup: false,
     isSocialMediaConnectPopup: false,
+    isWorldWideWelcomePopup: false,
   });
 
   const [switchStates, setSwitchStates] = useState({
@@ -404,7 +407,18 @@ const MasterForm = () => {
               desktop: false,
               mobile: false,
             });
-          } else {
+          } else if (responseKeywords?.includes("World-Wide Welcome")) {
+            setSuggestionTemplateStatus({
+              ...suggestionTemplateStatus,
+              isWorldWideWelcomePopup: true,
+            });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+              desktop: false,
+              mobile: false,
+            });
+          }else {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isPreviewPopup: true,
@@ -993,8 +1007,7 @@ const MasterForm = () => {
                 suggestionTemplateStatus?.isUpSellPopup ||
                 suggestionTemplateStatus?.isCrossSellPopup ||
                 suggestionTemplateStatus?.isAbandonmentPopup ||
-                suggestionTemplateStatus?.isExitProductRecommenderPopup ||
-                suggestionTemplateStatus?.isSocialMediaConnectPopup
+                suggestionTemplateStatus?.isExitProductRecommenderPopup 
               ) {
                 return (
                   // item.tag !== "inputController" &&
@@ -1098,8 +1111,7 @@ const MasterForm = () => {
                   suggestionTemplateStatus?.isUpSellPopup ||
                   suggestionTemplateStatus?.isAbandonmentPopup ||
                   suggestionTemplateStatus?.isCrossSellPopup ||
-                  suggestionTemplateStatus?.isExitProductRecommenderPopup ||
-                  suggestionTemplateStatus?.isSocialMediaConnectPopup) &&
+                  suggestionTemplateStatus?.isExitProductRecommenderPopup ) &&
                   activeIndex === index &&
                   item.tag === "bundle" &&
                   productListState && (
@@ -1452,14 +1464,40 @@ const MasterForm = () => {
           />
         )}
         {suggestionTemplateStatus.isSocialMediaConnectPopup && (
-          <ExitProductRecommenderPopup
-            productData={productListForPopUp}
-            noOfProducts={noOfProducts}
-            templateDesign={templateDesign}
-            templateData={templateData}
-            getStyle={getStyle}
-            combinedPadding={combinedPadding}
-          />
+          <>
+            <div className="w-full flex justify-center items-center h-full space-x-6 p-10 bg-gradient-to-r from-orange-100 to-orange-200">
+
+              <SocialMediaConnectPopUp
+                socialMediaIcon="fa-facebook-square"
+                socialMediaTitle="SECRET FACEBOOK DISCOUNT"
+                socialMediaDesc="We are sure we can pump up your next Facebook story with a cool new blender! Get your secret discount now!"
+                socialMediaBtnText="SHOW MY SECRET DISCOUNT"
+                socialMediaBtnLink={"#"}
+              />
+              <SocialMediaConnectPopUp
+                socialMediaIcon="fa-instagram"
+                socialMediaTitle="SECRET INSTAGRAM DISCOUNT"
+                socialMediaDesc="We are sure you like beautiful things. Well, BlendJet is both nice and effective! Try it now with your secret discount!"
+                socialMediaBtnText="SHOW MY SECRET DISCOUNT"
+                socialMediaBtnLink={"#"}
+              />
+            </div>
+          </>
+        )}
+         {suggestionTemplateStatus.isWorldWideWelcomePopup && (
+          <>
+            <div className="w-full flex justify-center items-center h-full space-x-6 p-10 bg-gradient-to-r from-orange-100 to-orange-200">
+
+             World Wide Welcome
+             <WorldWideWelcomePopUp
+                socialMediaIcon="fa-facebook-square"
+                socialMediaTitle="SECRET FACEBOOK DISCOUNT"
+                socialMediaDesc="We are sure we can pump up your next Facebook story with a cool new blender! Get your secret discount now!"
+                socialMediaBtnText="SHOW MY SECRET DISCOUNT"
+                socialMediaBtnLink={"#"}
+              />
+            </div>
+          </>
         )}
         {suggestionTemplateStatus.isPreviewPopup && (
           <PreviewComponent {...otherProps} />
