@@ -1,39 +1,39 @@
-import React from 'react';
-import ReactApexChart from 'react-apexcharts';
+import React from "react";
+import ReactApexChart from "react-apexcharts";
 
 const AreaChart = ({ series, title, categories }) => {
   const options = {
     chart: {
-      type: 'area',
+      type: "area",
       height: 350,
       toolbar: {
         show: false,
-      }
+      },
     },
     dataLabels: {
       enabled: true,
     },
     title: {
       text: title,
-      align: 'left',
+      align: "left",
     },
     stroke: {
       //curve: 'smooth',
       //width: 2,
-      curve: 'straight'
+      curve: "straight",
     },
     xaxis: {
       categories: categories || [],
       title: {
-        text: 'Products',
+        text: "Products",
       },
     },
     yaxis: {
       title: {
-        text: 'Counts',
+        text: "Counts",
       },
     },
-    colors: ['#FF5733'],
+    colors: ["#FF5733"],
     tooltip: {
       shared: false,
       intersect: false,
@@ -41,7 +41,7 @@ const AreaChart = ({ series, title, categories }) => {
   };
 
   return (
-    <div>
+    <div className="p-4">
       <ReactApexChart
         options={options}
         series={series}

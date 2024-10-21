@@ -159,7 +159,7 @@ const DumbbellRangebarChart = ({ data }) => {
   };
 
   return (
-    <div>
+    <div className="p-4">
       <div>
         <label htmlFor="top-customers">Select Top: </label>
         <select id="top-customers" value={topN} onChange={handleDropdownChange}>

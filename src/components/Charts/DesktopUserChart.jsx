@@ -115,7 +115,7 @@ const DesktopUsersChart = ({ orderData }) => {
     }, [timeRange]);
 
     return (
-        <div>
+        <div className="p-4">
             {/* Time Range Dropdown */}
             <select onChange={(e) => setTimeRange(e.target.value)} value={timeRange}>
                 <option value="today">Today</option>

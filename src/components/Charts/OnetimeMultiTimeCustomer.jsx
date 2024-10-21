@@ -106,7 +106,7 @@ const OneTimeMultiTimeCustomer = ({ customerData }) => {
     }, [timeRange, customerData]);
 
     return (
-        <div>
+        <div className="p-4">
             {/* Dropdown to select time range */}
             <select onChange={(e) => setTimeRange(e.target.value)} value={timeRange}>
                 <option value="today">Today</option>

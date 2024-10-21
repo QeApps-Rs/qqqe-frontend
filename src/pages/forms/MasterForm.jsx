@@ -103,11 +103,11 @@ const MasterForm = () => {
   const [suggestionTemplateStatus, setSuggestionTemplateStatus] = useState({
     isPreviewPopup: false,
     isProductBundle: false,
-    isPurchaseSatisfactionSurvey: true,
+    isPurchaseSatisfactionSurvey: false,
     isFeedbackSurvey: false,
     isAttributionSurvey: false,
     isUpSellPopup: false,
-    isCrossSellPopup: false,
+    isCrossSellPopup: true,
     isAbandonmentPopup: false,
     isExitProductRecommenderPopup: false,
     isSocialMediaConnectPopup: false,
