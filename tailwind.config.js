@@ -211,6 +211,7 @@ export default {
       },
       backgroundImage: {
         video: "url('../images/video/video.png')",
+        custom_gradient: 'linear-gradient(320deg, rgba(22,39,167,0.206) 0%, rgba(22,39,167,0.550) 50%, rgba(5,35,98,0.780) 95%)',
       },
       content: {
         'icon-copy': 'url("../images/icon/icon-copy-alt.svg")',
