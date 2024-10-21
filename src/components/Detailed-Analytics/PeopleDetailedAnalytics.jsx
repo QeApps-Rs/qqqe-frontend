@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 
 import LineChart from "../Charts/LineChart";
@@ -44,8 +45,8 @@ const PeopleDetailedAnalytics = () => {
     mostVisitedProducts: [],
     mostPurchasedProducts: [],
     unSoldProducts: [],
-    bestSellingProducts:[],
-    mostATCProducts:[],
+    bestSellingProducts: [],
+    mostATCProducts: [],
   });
 
   const [chartState, setChartState] = useState({
@@ -116,7 +117,7 @@ const PeopleDetailedAnalytics = () => {
   // Fetch all data
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
+      setLoading(false);
 
       try {
         await Promise.all([
@@ -378,8 +379,6 @@ const PeopleDetailedAnalytics = () => {
 
   //////////         for sales   and orders        ////////////////
 
- 
-
   const OneTimeMultiTimeData = {
     today: {
       "2024-10-07": {
@@ -493,7 +492,6 @@ const PeopleDetailedAnalytics = () => {
 
   ///////////////////////   products   ///////////////////////
 
-
   const un_sold_products = [
     { product_name: "7 Shakra Bracelet - Blue", product_count: "50" },
     { product_name: "Anchor Bracelet Mens - Gold", product_count: "47" },
@@ -506,8 +504,6 @@ const PeopleDetailedAnalytics = () => {
     { product_name: "The Hidden Snowboard", product_count: "32" },
     { product_name: "The Videographer Snowboard", product_count: "30" },
   ];
-
- 
 
   const most_visited_categories = [
     { category_name: "Hardware", category_count: "60" },
@@ -724,312 +720,269 @@ const PeopleDetailedAnalytics = () => {
 
   const customerPageViewData = [
     {
-      
       entryPage: "home",
       exitPage: "cart",
     },
     {
-      
       entryPage: "product",
       exitPage: "collection",
     },
     {
-      
       entryPage: "home",
       exitPage: "pages",
     },
     {
-      
       entryPage: "collection",
       exitPage: "product",
     },
     {
-      
       entryPage: "cart",
       exitPage: "pages",
     },
 
     {
-      
       entryPage: "home",
       exitPage: "cart",
     },
     {
-      
       entryPage: "product",
       exitPage: "cart",
     },
     {
-     
       entryPage: "home",
       exitPage: "pages",
     },
     {
-     
       entryPage: "collection",
       exitPage: "cart",
     },
     {
-     
       entryPage: "cart",
       exitPage: "pages",
     },
     {
-      
       entryPage: "home",
       exitPage: "product",
     },
     {
-      
       entryPage: "product",
       exitPage: "cart",
     },
     {
-      
       entryPage: "collection",
       exitPage: "pages",
     },
     {
-      
       entryPage: "pages",
       exitPage: "cart",
     },
     {
-      
       entryPage: "home",
       exitPage: "collection",
     },
 
     {
-      
       entryPage: "home",
       exitPage: "cart",
     },
     {
-      
       entryPage: "product",
       exitPage: "collection",
     },
 
     {
-      
       entryPage: "home",
       exitPage: "pages",
     },
     {
-      
       entryPage: "collection",
       exitPage: "product",
     },
 
     {
-      
       entryPage: "cart",
       exitPage: "pages",
     },
     {
-      
       entryPage: "home",
       exitPage: "product",
     },
 
     {
-      
       entryPage: "cart",
       exitPage: "pages",
     },
     {
-      
       entryPage: "home",
       exitPage: "product",
     },
 
     {
-      
       entryPage: "cart",
       exitPage: "pages",
     },
     {
-      
       entryPage: "home",
       exitPage: "product",
     },
 
     {
-      
       entryPage: "cart",
       exitPage: "pages",
     },
     {
-      
       entryPage: "home",
       exitPage: "product",
     },
 
     {
-      
       entryPage: "cart",
       exitPage: "pages",
     },
     {
-      
       entryPage: "home",
       exitPage: "product",
     },
 
     {
-      
       entryPage: "cart",
       exitPage: "pages",
     },
     {
-      
       entryPage: "home",
       exitPage: "product",
     },
 
     {
-     
       entryPage: "cart",
       exitPage: "pages",
     },
     {
-     
       entryPage: "home",
       exitPage: "product",
     },
 
     {
-     
       entryPage: "cart",
       exitPage: "pages",
     },
     {
-     
       entryPage: "home",
       exitPage: "product",
     },
 
     {
-      
       entryPage: "cart",
       exitPage: "pages",
     },
     {
-      
       entryPage: "home",
       exitPage: "product",
     },
 
     {
-      
       entryPage: "cart",
       exitPage: "pages",
     },
     {
-      
       entryPage: "home",
       exitPage: "product",
     },
 
     {
-      
       entryPage: "home",
       exitPage: "cart",
     },
     {
-      
       entryPage: "product",
       exitPage: "collection",
     },
 
     {
-      
       entryPage: "home",
       exitPage: "pages",
     },
     {
-     
       entryPage: "collection",
       exitPage: "product",
     },
 
     {
-     
       entryPage: "cart",
       exitPage: "pages",
     },
     {
-     
       entryPage: "home",
       exitPage: "product",
     },
     {
-      
       entryPage: "product",
       exitPage: "cart",
     },
 
     {
-      
       entryPage: "collection",
       exitPage: "pages",
     },
     {
-    
       entryPage: "pages",
       exitPage: "cart",
     },
   ];
+
+  const DashboardTitle = ({ title }) => {
+    return (
+      <div className=" h-16 bg-dashboard_gradient rounded-t-lg">
+        <p className="text-white font-bold flex items-center h-full px-4">
+          {title}
+        </p>
+      </div>
+    );
+  };
+
+  const colFullWidthGraph =
+    "col-span-12 rounded-lg border border-stroke bg-white  shadow-default dark:border-strokedark dark:bg-boxdark  xl:col-span-12";
+
+  const colFourGraph =
+    "col-span-12 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark  xl:col-span-4";
+
+  const colSixGraph =
+    "col-span-12 rounded-lg border border-stroke bg-white  shadow-default dark:border-strokedark dark:bg-boxdark  xl:col-span-6";
+  const NoDataFound = () => (
+    <p className="text-center text-red-500">No data available</p>
+  );
+
   return (
     <>
       {loading && <Loader />}
       <main className="main-content todo-app w-full px-[var(--margin-x)] pb-8">
-        <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
-
-        <div className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-          <div className=" h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Total Visitors Weekly
-            </p>
+        {/* <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div> */}
+        <div className="mt-8 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+          <div className={colFullWidthGraph}>
+            <DashboardTitle title={"Total Visitors Weekly"} />
+            {weekData.length > 0 ? (
+              <AreaChart
+                series={weekSeries}
+                categories={weekCategories}
+                yAxisTitle="Number Of Visitor"
+                xAxisTitle="Date Of Week"
+              />
+            ) : (
+              <NoDataFound />
+            )}
           </div>
-          {weekData.length > 0 ? (
-            <AreaChart
-              series={weekSeries}
-              categories={weekCategories}
-              yAxisTitle="Number Of Visitor"
-              xAxisTitle="Date Of Week"
-            />
-          ) : (
-            <p className="text-center text-red-500">
-              No data available for the selected weeks
-            </p>
-          )}
-        </div>
 
-        <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4">
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Total Visitors Today
-              </p>
-            </div>
+          <div className={colFourGraph}>
+            <DashboardTitle title={"Total Visitors Today"} />
 
             {filteredData.length > 0 ? (
               <RadarChart series={series} categories={categories} />
             ) : (
-              <p className="text-center text-red-500">
-                No data available for today
-              </p>
+              <NoDataFound />
             )}
           </div>
-          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4">
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Total Visitors Monthly
-              </p>
-            </div>
-
+          <div className={colFourGraph}>
+            <DashboardTitle title={"Total Visitors Monthly"} />
             {monthData.length > 0 ? (
               <LineChart
                 series={monthSeries}
@@ -1040,56 +993,40 @@ const PeopleDetailedAnalytics = () => {
                 curve="smooth"
               />
             ) : (
-              <p className="text-center text-red-500">
-                No data available for the selected months
-              </p>
+              <NoDataFound />
             )}
           </div>
-          <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4">
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Total Visitors Yearly
-              </p>
-            </div>
+          <div className={colFourGraph}>
+            <DashboardTitle title={"Total Visitors Yearly"} />
 
             {yearData.length > 0 ? (
               <ColumnChart chartData={chartData} />
             ) : (
-              <p className="text-center text-red-500">
-                No data available for the selected years
-              </p>
+              <NoDataFound />
             )}
           </div>
-        </div>
 
-        <div className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-          <div className=" h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Total & Average Sales (Monthly)
-            </p>
+          <div className={colFullWidthGraph}>
+            <DashboardTitle title={"Total & Average Sales (Monthly)"} />
+
+            {chartState?.totalOrderGraphState == true &&
+              chartState?.totalSalesGraphState == true && (
+                <LineMultiSeriesChart
+                  salesData={
+                    graphData?.totalSalesData?.monthSalesData?.chart_data
+                  }
+                  dateRange={Object.keys(
+                    graphData?.totalOrderData?.monthlySalesResponse.chart_data
+                  )}
+                  isToday={false}
+                  color={["#008FFB", "#FF4560"]}
+                />
+              )}
           </div>
-          {chartState?.totalOrderGraphState == true &&
-            chartState?.totalSalesGraphState == true && (
-              <LineMultiSeriesChart
-                salesData={
-                  graphData?.totalSalesData?.monthSalesData?.chart_data
-                }
-                dateRange={Object.keys(
-                  graphData?.totalOrderData?.monthlySalesResponse.chart_data
-                )}
-                isToday={false}
-                color={["#008FFB", "#FF4560"]}
-              />
-            )}
-        </div>
 
-        <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-          <div className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4">
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Total & Average Sales (Today)
-              </p>
-            </div>
+          <div className={colFourGraph}>
+            <DashboardTitle title={"Total & Average Sales (Today)"} />
+
             {chartState?.totalSalesGraphState == true && (
               <ColumnMultiSeriesChart
                 salesData={graphData?.totalSalesData?.TodaySales}
@@ -1098,15 +1035,8 @@ const PeopleDetailedAnalytics = () => {
               />
             )}
           </div>
-          <div
-            className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5
-                pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4"
-          >
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Total & Average Sales (Weekly)
-              </p>
-            </div>
+          <div className={colFourGraph}>
+            <DashboardTitle title={"Total & Average Sales (Weekly)"} />
             {chartState?.totalOrderGraphState == true &&
               chartState?.totalSalesGraphState == true && (
                 <LineMultiSeriesChart
@@ -1122,15 +1052,9 @@ const PeopleDetailedAnalytics = () => {
                 />
               )}
           </div>
-          <div
-            className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5
-                pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4"
-          >
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Total & Average Sales (Yearly)
-              </p>
-            </div>
+          <div className={colFourGraph}>
+            <DashboardTitle title={"Total & Average Sales (Yearly)"} />
+
             {chartState?.totalOrderGraphState == true &&
               chartState?.totalSalesGraphState == true && (
                 <LineMultiSeriesChart
@@ -1145,34 +1069,27 @@ const PeopleDetailedAnalytics = () => {
                 />
               )}
           </div>
-        </div>
 
-        <div className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-          <div className=" h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Total & Average Order Count (Monthly)
-            </p>
+          <div className={colFourGraph}>
+            <DashboardTitle title={"Total & Average Order Count (Monthly)"} />
+
+            {chartState?.totalSalesGraphState == true &&
+              chartState?.totalOrderGraphState == true && (
+                <MultiSeriesLineChart
+                  orderData={
+                    graphData?.totalOrderData?.monthlySalesResponse?.chart_data
+                  }
+                  dateRange={Object.keys(
+                    graphData?.totalOrderData?.monthlySalesResponse?.chart_data
+                  )}
+                  isToday={false}
+                />
+              )}
           </div>
-          {chartState?.totalSalesGraphState == true &&
-            chartState?.totalOrderGraphState == true && (
-              <MultiSeriesLineChart
-                orderData={
-                  graphData?.totalOrderData?.monthlySalesResponse?.chart_data
-                }
-                dateRange={Object.keys(
-                  graphData?.totalOrderData?.monthlySalesResponse?.chart_data
-                )}
-                isToday={false}
-              />
-            )}
-        </div>
-        <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-          <div className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4">
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Total & Average Order Count (Today)
-              </p>
-            </div>
+
+          <div className={colFourGraph}>
+            <DashboardTitle title={"Total & Average Order Count (Today)"} />
+
             {chartState?.totalOrderGraphState == true && (
               <ColumnMultiSeriesChartOrder
                 orderData={graphData?.totalOrderData?.TodaySales}
@@ -1182,15 +1099,9 @@ const PeopleDetailedAnalytics = () => {
             )}
           </div>
 
-          <div
-            className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5
-                pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4"
-          >
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Total & Average Order Count (Weekly)
-              </p>
-            </div>
+          <div className={colFourGraph}>
+            <DashboardTitle title={"Total & Average Order Count (Weekly)"} />
+
             {chartState?.totalOrderGraphState == true && (
               <LineChartDashedData
                 orderData={
@@ -1204,15 +1115,9 @@ const PeopleDetailedAnalytics = () => {
               />
             )}
           </div>
-          <div
-            className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5
-                pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4"
-          >
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Total & Average Order Count (Yearly)
-              </p>
-            </div>
+          <div className={colFourGraph}>
+            <DashboardTitle title={"Total & Average Order Count (Yearly)"} />
+
             {chartState?.totalOrderGraphState == true && (
               <ColumnMultiSeriesChartOrder
                 orderData={
@@ -1225,71 +1130,43 @@ const PeopleDetailedAnalytics = () => {
               />
             )}
           </div>
-        </div>
 
-        <div
-          className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5
-                pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6"
-        >
-          <div className=" h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Mobile User
-            </p>
-          </div>
-          {chartState?.mobileUserGraphState == true && (
-            <MobileUsersChart orderData={graphData?.mobileUserData} />
-          )}
-        </div>
+          <div className={colFourGraph}>
+            <DashboardTitle title={"Mobile User"} />
 
-        <div
-          className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5
-                pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6"
-        >
-          <div className=" h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Desktop User
-            </p>
+            {chartState?.mobileUserGraphState == true && (
+              <MobileUsersChart orderData={graphData?.mobileUserData} />
+            )}
           </div>
-          {chartState?.desktopUserGraphState == true && (
-            <DesktopUsersChart orderData={graphData?.desktopUserData} />
-          )}
-        </div>
 
-        <div
-          className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5
-                pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6"
-        >
-          <div className=" h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Location Wise User
-            </p>
-          </div>
-          {chartState?.locationWiseGraphState == true && (
-            <LocationCountChart locationData={graphData?.locationWiseData} />
-          )}
-        </div>
+          <div className={colFourGraph}>
+            <DashboardTitle title={"Desktop User"} />
 
-        <div
-          className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5
-                pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6"
-        >
-          <div className=" h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              One Time & Mutli Time Customer
-            </p>
+            {chartState?.desktopUserGraphState == true && (
+              <DesktopUsersChart orderData={graphData?.desktopUserData} />
+            )}
           </div>
-          {chartState?.timeCustomersGraphState == true && (
-            // <OneTimeMultiTimeCustomer customerData={graphData?.timeCustomersData} />
-            <OneTimeMultiTimeCustomer customerData={OneTimeMultiTimeData} />
-          )}
-        </div>
-        <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-          <div className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Country Wise User
-              </p>
-            </div>
+
+          <div className={colFourGraph}>
+            <DashboardTitle title={"Location Wise User"} />
+
+            {chartState?.locationWiseGraphState == true && (
+              <LocationCountChart locationData={graphData?.locationWiseData} />
+            )}
+          </div>
+
+          <div className={colFourGraph}>
+            <DashboardTitle title={"One Time & Mutli Time Customer"} />
+
+            {chartState?.timeCustomersGraphState == true && (
+              // <OneTimeMultiTimeCustomer customerData={graphData?.timeCustomersData} />
+              <OneTimeMultiTimeCustomer customerData={OneTimeMultiTimeData} />
+            )}
+          </div>
+
+          <div className={colFourGraph}>
+            <DashboardTitle title={"Country Wise User"} />
+
             {chartState?.countryWiseCustomerGraphState == true && (
               <PieChart
                 chartData={graphData?.countryWiseCustomerData}
@@ -1297,93 +1174,54 @@ const PeopleDetailedAnalytics = () => {
               />
             )}
           </div>
-          <div className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Most Visited Products
-              </p>
-            </div>
+          <div className={colSixGraph}>
+            <DashboardTitle title={"Most Visited Products"} />
+
             {chartState?.mostVisitedProductsGraphState == true && (
               <PyramidBarChart data={graphData?.mostVisitedProducts} />
             )}
           </div>
-        </div>
 
-        <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-          <div
-            className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5
-                pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6"
-          >
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Most Purchased Products
-              </p>
-            </div>
+          <div className={colSixGraph}>
+            <DashboardTitle title={"Most Purchased Products"} />
+
             {chartState?.mostPurchasedProductsGraphState == true && (
               <PolarAreaChart data={graphData?.mostPurchasedProducts} />
             )}
           </div>
-          <div className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Un Sold Products
-              </p>
-            </div>
+          <div className={colSixGraph}>
+            <DashboardTitle title={"Un Sold Products"} />
+
             <RangeBarChart data={un_sold_products} />
           </div>
-        </div>
 
-        <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-          <div
-            className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5
-                pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6"
-          >
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Best Selling Products
-              </p>
-            </div>
-            {
-              chartState?.bestSellingProductsGraphState == true && (
+          <div className={colSixGraph}>
+            <DashboardTitle title={"Best Selling Products"} />
 
-                <PatternedDonutChart data={graphData?.bestSellingProducts} />
-                // <PatternedDonutChart data={best_selling_products} />
-              )
-            }
+            {chartState?.bestSellingProductsGraphState == true && (
+              <PatternedDonutChart data={graphData?.bestSellingProducts} />
+              // <PatternedDonutChart data={best_selling_products} />
+            )}
           </div>
-          <div className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Most ATC Products
-              </p>
-            </div>
-            {
-              chartState?.mostATCProductsGraphState == true && (
-                <RadialBarChart data={graphData?.mostATCProducts} />
-                // <RadialBarChart data={most_ATC_products} />
-              )
-            }
-          </div>
-        </div>
+          <div className={colSixGraph}>
+            <DashboardTitle title={"Most ATC Products"} />
 
-        <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-          <div
-            className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5
-                pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6"
-          >
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Most Visited Ctaegories
-              </p>
-            </div>
+            {chartState?.mostATCProductsGraphState == true && (
+              <RadialBarChart data={graphData?.mostATCProducts} />
+              // <RadialBarChart data={most_ATC_products} />
+            )}
+          </div>
+
+          <div className={colSixGraph}>
+            <DashboardTitle title={"Most Visited Ctaegories"} />
+
             <GradientLineChart data={most_visited_categories} />
           </div>
-          <div className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Combined Top Views (Products, Categories, Pages)
-              </p>
-            </div>
+          <div className={colFullWidthGraph}>
+            <DashboardTitle
+              title={"Combined Top Views (Products, Categories, Pages)"}
+            />
+
             <div>
               <div>
                 <label htmlFor="productFilter">Select Top: </label>
@@ -1402,28 +1240,18 @@ const PeopleDetailedAnalytics = () => {
               />
             </div>
           </div>
-        </div>
-        <div className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-          <div className="h-16">
-            <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-              Customer Distribution by Page
-            </p>
-          </div>
-          <CustomerDistributionChart
-            distributionData={customer_distribution_by_page}
-          />
-        </div>
 
-        <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-          <div
-            className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5
-                pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6"
-          >
-            <div className=" h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Top Customers by Orders
-              </p>
-            </div>
+          <div className={colFullWidthGraph}>
+            <DashboardTitle title={"Customer Distribution by Page"} />
+
+            <CustomerDistributionChart
+              distributionData={customer_distribution_by_page}
+            />
+          </div>
+
+          <div className={colSixGraph}>
+            <DashboardTitle title={"Top Customers by Orders"} />
+
             <label htmlFor="topNSelect">Show Top: </label>
             <select
               value={filterType}
@@ -1437,15 +1265,8 @@ const PeopleDetailedAnalytics = () => {
             <CustomerPolarAreaChart series={seriescustomer} labels={labels} />
           </div>
 
-          <div
-            className="mt-8 col-span-12 rounded-sm border border-stroke bg-white px-5
-                pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6"
-          >
-            <div className="h-16">
-              <p className="mt-5 text-black font-bold flex h-8 items-center justify-between px-4 sm:px-5 p-7">
-                Entry Page - Exit Page
-              </p>
-            </div>
+          <div className={colSixGraph}>
+            <DashboardTitle title={"Entry Page - Exit Page"} />
             <DumbbellRangebarChart data={customerPageViewData} />
           </div>
         </div>

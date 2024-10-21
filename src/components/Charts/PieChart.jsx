@@ -45,7 +45,7 @@ const PieChart = ({ chartData,title }) => {
     };
 
     return (
-        <div id="chart" className="-ml-5">
+        <div id="chart" className="p-4">
             <Apexcharts   width="100%"  height={350} type="donut" series={chartData.pieSeries} options={options} />
         </div>
     );

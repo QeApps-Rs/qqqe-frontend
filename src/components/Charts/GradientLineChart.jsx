@@ -69,7 +69,7 @@ const GradientLineChart = ({ data }) => {
   };
 
   return (
-    <div>
+    <div className="p-4">
       <div style={{ marginBottom: '20px' }}>
         <label>Show Top: </label>
         <select value={filterCount} onChange={(e) => setFilterCount(parseInt(e.target.value))}>

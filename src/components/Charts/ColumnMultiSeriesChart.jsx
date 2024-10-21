@@ -87,7 +87,7 @@ const ColumnMultiSeriesChart = ({ chartTitle, salesData, dateRange, isToday }) =
     }, [salesData, dateRange, isToday]);
 
     return (
-        <div>
+        <div className="p-4">
             <h2>{chartTitle}</h2>
             <Apexcharts options={chartState.options} series={chartState.series} type="bar" height={350} />
         </div>

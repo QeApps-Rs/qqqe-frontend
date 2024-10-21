@@ -83,7 +83,7 @@ const PatternedDonutChart = ({ data }) => {
   };
 
   return (
-    <div>
+    <div className="p-4">
       <div>
         <label htmlFor="filter">Show Top: </label>
         <select
