@@ -66,7 +66,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         {/* <!-- Sidebar Menu --> */}
 
-        <nav className="mt-2">
+        <nav className="mt-2" >
           {/* <!-- Menu Group --> */}
           <div>
             {/* <ul className="mb-6 flex flex-col gap-1.5"> */}

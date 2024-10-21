@@ -31,7 +31,7 @@ const LineChart = ({ series, title, categories }) => {
         text: "Views",
       },
     },
-    colors: ["#FF5733", "#33FF57", "#3357FF"],
+    colors: ["#E55A89", "#33FF57", "#3357FF"],
     tooltip: {
       shared: true,
       intersect: false,
