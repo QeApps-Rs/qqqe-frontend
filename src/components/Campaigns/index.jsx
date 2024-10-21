@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import SalesLineGraph from "./Graphs/SalesLineGraph";
 import SalesPieGraph from "./Graphs/SalesPieGraph";
 import SalesBarGraph from "./Graphs/SaleBarChart";
@@ -8,33 +8,15 @@ import { Link } from "react-router-dom";
 import Loader from "../../common/Loader";
 import FormSubmitHandler from "../FormSubmitHandler";
 import NeedHelpPage from "../NeedHelp";
+import toast from "react-hot-toast";
 
 const Campaigns = () => {
-  // const productData = [
-  //   {
-  //     id: 1,
-  //     conversions_rate: "0%",
-  //     conversions: 0,
-  //     impressions: 0,
-  //     date_created: "sep 16, 2024",
-  //   },
-  //   {
-  //     id: 2,
-  //     conversions_rate: "0%",
-  //     conversions: 0,
-  //     impressions: 0,
-  //     date_created: "sep 16, 2024",
-  //   },
-  // ];
-
-  const [switchStates, setSwitchStates] = useState({});
-
-  const handleToggle = (productId) => {
-    setSwitchStates((prevStates) => ({
-      ...prevStates,
-      [productId]: !prevStates[productId],
-    }));
-  };
+  // const handleToggle = (productId) => {
+  //   setSwitchStates((prevStates) => ({
+  //     ...prevStates,
+  //     [productId]: !prevStates[productId],
+  //   }));
+  // };
 
   const renderCampaignBox = (title, value, rate) => (
     <div className="campaigns-boxs p-4 bg-white rounded-lg shadow-md">
@@ -99,12 +81,6 @@ const Campaigns = () => {
           .then((res) => {
             if (res.data) {
               setProductData(res.data);
-
-              const initialSwitchStates = res.data.reduce((acc, product) => {
-                acc[product.id] = product.service_status;
-                return acc;
-              }, {});
-              setSwitchStates(initialSwitchStates);
             }
           })
           .catch((err) => {
@@ -208,16 +184,7 @@ const Campaigns = () => {
               <div className="col-span-2 flex items-center">
                 <img src={productImg} alt="product" className="w-30 max-h-30" />
                 <div className="block ml-2 text-graydark">
-                  <Link
-                    to={`/campaigns-details/${product.id}`}
-                    state={{
-                      title: product.problem_statement,
-                      switch: product.service_status,
-                      description: product.suggestion.description,
-                      openInNewTab: switchStates[product.id] || false,
-                      id: product.id,
-                    }}
-                  >
+                  <Link to={`/campaigns-details/${product.id}`}>
                     <span className="block text-blue-600">
                       {product.problem_statement}
                     </span>
@@ -228,8 +195,8 @@ const Campaigns = () => {
               <div className="col-span-1 hidden items-center sm:flex">
                 <SwitcherThree
                   label={`switch-${index}`}
-                  enabled={switchStates[product.id] || false}
-                  onToggle={() => handleToggle(product.id)}
+                  enabled={product?.service_status}
+                  // onToggle={() => handleToggle(product.id)}
                 />
                 <i
                   className="fa fa-exclamation-triangle text-red-500 text-2x"
