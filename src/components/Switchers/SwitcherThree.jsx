@@ -1,6 +1,10 @@
-import React from "react";
-
-const SwitcherThree = ({ label, isLabel = true, enabled, onToggle }) => {
+/* eslint-disable react/prop-types */
+const SwitcherThree = ({ label, isLabel = true, enabled = false, onToggle }) => {
+  const handleToggle = (e) => {
+    if (onToggle) {
+      onToggle(e); // Call the passed onToggle function
+    }
+  };
   return (
     <div>
       <label
@@ -13,7 +17,7 @@ const SwitcherThree = ({ label, isLabel = true, enabled, onToggle }) => {
             id={`toggle-${label}`}
             className="sr-only"
             checked={enabled}
-            onChange={onToggle}
+            onChange={handleToggle}
           />
           <div className="block h-8 w-14 rounded-full bg-meta-9 dark:bg-[#5A616B]"></div>
           <div
