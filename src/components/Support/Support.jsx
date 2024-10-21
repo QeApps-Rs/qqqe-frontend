@@ -1,10 +1,11 @@
 import React from "react";
-
+import callImage from "../../images/call.gif";
+import chatImage from "../../images/chat.gif";
 const Support = () => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8 w-full max-w-[1130px] mx-auto">
       <div className="bg-[linear-gradient(320deg,rgba(22,39,167,0.206)0%,rgba(22,39,167,0.550)50%,rgba(5,35,98,0.780)95%)] text-center p-5 rounded-xl ">
-        <img src="/src/images/call.gif" className="inline-block w-20 h-20" />
+        <img src={callImage} className="inline-block w-20 h-20" />
         <h3 className="text-[18px] my-4 mb-[10px] text-whiter font-semibold">
           Book an onboarding call
         </h3>
@@ -20,7 +21,7 @@ const Support = () => {
         </a>
       </div>
       <div className="bg-[linear-gradient(320deg,rgba(22,39,167,0.206)0%,rgba(22,39,167,0.550)50%,rgba(5,35,98,0.780)95%)] text-center p-5  rounded-xl">
-        <img src="/src/images/chat.gif " className="inline-block w-20 h-20" />
+        <img src={chatImage} className="inline-block w-20 h-20" />
         <h3 className="text-[18px] my-4 mb-[10px] text-whiter font-semibold">
           Visit our HelpDesk
         </h3>
