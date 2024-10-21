@@ -102,13 +102,18 @@ const LocationCountChart = ({ locationData }) => {
   return (
     <div className="p-4">
       {/* Dropdown to select time range */}
-      <select onChange={(e) => setTimeRange(e.target.value)} value={timeRange}>
-        <option value="today">Today</option>
-        <option value="weekly">Weekly</option>
-        <option value="monthly">Monthly</option>
-        <option value="yearly">Yearly</option>
-      </select>
-
+      <div className="w-full flex justify-end">
+        <select
+          onChange={(e) => setTimeRange(e.target.value)}
+          value={timeRange}
+          className="h-12 bg-white w-30 rounded-lg text-black border flex justify-end p-1 font-bold border-strokedark shadow-md focus:outline-none"
+        >
+          <option value="today">Today</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+          <option value="yearly">Yearly</option>
+        </select>
+      </div>
       {loading ? (
         <div>Loading...</div> // Display loading message
       ) : (

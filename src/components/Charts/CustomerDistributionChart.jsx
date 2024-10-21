@@ -112,13 +112,18 @@ const CustomerDistributionChart = ({ distributionData }) => {
   return (
     <div className="p-4">
       {/* Time Range Dropdown */}
-      <label>Show Top:</label>
-      <select onChange={(e) => setTimeRange(e.target.value)} value={timeRange}>
-        <option value="today">Today</option>
-        <option value="weekly">Weekly</option>
-        <option value="monthly">Monthly</option>
-        <option value="yearly">Yearly</option>
-      </select>
+      <div className="w-full flex justify-end items-center">
+        <select
+          onChange={(e) => setTimeRange(e.target.value)}
+          value={timeRange}
+          className="h-12 bg-white w-30 rounded-lg text-black border flex justify-end p-1 font-bold border-strokedark shadow-md focus:outline-none"
+        >
+          <option value="today">Today</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+          <option value="yearly">Yearly</option>
+        </select>
+      </div>
 
       {/* Chart */}
       <Apexcharts

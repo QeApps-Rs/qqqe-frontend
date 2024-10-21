@@ -33,7 +33,7 @@ const AreaChart = ({ series, title, categories }) => {
         text: "Counts",
       },
     },
-    colors: ["#FF5733"],
+    colors: ["#3056D3"],
     tooltip: {
       shared: false,
       intersect: false,
