@@ -83,13 +83,15 @@ const PatternedDonutChart = ({ data }) => {
   };
 
   return (
-    <div>
-      <div>
-        <label htmlFor="filter">Show Top: </label>
+    <div className="p-4">
+      <div className="w-full flex justify-end items-center">
+      <label className="text-gray-700 mr-3">Show Top: </label>
         <select
           id="filter"
           value={filterCount}
           onChange={(e) => setFilterCount(Number(e.target.value))}
+          className="h-12 bg-white w-30 rounded-lg text-black border flex justify-end p-1 font-bold border-strokedark shadow-md focus:outline-none"
+
         >
           <option value={5}>Top 5</option>
           <option value={10}>Top 10</option>

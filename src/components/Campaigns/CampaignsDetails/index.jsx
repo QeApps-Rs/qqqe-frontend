@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import SwitcherThree from "../../Switchers/SwitcherThree";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { defaultBoxClassName } from "../../../pages/forms/masterFormConfig";
 import SalesLineGraph from "../Graphs/SalesLineGraph";
 import SalesPieGraph from "../Graphs/SalesPieGraph";
@@ -17,17 +17,15 @@ import TargetingAndBehaviorControlComponent from "./TargetAndBehaviourCampaignCo
 import SurveyCampaignCompon from "./SurveyCampaignComponent";
 import NeedHelpPage from "../../NeedHelp";
 
-const CampaignsDetailsPage = ({ id }) => {
-  const { state } = useLocation();
-  const { openInNewTab, switch: initialSwitchState } = state || {};
-  const [switchStates, setSwitchStates] = useState({ openInNewTab });
+const CampaignsDetailsPage = () => {
+  const { id } = useParams();
   const [activeTab, setActiveTab] = useState("medium");
-  const handleToggle = (key) => {
-    setSwitchStates((prevStates) => ({
-      ...prevStates,
-      [key]: !prevStates[key],
-    }));
-  };
+  // const handleToggle = (key) => {
+  //   setSwitchStates((prevStates) => ({
+  //     ...prevStates,
+  //     [key]: !prevStates[key],
+  //   }));
+  // };
   const productData = [
     {
       variant: "Customer",
@@ -124,17 +122,11 @@ const CampaignsDetailsPage = ({ id }) => {
         setLoading(true);
         await FormSubmitHandler({
           method: "get",
-          url: `applied/suggestion/${state.id}`,
+          url: `applied/suggestion/${id}`,
         })
           .then((res) => {
             if (res.data) {
               setProductDetailsData(res.data);
-            }
-            if (initialSwitchState !== undefined) {
-              setSwitchStates((prev) => ({
-                ...prev,
-                [id]: initialSwitchState,
-              }));
             }
           })
           .catch((err) => {
@@ -149,7 +141,7 @@ const CampaignsDetailsPage = ({ id }) => {
     };
 
     fetchSuggestionDetailsData();
-  }, [id, initialSwitchState]);
+  }, [id]);
 
   return (
     <>
@@ -157,9 +149,11 @@ const CampaignsDetailsPage = ({ id }) => {
 
       <div className="mb-25">
         <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          {state?.title}
+          {productDetailsData?.problem_statement}
         </h1>
-        <span className="block">{state?.description}</span>
+        <span className="block">
+          {productDetailsData?.suggestion?.description}
+        </span>
 
         <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4 flex justify-between">
           <div className="flex items-center">
@@ -168,8 +162,8 @@ const CampaignsDetailsPage = ({ id }) => {
             </h2>
             <SwitcherThree
               label="Open in new tab"
-              enabled={switchStates.openInNewTab}
-              onToggle={() => handleToggle("openInNewTab")}
+              enabled={productDetailsData?.service_status}
+              // onToggle={() => handleToggle("openInNewTab")}
             />
           </div>
           <div className="flex justify-between items-center">

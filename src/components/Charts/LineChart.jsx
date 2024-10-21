@@ -1,10 +1,10 @@
-import React from 'react';
-import ReactApexChart from 'react-apexcharts';
+import React from "react";
+import ReactApexChart from "react-apexcharts";
 
 const LineChart = ({ series, title, categories }) => {
   const options = {
     chart: {
-      type: 'line',
+      type: "line",
       height: 350,
       toolbar: {
         show: false,
@@ -15,10 +15,10 @@ const LineChart = ({ series, title, categories }) => {
     },
     title: {
       text: title,
-      align: 'left',
+      align: "left",
     },
     stroke: {
-      curve: 'smooth',
+      curve: "smooth",
     },
     xaxis: {
       categories: categories || [],
@@ -28,10 +28,10 @@ const LineChart = ({ series, title, categories }) => {
     },
     yaxis: {
       title: {
-        text: 'Views',
+        text: "Views",
       },
     },
-    colors: ['#FF5733', '#33FF57', '#3357FF'],
+    colors: ["#E55A89", "#33FF57", "#3357FF"],
     tooltip: {
       shared: true,
       intersect: false,
@@ -39,7 +39,7 @@ const LineChart = ({ series, title, categories }) => {
   };
 
   return (
-    <div>
+    <div className="p-4">
       <ReactApexChart
         options={options}
         series={series}

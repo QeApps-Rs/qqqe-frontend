@@ -50,7 +50,7 @@ const ProblemStatements = () => {
   };
 
   const classObject = {
-    main_div: "col-span-12 px-10 xl:col-span-8 mt-8",
+    main_div: "col-span-12 xl:col-span-8 mt-8",
     state_div:
       "ml-2 border-current pb-0.5 font-medium outline-none transition-colors duration-300 text-[#282b31] hover:text-blue-700 focus:text-blue-700 ",
     badge_div:

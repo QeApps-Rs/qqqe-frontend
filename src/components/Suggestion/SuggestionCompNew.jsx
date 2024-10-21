@@ -429,7 +429,7 @@ const SuggestionCompNew = () => {
                       onClick={() => handlePlusMinus(i)}
                     >
                       {renderTabTitle(dataItem)}
-                      <div className="flex h-9 w-full max-w-9 items-center justify-center rounded-full border border-primary dark:border-white">
+                      <div className="flex h-9 w-full max-w-9 items-center justify-center rounded-full bg-blue-700 text-white">
                         <PlusSvg plusMinus={plusMinus?.[i]} />
                         <MinusSvg plusMinus={plusMinus?.[i]} />
                       </div>
@@ -493,7 +493,10 @@ const SuggestionCompNew = () => {
   };
 
   // Function to render the status for each problem/suggestion
-  const renderStatusTd = (problemId, statementId, is_applied, is_active) => {
+  // const renderStatusTd = (problemId, statementId, is_applied, is_active) => {
+  const renderStatusTd = (problemId, suggestion) => {
+    const { statementId, is_applied, is_active, customer_template_id } =
+      suggestion;
     const currentStatus =
       toggleState[`${problemId}-${statementId}`] ?? is_active;
 
@@ -519,7 +522,7 @@ const SuggestionCompNew = () => {
         </span>
         {is_applied && (
           <div className="flex items-center">
-            <Link to={`/suggestion/analytics/${problemId}a${statementId}`}>
+            <Link to={`/campaigns-details/${customer_template_id}`}>
               <i
                 className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
                 aria-hidden="true"
@@ -687,12 +690,13 @@ const SuggestionCompNew = () => {
                           className={`${comTdClass} min-w-[109px]`}
                           key={`${problemStatement.id}-${suggestion.id}`}
                         >
-                          {renderStatusTd(
+                          {/* {renderStatusTd(
                             problemStatement.id,
                             suggestion.id,
                             suggestion.is_applied,
                             suggestion.service_status
-                          )}
+                          )} */}
+                          {renderStatusTd(problemStatement.id, suggestion)}
                         </td>
                         <td
                           aria-label="suggestions"

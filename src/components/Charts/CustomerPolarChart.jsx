@@ -41,7 +41,7 @@ const CustomerPolarAreaChart = ({ series, labels }) => {
   };
 
   return (
-    <div>
+    <div className="p-4">
       <ReactApexChart
         options={options}
         series={series}

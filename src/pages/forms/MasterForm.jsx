@@ -109,7 +109,7 @@ const MasterForm = () => {
     isFeedbackSurvey: false,
     isAttributionSurvey: false,
     isUpSellPopup: false,
-    isCrossSellPopup: false,
+    isCrossSellPopup: true,
     isAbandonmentPopup: false,
     isExitProductRecommenderPopup: false,
     isSocialMediaConnectPopup: false,
