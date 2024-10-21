@@ -286,7 +286,7 @@ const SuggestionCompNew = () => {
   const renderProblemStmtTd = (index, suggestion) => {
     return (
       <>
-        <div className="rounded-md border border-stroke p-4 shadow-9 dark:border-strokedark dark:shadow-none w-full">
+        <div className="rounded-md border border-stroke p-4 shadow-9 dark:border-strokedark dark:shadow-none w-full  hover:shadow-lg   hover:-translate-y-2  hover:-translate-y-1 transition duration-300">
           <button
             className="flex w-full items-center gap-1.5 sm:gap-3 xl:gap-6 active"
             onClick={() => handleAccordionClick(index)}
