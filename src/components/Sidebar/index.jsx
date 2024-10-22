@@ -4,7 +4,7 @@ import SidebarLinkGroup from "./SidebarLinkGroup";
 // import Logo from '../../images/logo/logo.svg';
 import Logo from "../../images/favicon.png";
 import SidebarLink from "./SidebarLink";
-import smallLogo from "../../images/qqqe-fav_new.png";
+import smallLogo from "../../images/favicon-A.png";
 import DropdownUser from "../Header/DropdownUser";
 import DropdownNotification from "../Header/DropdownNotification";
 import DropdownHelp from "../Header/DropdownHelp";
@@ -58,15 +58,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-center gap-2">
         <Link to="/">
-          <img src={smallLogo} className="p-2 w-12 h-15 " alt="Logo" />
+          <img src={smallLogo} className="p-2 mt-2 w-25 h-10" alt="Logo" />
         </Link>
       </div>
       {/* <!-- SIDEBAR HEADER --> */}
 
-      <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
+      <div
+        className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear "
+        style={{ maxHeight: "calc(100% - 400px)" }}
+      >
         {/* <!-- Sidebar Menu --> */}
 
-        <nav className="mt-2" >
+        <nav className="mt-2">
           {/* <!-- Menu Group --> */}
           <div>
             {/* <ul className="mb-6 flex flex-col gap-1.5"> */}
