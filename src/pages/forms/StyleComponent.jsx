@@ -104,13 +104,13 @@ const StyleComponent = ({
                             name: "formWidth",
                             defaultValue: templateDesign.formWidth,
                           })}
-                          {renderInputField(
+                          {/* {renderInputField(
                             "Minimum Height(px)",
                             templateDesign.templateMinHeight,
                             onTemplateChange("templateMinHeight"),
                             "minimum-height",
                             "px"
-                          )}
+                          )} */}
                         </>
                       )}
 

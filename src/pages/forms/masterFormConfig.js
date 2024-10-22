@@ -1,43 +1,43 @@
 export const templateFieldCss = {
   bgColor: "#FFFFFF", // styles.form_type.input_fields_style.background_color
-  borderColor: "#D1D5DB", // styles.form_type.input_fields_style.border_color 
-  focusBorderColor: "#007BFF",  // styles.form_type.input_fields_style.focus_border_color 
+  borderColor: "#D1D5DB", // styles.form_type.input_fields_style.border_color
+  focusBorderColor: "#007BFF", // styles.form_type.input_fields_style.focus_border_color
   placeholderTextColor: "#6B7280", // styles.form_type.input_fields_style.placeholder_color
   formHeadingColor: "#000000", // styles.form_type.input_fields_style.label_color
   textColor: "#000000", // styles.form_type.input_fields_style.text_color
   letterSpacing: "1px", // styles.form_type.input_fields_style.letter_spacing
-  inputFontSize: "14px",  // styles.form_type.input_fields_style.font_size
-  templateBgColor: "#000000",// styles.form_type.background_color
-  templateOverlayColor: "#FFFFFF",// styles.form_type.overlay_color
+  inputFontSize: "14px", // styles.form_type.input_fields_style.font_size
+  templateBgColor: "#FFFFFF", // styles.form_type.background_color
+  templateOverlayColor: "#FFFFFF", // styles.form_type.overlay_color
   fontWeight: "normal", // styles.form_type.input_fields_style.font_weight
-  fontFamily: "Arial",// styles.form_type.input_fields_style.font_family
-  borderRadius: "",// styles.form_type.corner_radius
-  borderWidth: "2px",// styles.form_type.border_width
+  fontFamily: "Arial", // styles.form_type.input_fields_style.font_family
+  borderRadius: "", // styles.form_type.corner_radius
+  borderWidth: "2px", // styles.form_type.border_width
   templateBorderColor: "#FFFFFF", // styles.form_type.template_border_color
-  templatePaddingTop: "8px", // styles.form_type.padding_top
-  templatePaddingBottom: "8px",// styles.form_type.padding_bottom
-  templatePaddingLeft: "8px",// styles.form_type.padding_left
-  templatePaddingRight: "8px",// styles.form_type.padding_right
-  templateMarginTop: "8px",// styles.form_type.margin_top
-  templateMarginBottom: "8px",// styles.form_type.margin_bottom
-  templateMarginLeft: "8px",// styles.form_type.margin_left
-  templateMarginRight: "8px",// styles.form_type.margin_right
-  formBorderStyle: "none",// styles.form_type.border_style
-  formType: "full page",// styles.form_type.type
-  formWidth: "large",// styles.form_type.width
-  templateMinHeight: "200px",// styles.form_type.min_height
-  templateHeadingFontSize: "32px",// styles.form_parameters.title.font_size
-  templateOfferFontSize: "24px",// styles.form_parameters.offer_title.template_offer_font_size
-  templateSubHeadingFontSize: "16px",// styles.form_parameters.sub_title.font_size
-  templateHeadingFontFamily: "Arial",// styles.form_parameters.title.template_heading_font_family
-  templateOfferFontFamily: "Arial",// styles.form_parameters.offer_title.template_offer_font_family
-  templateSubHeadingFontFamily: "Arial",// styles.form_parameters.sub_title.template_sub_heading_font_family
-  templateHeadingColor: "#000000",// styles.form_parameters.title.color
-  templateSubHeadingColor: "#000000",// styles.form_parameters.sub_title.color
-  templateOfferColor: "#000000",// styles.form_parameters.offer_title.template_offer_color
-  templateButtonBgColor: "#000000",// styles.form_parameters.button.background_color
+  templatePaddingTop: "0px", // styles.form_type.padding_top
+  templatePaddingBottom: "0px", // styles.form_type.padding_bottom
+  templatePaddingLeft: "0px", // styles.form_type.padding_left
+  templatePaddingRight: "0px", // styles.form_type.padding_right
+  templateMarginTop: "0px", // styles.form_type.margin_top
+  templateMarginBottom: "0px", // styles.form_type.margin_bottom
+  templateMarginLeft: "0px", // styles.form_type.margin_left
+  templateMarginRight: "0px", // styles.form_type.margin_right
+  formBorderStyle: "none", // styles.form_type.border_style
+  formType: "full page", // styles.form_type.type
+  formWidth: "large", // styles.form_type.width
+  templateMinHeight: "200px", // styles.form_type.min_height
+  templateHeadingFontSize: "32px", // styles.form_parameters.title.font_size
+  templateOfferFontSize: "24px", // styles.form_parameters.offer_title.template_offer_font_size
+  templateSubHeadingFontSize: "16px", // styles.form_parameters.sub_title.font_size
+  templateHeadingFontFamily: "Arial", // styles.form_parameters.title.template_heading_font_family
+  templateOfferFontFamily: "Arial", // styles.form_parameters.offer_title.template_offer_font_family
+  templateSubHeadingFontFamily: "Arial", // styles.form_parameters.sub_title.template_sub_heading_font_family
+  templateHeadingColor: "#000000", // styles.form_parameters.title.color
+  templateSubHeadingColor: "#000000", // styles.form_parameters.sub_title.color
+  templateOfferColor: "#000000", // styles.form_parameters.offer_title.template_offer_color
+  templateButtonBgColor: "#000000", // styles.form_parameters.button.background_color
   templateProductOverlayColor: "#000000",
-  imagePosition: "0",// styles.form_parameters.side_image.side
+  imagePosition: "0", // styles.form_parameters.side_image.side
   successHeadingFontSize: "32px",
   successDescriptionFontSize: "24px",
   successSubHeadingFontSize: "16px",
@@ -49,21 +49,24 @@ export const templateFieldCss = {
   successDescriptionColor: "#000000",
   containPosition: "center",
   reviewType: "none",
-  reviewCount: '5',
+  reviewCount: "5",
   reviewMinCount: "5",
   reviewMaxCount: "10",
   ratingCount: "5",
   ratingMinCount: "1",
   ratingMaxCount: "15",
-  heading: "Default Heading",// styles.form_parameters.title.text
-  button: "Continue",// styles.form_parameters.button.text
-  offerAmount: "10% Off",// styles.form_parameters.offer_title.template_offer_amount
-  subHeading: "Save on your first order and get email-only offers when you join.",// styles.form_parameters.sub_title.text
-  image: "",// styles.form_parameters.image.link
+  heading: "", // styles.form_parameters.title.text
+  button: "Continue", // styles.form_parameters.button.text
+  offerAmount: "", // styles.form_parameters.offer_title.template_offer_amount
+  subHeading: "", // styles.form_parameters.sub_title.text
+  image: "", // styles.form_parameters.image.link
   successImage: "",
-  successHeading: "Thanks for sharing. Please check your email for confirmation message",
-  successSubHeading: "Thanks for sharing. Please check your email for confirmation message",
-  successDescription: "Thanks for sharing. Please check your email for confirmation message",
+  successHeading:
+    "Thanks for sharing. Please check your email for confirmation message",
+  successSubHeading:
+    "Thanks for sharing. Please check your email for confirmation message",
+  successDescription:
+    "Thanks for sharing. Please check your email for confirmation message",
 };
 
 export const targetAndBehaviorDefaultState = {
@@ -116,7 +119,7 @@ export const targetAndBehaviorDefaultState = {
       },
     },
   },
-}
+};
 
 export const inputColorFields = [
   { label: "Background Color", colorType: "bgColor" },
@@ -141,12 +144,13 @@ export const fontFamilyList = [
   { label: "Courier", value: "'Courier', monospace" },
   { label: "Geneva", value: "Geneva, sans-serif" },
   { label: "Helvetica", value: "Helvetica, sans-serif" },
-  { label: "Franklin Gothic", value: "'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif" },
+  {
+    label: "Franklin Gothic",
+    value: "'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif",
+  },
   { label: "Courier New", value: "'Courier New', Courier, monospace" },
-  { label: "Brush Script MT", value: "'Brush Script MT', cursive" }
+  { label: "Brush Script MT", value: "'Brush Script MT', cursive" },
 ];
-
-
 
 export const borderStyles = [
   { value: "none", label: "None" },
@@ -169,7 +173,7 @@ export const visitorsDropdown = {
     },
     {
       value: "show_to_all_visitors",
-      label: "Show to all visitors"
+      label: "Show to all visitors",
     },
     {
       value: "show_to_any_existing_profile",
@@ -365,7 +369,6 @@ export const fieldTypeDropdownData = {
   placeholder: "Select Field Type",
 };
 
-
 export const surveyTypeStyles = [
   { value: "none", label: "None" },
   { value: "review", label: "Review" },
@@ -404,4 +407,4 @@ export const surveyControllerDefaults = {
       answers: [],
     },
   ],
-}
+};

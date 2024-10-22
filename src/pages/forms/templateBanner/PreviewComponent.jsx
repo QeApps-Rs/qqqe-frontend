@@ -46,7 +46,6 @@ const PreviewComponent = ({
             ? "url('https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/src/images/mobile_bg.png')"
             : "",
       }}
-      
     >
       <div
         className={formClasses()}
@@ -62,7 +61,7 @@ const PreviewComponent = ({
           <img
             src={imageSrc}
             alt="Promo"
-            className="h-full w-full object-cover"
+            className={`w-full ${formClasses()}`}
           />
         </div>
 
@@ -124,19 +123,20 @@ const PreviewComponent = ({
                 className="text-4xl font-bold mb-4"
                 style={getStyle(templateDesign, "templateHeading")}
               >
-                {templateDesign.heading}
+                {templateDesign.heading || "Limited Time Off"}
               </h2>
               <h2
                 className="text-4xl font-bold mb-4"
                 style={getStyle(templateDesign, "templateOffer")}
               >
-                {templateDesign.offerAmount}
+                {templateDesign.offerAmount || "10% OFF"}
               </h2>
               <p
                 className="text-lg mb-6"
                 style={getStyle(templateDesign, "templateSubHeading")}
               >
-                {templateDesign.subHeading || ""}
+                {templateDesign.subHeading ||
+                  "save on your first order and get email only offers when you join"}
               </p>
               <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
                 {addedFields.map((field, index) => (
