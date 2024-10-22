@@ -253,14 +253,14 @@ const SuggestionCompNew = () => {
       key={i}
       className="w-full rounded-md border border-stroke py-2.5 dark:border-strokedark"
     >
-      <div className="flex flex-col">
-        <div className="flex items-center justify-between p-4.5 hover:bg-[#F9FAFB] dark:hover:bg-meta-4">
-          <div className="flex items-center">
-            <div className="mr-4 h-[50px] w-full max-w-[50px] overflow-hidden rounded-full">
+      <div className="flex flex-col ">
+        <div className="flex items-center  p-4.5 hover:bg-[#F9FAFB] dark:hover:bg-meta-4">
+          <div className="flex items-center ">
+            <div className="mr-4 max-h-[120px] w-full max-w-[120px]  rounded-full">
               <img
                 src={product?.product_image}
                 alt="User"
-                className="rounded-full object-cover object-center"
+                className="w-full h-full object-fill object-center p-2 rounded-full"
               />
             </div>
             <div>
@@ -304,7 +304,7 @@ const SuggestionCompNew = () => {
           return (
             <div
               key={index}
-              className={`leading-relaxed ${accordionTab?.[tab]?.active_tab_body}`}
+              className={`leading-relaxed max-h-[500px] custom-scrollbar overflow-auto pr-2 ${accordionTab?.[tab]?.active_tab_body}`}
             >
               {dataItem["product_list"]?.map(renderProductsWithDetails)}
             </div>
@@ -316,7 +316,7 @@ const SuggestionCompNew = () => {
           return (
             <div
               key={index}
-              className={`leading-relaxed ${accordionTab?.[tab]?.active_tab_body}`}
+              className={`leading-relaxed max-h-[500px] custom-scrollbar overflow-auto pr-2 ${accordionTab?.[tab]?.active_tab_body}`}
             >
               {dataItem["top_selling_product_list"]?.map(
                 renderProductsWithDetails
@@ -330,7 +330,7 @@ const SuggestionCompNew = () => {
           return (
             <div
               key={index}
-              className={`leading-relaxed ${accordionTab?.[tab]?.active_tab_body}`}
+              className={`leading-relaxed max-h-[500px] custom-scrollbar overflow-auto pr-2 ${accordionTab?.[tab]?.active_tab_body}`}
             >
               {dataItem["top_abandoned_product_list"]?.map(
                 renderProductsWithDetails
@@ -341,7 +341,7 @@ const SuggestionCompNew = () => {
           return (
             <div
               key={index}
-              className={`leading-relaxed ${accordionTab?.[tab]?.active_tab_body}`}
+              className={`leading-relaxed max-h-[300px] custom-scrollbar overflow-auto pr-2 ${accordionTab?.[tab]?.active_tab_body}`}
             >
               {dataItem[tab]?.map(renderProduct)}
             </div>
