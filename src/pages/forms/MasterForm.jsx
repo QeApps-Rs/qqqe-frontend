@@ -109,7 +109,7 @@ const MasterForm = () => {
     isFeedbackSurvey: false,
     isAttributionSurvey: false,
     isUpSellPopup: false,
-    isCrossSellPopup: true,
+    isCrossSellPopup: false,
     isAbandonmentPopup: false,
     isExitProductRecommenderPopup: false,
     isSocialMediaConnectPopup: false,
@@ -251,48 +251,86 @@ const MasterForm = () => {
     });
   };
 
+  // const formClasses = () => {
+  //   const { formWidth, formType } = templateDesign;
+  //   let classes = "h-[600px] ";
+
+  //   // Handle form width
+  //   classes += formWidth === "small" ? "w-10/12 " : "w-full ";
+
+  //   // Handle full page or large form width
+  //   if (formType === "full page" || formWidth === "large") {
+  //     ("transition-all duration-300 h-100%");
+  //   }
+
+  //   // Handle view types
+  //   if (isView === "Desktop") {
+  //     classes += "grid grid-cols-12 items-center shadow-lg  ";
+  //   } else {
+  //     classes = "overflow-y-auto h-[500px] w-[380px]";
+  //   }
+
+  //   // Handle specific mobile conditions
+  //   if (
+  //     isView === "Mobile" &&
+  //     formType === "full page" &&
+  //     formWidth === "small"
+  //   ) {
+  //     classes += "overflow-y-auto w-min ";
+  //   }
+
+  //   if (isView === "Mobile" && formType === "embed" && formWidth === "small") {
+  //     classes += "";
+  //   }
+  //   if (
+  //     isView === "Mobile" &&
+  //     formType === "full page" &&
+  //     formWidth === "large"
+  //   );
+  //   {
+  //     classes += "";
+  //   }
+
+  //   return classes.trim();
+  // };
+
   const formClasses = () => {
     const { formWidth, formType } = templateDesign;
-    let classes = "h-auto ";
+    let classes = "h-[calc(100vh-250px)] ";
 
-    // Handle form width
-    classes += formWidth === "small" ? "w-10/12 " : "w-full ";
-
-    // Handle full page or large form width
-    if (formType === "full page" || formWidth === "large") {
-      ("transition-all duration-300 h-100%");
-    }
-
-    // Handle view types
     if (isView === "Desktop") {
-      classes += "grid grid-cols-12 items-center shadow-lg  ";
+      classes += "grid grid-cols-12 items-center shadow-lg overflow-auto ";
     } else {
       classes = "overflow-y-auto h-[500px] w-[380px]";
     }
 
-    // Handle specific mobile conditions
-    if (
-      isView === "Mobile" &&
-      formType === "full page" &&
-      formWidth === "small"
-    ) {
-      classes += "overflow-y-auto w-min ";
+    if (formType === "full page") {
+      classes +=
+        formWidth === "large"
+          ? "h-screen w-full flex"
+          : "h-screen w-10/12 flex";
+    } else if (formType === "embed") {
+      classes +=
+        formWidth === "large"
+          ? "h-[calc(100vh-500px)] w-full flex"
+          : "h-[calc(100vh-500px)] w-10/12 flex";
     }
 
-    if (isView === "Mobile" && formType === "embed" && formWidth === "small") {
-      classes += "";
-    }
-    if (
-      isView === "Mobile" &&
-      formType === "full page" &&
-      formWidth === "large"
-    );
-    {
-      classes += "";
-    }
+    // if (isView === "Mobile") {
+    //   classes = "overflow-y-auto ";
+    //   classes +=
+    //     formType === "full page" || formWidth === "large"
+    //       ? "h-[600px] w-[380px]"
+    //       : "h-[600px] w-[200px]";
+    //       classes +=
+    //       formType === "full page" || formWidth === "small"
+    //         ? "h-[600px] w-[200px]"
+    //         : "h-[600px] w-[300px]";
+    // }
 
     return classes.trim();
   };
+
   const imageSrc = !success
     ? templateDesign.image || popup_img
     : templateDesign.successImage || popup_img;
@@ -418,7 +456,7 @@ const MasterForm = () => {
               desktop: false,
               mobile: false,
             });
-          }else {
+          } else {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isPreviewPopup: true,
@@ -1007,7 +1045,7 @@ const MasterForm = () => {
                 suggestionTemplateStatus?.isUpSellPopup ||
                 suggestionTemplateStatus?.isCrossSellPopup ||
                 suggestionTemplateStatus?.isAbandonmentPopup ||
-                suggestionTemplateStatus?.isExitProductRecommenderPopup 
+                suggestionTemplateStatus?.isExitProductRecommenderPopup
               ) {
                 return (
                   // item.tag !== "inputController" &&
@@ -1111,7 +1149,7 @@ const MasterForm = () => {
                   suggestionTemplateStatus?.isUpSellPopup ||
                   suggestionTemplateStatus?.isAbandonmentPopup ||
                   suggestionTemplateStatus?.isCrossSellPopup ||
-                  suggestionTemplateStatus?.isExitProductRecommenderPopup ) &&
+                  suggestionTemplateStatus?.isExitProductRecommenderPopup) &&
                   activeIndex === index &&
                   item.tag === "bundle" &&
                   productListState && (
@@ -1284,16 +1322,15 @@ const MasterForm = () => {
         )}
         {suggestionTemplateStatus.isPurchaseSatisfactionSurvey && (
           <div
-            className={`h-full flex items-center justify-center ${
+            className={` flex items-center justify-center ${
               isView !== "Desktop"
                 ? "min-h-[785px] bg-no-repeat bg-top bg-center"
-                : "gap-8 overflow-auto"
+                : "gap-8 h-[calc(100vh-250px)] "
             }`}
             style={{
               backgroundColor: templateDesign.templateBgColor,
               margin: combinedMargin,
-              padding: combinedPadding,
-              minHeight: templateDesign.templateMinHeight,
+              // minHeight: templateDesign.templateMinHeight,
               backgroundImage:
                 isView !== "Desktop"
                   ? "url('https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/src/images/mobile_bg.png')"
@@ -1308,18 +1345,21 @@ const MasterForm = () => {
                 borderWidth: templateDesign.borderWidth,
                 borderColor: templateDesign.templateBorderColor,
                 borderStyle: templateDesign.formBorderStyle,
+                padding: combinedPadding,
               }}
             >
-              <div className={`p-8 flex flex-col justify-center xl:col-span-6`}>
+              <div
+                className={`p-8 flex flex-col justify-center xl:col-span-6 ${containerClass}`}
+              >
                 <h1
-                  className="text-8xl font-bold mb-4 relative"
-                  style={{ width: "150%" }}
+                  className="text-8xl font-bold mb-4 relative leading-none"
+                  style={getStyle(templateDesign, "templateHeading")}
                 >
                   {templateDesign.heading || "HI, THANKS FOR STOPPING BY!"}
                 </h1>
                 <p
-                  className="text-lg mb-6"
-                  style={getStyle(templateDesign, "templateSubheading")}
+                  className="text-lg mb-6 leading-none"
+                  style={getStyle(templateDesign, "templateSubHeading")}
                 >
                   {templateDesign.subHeading ||
                     "How would you rate your overall experience with us?"}
@@ -1338,11 +1378,11 @@ const MasterForm = () => {
                   )}
                 </form>
               </div>
-              <div className={`flex flex-col justify-center xl:col-span-6`}>
+              <div className="flex flex-col justify-center xl:col-span-6 ">
                 <img
                   src={surveyImageSrc}
                   alt="Promo"
-                  className="h-full w-full object-fill"
+                  className={`w-full ${formClasses()}`}
                 />
               </div>
             </div>
@@ -1466,7 +1506,6 @@ const MasterForm = () => {
         {suggestionTemplateStatus.isSocialMediaConnectPopup && (
           <>
             <div className="w-full flex justify-center items-center h-full space-x-6 p-10 bg-gradient-to-r from-orange-100 to-orange-200">
-
               <SocialMediaConnectPopUp
                 socialMediaIcon="fa-facebook-square"
                 socialMediaTitle="SECRET FACEBOOK DISCOUNT"
@@ -1484,12 +1523,11 @@ const MasterForm = () => {
             </div>
           </>
         )}
-         {suggestionTemplateStatus.isWorldWideWelcomePopup && (
+        {suggestionTemplateStatus.isWorldWideWelcomePopup && (
           <>
             <div className="w-full flex justify-center items-center h-full space-x-6 p-10 bg-gradient-to-r from-orange-100 to-orange-200">
-
-             World Wide Welcome
-             <WorldWideWelcomePopUp
+              World Wide Welcome
+              <WorldWideWelcomePopUp
                 socialMediaIcon="fa-facebook-square"
                 socialMediaTitle="SECRET FACEBOOK DISCOUNT"
                 socialMediaDesc="We are sure we can pump up your next Facebook story with a cool new blender! Get your secret discount now!"

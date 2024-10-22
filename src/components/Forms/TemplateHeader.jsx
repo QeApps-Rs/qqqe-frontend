@@ -52,7 +52,7 @@ const TemplateHeader = ({
             <i className="fa fa-desktop" aria-hidden="true"></i>
           </a>
         )}
-        {templateHeaderState?.mobile && (
+        {/* {templateHeaderState?.mobile && (
           <a
             className={`rounded-r-md text-lg border border-[#ccc] -ml-px text-black leading-[22px]  ${
               isView === "Mobile" ? "bg-[#eaedef]" : ""
@@ -62,7 +62,7 @@ const TemplateHeader = ({
           >
             <i className="fa fa-mobile" aria-hidden="true"></i>
           </a>
-        )}
+        )} */}
       </div>
     </div>
   );
