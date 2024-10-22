@@ -363,7 +363,7 @@ const MasterForm = () => {
           if (responseKeywords?.includes("Product Bundle")) {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
-              isProductBundle: false,
+              isProductBundle: true,
             });
             setTemplateHeaderState({
               ...templateHeaderState,
@@ -1525,14 +1525,24 @@ const MasterForm = () => {
         )}
         {suggestionTemplateStatus.isWorldWideWelcomePopup && (
           <>
-            <div className="w-full flex justify-center items-center h-full space-x-6 p-10 bg-gradient-to-r from-orange-100 to-orange-200">
-              World Wide Welcome
+            <div className="w-full flex justify-center items-center h-full space-x-6 p-10 bg-[#737378]">
+              {/* <WorldWideWelcomePopUp
+                worldWideWelcomeTitle="Join us and get 10% OFF"
+                worldWideWelcomeReview="Excellent customer service and a great product! 5 stars!"
+                worldWideWelcomeShippingText=""
+                worldWideWelcomeBtnText="Get 10% OFF"
+                worldWideWelcomeBtnLink={"#"}
+                worldWideWelcomeReviewerName="Anne Roberts"
+                worldWideWelcomeReviewerPosition="Christopher Cloos customer"
+              /> */}
               <WorldWideWelcomePopUp
-                socialMediaIcon="fa-facebook-square"
-                socialMediaTitle="SECRET FACEBOOK DISCOUNT"
-                socialMediaDesc="We are sure we can pump up your next Facebook story with a cool new blender! Get your secret discount now!"
-                socialMediaBtnText="SHOW MY SECRET DISCOUNT"
-                socialMediaBtnLink={"#"}
+                worldWideWelcomeTitle="Join us and get 10% OFF"
+                worldWideWelcomeReview="Super fede briller, god service, og hurting levering!"
+                worldWideWelcomeShippingText="We are shipping to Denmark"
+                worldWideWelcomeBtnText="Get 10% OFF"
+                worldWideWelcomeBtnLink={"#"}
+                worldWideWelcomeReviewerName="Charlotte Hasselkjaer Hasen"
+                worldWideWelcomeReviewerPosition="Christopher Cloos customer"
               />
             </div>
           </>

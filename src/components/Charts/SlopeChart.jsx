@@ -7,41 +7,20 @@ const SlopeChart = ({
   title,
   isHorizontal,
   dataLabelStatus,
-}) => { 
+}) => {
   const [series, setSeries] = useState([
     {
-      data: [
-          {
-              x: "C1",
-              y: [20, 30],
-          },
-          {
-              x: "C2",
-              y: [10, 20],
-          },
-          {
-              x: "C3",
-              y: [30, 50],
-          },
-          {
-              x: "C4",
-              y: [10, 40],
-          },
-          {
-              x: "C5",
-              y: [50, 40],
-          },
-      ],
-  }
+      data: chartData?.data,
+    },
   ]);
 
   // Page names mapping
   const pageNames = {
-    10: "Home",
-    20: "Product",
-    30: "Collection",
-    40: "Cart",
-    50: "Pages",
+    0: "Home",
+    1: "Product",
+    2: "Collection",
+    3: "Cart",
+    4: "Pages",
   };
 
   const [options, setOptions] = useState({

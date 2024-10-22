@@ -203,8 +203,11 @@ const SuggestionCompNew = () => {
           ![
             "product_list",
             "customer_detail",
+            "product_recommendations_list",
             "top_abandoned_product_list",
             "top_selling_product_list",
+            "up_selling_product_list",
+            "cross_selling_product_list",
           ].includes(key)
       )
       .map((key, index) => {
@@ -296,8 +299,11 @@ const SuggestionCompNew = () => {
           !dataItem[tab] ||
           tab == "product_list" ||
           tab == "customer_detail" ||
+          tab == "product_recommendations_list" ||
           tab == "top_abandoned_product_list" ||
-          tab == "top_selling_product_list"
+          tab == "top_selling_product_list" ||
+          tab == "up_selling_product_list" ||
+          tab == "cross_selling_product_list"
         )
           return null;
         if (tab == "Products" && dataItem?.product_list?.length > 0) {
@@ -323,6 +329,20 @@ const SuggestionCompNew = () => {
               )}
             </div>
           );
+        }else if (
+          tab == "product_recommendations" &&
+          dataItem?.product_recommendations_list?.length > 0
+        ) {
+          return (
+            <div
+              key={index}
+              className={`leading-relaxed max-h-[500px] custom-scrollbar overflow-auto pr-2 ${accordionTab?.[tab]?.active_tab_body}`}
+            >
+              {dataItem["product_recommendations_list"]?.map(
+                renderProductsWithDetails
+              )}
+            </div>
+          );
         } else if (
           tab == "Top_Abandoned_Products" &&
           dataItem?.top_abandoned_product_list?.length > 0
@@ -333,6 +353,34 @@ const SuggestionCompNew = () => {
               className={`leading-relaxed max-h-[500px] custom-scrollbar overflow-auto pr-2 ${accordionTab?.[tab]?.active_tab_body}`}
             >
               {dataItem["top_abandoned_product_list"]?.map(
+                renderProductsWithDetails
+              )}
+            </div>
+          );
+        } else if (
+          tab == "Up_Selling_Products" &&
+          dataItem?.up_selling_product_list?.length > 0
+        ) {
+          return (
+            <div
+              key={index}
+              className={`leading-relaxed max-h-[500px] custom-scrollbar overflow-auto pr-2 ${accordionTab?.[tab]?.active_tab_body}`}
+            >
+              {dataItem["up_selling_product_list"]?.map(
+                renderProductsWithDetails
+              )}
+            </div>
+          );
+        } else if (
+          tab == "Cross_Selling_Products" &&
+          dataItem?.cross_selling_product_list?.length > 0
+        ) {
+          return (
+            <div
+              key={index}
+              className={`leading-relaxed max-h-[500px] custom-scrollbar overflow-auto pr-2 ${accordionTab?.[tab]?.active_tab_body}`}
+            >
+              {dataItem["cross_selling_product_list"]?.map(
                 renderProductsWithDetails
               )}
             </div>
