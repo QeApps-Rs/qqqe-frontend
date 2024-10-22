@@ -135,7 +135,8 @@ const App = () => {
                 element={<ProtectedRoute element={Dashboard} />}
               />
               <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/analytics" element={<Analytics />} />
+              {/* <Route path="/analytics" element={<Analytics />} /> */}
+              <Route path="/analytics" element={<DetailedAnalytics />} />
               <Route
                 path="/suggestion/analytics/:id"
                 element={<SuggestionAnalytics />}
