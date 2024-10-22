@@ -105,7 +105,7 @@ const MasterForm = () => {
   const [suggestionTemplateStatus, setSuggestionTemplateStatus] = useState({
     isPreviewPopup: false,
     isProductBundle: false,
-    isPurchaseSatisfactionSurvey: false,
+    isPurchaseSatisfactionSurvey: true,
     isFeedbackSurvey: false,
     isAttributionSurvey: false,
     isUpSellPopup: false,
@@ -307,8 +307,8 @@ const MasterForm = () => {
     if (formType === "full page") {
       classes +=
         formWidth === "large"
-          ? "h-screen w-full flex"
-          : "h-screen w-10/12 flex";
+          ? "w-full flex"
+          : "w-10/12 flex";
     } else if (formType === "embed") {
       classes +=
         formWidth === "large"
@@ -363,7 +363,7 @@ const MasterForm = () => {
           if (responseKeywords?.includes("Product Bundle")) {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
-              isProductBundle: true,
+              isProductBundle: false,
             });
             setTemplateHeaderState({
               ...templateHeaderState,
