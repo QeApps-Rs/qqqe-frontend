@@ -109,7 +109,7 @@ const MasterForm = () => {
     isFeedbackSurvey: false,
     isAttributionSurvey: false,
     isUpSellPopup: false,
-    isCrossSellPopup: true,
+    isCrossSellPopup: false,
     isAbandonmentPopup: false,
     isExitProductRecommenderPopup: false,
     isSocialMediaConnectPopup: false,
@@ -325,7 +325,7 @@ const MasterForm = () => {
           if (responseKeywords?.includes("Product Bundle")) {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
-              isProductBundle: false,
+              isProductBundle: true,
             });
             setTemplateHeaderState({
               ...templateHeaderState,
@@ -418,7 +418,7 @@ const MasterForm = () => {
               desktop: false,
               mobile: false,
             });
-          }else {
+          } else {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isPreviewPopup: true,
@@ -1007,7 +1007,7 @@ const MasterForm = () => {
                 suggestionTemplateStatus?.isUpSellPopup ||
                 suggestionTemplateStatus?.isCrossSellPopup ||
                 suggestionTemplateStatus?.isAbandonmentPopup ||
-                suggestionTemplateStatus?.isExitProductRecommenderPopup 
+                suggestionTemplateStatus?.isExitProductRecommenderPopup
               ) {
                 return (
                   // item.tag !== "inputController" &&
@@ -1111,7 +1111,7 @@ const MasterForm = () => {
                   suggestionTemplateStatus?.isUpSellPopup ||
                   suggestionTemplateStatus?.isAbandonmentPopup ||
                   suggestionTemplateStatus?.isCrossSellPopup ||
-                  suggestionTemplateStatus?.isExitProductRecommenderPopup ) &&
+                  suggestionTemplateStatus?.isExitProductRecommenderPopup) &&
                   activeIndex === index &&
                   item.tag === "bundle" &&
                   productListState && (
@@ -1466,7 +1466,6 @@ const MasterForm = () => {
         {suggestionTemplateStatus.isSocialMediaConnectPopup && (
           <>
             <div className="w-full flex justify-center items-center h-full space-x-6 p-10 bg-gradient-to-r from-orange-100 to-orange-200">
-
               <SocialMediaConnectPopUp
                 socialMediaIcon="fa-facebook-square"
                 socialMediaTitle="SECRET FACEBOOK DISCOUNT"
@@ -1484,17 +1483,26 @@ const MasterForm = () => {
             </div>
           </>
         )}
-         {suggestionTemplateStatus.isWorldWideWelcomePopup && (
+        {suggestionTemplateStatus.isWorldWideWelcomePopup && (
           <>
-            <div className="w-full flex justify-center items-center h-full space-x-6 p-10 bg-gradient-to-r from-orange-100 to-orange-200">
-
-             World Wide Welcome
-             <WorldWideWelcomePopUp
-                socialMediaIcon="fa-facebook-square"
-                socialMediaTitle="SECRET FACEBOOK DISCOUNT"
-                socialMediaDesc="We are sure we can pump up your next Facebook story with a cool new blender! Get your secret discount now!"
-                socialMediaBtnText="SHOW MY SECRET DISCOUNT"
-                socialMediaBtnLink={"#"}
+            <div className="w-full flex justify-center items-center h-full space-x-6 p-10 bg-[#737378]">
+              {/* <WorldWideWelcomePopUp
+                worldWideWelcomeTitle="Join us and get 10% OFF"
+                worldWideWelcomeReview="Excellent customer service and a great product! 5 stars!"
+                worldWideWelcomeShippingText=""
+                worldWideWelcomeBtnText="Get 10% OFF"
+                worldWideWelcomeBtnLink={"#"}
+                worldWideWelcomeReviewerName="Anne Roberts"
+                worldWideWelcomeReviewerPosition="Christopher Cloos customer"
+              /> */}
+              <WorldWideWelcomePopUp
+                worldWideWelcomeTitle="Join us and get 10% OFF"
+                worldWideWelcomeReview="Super fede briller, god service, og hurting levering!"
+                worldWideWelcomeShippingText="We are shipping to Denmark"
+                worldWideWelcomeBtnText="Get 10% OFF"
+                worldWideWelcomeBtnLink={"#"}
+                worldWideWelcomeReviewerName="Charlotte Hasselkjaer Hasen"
+                worldWideWelcomeReviewerPosition="Christopher Cloos customer"
               />
             </div>
           </>
