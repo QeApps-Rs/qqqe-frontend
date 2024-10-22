@@ -208,6 +208,7 @@ const SuggestionCompNew = () => {
             "top_selling_product_list",
             "up_selling_product_list",
             "cross_selling_product_list",
+            "best_selling_top_3_product_id_list",
           ].includes(key)
       )
       .map((key, index) => {
@@ -303,7 +304,8 @@ const SuggestionCompNew = () => {
           tab == "top_abandoned_product_list" ||
           tab == "top_selling_product_list" ||
           tab == "up_selling_product_list" ||
-          tab == "cross_selling_product_list"
+          tab == "cross_selling_product_list" ||
+          tab == "best_selling_top_3_product_id_list"
         )
           return null;
         if (tab == "Products" && dataItem?.product_list?.length > 0) {
@@ -329,7 +331,7 @@ const SuggestionCompNew = () => {
               )}
             </div>
           );
-        }else if (
+        } else if (
           tab == "product_recommendations" &&
           dataItem?.product_recommendations_list?.length > 0
         ) {
@@ -381,6 +383,20 @@ const SuggestionCompNew = () => {
               className={`leading-relaxed max-h-[500px] custom-scrollbar overflow-auto pr-2 ${accordionTab?.[tab]?.active_tab_body}`}
             >
               {dataItem["cross_selling_product_list"]?.map(
+                renderProductsWithDetails
+              )}
+            </div>
+          );
+        } else if (
+          tab == "Best_Selling_Top_3_Product_ID" &&
+          dataItem?.best_selling_top_3_product_id_list?.length > 0
+        ) {
+          return (
+            <div
+              key={index}
+              className={`leading-relaxed max-h-[500px] custom-scrollbar overflow-auto pr-2 ${accordionTab?.[tab]?.active_tab_body}`}
+            >
+              {dataItem["best_selling_top_3_product_id_list"]?.map(
                 renderProductsWithDetails
               )}
             </div>
