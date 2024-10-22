@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 
 const WorldWideWelcomePopUp = ({
-  socialMediaTitle,
-  socialMediaDesc,
-  socialMediaBtnText,
-  socialMediaBtnLink,
+  worldWideWelcomeTitle,
+  worldWideWelcomeShippingText,
+  worldWideWelcomeReview,
+  worldWideWelcomeBtnText,
+  worldWideWelcomeBtnLink,
+  worldWideWelcomeReviewerName,
+  worldWideWelcomeReviewerPosition,
 }) => {
   return (
     <div className="relative bg-white rounded-lg p-8 w-full max-w-sm mx-auto shadow-lg">
@@ -12,24 +15,34 @@ const WorldWideWelcomePopUp = ({
         &times;
       </button>
 
-      <div className="text-center mb-4">
+      <div className="text-center mb-8">
         <div className="relative bg-white p-4 rounded-lg shadow-lg">
           <div className="text-lg italic text-gray-900">
-            "Excellent customer service and a great product! 5 stars!"
+            "{worldWideWelcomeReview || "Excellent customer service and a great product! 5 stars!"}"
+            
           </div>
-         
 
-          {/* Tail for the thought bubble */}
-          <div className="absolute bottom-[-15px] left-1/2 transform -translate-x-1/2">
-            <div className="w-3 h-3 bg-white rounded-full shadow-sm"></div>
-            <div className="w-2 h-2 bg-white rounded-full shadow-sm mt-1"></div>
-            <div className="w-1 h-1 bg-white rounded-full shadow-sm mt-1"></div>
+          <div>
+            <div
+              className="w-8 h-[23px] absolute bottom-[-23px] left-3 m-0"
+              style={{
+                background:
+                  "url(https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/src/images/arrow_qts.png) left top no-repeat",
+              }}
+            ></div>
           </div>
         </div>
       </div>
+      <div className="text-center mb-8">
+        <div className="font-bold mt-2 text-gray-900">{worldWideWelcomeReviewerName || ""}</div>
+        <div className="text-sm text-gray-600">{worldWideWelcomeReviewerPosition || ""}</div>
+      </div>
 
+      <h3 className="text-center text-gray-900 text-1xl font-bold mb-4">
+       {worldWideWelcomeShippingText || ""}
+      </h3>
       <h2 className="text-center text-gray-900 text-2xl font-bold mb-4">
-        Join us and get 10% OFF
+       {worldWideWelcomeTitle || ""}
       </h2>
 
       <form className="space-y-4">
@@ -38,9 +51,9 @@ const WorldWideWelcomePopUp = ({
           placeholder="Email address"
           className="w-full p-3 border rounded-lg text-sm focus:outline-none focus:ring focus:border-orange-500"
         />
-        <Link to={socialMediaBtnLink || ""}>
+        <Link to={worldWideWelcomeBtnLink || ""}>
           <button className="w-full bg-orange-500 hover:bg-orange-600 text-white p-3 mt-3 rounded-lg font-semibold">
-            {socialMediaBtnText || "Get 10% OFF"}
+            {worldWideWelcomeBtnText || "Get 10% OFF"}
           </button>
         </Link>
       </form>
