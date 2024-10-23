@@ -27,7 +27,6 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import { Toaster } from "react-hot-toast";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ProtectedRoute from "./ProtectedRoute";
-import Analytics from "./pages/analytics";
 import Peoplepage from "./pages/Peoplepage";
 import PromotionPage from "./pages/PromotionPage";
 import PricePage from "./pages/PricePage";
@@ -162,7 +161,10 @@ const App = () => {
                 path="/campaigns-details/:id"
                 element={<ProtectedRoute element={CampaignsDetailsPage} />}
               />
-              <Route path="/detailed-analytics" element={<DetailedAnalytics />} />
+              <Route
+                path="/detailed-analytics"
+                element={<DetailedAnalytics />}
+              />
             </Route>
           </Routes>
         </header>

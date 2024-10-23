@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-
 import LineChart from "../Charts/LineChart";
 import Loader from "../../common/Loader";
 import RadarChart from "../Charts/RadarChart";
@@ -29,9 +28,16 @@ import DumbbellRangebarChart from "../Charts/DumbelledRangebar";
 import FormSubmitHandler from "../FormSubmitHandler";
 import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
-import SuggestedAnalytics from "../Suggestion/SuggestedAnalytics";
 import PolarAnalytics from "../Analytics/PolarAnalaytics";
 import { Link } from "react-router-dom";
+import LessTimeChart from "../Charts/LessTimeChart";
+import CustomerLostTrackChart from "../Charts/CustomerLostTrackChart";
+import AdnomanOrderSale from "../Charts/adnoman_oredr_sale";
+import AbandonProductChart from "../Charts/Adnoman_product";
+import TotalTimeSpentChart from "../Charts/TotalTimeSpent";
+import MoreTimeChart from "../Charts/MoreLessTimeChart";
+import TrackEventChart from "../Charts/TrackEvent";
+import CustomerPageFlowChart from "../Charts/CustomerPageFlowCHart";
 
 const PeopleDetailedAnalytics = () => {
   const today = new Date();
@@ -229,11 +235,8 @@ const PeopleDetailedAnalytics = () => {
     const today = new Date();
     const currentYear = today.getFullYear();
     const currentMonth = today.getMonth(); // Current month (0-11)
-
-    const startOfMonth = new Date(currentYear, currentMonth, 1);
     const endOfMonth = new Date(currentYear, currentMonth + 1, 0);
     const totalDays = endOfMonth.getDate();
-
     const totalWeeks = Math.ceil(totalDays / 7);
 
     // Ensure weekCount does not exceed totalWeeks
@@ -298,7 +301,6 @@ const PeopleDetailedAnalytics = () => {
     const allMonths = [];
     const today = new Date();
     const currentYear = today.getFullYear();
-    const currentMonth = today.getMonth();
 
     for (let i = 0; i < monthCount; i++) {
       const monthIndex = i;
@@ -362,13 +364,6 @@ const PeopleDetailedAnalytics = () => {
   const yearCount = 2; // Number of years to show
   const { categories: yearCategories, data: yearData } =
     getVisitorsForCurrentYears(yearCount);
-
-  const yearSeries = [
-    {
-      name: "Visitors",
-      data: yearData,
-    },
-  ];
 
   const chartData = {
     categories: yearCategories,
@@ -967,6 +962,584 @@ const PeopleDetailedAnalytics = () => {
     </div>
   );
 
+  const LessTimeSpent = {
+    today: {
+      "2024-10-18": {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [20, 45, 10], ///min
+      },
+    },
+    weekly: {
+      "2024-10-18": {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [5, 6, 7], ///min
+      },
+      "2024-10-17": {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [2, 4, 5],
+      },
+      "2024-10-16": {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 6, 4],
+      },
+      "2024-10-15": {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 4, 3],
+      },
+      "2024-10-14": {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 7, 5],
+      },
+      "2024-10-13": {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [4, 6, 7],
+      },
+      "2024-10-12": {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 5, 6],
+      },
+    },
+    monthly: {
+      january: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [1, 6, 4],
+      },
+      february: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [7, 4, 7],
+      },
+      march: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 6, 9],
+      },
+      april: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [5, 9, 4],
+      },
+      may: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [2, 5, 8],
+      },
+      june: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 5, 2],
+      },
+      july: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [8, 9, 5],
+      },
+
+      august: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 4, 8],
+      },
+      september: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 5, 6],
+      },
+      october: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [6, 3, 2],
+      },
+      november: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [4, 7, 5],
+      },
+      december: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 2, 3],
+      },
+    },
+    yearly: {
+      2024: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [5, 4, 2],
+      },
+      2023: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [5, 6, 5],
+      },
+      2022: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 9, 3],
+      },
+      2021: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [1, 5, 2],
+      },
+      2020: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [5, 8, 9],
+      },
+    },
+  };
+
+  const customerLostTrackData = [
+    {
+      name: "Customer1",
+      track: ["Product", "Search", "Collection", "Page"],
+      date: "2024-10-17",
+    },
+    { name: "Customer2", track: ["product", "search"], date: "2024-10-16" },
+    {
+      name: "Customer3",
+      track: ["product", "collection", "page"],
+      date: "2024-10-15",
+    },
+    { name: "Customer4", track: ["product"], date: "2024-10-14" },
+    { name: "Customer5", track: ["collection", "product"], date: "2024-10-12" },
+    { name: "Customer6", track: ["collection", "product"], date: "2024-10-11" },
+    {
+      name: "Customer7",
+      track: ["product", "collection", "search"],
+      date: "2024-10-10",
+    },
+    {
+      name: "Customer8",
+      track: ["Product", "Search", "Collection", "Page"],
+      date: "2024-10-09",
+    },
+    { name: "Customer9", track: ["product", "search"], date: "2024-10-08" },
+    {
+      name: "Customer10",
+      track: ["product", "collection", "page"],
+      date: "2024-10-07",
+    },
+    { name: "Customer11", track: ["product"], date: "2024-10-06" },
+    {
+      name: "Customer12",
+      track: ["collection", "product"],
+      date: "2024-10-05",
+    },
+    {
+      name: "Customer13",
+      track: ["collection", "product"],
+      date: "2024-10-04",
+    },
+    {
+      name: "Customer14",
+      track: ["product", "collection", "search"],
+      date: "2024-10-03",
+    },
+    {
+      name: "Customer15",
+      track: ["Product", "Search", "Collection", "Page"],
+      date: "2024-10-02",
+    },
+    { name: "Customer16", track: ["product", "search"], date: "2024-10-01" },
+    {
+      name: "Customer17",
+      track: ["product", "collection", "page"],
+      date: "2024-09-30",
+    },
+    { name: "Customer18", track: ["product"], date: "2024-09-29" },
+    {
+      name: "Customer19",
+      track: ["collection", "product"],
+      date: "2024-09-28",
+    },
+    {
+      name: "Customer20",
+      track: ["collection", "product"],
+      date: "2024-09-27",
+    },
+    {
+      name: "Customer21",
+      track: ["product", "collection", "search"],
+      date: "2024-09-26",
+    },
+  ];
+
+  const abandon_checkout_order_sales = {
+    today: {
+      dates: ["2024-10-17"],
+      sales_count: [95],
+    },
+    weekly: {
+      dates: [
+        "2024-10-11",
+        "2024-10-12",
+        "2024-10-13",
+        "2024-10-14",
+        "2024-10-15",
+        "2024-10-16",
+        "2024-10-17",
+      ], //consider end_date as currentdate and startdate is 7 days before currentdate
+      sales_count: [700, 800, 900, 950, 1000, 1100, 1200],
+    },
+    monthly: {
+      dates: [
+        "january",
+        "feb",
+        "march",
+        "april",
+        "may",
+        "june",
+        "july",
+        "august",
+        "september",
+        "october",
+        "november",
+        "december",
+      ], //current year's month
+      sales_count: [
+        2000, 2200, 2400, 1600, 2800, 2000, 4000, 1000, 1700, 2000, 2100, 2800,
+      ],
+    },
+    yearly: {
+      dates: ["2020", "2021", "2022", "2023", "2024"], //last 5 year
+      sales_count: [6000, 4200, 6400, 7600, 8800],
+    },
+  };
+
+  const abandon_checkout_products = {
+    today: {
+      "2024-10-17": {
+        prodct: ["abc", "pqr", "xyz", "klm", "mno"],
+        product_count: [30, 71, 20, 10, 40],
+      },
+    },
+    weekly: {
+      "2024-10-11": {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [5, 15, 10, 10],
+      },
+      "2024-10-12": {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [3, 5, 7, 0],
+      },
+      "2024-10-13": {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [2, 0, 8, 4],
+      },
+      "2024-10-14": {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [0, 0, 10, 2],
+      },
+      "2024-10-15": {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [6, 3, 2, 0],
+      },
+      "2024-10-16": {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [7, 4, 0, 1],
+      },
+      "2024-10-17": {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [10, 2, 5, 3],
+      },
+    },
+    monthly: {
+      January: {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [60, 30, 40, 0],
+      },
+      February: {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [0, 20, 15, 25],
+      },
+      March: {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [50, 0, 20, 35],
+      },
+      April: {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [40, 25, 0, 30],
+      },
+      May: {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [30, 10, 20, 0],
+      },
+      June: {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [50, 40, 0, 30],
+      },
+      July: {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [60, 55, 50, 0],
+      },
+      August: {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [0, 80, 70, 90],
+      },
+      September: {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [90, 0, 85, 100],
+      },
+      October: {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [30, 40, 50, 0],
+      },
+      November: {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [20, 25, 15, 0],
+      },
+      December: {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [10, 0, 20, 30],
+      },
+    },
+    yearly: {
+      2024: {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [300, 200, 0, 0],
+      },
+      2023: {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [150, 0, 0, 250],
+      },
+      2022: {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [0, 200, 100, 0],
+      },
+      2021: {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [120, 0, 80, 0],
+      },
+      2020: {
+        prodct: ["abc", "pqr", "xyz", "klm"],
+        product_count: [150, 200, 300, 250],
+      },
+    },
+  };
+
+  const MostTimeSpent = {
+    today: {
+      "2024-10-18": {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [20, 45, 10, 5], ///min
+      },
+    },
+    weekly: {
+      "2024-10-18": {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [20, 45, 20, 25], ///min
+      },
+      "2024-10-17": {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [29, 30, 14, 15],
+      },
+      "2024-10-16": {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [20, 45, 30, 25],
+      },
+      "2024-10-15": {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [60, 45, 10, 35],
+      },
+      "2024-10-14": {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [24, 52, 16, 20],
+      },
+      "2024-10-13": {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [30, 15, 20, 15],
+      },
+      "2024-10-12": {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [10, 25, 30, 15],
+      },
+    },
+    monthly: {
+      january: {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [20, 45, 10, 51],
+      },
+      february: {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [29, 60, 14, 15],
+      },
+      march: {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [20, 45, 20, 45],
+      },
+      april: {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [40, 45, 10, 53],
+      },
+      may: {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [29, 51, 11, 25],
+      },
+      june: {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [30, 15, 20, 15],
+      },
+      july: {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [10, 25, 50, 15],
+      },
+
+      august: {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [20, 45, 30, 35],
+      },
+      september: {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [30, 45, 10, 51],
+      },
+      october: {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [20, 50, 10, 20],
+      },
+      november: {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [30, 15, 20, 15],
+      },
+      december: {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [10, 25, 30, 15],
+      },
+    },
+    yearly: {
+      2024: {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [20, 45, 10, 45],
+      },
+      2023: {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [29, 20, 14, 15],
+      },
+      2022: {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [20, 45, 30, 35],
+      },
+      2021: {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [40, 45, 10, 25],
+      },
+      2020: {
+        pages: ["home", "product", "collection", "cart"],
+        spent_time: [20, 50, 10, 22],
+      },
+    },
+  };
+
+  const TotalPagesTimeSpent = {
+    today: {
+      "2024-10-18": {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [20, 45, 10, 5, 3], ///min
+      },
+    },
+    weekly: {
+      "2024-10-18": {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [20, 45, 10, 5, 3], ///min
+      },
+      "2024-10-17": {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [29, 0, 14, 15, 5],
+      },
+      "2024-10-16": {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [20, 45, 0, 5, 3],
+      },
+      "2024-10-15": {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [0, 45, 10, 5, 3],
+      },
+      "2024-10-14": {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [2, 5, 1, 2, 3],
+      },
+      "2024-10-13": {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [30, 15, 20, 15, 0],
+      },
+      "2024-10-12": {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [10, 25, 0, 15, 3],
+      },
+    },
+    monthly: {
+      january: {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [20, 45, 10, 5, 3],
+      },
+      february: {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [29, 0, 14, 15, 5],
+      },
+      march: {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [20, 45, 0, 5, 3],
+      },
+      april: {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [0, 45, 10, 5, 3],
+      },
+      may: {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [2, 5, 1, 2, 3],
+      },
+      june: {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [30, 15, 20, 15, 0],
+      },
+      july: {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: ["10", "25", "0", "15", "3"],
+      },
+
+      august: {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [20, 45, 0, 5, 3],
+      },
+      september: {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [0, 45, 10, 5, 3],
+      },
+      october: {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [2, 5, 1, 2, 3],
+      },
+      november: {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [30, 15, 20, 15, 0],
+      },
+      december: {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [10, 25, 0, 15, 3],
+      },
+    },
+    yearly: {
+      2024: {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [20, 45, 10, 5, 3],
+      },
+      2023: {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [29, 0, 14, 15, 5],
+      },
+      2022: {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [20, 45, 0, 5, 3],
+      },
+      2021: {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [0, 45, 10, 5, 3],
+      },
+      2020: {
+        pages: ["home", "product", "collection", "cart", "checkout"],
+        spent_time: [2, 5, 1, 2, 3],
+      },
+    },
+  };
+
+  const customerPageFlowData = [
+    { ip_address: "122.186.66.102", y: [0, 1, 3] },
+    { ip_address: "23.113.218.66", y: [0, 2, 0, 1] },
+    { ip_address: "122.186.67.102", y: [1, 2, 3, 1] },
+    { ip_address: "122.187.66.102", y: [0, 3, 1] },
+    { ip_address: "122.186.66.103", y: [0, 1, 2, 3, 4] },
+    { ip_address: "121.186.66.102", y: [2, 1] },
+    { ip_address: "91.170.56.41", y: [1, 2, 3, 0] },
+    { ip_address: "119.184.66.103", y: [2, 1] },
+    { ip_address: "119.186.66.102", y: [3, 2, 3] },
+    { ip_address: "91.170.56.42", y: [2, 1] },
+  ];
+
   return (
     <>
       {loading && <Loader />}
@@ -1286,7 +1859,7 @@ const PeopleDetailedAnalytics = () => {
             </div>
 
             <div className={colSixGraph}>
-              <DashboardTitle title={"Most Visited Ctaegories"} />
+              <DashboardTitle title={"Most Visited Categories"} />
 
               <GradientLineChart data={most_visited_categories} />
             </div>
@@ -1342,6 +1915,52 @@ const PeopleDetailedAnalytics = () => {
             <div className={colSixGraph}>
               <DashboardTitle title={"Entry Page - Exit Page"} />
               <DumbbellRangebarChart data={customerPageViewData} />
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle
+                title={"Page Flow (Based on Tracking Mechanism)"}
+              />
+              <CustomerPageFlowChart
+                customerPageFlowData={customerPageFlowData}
+              />
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Customer Lost Tracking Mechanism"} />
+              <CustomerLostTrackChart
+                customerLostTrackData={customerLostTrackData}
+              />
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Abandon Checkout Order Sales"} />
+              <AdnomanOrderSale
+                abandon_checkout_order_sales={abandon_checkout_order_sales}
+              />
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Abandon Checkout Products"} />
+              <AbandonProductChart
+                abandon_checkout_products={abandon_checkout_products}
+              />
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Most Time Spent Pages"} />
+              <MoreTimeChart
+                PagesTimeSpent={MostTimeSpent} // Ensure this is defined correctly
+              />
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Less Time Spent Pages"} />
+              <LessTimeChart PagesTimeSpent={LessTimeSpent} />
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Total Time Spent – Every Page"} />
+              <TotalTimeSpentChart PagesTimeSpent={TotalPagesTimeSpent} />
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle
+                title={"Event Tracking - Links / Button Clicked"}
+              />
+              <TrackEventChart />{" "}
             </div>
           </div>
         </ScrollAnimation>
