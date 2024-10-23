@@ -56,11 +56,11 @@ const BundleCampaignComponent = ({ productDetailsData }) => {
                 <span className="text-customGray">Not found</span>
               ) : (
                 <ul className="list-decimal pl-5">
-                  {bundleItems?.selected_products.map((product, i) => (
+                  {bundleItems?.selected_products?.map((product, i) => (
                     <li key={i}>
-                      <span className="text-customGray">{product.title}</span>
+                      <span className="text-customGray">{product?.title}</span>
                       <strong className="text-black font-bold text-md">
-                        {product.price}
+                        {product?.price}
                       </strong>
                     </li>
                   ))}
@@ -85,11 +85,11 @@ const BundleCampaignComponent = ({ productDetailsData }) => {
                 <span className="text-customGray">Not found</span>
               ) : (
                 <ul className="list-decimal pl-5">
-                  {bundleItems?.targeted_products.map((product, i) => (
+                  {bundleItems?.targeted_products?.map((product, i) => (
                     <li key={i}>
-                      <span className="text-customGray">{product.title}</span>
+                      <span className="text-customGray">{product?.title}</span>
                       <strong className="text-black font-bold text-md">
-                        {product.price}
+                        {product?.price}
                       </strong>
                     </li>
                   ))}

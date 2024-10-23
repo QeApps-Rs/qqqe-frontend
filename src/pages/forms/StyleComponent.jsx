@@ -119,6 +119,7 @@ const StyleComponent = ({
                       {tabs.map((tab) => (
                         <button
                           key={tab.name}
+                          type="button"
                           onClick={() => handleTabClick(tab.name)}
                           className={`flex items-center space-x-1 px-4 py-2 rounded-md ${
                             activeTab === tab.name
@@ -269,9 +270,6 @@ const StyleComponent = ({
                           </div>
                         </>
                       )}
-                    <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-                      Save
-                    </button>
                   </div>
                 </form>
               </div>
