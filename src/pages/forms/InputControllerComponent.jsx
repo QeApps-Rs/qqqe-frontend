@@ -20,6 +20,7 @@ const InputControllerComponent = ({
   setTemplateDesign,
   isCrossSellPopup,
   isPurchaseSatisfactionSurvey,
+  isFeedbackSurvey,
 }) => {
   const [fieldState, setFieldState] = useState({
     fieldType: "",
@@ -96,7 +97,7 @@ const InputControllerComponent = ({
             <div className="w-full flex flex-col gap-9">
               <form action="#" onSubmit={(e) => e.preventDefault()}>
                 <div className={inputControllerFieldClass}>
-                  {!isProductBundle && !isCrossSellPopup ? (
+                  {!isProductBundle && !isCrossSellPopup && (
                     <>
                       <div className="mb-6">
                         <label className="mb-2.5 block text-black dark:text-white font-semibold">
@@ -141,8 +142,6 @@ const InputControllerComponent = ({
                         />
                       </div>
                     </>
-                  ) : (
-                    ""
                   )}
 
                   <div className={inputControllerFieldClass}>
@@ -207,10 +206,9 @@ const InputControllerComponent = ({
                       />
                     </div>
                   </div>
-                  {!isCrossSellPopup ? (
+                  {!isCrossSellPopup && !isFeedbackSurvey && (
                     <>
-                      {" "}
-                      {!isPurchaseSatisfactionSurvey ? (
+                      {!isPurchaseSatisfactionSurvey && (
                         <div className={`mt-4 ${inputControllerFieldClass}`}>
                           <>
                             <label className="mb-2.5 block text-black dark:text-white font-semibold">
@@ -275,8 +273,6 @@ const InputControllerComponent = ({
                             />
                           </div>
                         </div>
-                      ) : (
-                        ""
                       )}
                       <div className={`mt-4 ${inputControllerFieldClass}`}>
                         <label className="mb-2.5 block text-black dark:text-white font-semibold">
@@ -343,105 +339,106 @@ const InputControllerComponent = ({
                         </div>
                       </div>{" "}
                     </>
-                  ) : (
-                    ""
                   )}
-                 {!isPurchaseSatisfactionSurvey ?  <div className="mb-6">
-                    <div className={`mt-4 ${inputControllerFieldClass}`}>
-                      <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                        Button Name
-                      </label>
-                      <input
-                        type="text"
-                        value={templateDesign.button}
-                        onChange={(e) =>
-                          setTemplateDesign((prev) => ({
-                            ...prev,
-                            button: e.target.value,
-                          }))
-                        }
-                        placeholder="pleaser enter button name"
-                        className="w-full p-2 border rounded-md focus:outline-none"
-                      />
-                      <div className="flex items-center mt-3 justify-between">
-                        <span>Color:</span>
-                        <ColorPicker
-                          defaultColor={templateDesign.templateButtonBgColor}
-                          onChange={(color) =>
-                            onTemplateChange("templateButtonBgColor")(color)
+                  {!isPurchaseSatisfactionSurvey && !isFeedbackSurvey && (
+                    <div className="mb-6">
+                      <div className={`mt-4 ${inputControllerFieldClass}`}>
+                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                          Button Name
+                        </label>
+                        <input
+                          type="text"
+                          value={templateDesign.button}
+                          onChange={(e) =>
+                            setTemplateDesign((prev) => ({
+                              ...prev,
+                              button: e.target.value,
+                            }))
                           }
+                          placeholder="pleaser enter button name"
+                          className="w-full p-2 border rounded-md focus:outline-none"
                         />
+                        <div className="flex items-center mt-3 justify-between">
+                          <span>Color:</span>
+                          <ColorPicker
+                            defaultColor={templateDesign.templateButtonBgColor}
+                            onChange={(color) =>
+                              onTemplateChange("templateButtonBgColor")(color)
+                            }
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div> : ""}
-                  {!isProductBundle && !isCrossSellPopup && !isPurchaseSatisfactionSurvey? (
-                    <>
-                      <div className="mb-6">
-                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                          Field Name
-                        </label>
-                        <input
-                          type="text"
-                          name="fieldName"
-                          value={fieldState.fieldName}
-                          onChange={handleInputChange}
-                          placeholder="Please enter field name"
-                          className="w-full p-2 border rounded-md focus:outline-none"
-                        />
-                      </div>
-                      <div className="mb-6">
-                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                          Field Placeholder
-                        </label>
-                        <input
-                          type="text"
-                          name="placeholderText"
-                          value={fieldState.placeholderText}
-                          placeholder="Please enter field placeholder"
-                          onChange={handleInputChange}
-                          className="w-full p-2 border rounded-md focus:outline-none"
-                        />
-                      </div>
-                      <div className="mb-6">
-                        <DropDown
-                          key={`fieldValidation-${renderKey}`}
-                          jsonData={{
-                            ...fieldValidationDropdownData,
-                          }}
-                          selectedValue={fieldState.fieldValidation}
-                          setSelectedValue={(value) =>
-                            setFieldState((prevState) => ({
-                              ...prevState,
-                              fieldValidation: value,
-                            }))
-                          }
-                        />
-                      </div>
-                      <div className="mb-6">
-                        <DropDown
-                          key={`fieldType-${renderKey}`}
-                          jsonData={{
-                            ...fieldTypeDropdownData,
-                          }}
-                          selectedValue={fieldState.fieldType}
-                          setSelectedValue={(value) =>
-                            setFieldState((prevState) => ({
-                              ...prevState,
-                              fieldType: value,
-                            }))
-                          }
-                        />
-                      </div>
-                      <button
-                        className="bg-blue-500 text-white py-2 px-4 rounded w-full"
-                        onClick={handleAddField}
-                      >
-                        {isEditMode ? "Update Field" : "Add Field"}
-                      </button>
-                    </>
-                  ) : (
-                    ""
                   )}
+                  {!isProductBundle &&
+                    !isCrossSellPopup &&
+                    !isPurchaseSatisfactionSurvey &&
+                    !isFeedbackSurvey && (
+                      <>
+                        <div className="mb-6">
+                          <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                            Field Name
+                          </label>
+                          <input
+                            type="text"
+                            name="fieldName"
+                            value={fieldState.fieldName}
+                            onChange={handleInputChange}
+                            placeholder="Please enter field name"
+                            className="w-full p-2 border rounded-md focus:outline-none"
+                          />
+                        </div>
+                        <div className="mb-6">
+                          <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                            Field Placeholder
+                          </label>
+                          <input
+                            type="text"
+                            name="placeholderText"
+                            value={fieldState.placeholderText}
+                            placeholder="Please enter field placeholder"
+                            onChange={handleInputChange}
+                            className="w-full p-2 border rounded-md focus:outline-none"
+                          />
+                        </div>
+                        <div className="mb-6">
+                          <DropDown
+                            key={`fieldValidation-${renderKey}`}
+                            jsonData={{
+                              ...fieldValidationDropdownData,
+                            }}
+                            selectedValue={fieldState.fieldValidation}
+                            setSelectedValue={(value) =>
+                              setFieldState((prevState) => ({
+                                ...prevState,
+                                fieldValidation: value,
+                              }))
+                            }
+                          />
+                        </div>
+                        <div className="mb-6">
+                          <DropDown
+                            key={`fieldType-${renderKey}`}
+                            jsonData={{
+                              ...fieldTypeDropdownData,
+                            }}
+                            selectedValue={fieldState.fieldType}
+                            setSelectedValue={(value) =>
+                              setFieldState((prevState) => ({
+                                ...prevState,
+                                fieldType: value,
+                              }))
+                            }
+                          />
+                        </div>
+                        <button
+                          className="bg-blue-500 text-white py-2 px-4 rounded w-full"
+                          onClick={handleAddField}
+                        >
+                          {isEditMode ? "Update Field" : "Add Field"}
+                        </button>
+                      </>
+                    )}
                 </div>
               </form>
             </div>
