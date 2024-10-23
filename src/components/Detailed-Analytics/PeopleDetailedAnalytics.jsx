@@ -32,6 +32,7 @@ import "animate.css/animate.min.css";
 import SuggestedAnalytics from "../Suggestion/SuggestedAnalytics";
 import PolarAnalytics from "../Analytics/PolarAnalaytics";
 import { Link } from "react-router-dom";
+import LessTimeChart from "../Charts/LessTimeChart";
 
 const PeopleDetailedAnalytics = () => {
   const today = new Date();
@@ -967,6 +968,118 @@ const PeopleDetailedAnalytics = () => {
     </div>
   );
 
+  const LessTimeSpent = {
+    today: {
+      "2024-10-18": {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [20, 45, 10], ///min
+      },
+    },
+    weekly: {
+      "2024-10-18": {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [5, 6, 7], ///min
+      },
+      "2024-10-17": {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [2, 4, 5],
+      },
+      "2024-10-16": {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 6, 4],
+      },
+      "2024-10-15": {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 4, 3],
+      },
+      "2024-10-14": {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 7, 5],
+      },
+      "2024-10-13": {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [4, 6, 7],
+      },
+      "2024-10-12": {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 5, 6],
+      },
+    },
+    monthly: {
+      january: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [1, 6, 4],
+      },
+      february: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [7, 4, 7],
+      },
+      march: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 6, 9],
+      },
+      april: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [5, 9, 4],
+      },
+      may: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [2, 5, 8],
+      },
+      june: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 5, 2],
+      },
+      july: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [8, 9, 5],
+      },
+
+      august: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 4, 8],
+      },
+      september: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 5, 6],
+      },
+      october: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [6, 3, 2],
+      },
+      november: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [4, 7, 5],
+      },
+      december: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 2, 3],
+      },
+    },
+    yearly: {
+      2024: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [5, 4, 2],
+      },
+      2023: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [5, 6, 5],
+      },
+      2022: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [3, 9, 3],
+      },
+      2021: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [1, 5, 2],
+      },
+      2020: {
+        pages: ["checkout", "order", "blog"],
+        spent_time: [5, 8, 9],
+      },
+    },
+  };
+
   return (
     <>
       {loading && <Loader />}
@@ -1342,6 +1455,10 @@ const PeopleDetailedAnalytics = () => {
             <div className={colSixGraph}>
               <DashboardTitle title={"Entry Page - Exit Page"} />
               <DumbbellRangebarChart data={customerPageViewData} />
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Less Time Spent Pages"} />
+              <LessTimeChart PagesTimeSpent={LessTimeSpent} />
             </div>
           </div>
         </ScrollAnimation>
