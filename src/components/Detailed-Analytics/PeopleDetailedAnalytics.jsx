@@ -1916,6 +1916,7 @@ const PeopleDetailedAnalytics = () => {
               <DashboardTitle title={"Entry Page - Exit Page"} />
               <DumbbellRangebarChart data={customerPageViewData} />
             </div>
+            {/* MANSHI CHART CODE START */}
             <div className={colSixGraph}>
               <DashboardTitle
                 title={"Page Flow (Based on Tracking Mechanism)"}
@@ -1962,6 +1963,7 @@ const PeopleDetailedAnalytics = () => {
               />
               <TrackEventChart />{" "}
             </div>
+            {/* MANSHI CHART CODE END */}
           </div>
         </ScrollAnimation>
       </main>
