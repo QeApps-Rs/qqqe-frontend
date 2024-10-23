@@ -160,11 +160,6 @@ const CampaignsDetailsPage = () => {
             <h2 className="font-semibold text-xl text-customGray mr-4">
               Status and Schedule
             </h2>
-            <SwitcherThree
-              label="Open in new tab"
-              enabled={productDetailsData?.service_status}
-              // onToggle={() => handleToggle("openInNewTab")}
-            />
           </div>
           <div className="flex justify-between items-center">
             <div className="flex items-center">
@@ -299,9 +294,6 @@ const CampaignsDetailsPage = () => {
         <div className="flex justify-between items-center mt-4">
           <h1 className="text-lg font-bold text-gray-800">Campaigns</h1>
           <div className="flex items-center">
-            <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
-              Edit Setting{" "}
-            </button>
             <Link
               to={`/master-form/${productDetailsData.pid}s${productDetailsData.sid}`}
               state={{
