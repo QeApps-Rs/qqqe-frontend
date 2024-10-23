@@ -212,7 +212,8 @@ export default {
           "linear-gradient(320deg, rgba(22,39,167,0.206) 0%, rgba(22,39,167,0.550) 50%, rgba(5,35,98,0.780) 95%)",
         dashboard_gradient:
           "linear-gradient(320deg, rgba(22,75,196,0.731) 0%, rgba(100,104,226,0.942) 15%, rgba(3,41,120,0.999) 80%)",
-      },
+          book_appointment: "linear-gradient(21deg, rgba(30,30,30,0.87) 0%, rgba(5,40,120,1) 68%, rgba(3,65,160,1) 100%)"
+        },
       content: {
         "icon-copy": 'url("../images/icon/icon-copy-alt.svg")',
       },

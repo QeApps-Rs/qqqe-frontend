@@ -8,7 +8,15 @@ import toast from "react-hot-toast";
 import Loader from "../../common/Loader/index.jsx";
 import welcomeImg from "../../images/welcome.png";
 
-const PreferenceSurvey = ({ isTitleDisplay = true }) => {
+const PreferenceSurvey = ({
+  isTitleDisplay = true,
+  theme = {
+    backgroundColor: "bg-blue-700",
+    textColor: "text-white",
+    buttonColor: "bg-green-700",
+    buttonTextColor: "text-white",
+  },
+}) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [checkedItems, setCheckedItems] = useState([]);
@@ -138,7 +146,7 @@ const PreferenceSurvey = ({ isTitleDisplay = true }) => {
 
           <div className="col-span-3 ">
             {currentStep === 0 && (
-              <div className="mb-8 text-white font-bold text-2xl">
+              <div className={`mb-8 ${theme.textColor} font-bold text-2xl`}>
                 Great, iet's get started!
               </div>
             )}
@@ -146,12 +154,15 @@ const PreferenceSurvey = ({ isTitleDisplay = true }) => {
               <form onSubmit={handleSubmit} className="relative">
                 {/* Render only the current question */}
 
-                <h3 className="text-3xl text-white font-bold">
+                <h3 className={`text-3xl ${theme.textColor} font-bold`}>
                   {checkedItems[currentStep].question}
                 </h3>
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mt-15">
                   {checkedItems[currentStep].answers.map((answer) => (
-                    <div className="col-span-2 bg-white p-7 rounded-lg" key={answer.id}>
+                    <div
+                      className="col-span-2 bg-white p-7 rounded-lg"
+                      key={answer.id}
+                    >
                       <Checkbox
                         key={answer.id}
                         id={answer.id}
@@ -172,9 +183,9 @@ const PreferenceSurvey = ({ isTitleDisplay = true }) => {
                 <div className="flex justify-between mt-6 lg:fixed bottom-8 left-18  right-18">
                   <button
                     type="button"
-                    className={`bg-blue-500 text-white px-4 py-2 rounded ${
-                      currentStep === 0 ? "opacity-50" : ""
-                    }`}
+                    className={`${
+                      currentStep === 0 ? "opacity-50" : theme.buttonColor
+                    } ${theme.buttonTextColor} px-4 py-2 rounded`}
                     onClick={handlePrevious}
                     disabled={currentStep === 0}
                   >
@@ -184,14 +195,14 @@ const PreferenceSurvey = ({ isTitleDisplay = true }) => {
                   {currentStep === checkedItems.length - 1 ? (
                     <button
                       type="submit"
-                      className="bg-green-700 text-white px-4 py-2 rounded font-semibold"
+                      className={`${theme.buttonColor} ${theme.buttonTextColor} px-4 py-2 rounded font-semibold`}
                     >
                       Submit
                     </button>
                   ) : (
                     <button
                       type="button"
-                      className="bg-blue-700 text-white px-4 py-2 rounded font-semibold"
+                      className={`${theme.backgroundColor} ${theme.buttonTextColor} px-4 py-2 rounded font-semibold`}
                       onClick={handleNext}
                     >
                       Next

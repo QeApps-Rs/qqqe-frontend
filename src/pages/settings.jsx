@@ -48,7 +48,15 @@ const SettingsPage = () => {
             <PreferenceSurvey isTitleDisplay={false} />
           </TabPanel>
           <TabPanel>
-            <PreferenceSurvey isTitleDisplay={false} />
+            <PreferenceSurvey
+              isTitleDisplay={false}
+              theme={{
+                backgroundColor: "bg-blue-500", // New background color
+                textColor: "text-black", // New text color
+                buttonColor: "bg-green-600", // New button color
+                buttonTextColor: "text-yellow-200", // New button text color
+              }}
+            />
           </TabPanel>
         </Tabs>
       </div>

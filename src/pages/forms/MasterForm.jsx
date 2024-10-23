@@ -105,8 +105,8 @@ const MasterForm = () => {
   const [suggestionTemplateStatus, setSuggestionTemplateStatus] = useState({
     isPreviewPopup: false,
     isProductBundle: false,
-    isPurchaseSatisfactionSurvey: true,
-    isFeedbackSurvey: false,
+    isPurchaseSatisfactionSurvey: false,
+    isFeedbackSurvey: true,
     isAttributionSurvey: false,
     isUpSellPopup: false,
     isCrossSellPopup: false,
@@ -305,10 +305,7 @@ const MasterForm = () => {
     }
 
     if (formType === "full page") {
-      classes +=
-        formWidth === "large"
-          ? "w-full flex"
-          : "w-10/12 flex";
+      classes += formWidth === "large" ? "w-full flex" : "w-10/12 flex";
     } else if (formType === "embed") {
       classes +=
         formWidth === "large"
@@ -338,9 +335,9 @@ const MasterForm = () => {
   const surveyImageSrc =
     templateDesign.image || purchaseSatisfactionSurveyDefaultImage;
   const getStyle = (design, type) => ({
-    fontSize: design[`${type}FontSize`],
-    fontFamily: design[`${type}FontFamily`],
-    color: design[`${type}Color`],
+    fontSize: design[`${type}FontSize`] || "24px", // Fallback to 50px if not defined
+    fontFamily: design[`${type}FontFamily`] || "Arial, sans-serif", // Optional fallback for fontFamily
+    color: design[`${type}Color`] || "#000", // Optional fallback for color
   });
 
   const [advanceSetting, setAdvanceSetting] = useState(false);
@@ -1045,7 +1042,8 @@ const MasterForm = () => {
                 suggestionTemplateStatus?.isUpSellPopup ||
                 suggestionTemplateStatus?.isCrossSellPopup ||
                 suggestionTemplateStatus?.isAbandonmentPopup ||
-                suggestionTemplateStatus?.isExitProductRecommenderPopup
+                suggestionTemplateStatus?.isExitProductRecommenderPopup ||
+                suggestionTemplateStatus?.isFeedbackSurvey
               ) {
                 return (
                   // item.tag !== "inputController" &&
@@ -1096,6 +1094,9 @@ const MasterForm = () => {
                     isPurchaseSatisfactionSurvey={
                       suggestionTemplateStatus?.isPurchaseSatisfactionSurvey
                     }
+                    isFeedbackSurvey={
+                      suggestionTemplateStatus?.isFeedbackSurvey
+                    }
                   />
                 )}
                 {activeIndex === index && item.tag === "inputController" && (
@@ -1115,6 +1116,9 @@ const MasterForm = () => {
                       }
                       isPurchaseSatisfactionSurvey={
                         suggestionTemplateStatus?.isPurchaseSatisfactionSurvey
+                      }
+                      isFeedbackSurvey={
+                        suggestionTemplateStatus?.isFeedbackSurvey
                       }
                     />
                   </>
@@ -1390,8 +1394,24 @@ const MasterForm = () => {
         )}
         {suggestionTemplateStatus.isFeedbackSurvey && (
           <div className="h-full items-center justify-center flex">
-            <div className="relative rounded-lg w-full shadow-[7px_-7px_57px_#ccc] flex items-center bg-white">
-              <div className="w-[16%] bg-[#fcf1e9] flex justify-center py-[30px] rounded-l-none rounded-r-[90px]">
+            <div
+              className="relative w-full shadow-[7px_-7px_57px_#ccc] flex items-center"
+              style={{
+                backgroundColor: templateDesign.templateBgColor || "#FFFFFF",
+                borderRadius: templateDesign.borderRadius || "16px",
+                borderWidth: templateDesign.borderWidth,
+                borderColor: templateDesign.templateBorderColor,
+                padding: combinedPadding,
+                borderStyle: templateDesign.formBorderStyle,
+              }}
+            >
+              <div
+                className={`w-[16%] flex justify-center py-[30px] rounded-l-none rounded-r-[90px] ${containerClass}`}
+                style={{
+                  backgroundColor:
+                    templateDesign.templateOverlayColor || "#fcf1e9",
+                }}
+              >
                 <img
                   src={purchaseSatisfactionSurveyDefaultImage}
                   alt="Round Image"
@@ -1401,8 +1421,12 @@ const MasterForm = () => {
 
               <div className="w-[70%] pl-6 z-10">
                 <div className="mb-4 text-center">
-                  <span className="text-lg font-semibold">
-                    How satisfied were you with your purchase?
+                  <span
+                    className="font-semibold leading-normal"
+                    style={getStyle(templateDesign, "templateHeading")}
+                  >
+                    {templateDesign.heading ||
+                      "How satisfied were you with your purchase?"}
                   </span>
                 </div>
 

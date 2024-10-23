@@ -7,8 +7,8 @@ export const templateFieldCss = {
   textColor: "#000000", // styles.form_type.input_fields_style.text_color
   letterSpacing: "1px", // styles.form_type.input_fields_style.letter_spacing
   inputFontSize: "14px", // styles.form_type.input_fields_style.font_size
-  templateBgColor: "#FFFFFF", // styles.form_type.background_color
-  templateOverlayColor: "#FFFFFF", // styles.form_type.overlay_color
+  templateBgColor: "", // styles.form_type.background_color
+  templateOverlayColor: "", // styles.form_type.overlay_color
   fontWeight: "normal", // styles.form_type.input_fields_style.font_weight
   fontFamily: "Arial", // styles.form_type.input_fields_style.font_family
   borderRadius: "", // styles.form_type.corner_radius
@@ -26,7 +26,7 @@ export const templateFieldCss = {
   formType: "full page", // styles.form_type.type
   formWidth: "large", // styles.form_type.width
   templateMinHeight: "200px", // styles.form_type.min_height
-  templateHeadingFontSize: "32px", // styles.form_parameters.title.font_size
+  templateHeadingFontSize: "", // styles.form_parameters.title.font_size
   templateOfferFontSize: "24px", // styles.form_parameters.offer_title.template_offer_font_size
   templateSubHeadingFontSize: "16px", // styles.form_parameters.sub_title.font_size
   templateHeadingFontFamily: "Arial", // styles.form_parameters.title.template_heading_font_family
