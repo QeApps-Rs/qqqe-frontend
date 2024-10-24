@@ -19,6 +19,10 @@ import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
 import PolarAnalytics from "../Analytics/PolarAnalaytics";
 import { Link } from "react-router-dom";
+import peopleImg from "/src/images/people.png";
+import SalesLineGraph from "../Campaigns/Graphs/SalesLineGraph";
+import StartAppOverviewPage from "../StartAppOverview";
+import AllPageStartOverviewPage from "../AllPageStartOverview";
 
 const DashboardCard = () => {
   const today = new Date();
@@ -102,7 +106,7 @@ const DashboardCard = () => {
   // Fetch all data
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
+      setLoading(false);
 
       try {
         await Promise.all([
@@ -893,6 +897,29 @@ const DashboardCard = () => {
       </p>
     </div>
   );
+  const guarantees = [
+    {
+      id: 1,
+      text: "Map the Customer Journey- Understand each touchpoint from discovery to post-purchase",
+    },
+    {
+      id: 2,
+      text: "Identify Conversion Opportunities- Find areas where users drop off and optimize them",
+    },
+    {
+      id: 3,
+      text: "Enhance User Experience- Improve navigation, design, and overall ease of shopping",
+    },
+    {
+      id: 4,
+      text: "Boost Retention Strategies- Use loyalty programs, follow-up emails, and exclusive offers to keep customers engaged",
+    },
+    {
+      id: 5,
+      text: "Track and Analyze Data- Use analytics to monitor customer behavior and improve strategies",
+    },
+    // Add more objects here if needed
+  ];
 
   return (
     <>
@@ -907,24 +934,37 @@ const DashboardCard = () => {
             <div className="w-full  flex justify-center items-center bg-gray-100">
               <div className="w-10/12 max-w-screen-xl h-[calc(100vh-120px)] shadow-2xl rounded-lg overflow-hidden relative ">
                 <label className="h-16 bg-white shadow-lg flex items-center justify-center px-4 border-b border-gray-300 font-bold text-2xl text-gray-800">
-                  Let us help you get the most from QQQE
+                  Welcome To QQQE
                 </label>
                 <div className="bg-book_appointment backdrop-brightness-50 h-[calc(100vh-100px)]">
                   <div className="grid grid-cols-12 gap-8 py-6 px-10">
                     <div className="col-span-12 xl:col-span-5 text-white space-y-6">
-                      <h1 className="text-5xl font-bold leading-tight ">
-                        You've qualified for a VIP launch session!
+                      <h1 className="block text-3xl font-bold text-white mb-4">
+                        Book your spot now
                       </h1>
-                      <p className="text-lg font-normal leading-relaxed text-justify">
-                        Select a time today or tomorrow for a complimentary
-                        30-minute QQQE introduction with a dedicated launch
-                        manager who will make your implementations seamless and
-                        future customer support more personalized.
+                      <p className="block text-2xl font-medium mb-3 text-[#aca7ff]">
+                        Our Goal: To Improve Store Conversion and Retention
+                        Rates
                       </p>
-                      <span className="text-lg font-normal leading-relaxed block text-justify">
-                        You'll also receive an additional 7 days on your free
-                        trial just for participating.
-                      </span>
+                      <div className="d-block">
+                        <span className="block text-xl font-normal mb-4 text-[#cecbff]">
+                          Let's get you started.
+                        </span>
+                        {guarantees.map((guarantee) => (
+                          <div
+                            className="flex items-center mb-2"
+                            key={guarantee.id}
+                          >
+                            <i
+                              className="fa fa-check-circle mr-3 text-[#cecbff]"
+                              aria-hidden="true"
+                            ></i>
+                            <span className="text-white text-lg font-medium">
+                              {guarantee.text}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
 
                     <div className="col-span-12 xl:col-span-7 ">
@@ -966,24 +1006,12 @@ const DashboardCard = () => {
             offset={100}
             animateOnce={true}
           >
-            <PolarAnalytics />
-            <div className="flex items-center mt-16 justify-center">
-              <div className="flex items-center">
-                <Link to="/detailed-analytics">
-                  <i
-                    className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
-                    aria-hidden="true"
-                  ></i>
-                </Link>
-              </div>
-              <h2 className="text-title-md2 font-semibold text-black dark:text-white pl-2">
-                Analytics
-              </h2>
-            </div>
+            <AllPageStartOverviewPage />
+
             <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
             <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
               <div className={colFullWidthGraph}>
-                <DashboardTitle title={"One Time & Mutli Time Customer"} />
+                <DashboardTitle title={"One Time & Multi Time Customer"} />
 
                 {!chartState?.timeCustomersGraphState == true ? (
                   // <OneTimeMultiTimeCustomer customerData={graphData?.timeCustomersData} />

@@ -23,6 +23,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
   const sidebarLinks = [
     {
+      href: "/app-dashboard",
+      iconType: "dashboard",
+      label: "Dashboard",
+    },
+    {
       href: "/analytics",
       iconType: "analytics",
       label: "Analytics",
@@ -51,9 +56,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   return (
     <aside
       ref={sidebar}
-      className={`overflow-visible absolute left-0 top-0 z-9 flex h-screen flex-col overflow-y-visible bg-[#161349] shadow-[0_0_11px_#ccc] duration-300 ease-linear lg:static lg:translate-x-0 ${
-        sidebarOpen ? "w-60" : "w-20"
-      } ${sidebarOpen ? "translate-x-0" : "lg:w-20"}`}
+      className="hidden md:block overflow-visible absolute left-0 top-0 z-9 flex h-screen flex-col overflow-y-visible bg-[#161349] shadow-[0_0_11px_#ccc] duration-300 ease-linear lg:static lg:translate-x-0 
+        w-20"
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-center gap-2">
