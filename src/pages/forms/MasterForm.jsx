@@ -357,7 +357,7 @@ const MasterForm = () => {
 
         if (response.success) {
           const responseKeywords = response?.data?.keywords.split(",");
-          if (responseKeywords?.includes("Product Bundle")) {
+          if (responseKeywords?.includes("Bundle")) {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isProductBundle: true,
