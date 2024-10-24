@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import PhoneIcon from "./images/svg-icons/phone.svg";
 import SmsSvg from "./images/logo/SmsSvg.jsx";
 import LockSvg from "./images/logo/lockSvg.jsx";
 import { useForm } from "react-hook-form";
