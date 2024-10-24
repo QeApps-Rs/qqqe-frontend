@@ -39,6 +39,7 @@ import CampaignsPage from "./pages/campaigns";
 import CampaignsDetailsPage from "./components/Campaigns/CampaignsDetails";
 import WelcomePage from "./pages/welcome";
 import DetailedAnalytics from "./pages/detailed-analytics";
+import AppDashboardPage from "./components/Detailed-Analytics/AppDashboard";
 
 const env_type = import.meta.env.VITE_ENV;
 
@@ -164,6 +165,10 @@ const App = () => {
               <Route
                 path="/detailed-analytics"
                 element={<DetailedAnalytics />}
+              />
+                <Route
+                path="/app-dashboard"
+                element={<AppDashboardPage/>}
               />
             </Route>
           </Routes>

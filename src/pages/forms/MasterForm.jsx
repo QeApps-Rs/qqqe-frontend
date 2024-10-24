@@ -106,7 +106,7 @@ const MasterForm = () => {
     isPreviewPopup: false,
     isProductBundle: false,
     isPurchaseSatisfactionSurvey: false,
-    isFeedbackSurvey: true,
+    isFeedbackSurvey: false,
     isAttributionSurvey: false,
     isUpSellPopup: false,
     isCrossSellPopup: false,
@@ -316,10 +316,10 @@ const MasterForm = () => {
 
         if (response.success) {
           const responseKeywords = response?.data?.keywords.split(",");
-          if (responseKeywords?.includes("Product Bundle")) {
+          if (responseKeywords?.includes("Bundle")) {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
-              isProductBundle: false,
+              isProductBundle: true,
             });
             setTemplateHeaderState({
               ...templateHeaderState,

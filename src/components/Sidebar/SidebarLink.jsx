@@ -23,7 +23,12 @@ const SidebarLink = ({ href, iconType, label, sidebarOpen }) => {
         {" "}
         <li className="min-h-15 grid items-center">
           <span className="flex justify-center">
-            {iconType === "home" ? (
+            {iconType === "dashboard" ? (
+              <i
+                className="fa fa-home bg-[#4680ff] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-lg"
+                aria-hidden="true"
+              ></i>
+            ) : iconType === "home" ? (
               <i
                 className="fa fa-home bg-[#4680ff] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-lg"
                 aria-hidden="true"

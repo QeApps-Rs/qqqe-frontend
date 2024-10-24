@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Footer = ({ sidebarOpen }) => {
   return (
-    <footer className={`bg-black text-white py-4 fixed bottom-0 ${sidebarOpen ? 'right-0 w-[88%]' : 'right-0 w-[96%]'}`}>
+    <footer className="bg-black text-white py-4 fixed bottom-0 right-0 md:w-[96%] w-full">
       <div className="container mx-auto text-center">
         <p className="text-sm">
           <span className="mr-3">@Copyright 2024 QQQE</span><span>|</span>{" "}

@@ -1,17 +1,19 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 import Logo from "../../images/favicon.png";
 import { useForm } from "react-hook-form";
-import PhoneIcon from "../../images/svg-icons/phone.svg";
 import DropDown from "../../components/higherOrderComponent/Dropdown/Dropdown";
 import FormSubmitHandler from "../../components/FormSubmitHandler";
 import LockSvg from "../../images/logo/lockSvg";
 import SmsSvg from "../../images/logo/SmsSvg";
 import UserSvg from "../../images/logo/userSvg";
 import DomainSvg from "../../images/logo/domainSvg";
+import Loader from "../../common/Loader";
+import toast from "react-hot-toast";
+const env_type = import.meta.env.VITE_ENV;
 
 const SignUp = () => {
+  const [loading, setLoading] = useState(false);
   const defaultFields = {
     name: "",
     email: "",
@@ -22,6 +24,7 @@ const SignUp = () => {
   };
   const [registerField, setRegisterField] = useState(defaultFields);
   const [isDomainEnabled, setIsDomainEnabled] = useState(false);
+  const [platform, setPlatform] = useState("");
   const {
     register,
     handleSubmit,
@@ -43,7 +46,7 @@ const SignUp = () => {
   const dropdownData = {
     // label: "Select a platform",
     placeholder: "Select your platform",
-    defaultValue: "shopify",
+    defaultValue: platform,
     name: "platform",
     id: "platform",
     shouldValidate: true,
@@ -131,16 +134,30 @@ const SignUp = () => {
 
   const submitRegister = async () => {
     try {
+      setLoading(true);
       await FormSubmitHandler({
         method: "post",
         url: "register",
         data: registerField,
-      });
-      window.open(
-        `https://apps.qeapps.com/ecom_apps_n/production/qqqe/?shop=${registerField.domain}`,
-        "_blank"
-      );
-      setRegisterField(defaultFields);
+      })
+        .then((res) => {
+          toast.success(res.message);
+          if (env_type == "development") {
+            window.open(`http://localhost:5173/`, "_blank");
+          } else {
+            window.open(
+              `https://apps.qeapps.com/ecom_apps_n/production/qqqe/?shop=${registerField.domain}`,
+              "_blank"
+            );
+          }
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        })
+        .finally(() => {
+          setRegisterField(defaultFields);
+          setLoading(false);
+        });
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -148,6 +165,7 @@ const SignUp = () => {
 
   return (
     <>
+      {loading && <Loader />}
       {/* <Breadcrumb pageName="Sign Up" breadcrumb={false} /> */}
       <div className="flex h-screen  relative z-10 ">
         <div className="w-full lg:block hidden xl:w-[35%] ">
@@ -229,7 +247,11 @@ const SignUp = () => {
                 </div>
               </div>
               <div className="mb-6 ">
-                <DropDown jsonData={dropdownData} />
+                <DropDown
+                  jsonData={dropdownData}
+                  selectedValue={platform}
+                  setSelectedValue={setPlatform} // Pass the setter to child
+                />
               </div>
 
               <div className="mb-4">
