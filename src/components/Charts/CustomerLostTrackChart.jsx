@@ -8,7 +8,7 @@ const CustomerLostTrackData = ({ customerLostTrackData }) => {
 
   // Prepare data for the chart based on the selected time frame
   const getFilteredData = () => {
-    const currentDate = new Date("2024-10-17");
+    const currentDate = new Date();
     return customerLostTrackData.filter((customer) => {
       const customerDate = new Date(customer.date);
       switch (timeFrame) {

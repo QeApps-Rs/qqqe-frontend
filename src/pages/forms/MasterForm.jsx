@@ -251,48 +251,7 @@ const MasterForm = () => {
     });
   };
 
-  // const formClasses = () => {
-  //   const { formWidth, formType } = templateDesign;
-  //   let classes = "h-[600px] ";
 
-  //   // Handle form width
-  //   classes += formWidth === "small" ? "w-10/12 " : "w-full ";
-
-  //   // Handle full page or large form width
-  //   if (formType === "full page" || formWidth === "large") {
-  //     ("transition-all duration-300 h-100%");
-  //   }
-
-  //   // Handle view types
-  //   if (isView === "Desktop") {
-  //     classes += "grid grid-cols-12 items-center shadow-lg  ";
-  //   } else {
-  //     classes = "overflow-y-auto h-[500px] w-[380px]";
-  //   }
-
-  //   // Handle specific mobile conditions
-  //   if (
-  //     isView === "Mobile" &&
-  //     formType === "full page" &&
-  //     formWidth === "small"
-  //   ) {
-  //     classes += "overflow-y-auto w-min ";
-  //   }
-
-  //   if (isView === "Mobile" && formType === "embed" && formWidth === "small") {
-  //     classes += "";
-  //   }
-  //   if (
-  //     isView === "Mobile" &&
-  //     formType === "full page" &&
-  //     formWidth === "large"
-  //   );
-  //   {
-  //     classes += "";
-  //   }
-
-  //   return classes.trim();
-  // };
 
   const formClasses = () => {
     const { formWidth, formType } = templateDesign;
