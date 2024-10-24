@@ -40,14 +40,8 @@ const Productpage = () => {
     visitorsData: [],
     totalOrderData: {},
     totalSalesData: {},
-    mobileUserData: {},
-    desktopUserData: {},
-    locationWiseData: {},
-    timeCustomersData: {},
-    countryWiseCustomerData: {},
     mostVisitedProducts: [],
     mostPurchasedProducts: [],
-    unSoldProducts: [],
     bestSellingProducts: [],
     mostATCProducts: [],
   });
@@ -80,16 +74,6 @@ const Productpage = () => {
               [dataKey]: visitorsData,
             }));
           });
-        } else if (dataKey == "mobileUserData") {
-          setGraphData((prevState) => ({
-            ...prevState,
-            [dataKey]: response?.data?.response,
-          }));
-        } else if (dataKey == "countryWiseCustomerData") {
-          setGraphData((prevState) => ({
-            ...prevState,
-            [dataKey]: response?.data?.countryWiseCustomerData,
-          }));
         } else if (dataKey == "mostVisitedProducts") {
           setGraphData((prevState) => ({
             ...prevState,
@@ -347,9 +331,6 @@ const Productpage = () => {
     xtitle: "Year",
     ytitle: "Number of Visitors",
   };
-
-
-
 
   ///////////////////////   products   ///////////////////////
 
@@ -822,7 +803,29 @@ const Productpage = () => {
       </p>
     </div>
   );
-
+  const guarantees = [
+    {
+      id: 1,
+      text: "Map the Customer Journey- Understand each touchpoint from discovery to post-purchase",
+    },
+    {
+      id: 2,
+      text: "Identify Conversion Opportunities- Find areas where users drop off and optimize them",
+    },
+    {
+      id: 3,
+      text: "Enhance User Experience- Improve navigation, design, and overall ease of shopping",
+    },
+    {
+      id: 4,
+      text: "Boost Retention Strategies- Use loyalty programs, follow-up emails, and exclusive offers to keep customers engaged",
+    },
+    {
+      id: 5,
+      text: "Track and Analyze Data- Use analytics to monitor customer behavior and improve strategies",
+    },
+    // Add more objects here if needed
+  ];
   return (
     <>
       {loading && <Loader />}
@@ -841,19 +844,32 @@ const Productpage = () => {
                 <div className="bg-book_appointment backdrop-brightness-50 h-[calc(100vh-100px)]">
                   <div className="grid grid-cols-12 gap-8 py-6 px-10">
                     <div className="col-span-12 xl:col-span-5 text-white space-y-6">
-                      <h1 className="text-5xl font-bold leading-tight ">
-                        You've qualified for a VIP launch session!
+                    <h1 className="block text-3xl font-bold text-white mb-4">
+                        Book your spot now
                       </h1>
-                      <p className="text-lg font-normal leading-relaxed text-justify">
-                        Select a time today or tomorrow for a complimentary
-                        30-minute QQQE introduction with a dedicated launch
-                        manager who will make your implementations seamless and
-                        future customer support more personalized.
+                      <p className="block text-2xl font-medium mb-3 text-[#aca7ff]">
+                        Our Goal: To Improve Store Conversion and Retention
+                        Rates
                       </p>
-                      <span className="text-lg font-normal leading-relaxed block text-justify">
-                        You'll also receive an additional 7 days on your free
-                        trial just for participating.
-                      </span>
+                      <div className="d-block">
+                        <span className="block text-xl font-normal mb-4 text-[#cecbff]">
+                          Let's get you started.
+                        </span>
+                        {guarantees.map((guarantee) => (
+                          <div
+                            className="flex items-center mb-2"
+                            key={guarantee.id}
+                          >
+                            <i
+                              className="fa fa-check-circle mr-3 text-[#cecbff]"
+                              aria-hidden="true"
+                            ></i>
+                            <span className="text-white text-lg font-medium">
+                              {guarantee.text}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
 
                     <div className="col-span-12 xl:col-span-7 ">
@@ -897,6 +913,7 @@ const Productpage = () => {
           >
             {" "}
             <PolarAnalytics />
+            
             <div className="flex items-center mt-16 justify-center">
               <div className="flex items-center">
                 <Link to="/detailed-analytics">
@@ -907,7 +924,7 @@ const Productpage = () => {
                 </Link>
               </div>
               <h2 className="text-title-md2 font-semibold text-black dark:text-white pl-2">
-                Analytics
+                Product Analytics
               </h2>
             </div>
             <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>

@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import Header from '../components/Header/index';
-import Sidebar from '../components/Sidebar/index';
-import { Outlet, useLocation } from 'react-router-dom';
-import Footer from '../components/Footer/Footer';
+import React, { useEffect, useState } from "react";
+import Header from "../components/Header/index";
+import Sidebar from "../components/Sidebar/index";
+import { Outlet, useLocation } from "react-router-dom";
+import Footer from "../components/Footer/Footer";
 
 const DefaultLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isShowBack, setShowBack] = useState(false)
- 
+  const [isShowBack, setShowBack] = useState(false);
+
   const { pathname } = useLocation();
 
   const noSidebarOrHeaderPaths = [
-    '/signin',
-    '/auth/signup',
-    '/forgot-password',
-    '/email-verification',
-    '/reset-password',
+    "/signin",
+    "/auth/signup",
+    "/forgot-password",
+    "/email-verification",
+    "/reset-password",
   ];
 
   useEffect(() => {
-    if (pathname === '/master-form') {
-      setShowBack(true)
-      setSidebarOpen(false)
-    } 
-  }, [pathname])
+    if (pathname === "/master-form") {
+      setShowBack(true);
+      setSidebarOpen(false);
+    }
+  }, [pathname]);
 
   const showSidebarAndHeader = !noSidebarOrHeaderPaths.includes(pathname);
 
@@ -40,18 +40,28 @@ const DefaultLayout = () => {
         {/* <!-- ===== Content Area Start ===== --> */}
         <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
           {/* <!-- ===== Header Start ===== --> */}
-          {showSidebarAndHeader &&
-            (<Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} isShowBack={isShowBack} />
-            )}
+          {showSidebarAndHeader && (
+            <Header
+              sidebarOpen={sidebarOpen}
+              setSidebarOpen={setSidebarOpen}
+              isShowBack={isShowBack}
+            />
+          )}
           {/* <!-- ===== Header End ===== --> */}
 
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>
-            <div className={ pathname == '/master-form' ? '':` py-8 px-18  `}>
+            <div
+              className={
+                pathname == "/master-form" ? "" : `md:py-8 md:px-18 p-8`
+              }
+            >
               <Outlet />
             </div>
           </main>
-          { pathname != '/master-form' ? <Footer sidebarOpen={sidebarOpen}/> : null}
+          {pathname != "/master-form" ? (
+            <Footer sidebarOpen={sidebarOpen} />
+          ) : null}
           {/* <!-- ===== Main Content End ===== --> */}
         </div>
         {/* <!-- ===== Content Area End ===== --> */}

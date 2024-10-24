@@ -212,8 +212,12 @@ export default {
           "linear-gradient(320deg, rgba(22,39,167,0.206) 0%, rgba(22,39,167,0.550) 50%, rgba(5,35,98,0.780) 95%)",
         dashboard_gradient:
           "linear-gradient(320deg, rgba(22,75,196,0.731) 0%, rgba(100,104,226,0.942) 15%, rgba(3,41,120,0.999) 80%)",
-          book_appointment: "linear-gradient(21deg, rgba(30,30,30,0.87) 0%, rgba(5,40,120,1) 68%, rgba(3,65,160,1) 100%)"
-        },
+        book_appointment:
+          "linear-gradient(21deg, rgba(30,30,30,0.87) 0%, rgba(5,40,120,1) 68%, rgba(3,65,160,1) 100%)",
+        bg_blue_gradient: "linear-gradient(21deg, rgba(0,78,255,0.120) 0%, rgba(161,189,245,0.9) 68%, rgba(1,41,125,1) 100%)",
+        // bg_blue_gradient:"linear-gradient(21deg, rgba(19,38,83,0.95) 0%, rgba(11,39,101,0.54) 44%, rgba(1,41,125,0.81) 100%)"
+      },
+
       content: {
         "icon-copy": 'url("../images/icon/icon-copy-alt.svg")',
       },
@@ -246,6 +250,10 @@ export default {
           "0%, 100%": { transform: "rotate(360deg)" },
           "50%": { transform: "rotate(0deg)" },
         },
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
       },
       animation: {
         "ping-once": "ping 5s cubic-bezier(0, 0, 0.2, 1)",
@@ -253,6 +261,8 @@ export default {
         "spin-1.5": "spin 1.5s linear infinite",
         "spin-2": "spin 2s linear infinite",
         "spin-3": "spin 3s linear infinite",
+        fadeIn: "fadeIn 1s ease-out",
+        
       },
     },
   },
