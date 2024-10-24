@@ -148,6 +148,7 @@ const Campaigns = () => {
               "Latest",
               "Status",
               "Devices",
+              "Template Handle",
               "Impressions",
               "Conversions",
               "Conversions rate",
@@ -213,11 +214,16 @@ const Campaigns = () => {
                   aria-hidden="true"
                 ></i>
               </div>
+              <div className="col-span-1 flex items-center">
+                <h1 data-template-handle={product?.template_handle}>
+                  {product?.title}
+                </h1>
+              </div>
               {[
                 "impressions",
                 "conversions",
                 "conversions_rate",
-                "date_created",
+                // "date_created",
               ].map((key, index) => (
                 <div className="col-span-1 flex items-center" key={index}>
                   <p className="text-sm text-graydark">
