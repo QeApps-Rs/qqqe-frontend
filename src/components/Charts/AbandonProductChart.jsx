@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 
 const AbandonProductChart = ({ abandon_checkout_products }) => {
-  const [timeRange, setTimeRange] = useState("today"); // Default time range
+  const [timeRange, setTimeRange] = useState("monthly"); // Default time range
   const [series, setSeries] = useState([]);
   const [options, setOptions] = useState({
     chart: {
@@ -67,7 +67,7 @@ const AbandonProductChart = ({ abandon_checkout_products }) => {
         const dateString = date.toISOString().split("T")[0]; // Format: YYYY-MM-DD
         if (weekData[dateString]) {
           categories.push(dateString);
-          weekData[dateString].prodct.forEach((product, index) => {
+          weekData[dateString].product.forEach((product, index) => {
             const productCount = weekData[dateString].product_count[index];
             const existingProduct = stackedData.find((s) => s.name === product);
 
@@ -92,7 +92,7 @@ const AbandonProductChart = ({ abandon_checkout_products }) => {
       const monthData = abandon_checkout_products.monthly;
       for (const month in monthData) {
         categories.push(month);
-        monthData[month].prodct.forEach((product, index) => {
+        monthData[month].product.forEach((product, index) => {
           const productCount = monthData[month].product_count[index];
           const existingProduct = stackedData.find((s) => s.name === product);
 
@@ -113,7 +113,7 @@ const AbandonProductChart = ({ abandon_checkout_products }) => {
         categories.push(yearString); // Add year to categories
 
         if (yearData[yearString]) {
-          yearData[yearString].prodct.forEach((product, index) => {
+          yearData[yearString].product.forEach((product, index) => {
             const productCount = yearData[yearString].product_count[index];
             const existingProduct = stackedData.find((s) => s.name === product);
 

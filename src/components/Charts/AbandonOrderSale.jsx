@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const AdnomanOrderSale = ({ abandon_checkout_order_sales }) => {
+const AbandonOrderSale = ({ abandon_checkout_order_sales }) => {
   const [series, setSeries] = useState([]);
   const [options, setOptions] = useState({
     chart: {
@@ -82,4 +82,4 @@ const AdnomanOrderSale = ({ abandon_checkout_order_sales }) => {
   );
 };
 
-export default AdnomanOrderSale;
+export default AbandonOrderSale;
