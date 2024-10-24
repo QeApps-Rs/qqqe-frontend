@@ -1201,109 +1201,109 @@ const PeopleDetailedAnalytics = () => {
   const abandon_checkout_products = {
     today: {
       "2024-10-17": {
-        prodct: ["abc", "pqr", "xyz", "klm", "mno"],
+        product: ["abc", "pqr", "xyz", "klm", "mno"],
         product_count: [30, 71, 20, 10, 40],
       },
     },
     weekly: {
       "2024-10-11": {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [5, 15, 10, 10],
       },
       "2024-10-12": {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [3, 5, 7, 0],
       },
       "2024-10-13": {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [2, 0, 8, 4],
       },
       "2024-10-14": {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [0, 0, 10, 2],
       },
       "2024-10-15": {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [6, 3, 2, 0],
       },
       "2024-10-16": {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [7, 4, 0, 1],
       },
       "2024-10-17": {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [10, 2, 5, 3],
       },
     },
     monthly: {
       January: {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [60, 30, 40, 0],
       },
       February: {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [0, 20, 15, 25],
       },
       March: {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [50, 0, 20, 35],
       },
       April: {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [40, 25, 0, 30],
       },
       May: {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [30, 10, 20, 0],
       },
       June: {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [50, 40, 0, 30],
       },
       July: {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [60, 55, 50, 0],
       },
       August: {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [0, 80, 70, 90],
       },
       September: {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [90, 0, 85, 100],
       },
       October: {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [30, 40, 50, 0],
       },
       November: {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [20, 25, 15, 0],
       },
       December: {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [10, 0, 20, 30],
       },
     },
     yearly: {
       2024: {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [300, 200, 0, 0],
       },
       2023: {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [150, 0, 0, 250],
       },
       2022: {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [0, 200, 100, 0],
       },
       2021: {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [120, 0, 80, 0],
       },
       2020: {
-        prodct: ["abc", "pqr", "xyz", "klm"],
+        product: ["abc", "pqr", "xyz", "klm"],
         product_count: [150, 200, 300, 250],
       },
     },
@@ -1847,7 +1847,7 @@ const PeopleDetailedAnalytics = () => {
               <div className={colFullWidthGraph}>
                 <DashboardTitle title={"One Time & Mutli Time Customer"} />
 
-                {!chartState?.timeCustomersGraphState == true ? (
+                {chartState?.timeCustomersGraphState == true ? (
                   // <OneTimeMultiTimeCustomer customerData={graphData?.timeCustomersData} />
                   <OneTimeMultiTimeCustomer
                     customerData={OneTimeMultiTimeData}
@@ -2239,7 +2239,7 @@ const PeopleDetailedAnalytics = () => {
               </div>
               <div className={colSixGraph}>
                 <DashboardTitle title={"Abandon Checkout Products"} />
-                {
+                {/* {
                   chartState?.abandonProductsDataGraphState == true ? (
                     <AbandonProductChart
                       abandon_checkout_products={abandon_checkout_products}
@@ -2247,10 +2247,10 @@ const PeopleDetailedAnalytics = () => {
                   ) : (
                     <NoDataFound />
                   )
-                }
-                {/* <AbandonProductChart
+                } */}
+                <AbandonProductChart
                   abandon_checkout_products={abandon_checkout_products}
-                /> */}
+                />
               </div>
               <div className={colSixGraph}>
                 <DashboardTitle title={"Most Time Spent Pages"} />
