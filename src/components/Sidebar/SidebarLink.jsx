@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Link, useLocation, useNavigate  } from "react-router-dom";
-import { useState } from "react";
-const SidebarLink = ({ href, iconType, label, sidebarOpen }) => {
+const SidebarLink = ({ href, iconType, label }) => {
   const location = useLocation();
   const { pathname } = location;
   const navigate = useNavigate();

@@ -102,19 +102,19 @@ const PreviewComponent = ({
                 className="text-4xl font-bold mt-4"
                 style={getStyle(templateDesign, "successHeading")}
               >
-                {templateDesign.successHeading}
+                {templateDesign.successHeading || "Thanks for sharing. Please check your email for confirmation message"}
               </h2>
               <span
                 className="text-xl font-bold mt-4"
                 style={getStyle(templateDesign, "successSubHeading")}
               >
-                {templateDesign.successSubHeading}
+                {templateDesign.successSubHeading || "Thanks for sharing. Please check your email for confirmation message"}
               </span>
               <p
                 className="text-lg mt-4"
                 style={getStyle(templateDesign, "successDescription")}
               >
-                {templateDesign.successDescription}
+                {templateDesign.successDescription || "Thanks for sharing. Please check your email for confirmation message"}
               </p>
             </div>
           ) : (

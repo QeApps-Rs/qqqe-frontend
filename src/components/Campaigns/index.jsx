@@ -19,7 +19,7 @@ const Campaigns = () => {
   // };
 
   const renderCampaignBox = (title, value, rate) => (
-    <div className="campaigns-boxs p-4 bg-white rounded-lg shadow-md">
+    <div className="campaigns-boxs p-4 bg-white rounded-lg shadow-md md:col-span-4 col-span-12">
       <span className="box-title block text-indigo-600 font-semibold text-lg mb-2">
         {title}
       </span>
@@ -101,7 +101,7 @@ const Campaigns = () => {
       {loading && <Loader />}
       <div className="mb-25">
         <h1 className="text-3xl font-bold text-gray-800 mb-4">Campaigns</h1>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-12 gap-4">
           {renderCampaignBox("Impressions", 0, "0%")}
           {renderCampaignBox("Clicks", "0.00%", "0%")}
           {renderCampaignBox("Conversions", 0, "0%")}
@@ -113,7 +113,7 @@ const Campaigns = () => {
             lineCategories={lineCategories}
             lineyAxisTitle={lineyAxisTitle}
           />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
             <SalesPieGraph
               seriesData={seriesData}
               labels={labels}
@@ -142,7 +142,7 @@ const Campaigns = () => {
             </Link>
           </div>
         </div>
-        <div className="rounded-sm border border-stroke bg-white shadow-default mt-4">
+        <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 ">
           <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5">
             {[
               "Latest",
