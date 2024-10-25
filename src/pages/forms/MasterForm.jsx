@@ -251,8 +251,6 @@ const MasterForm = () => {
     });
   };
 
-
-
   const formClasses = () => {
     const { formWidth, formType } = templateDesign;
     let classes = "h-[calc(100vh-250px)] ";
@@ -423,7 +421,7 @@ const MasterForm = () => {
           const sid = id.split("s")[1];
           const customerTemplate = await FormSubmitHandler({
             method: "get",
-            url: `customer/template/${sid}`,
+            url: `customer/template/${sid}?handle_type=${response?.data?.masterTemplate?.template_handle}`,
           });
           if (customerTemplate.success && customerTemplate.data) {
             jsonObject = customerTemplate?.data?.json_response;
