@@ -209,6 +209,7 @@ const SuggestionCompNew = () => {
             "up_selling_product_list",
             "cross_selling_product_list",
             "best_selling_top_3_product_id_list",
+            "bundle_products",
           ].includes(key)
       )
       .map((key, index) => {
@@ -305,7 +306,8 @@ const SuggestionCompNew = () => {
           tab == "top_selling_product_list" ||
           tab == "up_selling_product_list" ||
           tab == "cross_selling_product_list" ||
-          tab == "best_selling_top_3_product_id_list"
+          tab == "best_selling_top_3_product_id_list" ||
+          tab == "bundle_products"
         )
           return null;
         if (tab == "Products" && dataItem?.product_list?.length > 0) {

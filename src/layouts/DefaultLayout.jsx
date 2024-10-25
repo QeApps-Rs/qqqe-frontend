@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import Header from "../components/Header/index";
 import Sidebar from "../components/Sidebar/index";
 import { Outlet, useLocation } from "react-router-dom";
@@ -53,7 +53,9 @@ const DefaultLayout = () => {
           <main>
             <div
               className={
-                pathname == "/master-form" ? "" : `md:py-8 md:px-18 p-8`
+                pathname == "/master-form"
+                  ? ""
+                  : `xl:py-8 xl:px-18 lg:py-8 lg:pl-8 lg:pr-6 sm:py-8 sm:pl-24 sm:pr-6 py-8 px-4`
               }
             >
               <Outlet />

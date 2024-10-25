@@ -40,6 +40,8 @@ import TrackEventChart from "../Charts/TrackEvent";
 import CustomerPageFlowChart from "../Charts/CustomerPageFlowCHart";
 import PageWiseAvgChart from "../Charts/PageWiseAvgChart";
 import AverageTimeSpentWholeSite from "../Charts/AverageTimeSpentWholeSite";
+import BookSlotModal from "../BookSlot";
+import NeedHelpPage from "../NeedHelp";
 
 const PeopleDetailedAnalytics = () => {
   const today = new Date();
@@ -145,7 +147,7 @@ const PeopleDetailedAnalytics = () => {
             ...prevState,
             [dataKey]: response?.data?.page_flow,
           }));
-        } else if (dataKey == "abandonProductsData") {
+        }else if (dataKey == "abandonProductsData") {
           setGraphData((prevState) => ({
             ...prevState,
             [dataKey]: response?.data?.abandon_checkout_products,
@@ -954,7 +956,7 @@ const PeopleDetailedAnalytics = () => {
 
   const DashboardTitle = ({ title }) => {
     return (
-      <div className=" h-16 bg-dashboard_gradient rounded-t-lg flex justify-between items-center px-4">
+      <div className="min-h-16 bg-dashboard_gradient rounded-t-lg flex justify-between items-center px-4">
         <p className="text-white font-bold flex items-center h-full ">
           {title}
         </p>
@@ -1260,62 +1262,7 @@ const PeopleDetailedAnalytics = () => {
       {loading && <Loader />}
       {showIframe ? (
         <>
-          <ScrollAnimation
-            animateIn="animate__fadeInDown"
-            animateOut="animate__fadeOut"
-            duration={1}
-          >
-            <div className="w-full  flex justify-center items-center bg-gray-100">
-              <div className="w-10/12 max-w-screen-xl h-[calc(100vh-120px)] shadow-2xl rounded-lg overflow-hidden relative ">
-                <label className="h-16 bg-white shadow-lg flex items-center justify-center px-4 border-b border-gray-300 font-bold text-2xl text-gray-800">
-                  Let us help you get the most from QQQE
-                </label>
-                <div className="bg-book_appointment backdrop-brightness-50 h-[calc(100vh-100px)]">
-                  <div className="grid grid-cols-12 gap-8 py-6 px-10">
-                    <div className="col-span-12 xl:col-span-5 text-white space-y-6">
-                      <h1 className="text-5xl font-bold leading-tight ">
-                        You've qualified for a VIP launch session!
-                      </h1>
-                      <p className="text-lg font-normal leading-relaxed text-justify">
-                        Select a time today or tomorrow for a complimentary
-                        30-minute QQQE introduction with a dedicated launch
-                        manager who will make your implementations seamless and
-                        future customer support more personalized.
-                      </p>
-                      <span className="text-lg font-normal leading-relaxed block text-justify">
-                        You'll also receive an additional 7 days on your free
-                        trial just for participating.
-                      </span>
-                    </div>
-
-                    <div className="col-span-12 xl:col-span-7 ">
-                      <iframe
-                        src="https://schedule.calrik.com/m3arie1821"
-                        title="Schedule Embed"
-                        className="w-full h-[calc(100vh-310px)] border-none rounded-lg custom-scrollbar overflow-y-auto"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex justify-end w-full p-4 border-t border-white">
-                    <button
-                      className="bg-transparent p-3 border border-white text-white mr-4 rounded-lg hover:bg-white hover:text-blue-700 transition-all"
-                      onClick={handlePageClick}
-                    >
-                      Remind me next time
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handlePageClick}
-                      className="bg-transparent p-3 border border-white text-white rounded-lg hover:bg-white hover:text-blue-700 transition-all"
-                    >
-                      Continue
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ScrollAnimation>
+          <BookSlotModal handlePageClick={handlePageClick} />
         </>
       ) : (
         <main className="main-content todo-app w-full px-[var(--margin-x)] pb-15">
@@ -1816,6 +1763,7 @@ const PeopleDetailedAnalytics = () => {
           </ScrollAnimation>
         </main>
       )}
+      <NeedHelpPage />
     </>
   );
 };

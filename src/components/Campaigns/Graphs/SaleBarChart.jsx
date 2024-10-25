@@ -101,7 +101,7 @@ const SalesBarGraph = ({ salesBarData, barCategories, baryAxisTitle }) => {
           options={chartData.options}
           series={chartData.series}
           type="bar"
-          height="100%" // Adjust to fill the parent container height
+          height={350} // Adjust to fill the parent container height
         />
       </div>
     </div>

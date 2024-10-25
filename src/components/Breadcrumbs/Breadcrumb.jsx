@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Logo from "../../images/favicon.png";
 const Breadcrumb = ({ pageName, breadcrumb = true }) => {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-10 ">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between md:px-10 p-4">
       <h2 className="text-title-md2 font-semibold text-white dark:text-white">
         {pageName}
       </h2>

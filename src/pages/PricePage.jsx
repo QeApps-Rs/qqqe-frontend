@@ -13,6 +13,7 @@ import Loader from "../common/Loader";
 import FormSubmitHandler from "../components/FormSubmitHandler";
 import PolarAnalytics from "../components/Analytics/PolarAnalaytics";
 import NeedHelpPage from "../components/NeedHelp";
+import BookSlotModal from "../components/BookSlot";
 
 const PricePage = () => {
   const today = new Date();
@@ -23,7 +24,6 @@ const PricePage = () => {
   const handlePageClick = () => {
     setShowIframe(false); // Show iframe
   };
-
 
   const [loading, setLoading] = useState(false);
   const [graphData, setGraphData] = useState({
@@ -57,7 +57,7 @@ const PricePage = () => {
               [dataKey]: visitorsData,
             }));
           });
-        }   else if (dataKey == "mostVisitedProducts") {
+        } else if (dataKey == "mostVisitedProducts") {
           setGraphData((prevState) => ({
             ...prevState,
             [dataKey]: response?.data?.mostVisitedProducts,
@@ -96,7 +96,6 @@ const PricePage = () => {
             "totalOrderData",
             "totalOrderGraphState"
           ),
-     
         ]);
       } catch (error) {
         console.error("Error in one or more API calls:", error);
@@ -106,6 +105,11 @@ const PricePage = () => {
     };
 
     if (!showIframe) {
+      fetchData();
+    }
+    if (screen.width <= 767) {
+      setShowIframe(false);
+    } else {
       fetchData();
     }
   }, [showIframe]);
@@ -849,7 +853,7 @@ const PricePage = () => {
 
   const DashboardTitle = ({ title }) => {
     return (
-      <div className=" h-16 bg-dashboard_gradient rounded-t-lg flex justify-between items-center px-4">
+      <div className="min-h-16 bg-dashboard_gradient rounded-t-lg flex justify-between items-center px-4">
         <p className="text-white font-bold flex items-center h-full ">
           {title}
         </p>
@@ -906,75 +910,7 @@ const PricePage = () => {
       {loading && <Loader />}
       {showIframe ? (
         <>
-          <ScrollAnimation
-            animateIn="animate__fadeInDown"
-            animateOut="animate__fadeOut"
-            duration={1}
-          >
-            <div className="w-full  flex justify-center items-center bg-gray-100">
-              <div className="w-10/12 max-w-screen-xl h-[calc(100vh-120px)] shadow-2xl rounded-lg overflow-hidden relative ">
-                <label className="h-16 bg-white shadow-lg flex items-center justify-center px-4 border-b border-gray-300 font-bold text-2xl text-gray-800">
-                  Let us help you get the most from QQQE
-                </label>
-                <div className="bg-book_appointment backdrop-brightness-50 h-[calc(100vh-100px)]">
-                  <div className="grid grid-cols-12 gap-8 py-6 px-10">
-                    <div className="col-span-12 xl:col-span-5 text-white space-y-6">
-                    <h1 className="block text-3xl font-bold text-white mb-4">
-                        Book your spot now
-                      </h1>
-                      <p className="block text-2xl font-medium mb-3 text-[#aca7ff]">
-                        Our Goal: To Improve Store Conversion and Retention
-                        Rates
-                      </p>
-                      <div className="d-block">
-                        <span className="block text-xl font-normal mb-4 text-[#cecbff]">
-                          Let's get you started.
-                        </span>
-                        {guarantees.map((guarantee) => (
-                          <div
-                            className="flex items-center mb-2"
-                            key={guarantee.id}
-                          >
-                            <i
-                              className="fa fa-check-circle mr-3 text-[#cecbff]"
-                              aria-hidden="true"
-                            ></i>
-                            <span className="text-white text-lg font-medium">
-                              {guarantee.text}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="col-span-12 xl:col-span-7 ">
-                      <iframe
-                        src="https://schedule.calrik.com/m3arie1821"
-                        title="Schedule Embed"
-                        className="w-full h-[calc(100vh-310px)] border-none rounded-lg custom-scrollbar overflow-y-auto"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex justify-end w-full p-4 border-t border-white">
-                    <button
-                      className="bg-transparent p-3 border border-white text-white mr-4 rounded-lg hover:bg-white hover:text-blue-700 transition-all"
-                      onClick={handlePageClick}
-                    >
-                      Remind me next time
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handlePageClick}
-                      className="bg-transparent p-3 border border-white text-white rounded-lg hover:bg-white hover:text-blue-700 transition-all"
-                    >
-                      Continue
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ScrollAnimation>
+          <BookSlotModal handlePageClick={handlePageClick} />
         </>
       ) : (
         <main className="main-content todo-app w-full px-[var(--margin-x)] pb-15">
@@ -1179,7 +1115,6 @@ const PricePage = () => {
         </main>
       )}
       <NeedHelpPage />
-
     </>
   );
 };
