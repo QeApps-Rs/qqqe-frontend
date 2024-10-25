@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 
@@ -9,158 +8,113 @@ const AbandonProductChart = ({ abandon_checkout_products }) => {
     chart: {
       type: "bar",
       height: 350,
-      stacked: true, // Enable stacking
-      toolbar: {
-        show: false,
-      },
-      zoom: {
-        enabled: true,
-      },
+      stacked: true,
+      toolbar: { show: false },
+      zoom: { enabled: true },
     },
     xaxis: {
       categories: [], // Will be set dynamically
-      labels: {
-        show: true,
-      },
+      labels: { show: true },
     },
     yaxis: {
-      title: {
-        text: "Product Count",
-      },
+      title: { text: "Product Count" },
       min: 0, // Start from zero
     },
-    tooltip: {
-      shared: true,
-      intersect: false,
-    },
-    legend: {
-      position: "bottom",
-    },
-    fill: {
-      opacity: 1,
-    },
+    tooltip: { shared: true, intersect: false },
+    legend: { position: "bottom" },
+    fill: { opacity: 1 },
   });
+
+  // Utility function to format date to 'YYYY-MM-DD'
+  const formatDate = (date) => date.toISOString().split("T")[0];
+  const todayDate = formatDate(new Date());
 
   // Update chart data based on the selected time range
   const updateChartData = () => {
     const categories = [];
     const stackedData = [];
 
-    if (timeRange === "today") {
-      const todayData = abandon_checkout_products.today["2024-10-17"];
-      categories.push("2024-10-17"); // Push today's date as the category
-      const data = todayData.product_count;
-
-      // Prepare series data for stacking
-      todayData.prodct.forEach((product, index) => {
+    if (timeRange === "today" && abandon_checkout_products.today[todayDate]) {
+      const todayData = abandon_checkout_products.today[todayDate];
+      categories.push(todayDate);
+      todayData.product.forEach((product, index) => {
         stackedData.push({
           name: product,
-          data: [data[index]], // Data for each product for today
+          data: [todayData.product_count[index] || 0],
         });
       });
     } else if (timeRange === "weekly") {
-      const today = new Date("2024-10-17");
-      const weekData = abandon_checkout_products.weekly;
-      for (let i = 6; i >= 0; i--) {
-        const date = new Date(today);
-        date.setDate(today.getDate() - i);
-        const dateString = date.toISOString().split("T")[0]; // Format: YYYY-MM-DD
-        if (weekData[dateString]) {
-          categories.push(dateString);
-          weekData[dateString].product.forEach((product, index) => {
-            const productCount = weekData[dateString].product_count[index];
-            const existingProduct = stackedData.find((s) => s.name === product);
-
-            if (existingProduct) {
-              existingProduct.data.push(productCount); // Push product count for this date
-            } else {
-              stackedData.push({
-                name: product,
-                data: [productCount], // Start a new entry for this product
-              });
-            }
-          });
-        } else {
-          // If no data for the day, fill with 0s
-          categories.push(dateString);
-          stackedData.forEach((s) => {
-            s.data.push(0); // Fill with 0 if no data for that date
-          });
-        }
-      }
-    } else if (timeRange === "monthly") {
-      const monthData = abandon_checkout_products.monthly;
-      for (const month in monthData) {
-        categories.push(month);
-        monthData[month].product.forEach((product, index) => {
-          const productCount = monthData[month].product_count[index];
-          const existingProduct = stackedData.find((s) => s.name === product);
-
-          if (existingProduct) {
-            existingProduct.data.push(productCount); // Push product count for this month
+      const weeklyData = abandon_checkout_products.weekly;
+      Object.keys(weeklyData).forEach((date) => {
+        categories.push(date);
+        weeklyData[date].product.forEach((product, index) => {
+          const productIndex = stackedData.findIndex((item) => item.name === product);
+          if (productIndex >= 0) {
+            stackedData[productIndex].data.push(weeklyData[date].product_count[index] || 0);
           } else {
-            stackedData.push({
-              name: product,
-              data: [productCount], // Start a new entry for this product
-            });
+            const dataArray = Array(categories.length - 1).fill(0);
+            dataArray.push(weeklyData[date].product_count[index] || 0);
+            stackedData.push({ name: product, data: dataArray });
           }
         });
-      }
-    } else if (timeRange === "yearly") {
-      const yearData = abandon_checkout_products.yearly;
-      for (let year = 2024; year >= 2020; year--) {
-        const yearString = year.toString();
-        categories.push(yearString); // Add year to categories
-
-        if (yearData[yearString]) {
-          yearData[yearString].product.forEach((product, index) => {
-            const productCount = yearData[yearString].product_count[index];
-            const existingProduct = stackedData.find((s) => s.name === product);
-
-            if (existingProduct) {
-              existingProduct.data.push(productCount || 0); // Use 0 if data is missing
-            } else {
-              // Initialize new product entry
-              stackedData.push({
-                name: product,
-                data: [productCount || 0], // Start a new entry for this product
-              });
-            }
-          });
-        } else {
-          // If no data for the year, fill with 0s for each product
-          stackedData.forEach((s) => {
-            s.data.push(0); // Fill with 0 if no data for that year
-          });
+      });
+      stackedData.forEach((productData) => {
+        while (productData.data.length < categories.length) {
+          productData.data.push(0);
         }
-      }
-
-      // Ensure all products are accounted for
-      const allProducts = [...new Set(stackedData.map((s) => s.name))];
-      allProducts.forEach((product) => {
-        if (!stackedData.find((s) => s.name === product)) {
-          stackedData.push({
-            name: product,
-            data: new Array(categories.length).fill(0), // Fill with zeros for all years
-          });
+      });
+    } else if (timeRange === "monthly") {
+      const monthlyData = abandon_checkout_products.monthly;
+      Object.keys(monthlyData).forEach((month) => {
+        categories.push(month);
+        monthlyData[month].product.forEach((product, index) => {
+          const productIndex = stackedData.findIndex((item) => item.name === product);
+          if (productIndex >= 0) {
+            stackedData[productIndex].data.push(monthlyData[month].product_count[index] || 0);
+          } else {
+            const dataArray = Array(categories.length - 1).fill(0);
+            dataArray.push(monthlyData[month].product_count[index] || 0);
+            stackedData.push({ name: product, data: dataArray });
+          }
+        });
+      });
+      stackedData.forEach((productData) => {
+        while (productData.data.length < categories.length) {
+          productData.data.push(0);
+        }
+      });
+    } else if (timeRange === "yearly") {
+      const yearlyData = abandon_checkout_products.yearly;
+      Object.keys(yearlyData).forEach((year) => {
+        categories.push(year);
+        yearlyData[year].product.forEach((product, index) => {
+          const productIndex = stackedData.findIndex((item) => item.name === product);
+          if (productIndex >= 0) {
+            stackedData[productIndex].data.push(yearlyData[year].product_count[index] || 0);
+          } else {
+            const dataArray = Array(categories.length - 1).fill(0);
+            dataArray.push(yearlyData[year].product_count[index] || 0);
+            stackedData.push({ name: product, data: dataArray });
+          }
+        });
+      });
+      stackedData.forEach((productData) => {
+        while (productData.data.length < categories.length) {
+          productData.data.push(0);
         }
       });
     }
 
-    setSeries(stackedData); // Update series data
+    setSeries(stackedData);
     setOptions((prev) => ({
       ...prev,
-      xaxis: {
-        ...prev.xaxis,
-        categories, // Set the dynamic categories
-      },
+      xaxis: { ...prev.xaxis, categories },
     }));
   };
 
-  // Effect to update chart data when timeRange changes
   useEffect(() => {
-    updateChartData(); // Update chart data when time range changes
-  }, [timeRange]);
+    updateChartData();
+  }, [timeRange, abandon_checkout_products]);
 
   return (
     <div className="p-4">
@@ -176,12 +130,7 @@ const AbandonProductChart = ({ abandon_checkout_products }) => {
           <option value="yearly">Yearly</option>
         </select>
       </div>
-      <ReactApexChart
-        options={options}
-        series={series}
-        type="bar"
-        height={350}
-      />
+      <ReactApexChart options={options} series={series} type="bar" height={350} />
     </div>
   );
 };
