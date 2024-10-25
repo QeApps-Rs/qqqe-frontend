@@ -3,7 +3,7 @@ import qqqeLogo from "/src/images/favicon.png";
 const AppDashboardPage = () => {
   return (
     <div className="w-full mb-20">
-      <div className="bg-[url('/src/images/purple-bg.jpg')] bg-no-repeat bg-cover md:hidden mb-4 rounded-md p-2">
+      <div className="bg-[url('/src/images/purple-bg.jpg')] bg-no-repeat bg-cover sm:hidden mb-4 rounded-md p-2">
         <img src={qqqeLogo} alt="logo" style={{ height: "70px" }} />
       </div>
       <div className="grid grid-cols-12 gap-4 ">
