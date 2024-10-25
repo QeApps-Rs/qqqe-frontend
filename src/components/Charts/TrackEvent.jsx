@@ -5,13 +5,13 @@ const EventTrack = {
   today: {
     "2024-10-18": {
       label: ["home", "product", "collection", "cart", "checkout"],
-      count: [15, 26, 17, 30, 20],
+      count: [10, 0, 30, 0, 0],
     },
   },
   weekly: {
     "2024-10-18": {
       label: ["home", "product", "collection", "cart", "checkout"],
-      count: [15, 26, 17, 30, 20],
+      count: [0,0,0,0,0],
     },
     "2024-10-17": {
       label: ["home", "product", "collection", "cart", "checkout"],
