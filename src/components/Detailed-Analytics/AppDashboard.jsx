@@ -6,7 +6,7 @@ const AppDashboardPage = () => {
       <div className="bg-[url('/src/images/purple-bg.jpg')] bg-no-repeat bg-cover md:hidden mb-4 rounded-md p-2">
         <img src={qqqeLogo} alt="logo" style={{ height: "70px" }} />
       </div>
-      <div className="grid grid-cols-12 gap-8 ">
+      <div className="grid grid-cols-12 gap-4 ">
         <div className="lg:col-span-6 col-span-12">
           <StartAppOverviewPage title="People" url="/dashboard" />
         </div>
@@ -14,7 +14,7 @@ const AppDashboardPage = () => {
           <StartAppOverviewPage title="Product" url="/product-dashboard" />
         </div>
         <div className="lg:col-span-6 col-span-12">
-          <StartAppOverviewPage title="Prices(Sales)" url="/price-dashboard" />
+          <StartAppOverviewPage title="Price" url="/price-dashboard" />
         </div>
         <div className="lg:col-span-6 col-span-12">
           <StartAppOverviewPage title="Promotion" url="/promotion-dashboard" />

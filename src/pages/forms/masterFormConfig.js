@@ -61,12 +61,9 @@ export const templateFieldCss = {
   subHeading: "", // styles.form_parameters.sub_title.text
   image: "", // styles.form_parameters.image.link
   successImage: "",
-  successHeading:
-    "Thanks for sharing. Please check your email for confirmation message",
-  successSubHeading:
-    "Thanks for sharing. Please check your email for confirmation message",
-  successDescription:
-    "Thanks for sharing. Please check your email for confirmation message",
+  successHeading: "",
+  successSubHeading: "",
+  successDescription: "",
 };
 
 export const targetAndBehaviorDefaultState = {

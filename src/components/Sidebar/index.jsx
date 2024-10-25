@@ -1,26 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
-import SidebarLinkGroup from "./SidebarLinkGroup";
-// import Logo from '../../images/logo/logo.svg';
-import Logo from "../../images/favicon.png";
+import  {  useRef } from "react";
+import { Link } from "react-router-dom";
 import SidebarLink from "./SidebarLink";
 import smallLogo from "../../images/favicon-A.png";
 import DropdownUser from "../Header/DropdownUser";
 import DropdownNotification from "../Header/DropdownNotification";
 import DropdownHelp from "../Header/DropdownHelp";
 
-const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
-  const location = useLocation();
-  const { pathname } = location;
+const Sidebar = () => {
 
-  const trigger = useRef(null);
   const sidebar = useRef(null);
-
-  const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
-  const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
-  );
-
+  
   const sidebarLinks = [
     {
       href: "/app-dashboard",
@@ -33,7 +22,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       label: "Analytics",
     },
     { href: "/dashboard", iconType: "home", label: "People" },
-    // { href: '/people-dashboard', iconType: 'people', label: 'People' },
     { href: "/product-dashboard", iconType: "product", label: "Product" },
     { href: "/price-dashboard", iconType: "price", label: "Price(Sales)" },
     {
@@ -41,11 +29,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       iconType: "promotion",
       label: "Promotion",
     },
-    // {
-    //   href: "/video-player",
-    //   iconType: "video",
-    //   label: "QQQE-Video",
-    // },
     {
       href: "/campaigns",
       iconType: "campaigns",
@@ -56,7 +39,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   return (
     <aside
       ref={sidebar}
-      className="hidden md:block overflow-visible absolute left-0 top-0 z-9 flex h-screen flex-col overflow-y-visible bg-[#161349] shadow-[0_0_11px_#ccc] duration-300 ease-linear lg:static lg:translate-x-0 
+      className="hidden sm:block overflow-visible absolute left-0 top-0 z-9 flex h-screen flex-col overflow-y-visible bg-[#161349] shadow-[0_0_11px_#ccc] duration-300 ease-linear lg:static lg:translate-x-0 
         w-20"
     >
       {/* <!-- SIDEBAR HEADER --> */}
@@ -76,7 +59,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         <nav className="mt-2">
           {/* <!-- Menu Group --> */}
           <div>
-            {/* <ul className="mb-6 flex flex-col gap-1.5"> */}
             {/* <!-- Menu Item Dashboard --> */}
 
             {sidebarLinks?.map((link) => (
@@ -85,7 +67,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 href={link.href}
                 iconType={link.iconType}
                 label={link.label}
-                sidebarOpen={sidebarOpen}
               />
             ))}
           </div>
@@ -102,7 +83,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 aria-hidden="true"
               ></i>
             </Link>{" "}
-            {/* <span className="text-white">|</span>{" "} */}
+          
             <Link
               to="https://calendly.com/"
               className="min-h-10 items-center flex justify-center"
@@ -113,7 +94,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 aria-hidden="true"
               ></i>
             </Link>{" "}
-            {/* <span className="text-white">|</span>{" "} */}
             <Link
               to="https://www.tawk.to/"
               className="min-h-10 items-center flex justify-center"
@@ -124,7 +104,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 aria-hidden="true"
               ></i>
             </Link>{" "}
-            {/* <span className="text-white">|</span>{" "} */}
             <Link
               to="https://www.calrik.com/"
               className="min-h-10 items-center flex justify-center "

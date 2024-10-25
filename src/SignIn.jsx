@@ -107,7 +107,7 @@ const SignIn = () => {
               Sign Up
             </Link>
           </p>
-          <div className="w-full flex justify-center h-full items-center">
+          <div className="w-full flex justify-center h-[calc(100vh-40px)] items-center">
             <div className="xl:w-[45%] w-full justify-center">
               <h2 className="flex mb-9 text-2xl font-semibold text-white">
                 Log in using your{" "}
