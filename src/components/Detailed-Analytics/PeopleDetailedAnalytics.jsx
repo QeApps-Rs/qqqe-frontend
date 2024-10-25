@@ -76,6 +76,12 @@ const PeopleDetailedAnalytics = () => {
     customerPageFlowData: [],
     abandonOrderSalesData: [],
     abandonProductsData: {},
+    totalPagesTimeSpentData: {},
+    mostTimeSpentData: {},
+    lessTimeSpentData: {},
+    customerDistributionByPageData: {},
+    customerLostTrackData:[],
+    eventTrackingForClicksData: {},
   });
 
   const [chartState, setChartState] = useState({
@@ -94,6 +100,12 @@ const PeopleDetailedAnalytics = () => {
     customerPageFlowGraphState: false,
     abandonOrderSalesDataGraphState: false,
     abandonProductsDataGraphState: false,
+    totalPagesTimeSpentDataGraphState: false,
+    mostTimeSpentDataGraphState: false,
+    lessTimeSpentDataGraphState: false,
+    customerDistributionByPageDataGraphState: false,
+    customerLostTrackDataGraphState: false,
+    eventTrackingForClicksGraphState: false
   });
 
   // Reusable function to handle fetching and updating state
@@ -135,7 +147,7 @@ const PeopleDetailedAnalytics = () => {
             ...prevState,
             [dataKey]: response?.data?.page_flow,
           }));
-        } else if (dataKey == "abandonProductsData") {
+        }else if (dataKey == "abandonProductsData") {
           setGraphData((prevState) => ({
             ...prevState,
             [dataKey]: response?.data?.abandon_checkout_products,
@@ -238,6 +250,36 @@ const PeopleDetailedAnalytics = () => {
             "new/abandonCheckout/product/count",
             "abandonProductsData",
             "abandonProductsDataGraphState"
+          ),
+          fetchDataHandler(
+            "new/TotalTime/pages/count",
+            "totalPagesTimeSpentData",
+            "totalPagesTimeSpentDataGraphState"
+          ),
+          fetchDataHandler(
+            "new/mostTime/pages/count",
+            "mostTimeSpentData",
+            "mostTimeSpentDataGraphState"
+          ),
+          fetchDataHandler(
+            "new/lessTime/pages/count",
+            "lessTimeSpentData",
+            "lessTimeSpentDataGraphState"
+          ),
+          fetchDataHandler(
+            "new/distributionPage/customer/count",
+            "customerDistributionByPageData",
+            "customerDistributionByPageDataGraphState"
+          ),
+          fetchDataHandler(
+            "new/lostTracking/customer/count",
+            "customerLostTrackData",
+            "customerLostTrackDataGraphState"
+          ),
+          fetchDataHandler(
+            "new/event/tracking/count",
+            "eventTrackingForClicksData",
+            "eventTrackingForClicksGraphState"
           ),
         ]);
       } catch (error) {
@@ -660,72 +702,6 @@ const PeopleDetailedAnalytics = () => {
     setVisitedSelectedFilter(Number(e.target.value));
   };
 
-  const customer_distribution_by_page = {
-    today: {
-      dates: ["2024-10-14"], // Example date for today
-      home_page_count: [95],
-      product_page_count: [80],
-      category_page_count: [70],
-      cart_page_count: [50],
-      pages_count: [100],
-    },
-    weekly: {
-      dates: [
-        "2024-10-08",
-        "2024-10-09",
-        "2024-10-10",
-        "2024-10-11",
-        "2024-10-12",
-        "2024-10-13",
-        "2024-10-14",
-      ], //consider end_date as currentdate and startdate is 7 days before currentdate
-      home_page_count: [700, 800, 900, 950, 1000, 1100, 1200],
-      product_page_count: [1300, 1400, 1450, 1500, 1550, 1600, 1700],
-      category_page_count: [7000, 3000, 4500, 2200, 5000, 4100, 6000],
-      cart_page_count: [5000, 3500, 5500, 2000, 4000, 1200, 4000],
-      pages_count: [1000, 2000, 3000, 4000, 5000, 6000, 7000],
-    },
-    monthly: {
-      dates: [
-        "january",
-        "feb",
-        "march",
-        "april",
-        "may",
-        "june",
-        "july",
-        "august",
-        "september",
-        "october",
-        "november",
-        "december",
-      ], //current year's month
-      home_page_count: [
-        6000, 6200, 6400, 6600, 6800, 3000, 5000, 2000, 5700, 3000, 5000, 4000,
-      ],
-      product_page_count: [
-        7000, 7200, 7400, 7600, 7800, 7000, 7200, 7400, 7600, 7800, 2000, 3000,
-      ],
-      category_page_count: [
-        5000, 7200, 7400, 7000, 7800, 6000, 4200, 3800, 8900, 7800, 6000, 5000,
-      ],
-      cart_page_count: [
-        7200, 7200, 3000, 4500, 7800, 7200, 6000, 7200, 4200, 7800, 3100, 7200,
-      ],
-      pages_count: [
-        5000, 7200, 4000, 2900, 3600, 7200, 6700, 7200, 3200, 8900, 6500, 7200,
-      ],
-    },
-    yearly: {
-      dates: ["2020", "2021", "2022", "2023", "2024"], //last 5 year
-      home_page_count: [4000, 4200, 4400, 4600, 4800],
-      product_page_count: [9000, 9200, 9400, 9600, 9800],
-      category_page_count: [2000, 3600, 7000, 4100, 5000],
-      cart_page_count: [5000, 4200, 3000, 8000, 2200],
-      pages_count: [8000, 7000, 9000, 8700, 8900],
-    },
-  };
-
   const customerData = [
     { customerId: "123", customerName: "Alice Smith", orderCount: 10 },
     { customerId: "456", customerName: "Bob Johnson", orderCount: 7 },
@@ -1010,528 +986,54 @@ const PeopleDetailedAnalytics = () => {
     </div>
   );
 
-  const LessTimeSpent = {
-    today: {
-      "2024-10-18": {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [20, 45, 10], ///min
-      },
-    },
-    weekly: {
-      "2024-10-18": {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [5, 6, 7], ///min
-      },
-      "2024-10-17": {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [2, 4, 5],
-      },
-      "2024-10-16": {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [3, 6, 4],
-      },
-      "2024-10-15": {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [3, 4, 3],
-      },
-      "2024-10-14": {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [3, 7, 5],
-      },
-      "2024-10-13": {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [4, 6, 7],
-      },
-      "2024-10-12": {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [3, 5, 6],
-      },
-    },
-    monthly: {
-      january: {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [1, 6, 4],
-      },
-      february: {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [7, 4, 7],
-      },
-      march: {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [3, 6, 9],
-      },
-      april: {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [5, 9, 4],
-      },
-      may: {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [2, 5, 8],
-      },
-      june: {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [3, 5, 2],
-      },
-      july: {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [8, 9, 5],
-      },
-
-      august: {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [3, 4, 8],
-      },
-      september: {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [3, 5, 6],
-      },
-      october: {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [6, 3, 2],
-      },
-      november: {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [4, 7, 5],
-      },
-      december: {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [3, 2, 3],
-      },
-    },
-    yearly: {
-      2024: {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [5, 4, 2],
-      },
-      2023: {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [5, 6, 5],
-      },
-      2022: {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [3, 9, 3],
-      },
-      2021: {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [1, 5, 2],
-      },
-      2020: {
-        pages: ["checkout", "order", "blog"],
-        spent_time: [5, 8, 9],
-      },
-    },
-  };
-
   const customerLostTrackData = [
     {
-      name: "Customer1",
+     
       track: ["Product", "Search", "Collection", "Page"],
       date: "2024-10-17",
     },
-    { name: "Customer2", track: ["product", "search"], date: "2024-10-16" },
+    {  track: ["product", "search"], date: "2024-10-16" },
     {
-      name: "Customer3",
+      
       track: ["product", "collection", "page"],
       date: "2024-10-15",
     },
-    { name: "Customer4", track: ["product"], date: "2024-10-14" },
-    { name: "Customer5", track: ["collection", "product"], date: "2024-10-12" },
-    { name: "Customer6", track: ["collection", "product"], date: "2024-10-11" },
+    {  track: ["product"], date: "2024-10-14" },
+    { track: ["collection", "product"], date: "2024-10-12" },
+    { track: ["collection", "product"], date: "2024-10-11" },
     {
-      name: "Customer7",
+      
       track: ["product", "collection", "search"],
       date: "2024-10-10",
     },
     {
-      name: "Customer8",
+     
       track: ["Product", "Search", "Collection", "Page"],
       date: "2024-10-09",
     },
-    { name: "Customer9", track: ["product", "search"], date: "2024-10-08" },
+    {  track: ["product", "search"], date: "2024-10-08" },
     {
-      name: "Customer10",
+      
       track: ["product", "collection", "page"],
-      date: "2024-10-07",
+      date: "2024-10-25",
     },
-    { name: "Customer11", track: ["product"], date: "2024-10-06" },
+    {  track: ["product"], date: "2024-10-25" },
     {
-      name: "Customer12",
+      
       track: ["collection", "product"],
       date: "2024-10-05",
     },
     {
-      name: "Customer13",
+     
       track: ["collection", "product"],
-      date: "2024-10-04",
+      date: "2025-10-04",
     },
     {
-      name: "Customer14",
+      
       track: ["product", "collection", "search"],
       date: "2024-10-03",
-    },
-    {
-      name: "Customer15",
-      track: ["Product", "Search", "Collection", "Page"],
-      date: "2024-10-02",
-    },
-    { name: "Customer16", track: ["product", "search"], date: "2024-10-01" },
-    {
-      name: "Customer17",
-      track: ["product", "collection", "page"],
-      date: "2024-09-30",
-    },
-    { name: "Customer18", track: ["product"], date: "2024-09-29" },
-    {
-      name: "Customer19",
-      track: ["collection", "product"],
-      date: "2024-09-28",
-    },
-    {
-      name: "Customer20",
-      track: ["collection", "product"],
-      date: "2024-09-27",
-    },
-    {
-      name: "Customer21",
-      track: ["product", "collection", "search"],
-      date: "2024-09-26",
-    },
+    }
   ];
-
-  const abandon_checkout_products = {
-    today: {
-      "2024-10-17": {
-        product: ["abc", "pqr", "xyz", "klm", "mno"],
-        product_count: [30, 71, 20, 10, 40],
-      },
-    },
-    weekly: {
-      "2024-10-11": {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [5, 15, 10, 10],
-      },
-      "2024-10-12": {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [3, 5, 7, 0],
-      },
-      "2024-10-13": {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [2, 0, 8, 4],
-      },
-      "2024-10-14": {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [0, 0, 10, 2],
-      },
-      "2024-10-15": {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [6, 3, 2, 0],
-      },
-      "2024-10-16": {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [7, 4, 0, 1],
-      },
-      "2024-10-17": {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [10, 2, 5, 3],
-      },
-    },
-    monthly: {
-      January: {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [60, 30, 40, 0],
-      },
-      February: {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [0, 20, 15, 25],
-      },
-      March: {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [50, 0, 20, 35],
-      },
-      April: {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [40, 25, 0, 30],
-      },
-      May: {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [30, 10, 20, 0],
-      },
-      June: {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [50, 40, 0, 30],
-      },
-      July: {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [60, 55, 50, 0],
-      },
-      August: {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [0, 80, 70, 90],
-      },
-      September: {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [90, 0, 85, 100],
-      },
-      October: {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [30, 40, 50, 0],
-      },
-      November: {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [20, 25, 15, 0],
-      },
-      December: {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [10, 0, 20, 30],
-      },
-    },
-    yearly: {
-      2024: {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [300, 200, 0, 0],
-      },
-      2023: {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [150, 0, 0, 250],
-      },
-      2022: {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [0, 200, 100, 0],
-      },
-      2021: {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [120, 0, 80, 0],
-      },
-      2020: {
-        product: ["abc", "pqr", "xyz", "klm"],
-        product_count: [150, 200, 300, 250],
-      },
-    },
-  };
-
-  const MostTimeSpent = {
-    today: {
-      "2024-10-18": {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [20, 45, 10, 5], ///min
-      },
-    },
-    weekly: {
-      "2024-10-18": {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [20, 45, 20, 25], ///min
-      },
-      "2024-10-17": {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [29, 30, 14, 15],
-      },
-      "2024-10-16": {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [20, 45, 30, 25],
-      },
-      "2024-10-15": {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [60, 45, 10, 35],
-      },
-      "2024-10-14": {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [24, 52, 16, 20],
-      },
-      "2024-10-13": {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [30, 15, 20, 15],
-      },
-      "2024-10-12": {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [10, 25, 30, 15],
-      },
-    },
-    monthly: {
-      january: {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [20, 45, 10, 51],
-      },
-      february: {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [29, 60, 14, 15],
-      },
-      march: {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [20, 45, 20, 45],
-      },
-      april: {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [40, 45, 10, 53],
-      },
-      may: {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [29, 51, 11, 25],
-      },
-      june: {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [30, 15, 20, 15],
-      },
-      july: {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [10, 25, 50, 15],
-      },
-
-      august: {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [20, 45, 30, 35],
-      },
-      september: {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [30, 45, 10, 51],
-      },
-      october: {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [20, 50, 10, 20],
-      },
-      november: {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [30, 15, 20, 15],
-      },
-      december: {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [10, 25, 30, 15],
-      },
-    },
-    yearly: {
-      2024: {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [20, 45, 10, 45],
-      },
-      2023: {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [29, 20, 14, 15],
-      },
-      2022: {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [20, 45, 30, 35],
-      },
-      2021: {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [40, 45, 10, 25],
-      },
-      2020: {
-        pages: ["home", "product", "collection", "cart"],
-        spent_time: [20, 50, 10, 22],
-      },
-    },
-  };
-
-  const TotalPagesTimeSpent = {
-    today: {
-      "2024-10-18": {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [20, 45, 10, 5, 3], ///min
-      },
-    },
-    weekly: {
-      "2024-10-18": {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [20, 45, 10, 5, 3], ///min
-      },
-      "2024-10-17": {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [29, 0, 14, 15, 5],
-      },
-      "2024-10-16": {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [20, 45, 0, 5, 3],
-      },
-      "2024-10-15": {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [0, 45, 10, 5, 3],
-      },
-      "2024-10-14": {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [2, 5, 1, 2, 3],
-      },
-      "2024-10-13": {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [30, 15, 20, 15, 0],
-      },
-      "2024-10-12": {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [10, 25, 0, 15, 3],
-      },
-    },
-    monthly: {
-      january: {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [20, 45, 10, 5, 3],
-      },
-      february: {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [29, 0, 14, 15, 5],
-      },
-      march: {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [20, 45, 0, 5, 3],
-      },
-      april: {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [0, 45, 10, 5, 3],
-      },
-      may: {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [2, 5, 1, 2, 3],
-      },
-      june: {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [30, 15, 20, 15, 0],
-      },
-      july: {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: ["10", "25", "0", "15", "3"],
-      },
-
-      august: {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [20, 45, 0, 5, 3],
-      },
-      september: {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [0, 45, 10, 5, 3],
-      },
-      october: {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [2, 5, 1, 2, 3],
-      },
-      november: {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [30, 15, 20, 15, 0],
-      },
-      december: {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [10, 25, 0, 15, 3],
-      },
-    },
-    yearly: {
-      2024: {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [20, 45, 10, 5, 3],
-      },
-      2023: {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [29, 0, 14, 15, 5],
-      },
-      2022: {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [20, 45, 0, 5, 3],
-      },
-      2021: {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [0, 45, 10, 5, 3],
-      },
-      2020: {
-        pages: ["home", "product", "collection", "cart", "checkout"],
-        spent_time: [2, 5, 1, 2, 3],
-      },
-    },
-  };
 
   const PageWiseAvg = {
     today: {
@@ -1793,7 +1295,6 @@ const PeopleDetailedAnalytics = () => {
                 <DashboardTitle title={"One Time & Mutli Time Customer"} />
 
                 {chartState?.timeCustomersGraphState == true ? (
-                  // <OneTimeMultiTimeCustomer customerData={graphData?.timeCustomersData} />
                   <OneTimeMultiTimeCustomer
                     customerData={OneTimeMultiTimeData}
                   />
@@ -2119,9 +1620,14 @@ const PeopleDetailedAnalytics = () => {
               <div className={colFullWidthGraph}>
                 <DashboardTitle title={"Customer Distribution by Page"} />
 
-                <CustomerDistributionChart
-                  distributionData={customer_distribution_by_page}
-                />
+                {chartState?.customerDistributionByPageDataGraphState ==
+                true ? (
+                  <CustomerDistributionChart
+                    distributionData={graphData?.customerDistributionByPageData}
+                  />
+                ) : (
+                  <NoDataFound />
+                )}
               </div>
 
               <div className={colSixGraph}>
@@ -2164,13 +1670,16 @@ const PeopleDetailedAnalytics = () => {
               </div>
               <div className={colSixGraph}>
                 <DashboardTitle title={"Customer Lost Tracking Mechanism"} />
-                {/* {chartState?.customerLostTrackDataGraphState == true ? ( */}
+                {chartState?.customerLostTrackDataGraphState == true ? (
                 <CustomerLostTrackChart
-                  customerLostTrackData={customerLostTrackData}
+                  customerLostTrackData={graphData?.customerLostTrackData}
                 />
-                {/* ) : (
+                ) : (
                   <NoDataFound />
-                )} */}
+                )}
+                  {/* <CustomerLostTrackChart
+                  customerLostTrackData={customerLostTrackData}
+                /> */}
               </div>
               <div className={colSixGraph}>
                 <DashboardTitle title={"Abandon Checkout Order Sales"} />
@@ -2186,38 +1695,56 @@ const PeopleDetailedAnalytics = () => {
               </div>
               <div className={colSixGraph}>
                 <DashboardTitle title={"Abandon Checkout Products"} />
-                {/* {
-                  chartState?.abandonProductsDataGraphState == true ? (
-                    <AbandonProductChart
-                      abandon_checkout_products={abandon_checkout_products}
-                    />
-                  ) : (
-                    <NoDataFound />
-                  )
-                } */}
-                <AbandonProductChart
-                  abandon_checkout_products={abandon_checkout_products}
-                />
+                {chartState?.abandonProductsDataGraphState == true ? (
+                  <AbandonProductChart
+                    abandon_checkout_products={graphData?.abandonProductsData}
+                  />
+                ) : (
+                  <NoDataFound />
+                )}
               </div>
               <div className={colSixGraph}>
                 <DashboardTitle title={"Most Time Spent Pages"} />
-                <MoreTimeChart
-                  PagesTimeSpent={MostTimeSpent} // Ensure this is defined correctly
-                />
+                {chartState?.mostTimeSpentDataGraphState == true ? (
+                  <MoreTimeChart
+                    PagesTimeSpent={graphData?.mostTimeSpentData}
+                  />
+                ) : (
+                  <NoDataFound />
+                )}
               </div>
               <div className={colSixGraph}>
                 <DashboardTitle title={"Less Time Spent Pages"} />
-                <LessTimeChart PagesTimeSpent={LessTimeSpent} />
+                {chartState?.lessTimeSpentDataGraphState == true ? (
+                  <LessTimeChart
+                    PagesTimeSpent={graphData?.lessTimeSpentData}
+                  />
+                ) : (
+                  <NoDataFound />
+                )}
               </div>
               <div className={colSixGraph}>
                 <DashboardTitle title={"Total Time Spent – Every Page"} />
-                <TotalTimeSpentChart PagesTimeSpent={TotalPagesTimeSpent} />
+                {chartState?.totalPagesTimeSpentDataGraphState == true ? (
+                  <TotalTimeSpentChart
+                    PagesTimeSpent={graphData?.totalPagesTimeSpentData}
+                  />
+                ) : (
+                  <NoDataFound />
+                )}
               </div>
               <div className={colSixGraph}>
                 <DashboardTitle
                   title={"Event Tracking - Links / Button Clicked"}
                 />
-                <TrackEventChart />{" "}
+                {
+                  chartState?.eventTrackingForClicksGraphState == true ? (
+                    <TrackEventChart  EventTrack={graphData?.eventTrackingForClicksData}/>
+                  ) : (
+                    <NoDataFound />
+                  )
+                }
+             
               </div>
               <div className={colSixGraph}>
                 <DashboardTitle
@@ -2227,7 +1754,7 @@ const PeopleDetailedAnalytics = () => {
               </div>
               <div className={colSixGraph}>
                 <DashboardTitle
-                  title={"Event Tracking - Links / Button Clicked"}
+                  title={"Average Time Spent on Whole Site"}
                 />
                 <AverageTimeSpentWholeSite data={wholeSiteData} />{" "}
               </div>
