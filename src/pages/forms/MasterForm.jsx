@@ -999,11 +999,17 @@ const MasterForm = () => {
                 suggestionTemplateStatus?.isUpSellPopup ||
                 suggestionTemplateStatus?.isCrossSellPopup ||
                 suggestionTemplateStatus?.isAbandonmentPopup ||
-                suggestionTemplateStatus?.isExitProductRecommenderPopup ||
-                suggestionTemplateStatus?.isFeedbackSurvey
+                suggestionTemplateStatus?.isExitProductRecommenderPopup
               ) {
                 return (
                   // item.tag !== "inputController" &&
+                  item.tag !== "surveyController" &&
+                  item.tag !== "successController"
+                );
+              }
+              if (suggestionTemplateStatus?.isFeedbackSurvey) {
+                return (
+                  item.tag !== "bundle" &&
                   item.tag !== "surveyController" &&
                   item.tag !== "successController"
                 );
@@ -1151,6 +1157,7 @@ const MasterForm = () => {
                   )}
 
                 {!suggestionTemplateStatus?.isProductBundle &&
+                  !suggestionTemplateStatus?.isFeedbackSurvey &&
                   activeIndex === index &&
                   item.tag === "surveyController" && (
                     <SurveyControllerComponent
@@ -1352,38 +1359,39 @@ const MasterForm = () => {
         {suggestionTemplateStatus.isFeedbackSurvey && (
           <div className="h-full items-center justify-center flex">
             <div
-              className="relative w-full shadow-[7px_-7px_57px_#ccc] flex items-center"
+              className={`relative w-full shadow-[7px_-7px_57px_#ccc] flex items-center h-[200px] ${formClasses()}`}
               style={{
                 backgroundColor: templateDesign.templateBgColor || "#FFFFFF",
                 borderRadius: templateDesign.borderRadius || "16px",
                 borderWidth: templateDesign.borderWidth,
                 borderColor: templateDesign.templateBorderColor,
                 padding: combinedPadding,
+                margin: combinedMargin,
                 borderStyle: templateDesign.formBorderStyle,
               }}
             >
               <div
-                className={`w-[16%] flex justify-center py-[30px] rounded-l-none rounded-r-[90px] ${containerClass}`}
+                className={`flex justify-end py-[30px] rounded-l-none rounded-r-[90px]   col-span-6
+ w-[120px] overflow-hidden ${containerClass} ${formClasses()}`}
                 style={{
                   backgroundColor:
                     templateDesign.templateOverlayColor || "#fcf1e9",
                 }}
               >
                 <img
-                  src={purchaseSatisfactionSurveyDefaultImage}
+                  src={surveyImageSrc}
                   alt="Round Image"
-                  className="w-[55%] object-cover"
+                  className="object-cover min-w-[100px]"
                 />
               </div>
 
-              <div className="w-[70%] pl-6 z-10">
+              <div className="pl-6 z-10 col-span-6">
                 <div className="mb-4 text-center">
                   <span
-                    className="font-semibold leading-normal"
+                    className="w-max inline-block font-semibold leading-normal"
                     style={getStyle(templateDesign, "templateHeading")}
                   >
-                    {templateDesign.heading ||
-                      "How satisfied were you with your purchase?"}
+                    {templateDesign.heading}
                   </span>
                 </div>
 

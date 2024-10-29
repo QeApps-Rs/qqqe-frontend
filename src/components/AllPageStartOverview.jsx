@@ -49,7 +49,7 @@ const AllPageStartOverviewPage = () => {
 
               <div className="flex flex-wrap items-center mt-4 sm:mt-6 gap-2 sm:gap-4">
                 <Link to={"/people-problem"} className=" w-full sm:w-auto">
-                  <button className="block w-full sm:w-auto min-h-[50px] sm:min-h-[60px] px-3 sm:px-4 py-2 sm:py-4 font-bold bg-blue-600 text-white rounded-md shadow-lg hover:bg-blue-700 transition-colors duration-300 hover:shadow-xl transform hover:scale-105">
+                  <button className="sm:block hidden w-full sm:w-auto min-h-[50px] sm:min-h-[60px] px-3 sm:px-4 py-2 sm:py-4 font-bold bg-blue-600 text-white rounded-md shadow-lg hover:bg-blue-700 transition-colors duration-300 hover:shadow-xl transform hover:scale-105">
                     <i className="mr-2 fa fa-lg fa-external-link-square ml-1" aria-hidden="true" />
                     Get Started
                   </button>

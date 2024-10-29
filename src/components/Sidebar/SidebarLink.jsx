@@ -1,12 +1,11 @@
 /* eslint-disable react/prop-types */
-import { Link, useLocation, useNavigate  } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 const SidebarLink = ({ href, iconType, label }) => {
   const location = useLocation();
   const { pathname } = location;
   const navigate = useNavigate();
 
   const isActive = pathname === href || pathname.includes(href);
-  
 
   return (
     <>
@@ -27,14 +26,9 @@ const SidebarLink = ({ href, iconType, label }) => {
                 className="fa fa-home bg-[#4680ff] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-lg"
                 aria-hidden="true"
               ></i>
-            ) : iconType === "home" ? (
-              <i
-                className="fa fa-home bg-[#4680ff] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-lg"
-                aria-hidden="true"
-              ></i>
             ) : iconType === "people" ? (
               <i
-                className="fa fa-users bg-[#fc6180] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
+                className="fa fa-user bg-[#7d7c7d] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
                 aria-hidden="true"
               ></i>
             ) : iconType === "product" ? (
@@ -74,7 +68,6 @@ const SidebarLink = ({ href, iconType, label }) => {
           </span>
         </li>
       </Link>
-      
     </>
   );
 };

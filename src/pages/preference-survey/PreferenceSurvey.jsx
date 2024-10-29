@@ -15,6 +15,9 @@ const PreferenceSurvey = ({
     textColor: "text-white",
     buttonColor: "bg-green-700",
     buttonTextColor: "text-white",
+    checkBoxBgColor:"bg-white",
+    checkTextColor:"text-black",
+    buttonPosition:"fixed"
   },
 }) => {
   const navigate = useNavigate();
@@ -66,7 +69,7 @@ const PreferenceSurvey = ({
         .then((res) => {
           toast.success(res.message);
           localStorage.setItem("setup-preference", true);
-          navigate("/analytics");
+          navigate("/app-dashboard");
         })
         .catch((err) => {
           toast.error(err.message);
@@ -147,7 +150,7 @@ const PreferenceSurvey = ({
           <div className="col-span-3 ">
             {currentStep === 0 && (
               <div className={`mb-8 ${theme.textColor} font-bold text-2xl`}>
-                Great, iet's get started!
+                Great, let's get started!
               </div>
             )}
             {checkedItems && checkedItems.length > 0 && (
@@ -160,7 +163,7 @@ const PreferenceSurvey = ({
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mt-15">
                   {checkedItems[currentStep].answers.map((answer) => (
                     <div
-                      className="col-span-2 bg-white p-7 rounded-lg"
+                      className={`col-span-2 ${theme.checkBoxBgColor} ${theme.checkTextColor} p-7 rounded-lg`}
                       key={answer.id}
                     >
                       <Checkbox
@@ -180,7 +183,7 @@ const PreferenceSurvey = ({
                 </div>
 
                 {/* Next and Previous Buttons */}
-                <div className="flex justify-between mt-6 lg:fixed bottom-8 left-18  right-18">
+                <div className={`flex justify-between mt-6 lg:${theme.buttonPosition} bottom-8 left-18  right-18`}>
                   <button
                     type="button"
                     className={`${
