@@ -53,11 +53,6 @@ const PeopleDetailedAnalytics = () => {
     setShowIframe(false); // Show iframe
   };
 
-  // Function to close the iframe
-  const closeIframe = () => {
-    setShowIframe(false);
-  };
-
   const [loading, setLoading] = useState(false);
   const [graphData, setGraphData] = useState({
     visitorsData: [],
@@ -985,55 +980,6 @@ const PeopleDetailedAnalytics = () => {
       </p>
     </div>
   );
-
-  const customerLostTrackData = [
-    {
-     
-      track: ["Product", "Search", "Collection", "Page"],
-      date: "2024-10-17",
-    },
-    {  track: ["product", "search"], date: "2024-10-16" },
-    {
-      
-      track: ["product", "collection", "page"],
-      date: "2024-10-15",
-    },
-    {  track: ["product"], date: "2024-10-14" },
-    { track: ["collection", "product"], date: "2024-10-12" },
-    { track: ["collection", "product"], date: "2024-10-11" },
-    {
-      
-      track: ["product", "collection", "search"],
-      date: "2024-10-10",
-    },
-    {
-     
-      track: ["Product", "Search", "Collection", "Page"],
-      date: "2024-10-09",
-    },
-    {  track: ["product", "search"], date: "2024-10-08" },
-    {
-      
-      track: ["product", "collection", "page"],
-      date: "2024-10-25",
-    },
-    {  track: ["product"], date: "2024-10-25" },
-    {
-      
-      track: ["collection", "product"],
-      date: "2024-10-05",
-    },
-    {
-     
-      track: ["collection", "product"],
-      date: "2025-10-04",
-    },
-    {
-      
-      track: ["product", "collection", "search"],
-      date: "2024-10-03",
-    }
-  ];
 
   const PageWiseAvg = {
     today: {
