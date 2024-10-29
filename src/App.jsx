@@ -71,7 +71,7 @@ const App = () => {
   const ProtectedRedirect = ({ element: Component }) => {
     const token = localStorage.getItem("token");
     const route = localStorage.getItem("setup-preference")
-      ? "dashboard"
+      ? "people-dashboard"
       : "preference-survey";
     return token ? <Navigate to={`/${route}`} /> : <Component />;
   };
@@ -80,6 +80,7 @@ const App = () => {
     <Loader />
   ) : (
     <Router>
+      
       <div className="App">
         <header className="App-header">
           <div>
@@ -131,7 +132,7 @@ const App = () => {
             </Route>
             <Route element={<DefaultLayout />}>
               <Route
-                path="/dashboard"
+                path="/people-dashboard"
                 element={<ProtectedRoute element={Dashboard} />}
               />
               <Route path="/settings" element={<SettingsPage />} />
@@ -152,7 +153,7 @@ const App = () => {
                 path="/master-form/:id"
                 element={<ProtectedRoute element={MasterForm} />}
               />
-              <Route path="/people-dashboard" element={<Peoplepage />} />
+              {/* <Route path="/people-dashboard" element={<Peoplepage />} /> */}
               <Route path="/product-dashboard" element={<Productpage />} />
               <Route path="/price-dashboard" element={<PricePage />} />
               <Route path="/promotion-dashboard" element={<PromotionPage />} />

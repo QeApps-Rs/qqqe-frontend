@@ -33,7 +33,10 @@ const SignIn = () => {
         toast.success(res.message);
         reset();
         // const route = localStorage.getItem("setup-preference") ? "/analytics" : "/preference-survey";
-        const route = "/preference-survey";
+        let route = "/preference-survey";
+        if (screen.width <= 460) {
+          route = "/app-dashboard";
+        }
         navigate(route);
       })
       .catch((err) => {
@@ -101,15 +104,27 @@ const SignIn = () => {
         </div>
 
         <div className="w-full p-4 sm:p-12.5 xl:p-8">
-          <p className="text-white text-end font-bold">
+          <p className="sm:block hidden text-white text-end font-bold">
             Don’t have any account?{" "}
             <Link to="/auth/signup" className="text-blue-500 ml-1">
               Sign Up
             </Link>
           </p>
-          <div className="w-full flex justify-center h-[calc(100vh-40px)] items-center">
+          <div className="w-full flex justify-center h-[calc(100vh-40px)] items-center flex-wrap">
             <div className="xl:w-[45%] w-full justify-center">
-              <h2 className="flex mb-9 text-2xl font-semibold text-white">
+              <div className="sm:hidden flex justify-center ">
+                <Link className="block" to="/">
+                  {/* <img className="hidden dark:block" src={Logo} alt="Logo" /> */}
+                  <img
+                    className="dark:hidden"
+                    src={Logo}
+                    alt="Logo"
+                    width={200}
+                    height={200}
+                  />
+                </Link>
+              </div>
+              <h2 className="flex my-9 text-2xl font-semibold text-white">
                 Log in using your{" "}
                 <span className="block text-[#4680ff] mx-2 font-bold">
                   QQQE
@@ -176,8 +191,8 @@ const SignIn = () => {
                   />
                 </div>
 
-                <div className="flex items-center justify-between ">
-                  <div className="flex items-center justify-between ">
+                <div className="flex items-center sm:justify-between justify-end">
+                  <div className="sm:block hidden items-center justify-between ">
                     <Link
                       to="/auth/forgot-password"
                       className="text-sm font-medium text-white transition-colors line-clamp-1 hover:text-blue-300 focus:text-blue-300 "

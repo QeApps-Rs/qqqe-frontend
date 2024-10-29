@@ -21,7 +21,7 @@ const Sidebar = () => {
       iconType: "analytics",
       label: "Analytics",
     },
-    { href: "/dashboard", iconType: "home", label: "People" },
+    { href: "/people-dashboard", iconType: "people", label: "People" },
     { href: "/product-dashboard", iconType: "product", label: "Product" },
     { href: "/price-dashboard", iconType: "price", label: "Price(Sales)" },
     {
