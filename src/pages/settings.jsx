@@ -45,9 +45,6 @@ const SettingsPage = () => {
             <Account userData={userData} />
           </TabPanel>
           <TabPanel>
-            <PreferenceSurvey isTitleDisplay={false} />
-          </TabPanel>
-          <TabPanel>
             <PreferenceSurvey
               isTitleDisplay={false}
               theme={{
@@ -55,6 +52,9 @@ const SettingsPage = () => {
                 textColor: "text-black", // New text color
                 buttonColor: "bg-green-600", // New button color
                 buttonTextColor: "text-yellow-200", // New button text color
+                checkBoxBgColor: "bg-black",
+                checkTextColor: "text-white",
+                buttonPosition: "static",
               }}
             />
           </TabPanel>

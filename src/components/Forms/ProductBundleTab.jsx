@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
 import SwitcherThree from "../Switchers/SwitcherThree";
 import Checkbox from "../higherOrderComponent/Checkboxes/Checkbox";
 import {
@@ -8,6 +9,7 @@ import {
 import DropDown from "../higherOrderComponent/Dropdown/Dropdown";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 import toast from "react-hot-toast";
+import Loader from "../../common/Loader";
 const ProductBundleTab = ({
   productListState,
   productList,
@@ -35,8 +37,13 @@ const ProductBundleTab = ({
   setTargetedCollections,
 }) => {
   const [selectedCollections, setSelectedCollections] = useState({});
+  const [loading, setLoading] = useState(true);
   // const [targetedProducts, setTargetedProducts] = useState([]);
   // const [targetedCollections, setTargetedCollections] = useState([]);
+
+  useEffect(() => {
+    setLoading(!loading);
+  }, [productList]);
 
   const handleToggle = (key) => {
     setSwitchStates((prevStates) => ({
@@ -44,6 +51,7 @@ const ProductBundleTab = ({
       [key]: !prevStates[key],
     }));
   };
+
   const onNoOfProductsSelect = (e) => {
     setNoOfProducts(e.target.value);
   };
@@ -112,6 +120,7 @@ const ProductBundleTab = ({
       [id]: !prevCheckedItems[id],
     }));
   };
+
   const ProductListComponent = ({
     productList,
     selectedProducts,
@@ -288,8 +297,10 @@ const ProductBundleTab = ({
       </>
     );
   };
+
   return (
     <>
+      {loading && <Loader />}
       <div className="p-4 border-t">
         <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
           <div className="col-span-12 xl:col-span-12">

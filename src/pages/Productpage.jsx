@@ -19,22 +19,17 @@ import CustomerPolarAreaChart from "../components/Charts/CustomerPolarChart";
 import DumbbellRangebarChart from "../components/Charts/DumbelledRangebar";
 import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Loader from "../common/Loader";
 import FormSubmitHandler from "../components/FormSubmitHandler";
 import PolarAnalytics from "../components/Analytics/PolarAnalaytics";
 import NeedHelpPage from "../components/NeedHelp";
 import BookSlotModal from "../components/BookSlot";
+import { BackIcon } from "../components/custIcon/svgIcon";
 
 const Productpage = () => {
   const today = new Date();
   const todayStr = today.toISOString().split("T")[0];
-  const [showIframe, setShowIframe] = useState(true);
-
-  // Function to handle showing the iframe when the page is clicked
-  const handlePageClick = () => {
-    setShowIframe(false); // Show iframe
-  };
 
   const [loading, setLoading] = useState(false);
   const [graphData, setGraphData] = useState({
@@ -141,18 +136,12 @@ const Productpage = () => {
         console.error("Error in one or more API calls:", error);
       } finally {
         setLoading(false);
+        
       }
     };
 
-    if (!showIframe) {
-      fetchData();
-    }
-    if (screen.width <= 640) {
-      setShowIframe(false);
-    } else {
-      fetchData();
-    }
-  }, [showIframe]);
+    fetchData();
+  }, []);
 
   const filteredData = graphData?.visitorsData.filter((item) =>
     item.timestamp.startsWith(todayStr)
@@ -813,299 +802,289 @@ const Productpage = () => {
   return (
     <>
       {loading && <Loader />}
-      {showIframe ? (
-        <>
-          <BookSlotModal handlePageClick={handlePageClick} />
-        </>
-      ) : (
-        <main className="main-content todo-app w-full px-[var(--margin-x)] pb-15">
-          <ScrollAnimation
-            animateIn="animate__fadeInUp"
-            animateOut="animate__fadeOut"
-            duration={1}
-            delay={300}
-            offset={100}
-            animateOnce={true}
-          >
-            {" "}
-            <PolarAnalytics />
-            <div className="flex items-center mt-16 justify-center">
-              <div className="flex items-center">
-                <Link to="/detailed-analytics">
-                  <i
-                    className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
-                    aria-hidden="true"
-                  ></i>
-                </Link>
-              </div>
-              <h2 className="text-title-md2 font-semibold text-black dark:text-white pl-2">
-                Product Analytics
-              </h2>
+
+      <main className="main-content todo-app w-full px-[var(--margin-x)] pb-15">
+        <ScrollAnimation
+          animateIn="animate__fadeInUp"
+          animateOut="animate__fadeOut"
+          duration={1}
+          delay={300}
+          offset={100}
+          animateOnce={true}
+        >
+          <div className="w-full sm:hidden flex justify-end mb-2">
+            <Link to={"/app-dashboard"}>
+              <button
+                type="button"
+                className="w-auto flex items-center gap-x-1 cursor-pointer bg-white border border-gray-300 pt-1.5 pb-1.5 pl-2.5 pr-2.5 text-[15px] rounded-md hover:bg-black hover:text-white transition-colors duration-300"
+              >
+                <BackIcon /> Back
+              </button>
+            </Link>
+          </div>
+          <div className="flex items-center justify-center">
+            <div className="flex items-center">
+              <i
+                className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
+                aria-hidden="true"
+              ></i>
             </div>
-            <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
-            <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
-              <div className={colFourGraph}>
-                <DashboardTitle title={"Total & Average Sales (Today)"} />
+            <h2 className="text-title-md2 font-semibold text-black dark:text-white pl-2">
+              Product Analytics
+            </h2>
+          </div>
+          <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
+          <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
+            <div className={colFourGraph}>
+              <DashboardTitle title={"Total & Average Sales (Today)"} />
 
-                {chartState?.totalSalesGraphState == true ? (
-                  <ColumnMultiSeriesChart
-                    salesData={graphData?.totalSalesData?.TodaySales}
-                    dateRange={[
-                      graphData?.totalSalesData?.TodaySales?.start_date,
-                    ]}
-                    isToday={true}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colFourGraph}>
-                <DashboardTitle title={"Total & Average Sales (Weekly)"} />
-                {chartState?.totalOrderGraphState == true &&
-                chartState?.totalSalesGraphState == true ? (
-                  <LineMultiSeriesChart
-                    salesData={
-                      graphData?.totalSalesData?.weeklySalesResponse?.chart_data
-                    }
-                    dateRange={Object.keys(
-                      graphData?.totalOrderData?.combinedWeeklySalesResponse
-                        ?.chart_data
-                    )}
-                    isToday={false}
-                    color={["#FF4560", "#FF9800"]}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colFourGraph}>
-                <DashboardTitle title={"Total & Average Sales (Yearly)"} />
-
-                {chartState?.totalOrderGraphState == true &&
-                chartState?.totalSalesGraphState == true ? (
-                  <LineMultiSeriesChart
-                    salesData={
-                      graphData?.totalSalesData?.yearSalesData?.chart_data
-                    }
-                    dateRange={Object.keys(
-                      graphData?.totalOrderData?.yearlySalesResponse?.chart_data
-                    )}
-                    isToday={false}
-                    color={["#775DD0", "#FEB019"]}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colFullWidthGraph}>
-                <DashboardTitle title={"Total & Average Sales (Monthly)"} />
-
-                {chartState?.totalOrderGraphState == true &&
-                chartState?.totalSalesGraphState == true ? (
-                  <LineMultiSeriesChart
-                    salesData={
-                      graphData?.totalSalesData?.monthSalesData?.chart_data
-                    }
-                    dateRange={Object.keys(
-                      graphData?.totalOrderData?.monthlySalesResponse.chart_data
-                    )}
-                    isToday={false}
-                    color={["#008FFB", "#FF4560"]}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-
-              <div className={colFourGraph}>
-                <DashboardTitle title={"Total & Average Order Count (Today)"} />
-
-                {chartState?.totalOrderGraphState == true ? (
-                  <ColumnMultiSeriesChartOrder
-                    orderData={graphData?.totalOrderData?.TodaySales}
-                    dateRange={[
-                      graphData?.totalOrderData?.TodaySales?.start_date,
-                    ]}
-                    isToday={true}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-
-              <div className={colFourGraph}>
-                <DashboardTitle
-                  title={"Total & Average Order Count (Weekly)"}
+              {chartState?.totalSalesGraphState == true ? (
+                <ColumnMultiSeriesChart
+                  salesData={graphData?.totalSalesData?.TodaySales}
+                  dateRange={[
+                    graphData?.totalSalesData?.TodaySales?.start_date,
+                  ]}
+                  isToday={true}
                 />
-
-                {chartState?.totalOrderGraphState == true ? (
-                  <LineChartDashedData
-                    orderData={
-                      graphData?.totalOrderData?.combinedWeeklySalesResponse
-                    }
-                    dateRange={Object.keys(
-                      graphData?.totalOrderData?.combinedWeeklySalesResponse
-                        ?.chart_data
-                    )}
-                    isToday={false}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colFourGraph}>
-                <DashboardTitle
-                  title={"Total & Average Order Count (Yearly)"}
-                />
-
-                {chartState?.totalOrderGraphState == true ? (
-                  <ColumnMultiSeriesChartOrder
-                    orderData={
-                      graphData?.totalOrderData?.yearlySalesResponse?.chart_data
-                    }
-                    dateRange={Object.keys(
-                      graphData?.totalOrderData?.yearlySalesResponse?.chart_data
-                    )}
-                    isToday={false}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colFullWidthGraph}>
-                <DashboardTitle
-                  title={"Total & Average Order Count (Monthly)"}
-                />
-
-                {chartState?.totalSalesGraphState == true &&
-                chartState?.totalOrderGraphState == true ? (
-                  <MultiSeriesLineChart
-                    orderData={
-                      graphData?.totalOrderData?.monthlySalesResponse
-                        ?.chart_data
-                    }
-                    dateRange={Object.keys(
-                      graphData?.totalOrderData?.monthlySalesResponse
-                        ?.chart_data
-                    )}
-                    isToday={false}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Most Visited Products"} />
-
-                {chartState?.mostVisitedProductsGraphState == true ? (
-                  <PyramidBarChart data={graphData?.mostVisitedProducts} />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Most Purchased Products"} />
-
-                {chartState?.mostPurchasedProductsGraphState == true ? (
-                  <PolarAreaChart data={graphData?.mostPurchasedProducts} />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Best Selling Products"} />
-
-                {chartState?.bestSellingProductsGraphState == true ? (
-                  <PatternedDonutChart data={graphData?.bestSellingProducts} />
-                ) : (
-                  // <PatternedDonutChart data={best_selling_products} />
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Un Sold Products"} />
-
-                <RangeBarChart data={un_sold_products} />
-              </div>
-
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Most ATC Products"} />
-
-                {chartState?.mostATCProductsGraphState == true ? (
-                  <RadialBarChart data={graphData?.mostATCProducts} />
-                ) : (
-                  // <RadialBarChart data={most_ATC_products} />
-                  <NoDataFound />
-                )}
-              </div>
-
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Most Visited Ctaegories"} />
-
-                <GradientLineChart data={most_visited_categories} />
-              </div>
-              <div className={colFullWidthGraph}>
-                <DashboardTitle
-                  title={"Combined Top Views (Products, Categories, Pages)"}
-                />
-
-                <div className="w-full flex justify-end items-center p-4">
-                  <label className="text-gray-700 mr-3">Show Top: </label>
-                  <select
-                    id="productFilter"
-                    onChange={handleVisitedFilterChange}
-                    value={visitedSelectedFilter}
-                    className="h-12 bg-white w-30 rounded-lg text-black border flex justify-end p-1 font-bold border-strokedark shadow-md focus:outline-none"
-                  >
-                    <option value={5}>Top 5</option>
-                    <option value={10}>Top 10</option>
-                  </select>
-                </div>
-                <DataBarChart
-                  series={seriesCombined}
-                  xAxisCategories={xAxisCategories}
-                />
-              </div>
-
-              <div className={colFullWidthGraph}>
-                <DashboardTitle title={"Customer Distribution by Page"} />
-
-                <CustomerDistributionChart
-                  distributionData={customer_distribution_by_page}
-                />
-              </div>
-
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Top Customers by Orders"} />
-                <div className="w-full flex justify-end items-center p-4">
-                  <label className="text-gray-700 mr-3">Show Top: </label>
-                  <select
-                    value={filterType}
-                    onChange={(e) => setFilterType(e.target.value)}
-                    className="h-12 bg-white w-30 rounded-lg text-black border flex justify-end p-1 font-bold border-strokedark shadow-md focus:outline-none"
-                  >
-                    <option value="Top 3">Top 3</option>
-                    <option value="Top 5">Top 5</option>
-                    <option value="Top 10">Top 10</option>
-                  </select>
-                </div>
-
-                <CustomerPolarAreaChart
-                  series={seriescustomer}
-                  labels={labels}
-                />
-              </div>
-
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Entry Page - Exit Page"} />
-                <DumbbellRangebarChart data={customerPageViewData} />
-              </div>
+              ) : (
+                <NoDataFound />
+              )}
             </div>
-          </ScrollAnimation>
-        </main>
-      )}
+            <div className={colFourGraph}>
+              <DashboardTitle title={"Total & Average Sales (Weekly)"} />
+              {chartState?.totalOrderGraphState == true &&
+              chartState?.totalSalesGraphState == true ? (
+                <LineMultiSeriesChart
+                  salesData={
+                    graphData?.totalSalesData?.weeklySalesResponse?.chart_data
+                  }
+                  dateRange={Object.keys(
+                    graphData?.totalOrderData?.combinedWeeklySalesResponse
+                      ?.chart_data
+                  )}
+                  isToday={false}
+                  color={["#FF4560", "#FF9800"]}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colFourGraph}>
+              <DashboardTitle title={"Total & Average Sales (Yearly)"} />
+
+              {chartState?.totalOrderGraphState == true &&
+              chartState?.totalSalesGraphState == true ? (
+                <LineMultiSeriesChart
+                  salesData={
+                    graphData?.totalSalesData?.yearSalesData?.chart_data
+                  }
+                  dateRange={Object.keys(
+                    graphData?.totalOrderData?.yearlySalesResponse?.chart_data
+                  )}
+                  isToday={false}
+                  color={["#775DD0", "#FEB019"]}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colFullWidthGraph}>
+              <DashboardTitle title={"Total & Average Sales (Monthly)"} />
+
+              {chartState?.totalOrderGraphState == true &&
+              chartState?.totalSalesGraphState == true ? (
+                <LineMultiSeriesChart
+                  salesData={
+                    graphData?.totalSalesData?.monthSalesData?.chart_data
+                  }
+                  dateRange={Object.keys(
+                    graphData?.totalOrderData?.monthlySalesResponse.chart_data
+                  )}
+                  isToday={false}
+                  color={["#008FFB", "#FF4560"]}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+
+            <div className={colFourGraph}>
+              <DashboardTitle title={"Total & Average Order Count (Today)"} />
+
+              {chartState?.totalOrderGraphState == true ? (
+                <ColumnMultiSeriesChartOrder
+                  orderData={graphData?.totalOrderData?.TodaySales}
+                  dateRange={[
+                    graphData?.totalOrderData?.TodaySales?.start_date,
+                  ]}
+                  isToday={true}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+
+            <div className={colFourGraph}>
+              <DashboardTitle title={"Total & Average Order Count (Weekly)"} />
+
+              {chartState?.totalOrderGraphState == true ? (
+                <LineChartDashedData
+                  orderData={
+                    graphData?.totalOrderData?.combinedWeeklySalesResponse
+                  }
+                  dateRange={Object.keys(
+                    graphData?.totalOrderData?.combinedWeeklySalesResponse
+                      ?.chart_data
+                  )}
+                  isToday={false}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colFourGraph}>
+              <DashboardTitle title={"Total & Average Order Count (Yearly)"} />
+
+              {chartState?.totalOrderGraphState == true ? (
+                <ColumnMultiSeriesChartOrder
+                  orderData={
+                    graphData?.totalOrderData?.yearlySalesResponse?.chart_data
+                  }
+                  dateRange={Object.keys(
+                    graphData?.totalOrderData?.yearlySalesResponse?.chart_data
+                  )}
+                  isToday={false}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colFullWidthGraph}>
+              <DashboardTitle title={"Total & Average Order Count (Monthly)"} />
+
+              {chartState?.totalSalesGraphState == true &&
+              chartState?.totalOrderGraphState == true ? (
+                <MultiSeriesLineChart
+                  orderData={
+                    graphData?.totalOrderData?.monthlySalesResponse?.chart_data
+                  }
+                  dateRange={Object.keys(
+                    graphData?.totalOrderData?.monthlySalesResponse?.chart_data
+                  )}
+                  isToday={false}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Most Visited Products"} />
+
+              {chartState?.mostVisitedProductsGraphState == true ? (
+                <PyramidBarChart data={graphData?.mostVisitedProducts} />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Most Purchased Products"} />
+
+              {chartState?.mostPurchasedProductsGraphState == true ? (
+                <PolarAreaChart data={graphData?.mostPurchasedProducts} />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Best Selling Products"} />
+
+              {chartState?.bestSellingProductsGraphState == true ? (
+                <PatternedDonutChart data={graphData?.bestSellingProducts} />
+              ) : (
+                // <PatternedDonutChart data={best_selling_products} />
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Un Sold Products"} />
+
+              <RangeBarChart data={un_sold_products} />
+            </div>
+
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Most ATC Products"} />
+
+              {chartState?.mostATCProductsGraphState == true ? (
+                <RadialBarChart data={graphData?.mostATCProducts} />
+              ) : (
+                // <RadialBarChart data={most_ATC_products} />
+                <NoDataFound />
+              )}
+            </div>
+
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Most Visited Ctaegories"} />
+
+              <GradientLineChart data={most_visited_categories} />
+            </div>
+            <div className={colFullWidthGraph}>
+              <DashboardTitle
+                title={"Combined Top Views (Products, Categories, Pages)"}
+              />
+
+              <div className="w-full flex justify-end items-center p-4">
+                <label className="text-gray-700 mr-3">Show Top: </label>
+                <select
+                  id="productFilter"
+                  onChange={handleVisitedFilterChange}
+                  value={visitedSelectedFilter}
+                  className="h-12 bg-white w-30 rounded-lg text-black border flex justify-end p-1 font-bold border-strokedark shadow-md focus:outline-none"
+                >
+                  <option value={5}>Top 5</option>
+                  <option value={10}>Top 10</option>
+                </select>
+              </div>
+              <DataBarChart
+                series={seriesCombined}
+                xAxisCategories={xAxisCategories}
+              />
+            </div>
+
+            <div className={colFullWidthGraph}>
+              <DashboardTitle title={"Customer Distribution by Page"} />
+
+              <CustomerDistributionChart
+                distributionData={customer_distribution_by_page}
+              />
+            </div>
+
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Top Customers by Orders"} />
+              <div className="w-full flex justify-end items-center p-4">
+                <label className="text-gray-700 mr-3">Show Top: </label>
+                <select
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value)}
+                  className="h-12 bg-white w-30 rounded-lg text-black border flex justify-end p-1 font-bold border-strokedark shadow-md focus:outline-none"
+                >
+                  <option value="Top 3">Top 3</option>
+                  <option value="Top 5">Top 5</option>
+                  <option value="Top 10">Top 10</option>
+                </select>
+              </div>
+
+              <CustomerPolarAreaChart series={seriescustomer} labels={labels} />
+            </div>
+
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Entry Page - Exit Page"} />
+              <DumbbellRangebarChart data={customerPageViewData} />
+            </div>
+          </div>
+        </ScrollAnimation>
+      </main>
       <NeedHelpPage />
     </>
   );

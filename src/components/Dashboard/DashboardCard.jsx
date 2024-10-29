@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-
 import LineChart from "../Charts/LineChart";
 import Loader from "../../common/Loader";
 import RadarChart from "../Charts/RadarChart";
@@ -17,23 +16,13 @@ import DumbbellRangebarChart from "../Charts/DumbelledRangebar";
 import FormSubmitHandler from "../FormSubmitHandler";
 import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
-import PolarAnalytics from "../Analytics/PolarAnalaytics";
-import { Link } from "react-router-dom";
-import peopleImg from "/src/images/people.png";
-import SalesLineGraph from "../Campaigns/Graphs/SalesLineGraph";
-import StartAppOverviewPage from "../StartAppOverview";
 import AllPageStartOverviewPage from "../AllPageStartOverview";
-import BookSlotModal from "../BookSlot";
+import { Link } from "react-router-dom";
+import { BackIcon } from "../custIcon/svgIcon";
 
 const DashboardCard = () => {
   const today = new Date();
   const todayStr = today.toISOString().split("T")[0];
-  const [showIframe, setShowIframe] = useState(true);
-
-  // Function to handle showing the iframe when the page is clicked
-  const handlePageClick = () => {
-    setShowIframe(false); // Show iframe
-  };
 
   const [loading, setLoading] = useState(false);
   const [graphData, setGraphData] = useState({
@@ -109,7 +98,7 @@ const DashboardCard = () => {
   // Fetch all data
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(false);
+      setLoading(true);
 
       try {
         await Promise.all([
@@ -153,15 +142,8 @@ const DashboardCard = () => {
       }
     };
 
-    if (!showIframe) {
-      fetchData();
-    }
-    if (screen.width <= 767) {
-      setShowIframe(false);
-    } else {
-      fetchData();
-    }
-  }, [showIframe]);
+    fetchData();
+  }, []);
 
   const filteredData = graphData?.visitorsData.filter((item) =>
     item.timestamp.startsWith(todayStr)
@@ -698,26 +680,42 @@ const DashboardCard = () => {
   return (
     <>
       {loading && <Loader />}
-      {showIframe ? (
-        <>
-          <BookSlotModal handlePageClick={handlePageClick} />
-        </>
-      ) : (
-        <main className="main-content todo-app w-full px-[var(--margin-x)] pb-15">
-          <ScrollAnimation
-            animateIn="animate__fadeInUp"
-            animateOut="animate__fadeOut"
-            duration={1}
-            delay={300}
-            offset={100}
-            animateOnce={true}
-          >
-            <AllPageStartOverviewPage />
 
-            <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
-            <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
-              <div className={colFullWidthGraph}>
-                <DashboardTitle title={"One Time & Multi Time Customer"} />
+      <main className="main-content todo-app w-full px-[var(--margin-x)] pb-15">
+        <ScrollAnimation
+          animateIn="animate__fadeInUp"
+          animateOut="animate__fadeOut"
+          duration={1}
+          delay={300}
+          offset={100}
+          animateOnce={true}
+        >
+          <div className="w-full sm:hidden flex justify-end mb-2">
+            <Link to={"/app-dashboard"}>
+              <button
+                type="button"
+                className="w-auto flex items-center gap-x-1 cursor-pointer bg-white border border-gray-300 pt-1.5 pb-1.5 pl-2.5 pr-2.5 text-[15px] rounded-md hover:bg-black hover:text-white transition-colors duration-300"
+              >
+                <BackIcon /> Back
+              </button>
+            </Link>
+          </div>
+          <AllPageStartOverviewPage />
+          <div className="flex items-center justify-center mt-6">
+            <div className="flex items-center">
+              <i
+                className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
+                aria-hidden="true"
+              ></i>
+            </div>
+            <h2 className="text-title-md2 font-semibold text-black dark:text-white pl-2 ">
+              People Analytics
+            </h2>
+          </div>
+          <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
+          <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
+            <div className={colFullWidthGraph}>
+              <DashboardTitle title={"One Time & Multi Time Customer"} />
 
                 {chartState?.timeCustomersGraphState == true ? (
                   <OneTimeMultiTimeCustomer
@@ -730,120 +728,120 @@ const DashboardCard = () => {
               <div className={colFourGraph}>
                 <DashboardTitle title={"Total Visitors Today"} />
 
-                {filteredData.length > 0 ? (
-                  <RadarChart series={series} categories={categories} />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colFourGraph}>
-                <DashboardTitle title={"Total Visitors Monthly"} />
-                {monthData.length > 0 ? (
-                  <LineChart
-                    series={monthSeries}
-                    categories={monthCategories}
-                    yAxisTitle="Number Of Visitors"
-                    xAxisTitle="Months"
-                    color="green"
-                    curve="smooth"
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colFourGraph}>
-                <DashboardTitle title={"Total Visitors Yearly"} />
-
-                {yearData.length > 0 ? (
-                  <ColumnChart chartData={chartData} />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colFullWidthGraph}>
-                <DashboardTitle title={"Total Visitors Weekly"} />
-                {weekData.length > 0 ? (
-                  <AreaChart
-                    series={weekSeries}
-                    categories={weekCategories}
-                    yAxisTitle="Number Of Visitor"
-                    xAxisTitle="Date Of Week"
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Mobile User"} />
-
-                {chartState?.mobileUserGraphState == true ? (
-                  <MobileUsersChart orderData={graphData?.mobileUserData} />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Desktop User"} />
-
-                {chartState?.desktopUserGraphState == true ? (
-                  <DesktopUsersChart orderData={graphData?.desktopUserData} />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Location Wise User"} />
-
-                {chartState?.locationWiseGraphState == true ? (
-                  <LocationCountChart
-                    locationData={graphData?.locationWiseData}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Country Wise User"} />
-
-                {chartState?.countryWiseCustomerGraphState == true ? (
-                  <PieChart
-                    chartData={graphData?.countryWiseCustomerData}
-                    colors={graphData?.countryWiseCustomerData?.colors}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-
-              <div className={colFullWidthGraph}>
-                <DashboardTitle
-                  title={"Combined Top Views (Products, Categories, Pages)"}
+              {filteredData.length > 0 ? (
+                <RadarChart series={series} categories={categories} />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colFourGraph}>
+              <DashboardTitle title={"Total Visitors Monthly"} />
+              {monthData.length > 0 ? (
+                <LineChart
+                  series={monthSeries}
+                  categories={monthCategories}
+                  yAxisTitle="Number Of Visitors"
+                  xAxisTitle="Months"
+                  color="green"
+                  curve="smooth"
                 />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colFourGraph}>
+              <DashboardTitle title={"Total Visitors Yearly"} />
 
-                <div className="w-full flex justify-end items-center p-4">
-                  <label className="text-gray-700 mr-3">Show Top: </label>
-                  <select
-                    id="productFilter"
-                    onChange={handleVisitedFilterChange}
-                    value={visitedSelectedFilter}
-                    className="h-12 bg-white w-30 rounded-lg text-black border flex justify-end p-1 font-bold border-strokedark shadow-md focus:outline-none"
-                  >
-                    <option value={5}>Top 5</option>
-                    <option value={10}>Top 10</option>
-                  </select>
-                </div>
-                <DataBarChart
-                  series={seriesCombined}
-                  xAxisCategories={xAxisCategories}
+              {yearData.length > 0 ? (
+                <ColumnChart chartData={chartData} />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colFullWidthGraph}>
+              <DashboardTitle title={"Total Visitors Weekly"} />
+              {weekData.length > 0 ? (
+                <AreaChart
+                  series={weekSeries}
+                  categories={weekCategories}
+                  yAxisTitle="Number Of Visitor"
+                  xAxisTitle="Date Of Week"
                 />
-              </div>
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
 
-              <div className={colFullWidthGraph}>
-                <DashboardTitle title={"Customer Distribution by Page"} />
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Mobile User"} />
+
+              {chartState?.mobileUserGraphState == true ? (
+                <MobileUsersChart orderData={graphData?.mobileUserData} />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Desktop User"} />
+
+              {chartState?.desktopUserGraphState == true ? (
+                <DesktopUsersChart orderData={graphData?.desktopUserData} />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Location Wise User"} />
+
+              {chartState?.locationWiseGraphState == true ? (
+                <LocationCountChart
+                  locationData={graphData?.locationWiseData}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Country Wise User"} />
+
+              {chartState?.countryWiseCustomerGraphState == true ? (
+                <PieChart
+                  chartData={graphData?.countryWiseCustomerData}
+                  colors={graphData?.countryWiseCustomerData?.colors}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+
+            <div className={colFullWidthGraph}>
+              <DashboardTitle
+                title={"Combined Top Views (Products, Categories, Pages)"}
+              />
+
+              <div className="w-full flex justify-end items-center p-4">
+                <label className="text-gray-700 mr-3">Show Top: </label>
+                <select
+                  id="productFilter"
+                  onChange={handleVisitedFilterChange}
+                  value={visitedSelectedFilter}
+                  className="h-12 bg-white w-30 rounded-lg text-black border flex justify-end p-1 font-bold border-strokedark shadow-md focus:outline-none"
+                >
+                  <option value={5}>Top 5</option>
+                  <option value={10}>Top 10</option>
+                </select>
+              </div>
+              <DataBarChart
+                series={seriesCombined}
+                xAxisCategories={xAxisCategories}
+              />
+            </div>
+
+            <div className={colFullWidthGraph}>
+              <DashboardTitle title={"Customer Distribution by Page"} />
 
                 {chartState?.customerDistributionByPageDataGraphState ==
                 true ? (
@@ -855,14 +853,13 @@ const DashboardCard = () => {
                 )}
               </div>
 
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Entry Page - Exit Page"} />
-                <DumbbellRangebarChart data={customerPageViewData} />
-              </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Entry Page - Exit Page"} />
+              <DumbbellRangebarChart data={customerPageViewData} />
             </div>
-          </ScrollAnimation>
-        </main>
-      )}
+          </div>
+        </ScrollAnimation>
+      </main>
     </>
   );
 };

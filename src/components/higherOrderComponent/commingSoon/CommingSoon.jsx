@@ -1,9 +1,4 @@
-
-import React from 'react';
-
-import { MintenanceIcon } from '../../custIcon/svgIcon';
 import logo from '../../../images/qqqe_maintenance.png'
-
 import Button from '../button/button';
 import { Link } from 'react-router-dom';
 
@@ -17,7 +12,7 @@ const CommingSoon = () => {
           coming soon!
         </p>
         {/* <p className="text-xl text-gray-700 uppercase mt-4">We'll be back soon</p> */}
-        <Link to="/dashboard">
+        <Link to="/app-dashboard">
           <Button
             isSubmit={false}
             buttonText="Homepage"

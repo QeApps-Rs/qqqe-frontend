@@ -7,7 +7,7 @@ const Footer = ({ sidebarOpen }) => {
     <footer className="bg-black text-white py-4 fixed bottom-0 right-0 md:w-[96%] w-full">
       <div className="container mx-auto text-center">
         <p className="text-sm">
-          <span className="mr-3">@Copyright 2024 QQQE</span><span>|</span>{" "}
+          <span className="mr-3 sm:inline-flex hidden">@Copyright 2024 QQQE</span><span className="sm:inline-flex hidden">|</span>{" "}
           <Link to='https://web.whatsapp.com/' className="ml-3" target="#">
             <i className="fa fa-whatsapp text-green-500 text-[17px]" aria-hidden="true"></i><span className="ml-1 mr-3">Whatsapp</span>
           </Link>{" "}
