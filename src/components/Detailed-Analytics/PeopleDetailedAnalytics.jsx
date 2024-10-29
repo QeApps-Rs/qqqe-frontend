@@ -71,7 +71,11 @@ const PeopleDetailedAnalytics = () => {
     lessTimeSpentData: {},
     customerDistributionByPageData: {},
     customerLostTrackData: [],
+    customerLostTrackData: [],
     eventTrackingForClicksData: {},
+    mostVisitedCategoriesData: [],
+    pageWiseAvgData: {},
+    wholeSiteData: {},
   });
 
   const [chartState, setChartState] = useState({
@@ -96,6 +100,9 @@ const PeopleDetailedAnalytics = () => {
     customerDistributionByPageDataGraphState: false,
     customerLostTrackDataGraphState: false,
     eventTrackingForClicksGraphState: false,
+    mostVisitedCategoriesGraphState: false,
+    pageWiseAvgGraphState: false,
+    wholeSiteGraphState: false,
   });
 
   // Reusable function to handle fetching and updating state
@@ -141,6 +148,11 @@ const PeopleDetailedAnalytics = () => {
           setGraphData((prevState) => ({
             ...prevState,
             [dataKey]: response?.data?.abandon_checkout_products,
+          }));
+        } else if (dataKey == "mostVisitedCategoriesData") {
+          setGraphData((prevState) => ({
+            ...prevState,
+            [dataKey]: response?.data?.most_visited_categories,
           }));
         } else {
           setGraphData((prevState) => ({
@@ -270,6 +282,21 @@ const PeopleDetailedAnalytics = () => {
             "new/event/tracking/count",
             "eventTrackingForClicksData",
             "eventTrackingForClicksGraphState"
+          ),
+          fetchDataHandler(
+            "new/mostVisited/categories/count",
+            "mostVisitedCategoriesData",
+            "mostVisitedCategoriesGraphState"
+          ),
+          fetchDataHandler(
+            "new/averageTime-spent/pages/count",
+            "pageWiseAvgData",
+            "pageWiseAvgGraphState"
+          ),
+          fetchDataHandler(
+            "new/averageTime-spent/site/count",
+            "wholeSiteData",
+            "wholeSiteGraphState"
           ),
         ]);
       } catch (error) {
@@ -457,117 +484,6 @@ const PeopleDetailedAnalytics = () => {
 
   //////////         for sales   and orders        ////////////////
 
-  const OneTimeMultiTimeData = {
-    today: {
-      "2024-10-07": {
-        oneTime: 127,
-        multipleTime: 178,
-      },
-    },
-    weekly: {
-      "2024-09-27": {
-        oneTime: 250,
-        multipleTime: 350,
-      },
-      "2024-09-28": {
-        oneTime: 490,
-        multipleTime: 200,
-      },
-      "2024-09-29": {
-        oneTime: 250,
-        multipleTime: 190,
-      },
-      "2024-09-30": {
-        oneTime: 200,
-        multipleTime: 100,
-      },
-      "2024-10-01": {
-        oneTime: 490,
-        multipleTime: 200,
-      },
-      "2024-10-02": {
-        oneTime: 550,
-        multipleTime: 190,
-      },
-      "2024-10-03": {
-        oneTime: 190,
-        multipleTime: 350,
-      },
-    },
-    monthly: {
-      January: {
-        oneTime: 250,
-        multipleTime: 350,
-      },
-      February: {
-        oneTime: 490,
-        multipleTime: 200,
-      },
-      March: {
-        oneTime: 250,
-        multipleTime: 190,
-      },
-      April: {
-        oneTime: 200,
-        multipleTime: 100,
-      },
-      May: {
-        oneTime: 490,
-        multipleTime: 200,
-      },
-      June: {
-        oneTime: 550,
-        multipleTime: 190,
-      },
-      July: {
-        oneTime: 190,
-        multipleTime: 350,
-      },
-      August: {
-        oneTime: 190,
-        multipleTime: 350,
-      },
-      September: {
-        oneTime: 80,
-        multipleTime: 350,
-      },
-      October: {
-        oneTime: 190,
-        multipleTime: 350,
-      },
-      November: {
-        oneTime: 70,
-        multipleTime: 90,
-      },
-      December: {
-        oneTime: 200,
-        multipleTime: 190,
-      },
-    },
-    yearly: {
-      2020: {
-        oneTime: 250,
-        multipleTime: 350,
-      },
-      2021: {
-        oneTime: 490,
-        multipleTime: 200,
-      },
-      2022: {
-        oneTime: 250,
-        multipleTime: 190,
-      },
-      2023: {
-        oneTime: 490,
-        multipleTime: 200,
-      },
-      2024: {
-        oneTime: 550,
-        multipleTime: 190,
-      },
-    },
-  };
-
   ///////////////////////   products   ///////////////////////
 
   const un_sold_products = [
@@ -581,32 +497,6 @@ const PeopleDetailedAnalytics = () => {
     { product_name: "The Compare at Price Snowboard", product_count: "33" },
     { product_name: "The Hidden Snowboard", product_count: "32" },
     { product_name: "The Videographer Snowboard", product_count: "30" },
-  ];
-
-  const most_visited_categories = [
-    { category_name: "Hardware", category_count: "60" },
-    { category_name: "Furniture", category_count: "58" },
-    { category_name: "Software", category_count: "55" },
-    { category_name: "Gift Cards", category_count: "53" },
-    { category_name: "Electronics", category_count: "52" },
-    { category_name: "Arts & Entertainment", category_count: "51" },
-    { category_name: "Sporting Goods", category_count: "47" },
-    { category_name: "Services", category_count: "45" },
-    { category_name: "Business & Industrial", category_count: "41" },
-    { category_name: "Baby & Toddler", category_count: "40" },
-  ];
-
-  const most_visited_pages = [
-    { page_name: "Home", page_count: "100" },
-    { page_name: "Contect Us", page_count: "98" },
-    { page_name: "About Us", page_count: "95" },
-    { page_name: "Article", page_count: "92" },
-    { page_name: "Blog", page_count: "90" },
-    { page_name: "Product", page_count: "70" },
-    { page_name: "Checkout", page_count: "60" },
-    { page_name: "Order", page_count: "58" },
-    { page_name: "Category", page_count: "55" },
-    { page_name: "Shipping", page_count: "40" },
   ];
 
   const [visitedSelectedFilter, setVisitedSelectedFilter] = useState(5); // Default to "Top 5"
@@ -633,11 +523,13 @@ const PeopleDetailedAnalytics = () => {
   };
 
   const filteredCategories = getFilteredData(
-    most_visited_categories,
+    // most_visited_categories,
+    graphData?.mostVisitedCategoriesData,
     visitedSelectedFilter
   );
   const filteredPages = getFilteredData(
-    most_visited_pages,
+    // most_visited_pages,
+    graphData?.mostVisitedProducts,
     visitedSelectedFilter
   );
 
@@ -974,62 +866,21 @@ const PeopleDetailedAnalytics = () => {
     </div>
   );
 
-  const customerLostTrackData = [
-    {
-      track: ["Product", "Search", "Collection", "Page"],
-      date: "2024-10-17",
-    },
-    { track: ["product", "search"], date: "2024-10-16" },
-    {
-      track: ["product", "collection", "page"],
-      date: "2024-10-15",
-    },
-    { track: ["product"], date: "2024-10-14" },
-    { track: ["collection", "product"], date: "2024-10-12" },
-    { track: ["collection", "product"], date: "2024-10-11" },
-    {
-      track: ["product", "collection", "search"],
-      date: "2024-10-10",
-    },
-    {
-      track: ["Product", "Search", "Collection", "Page"],
-      date: "2024-10-09",
-    },
-    { track: ["product", "search"], date: "2024-10-08" },
-    {
-      track: ["product", "collection", "page"],
-      date: "2024-10-25",
-    },
-    { track: ["product"], date: "2024-10-25" },
-    {
-      track: ["collection", "product"],
-      date: "2024-10-05",
-    },
-    {
-      track: ["collection", "product"],
-      date: "2025-10-04",
-    },
-    {
-      track: ["product", "collection", "search"],
-      date: "2024-10-03",
-    },
-  ];
-
   const PageWiseAvg = {
     today: {
       "2024-10-23": {
         pages: ["home", "product", "collection", "cart", "checkout"],
-        avg_spent_time: [20, 45, 10, 5, 3],
+        avg_spent_time: [0, 0, 0, 0, 0],
       },
     },
     weekly: {
       "2024-10-18": {
         pages: ["home", "product", "collection", "cart", "checkout"],
-        avg_spent_time: [20, 45, 10, 5, 3], // min
+        avg_spent_time: [20.3, 45.5, 10.1, 5.5, 3.6], // min
       },
       "2024-10-17": {
         pages: ["home", "product", "collection", "cart", "checkout"],
-        avg_spent_time: [29, 0, 14, 15, 5],
+        avg_spent_time: [0, 0, 0, 0, 0],
       },
       "2024-10-16": {
         pages: ["home", "product", "collection", "cart", "checkout"],
@@ -1250,25 +1101,13 @@ const PeopleDetailedAnalytics = () => {
           offset={100}
           animateOnce={true}
         >
-          <div className="w-full sm:hidden flex justify-end mb-2">
-          <Link to={"/app-dashboard"}>
-              <button
-                type="button"
-                onClick={() => Navigate(-1)}
-                className="w-auto flex items-center gap-x-1 cursor-pointer bg-white border border-gray-300 pt-1.5 pb-1.5 pl-2.5 pr-2.5 text-[15px] rounded-md hover:bg-black hover:text-white transition-colors duration-300"
-              >
-                <BackIcon /> Back
-              </button>
-            </Link>
-          </div>
-          <div className="flex items-center justify-center">
+          {" "}
+          <div className="flex items-center mt-16 justify-center">
             <div className="flex items-center">
-              <Link to="/detailed-analytics">
-                <i
-                  className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
-                  aria-hidden="true"
-                ></i>
-              </Link>
+              <i
+                className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
+                aria-hidden="true"
+              ></i>
             </div>
             <h2 className="text-title-md2 font-semibold text-black dark:text-white pl-2">
               Analytics
@@ -1277,10 +1116,12 @@ const PeopleDetailedAnalytics = () => {
           <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
           <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
             <div className={colFullWidthGraph}>
-              <DashboardTitle title={"One Time & Mutli Time Customer"} />
+              <DashboardTitle title={"One Time & Multi Time Customer"} />
 
               {chartState?.timeCustomersGraphState == true ? (
-                <OneTimeMultiTimeCustomer customerData={OneTimeMultiTimeData} />
+                <OneTimeMultiTimeCustomer
+                  customerData={graphData?.timeCustomersData}
+                />
               ) : (
                 <NoDataFound />
               )}
@@ -1566,8 +1407,13 @@ const PeopleDetailedAnalytics = () => {
 
             <div className={colSixGraph}>
               <DashboardTitle title={"Most Visited Categories"} />
-
-              <GradientLineChart data={most_visited_categories} />
+              {chartState?.mostVisitedCategoriesGraphState == true ? (
+                <GradientLineChart
+                  data={graphData?.mostVisitedCategoriesData}
+                />
+              ) : (
+                <NoDataFound />
+              )}
             </div>
             <div className={colFullWidthGraph}>
               <DashboardTitle
@@ -1714,16 +1560,26 @@ const PeopleDetailedAnalytics = () => {
             </div>
             <div className={colSixGraph}>
               <DashboardTitle title={"Page Wise Average Time Spent on Page"} />
-              <PageWiseAvgChart PageWiseAvg={PageWiseAvg} />{" "}
+              {chartState?.pageWiseAvgGraphState == true ? (
+                <PageWiseAvgChart PageWiseAvg={graphData?.pageWiseAvgData} />
+              ) : (
+                <NoDataFound />
+              )}
+              {/* <PageWiseAvgChart PageWiseAvg={PageWiseAvg} />{" "} */}
             </div>
             <div className={colSixGraph}>
               <DashboardTitle title={"Average Time Spent on Whole Site"} />
-              <AverageTimeSpentWholeSite data={wholeSiteData} />{" "}
+              {chartState?.wholeSiteGraphState == true ? (
+                <AverageTimeSpentWholeSite data={graphData?.wholeSiteData} />
+              ) : (
+                <NoDataFound />
+              )}
             </div>
             {/* MANSHI CHART CODE END */}
           </div>
         </ScrollAnimation>
       </main>
+
       <NeedHelpPage />
     </>
   );

@@ -27,7 +27,7 @@ const AverageTimeSpentWholeSite = ({ data, xAxisTitle, color }) => {
     },
   });
 
-  const [selectedRange, setSelectedRange] = useState("today"); // Default to 'today'
+  const [selectedRange, setSelectedRange] = useState("monthly"); // Default to 'today'
 
   // Process the data based on the selected range
   const processSalesData = () => {

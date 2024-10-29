@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 
 const PageWiseAvgChart = ({ PageWiseAvg }) => {
-  const [timeRange, setTimeRange] = useState("weekly");
+  const [timeRange, setTimeRange] = useState("monthly");
   const [series, setSeries] = useState([]);
   const [options, setOptions] = useState({
     chart: {
@@ -51,8 +51,8 @@ const PageWiseAvgChart = ({ PageWiseAvg }) => {
       categories.push(date); // Add date to categories
       timeData[date].pages.forEach((page, index) => {
         // Check if avg_spent_time is defined and is an array
-        const spentTime = Array.isArray(timeData[date].avg_spent_time)
-          ? timeData[date].avg_spent_time[index] || 0
+        const spentTime = Array.isArray(timeData[date].spent_time)
+          ? timeData[date].spent_time[index] || 0
           : 0; // Default to 0 if undefined
 
         const existingPage = stackedData.find((s) => s.name === page);

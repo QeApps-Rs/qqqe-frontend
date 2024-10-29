@@ -33,6 +33,7 @@ const DashboardCard = () => {
     timeCustomersData: {},
     countryWiseCustomerData: {},
     mostVisitedProducts: [],
+    customerDistributionByPageData: {},
   });
 
   const [chartState, setChartState] = useState({
@@ -41,6 +42,7 @@ const DashboardCard = () => {
     locationWiseGraphState: false,
     timeCustomersGraphState: false,
     countryWiseCustomerGraphState: false,
+    customerDistributionByPageDataGraphState: false,
   });
 
   // Reusable function to handle fetching and updating state
@@ -118,7 +120,7 @@ const DashboardCard = () => {
             "locationWiseGraphState"
           ),
           fetchDataHandler(
-            "new/location/customer/count",
+            "new/oneTime/customer/count",
             "timeCustomersData",
             "timeCustomersGraphState"
           ),
@@ -126,6 +128,11 @@ const DashboardCard = () => {
             "new/country/customer/count",
             "countryWiseCustomerData",
             "countryWiseCustomerGraphState"
+          ),
+          fetchDataHandler(
+            "new/distributionPage/customer/count",
+            "customerDistributionByPageData",
+            "customerDistributionByPageDataGraphState"
           ),
         ]);
       } catch (error) {
@@ -316,117 +323,6 @@ const DashboardCard = () => {
 
   //////////         for sales   and orders        ////////////////
 
-  const OneTimeMultiTimeData = {
-    today: {
-      "2024-10-07": {
-        oneTime: 127,
-        multipleTime: 178,
-      },
-    },
-    weekly: {
-      "2024-09-27": {
-        oneTime: 250,
-        multipleTime: 350,
-      },
-      "2024-09-28": {
-        oneTime: 490,
-        multipleTime: 200,
-      },
-      "2024-09-29": {
-        oneTime: 250,
-        multipleTime: 190,
-      },
-      "2024-09-30": {
-        oneTime: 200,
-        multipleTime: 100,
-      },
-      "2024-10-01": {
-        oneTime: 490,
-        multipleTime: 200,
-      },
-      "2024-10-02": {
-        oneTime: 550,
-        multipleTime: 190,
-      },
-      "2024-10-03": {
-        oneTime: 190,
-        multipleTime: 350,
-      },
-    },
-    monthly: {
-      January: {
-        oneTime: 250,
-        multipleTime: 350,
-      },
-      February: {
-        oneTime: 490,
-        multipleTime: 200,
-      },
-      March: {
-        oneTime: 250,
-        multipleTime: 190,
-      },
-      April: {
-        oneTime: 200,
-        multipleTime: 100,
-      },
-      May: {
-        oneTime: 490,
-        multipleTime: 200,
-      },
-      June: {
-        oneTime: 550,
-        multipleTime: 190,
-      },
-      July: {
-        oneTime: 190,
-        multipleTime: 350,
-      },
-      August: {
-        oneTime: 190,
-        multipleTime: 350,
-      },
-      September: {
-        oneTime: 80,
-        multipleTime: 350,
-      },
-      October: {
-        oneTime: 190,
-        multipleTime: 350,
-      },
-      November: {
-        oneTime: 70,
-        multipleTime: 90,
-      },
-      December: {
-        oneTime: 200,
-        multipleTime: 190,
-      },
-    },
-    yearly: {
-      2020: {
-        oneTime: 250,
-        multipleTime: 350,
-      },
-      2021: {
-        oneTime: 490,
-        multipleTime: 200,
-      },
-      2022: {
-        oneTime: 250,
-        multipleTime: 190,
-      },
-      2023: {
-        oneTime: 490,
-        multipleTime: 200,
-      },
-      2024: {
-        oneTime: 550,
-        multipleTime: 190,
-      },
-    },
-  };
-
   ///////////////////////   products   ///////////////////////
 
   const most_visited_categories = [
@@ -536,111 +432,6 @@ const DashboardCard = () => {
     setVisitedSelectedFilter(Number(e.target.value));
   };
 
-  const customer_distribution_by_page = {
-    today: {
-      dates: ["2024-10-14"], // Example date for today
-      home_page_count: [95],
-      product_page_count: [80],
-      category_page_count: [70],
-      cart_page_count: [50],
-      pages_count: [100],
-    },
-    weekly: {
-      dates: [
-        "2024-10-08",
-        "2024-10-09",
-        "2024-10-10",
-        "2024-10-11",
-        "2024-10-12",
-        "2024-10-13",
-        "2024-10-14",
-      ], //consider end_date as currentdate and startdate is 7 days before currentdate
-      home_page_count: [700, 800, 900, 950, 1000, 1100, 1200],
-      product_page_count: [1300, 1400, 1450, 1500, 1550, 1600, 1700],
-      category_page_count: [7000, 3000, 4500, 2200, 5000, 4100, 6000],
-      cart_page_count: [5000, 3500, 5500, 2000, 4000, 1200, 4000],
-      pages_count: [1000, 2000, 3000, 4000, 5000, 6000, 7000],
-    },
-    monthly: {
-      dates: [
-        "january",
-        "feb",
-        "march",
-        "april",
-        "may",
-        "june",
-        "july",
-        "august",
-        "september",
-        "october",
-        "november",
-        "december",
-      ], //current year's month
-      home_page_count: [
-        6000, 6200, 6400, 6600, 6800, 3000, 5000, 2000, 5700, 3000, 5000, 4000,
-      ],
-      product_page_count: [
-        7000, 7200, 7400, 7600, 7800, 7000, 7200, 7400, 7600, 7800, 2000, 3000,
-      ],
-      category_page_count: [
-        5000, 7200, 7400, 7000, 7800, 6000, 4200, 3800, 8900, 7800, 6000, 5000,
-      ],
-      cart_page_count: [
-        7200, 7200, 3000, 4500, 7800, 7200, 6000, 7200, 4200, 7800, 3100, 7200,
-      ],
-      pages_count: [
-        5000, 7200, 4000, 2900, 3600, 7200, 6700, 7200, 3200, 8900, 6500, 7200,
-      ],
-    },
-    yearly: {
-      dates: ["2020", "2021", "2022", "2023", "2024"], //last 5 year
-      home_page_count: [4000, 4200, 4400, 4600, 4800],
-      product_page_count: [9000, 9200, 9400, 9600, 9800],
-      category_page_count: [2000, 3600, 7000, 4100, 5000],
-      cart_page_count: [5000, 4200, 3000, 8000, 2200],
-      pages_count: [8000, 7000, 9000, 8700, 8900],
-    },
-  };
-
-  const customerData = [
-    { customerId: "123", customerName: "Alice Smith", orderCount: 10 },
-    { customerId: "456", customerName: "Bob Johnson", orderCount: 7 },
-    { customerId: "789", customerName: "Charlie Brown", orderCount: 5 },
-    { customerId: "101", customerName: "Diana Prince", orderCount: 15 },
-    { customerId: "102", customerName: "Eve Adams", orderCount: 2 },
-    { customerId: "103", customerName: "Frank Wright", orderCount: 8 },
-    { customerId: "104", customerName: "Grace Lee", orderCount: 11 },
-    { customerId: "105", customerName: "Henry Miller", orderCount: 6 },
-    { customerId: "106", customerName: "Irene Black", orderCount: 4 },
-    { customerId: "107", customerName: "Jack White", orderCount: 14 },
-    { customerId: "108", customerName: "Karen Green", orderCount: 3 },
-    { customerId: "109", customerName: "Larry Thompson", orderCount: 9 },
-    { customerId: "110", customerName: "Maria Garcia", orderCount: 12 },
-    { customerId: "111", customerName: "Nathan Taylor", orderCount: 13 },
-    { customerId: "112", customerName: "Olivia King", orderCount: 1 },
-  ];
-
-  const [filterType, setFilterType] = useState("Top 3");
-
-  // Filter customer data based on the selected filter type
-  const customerfilteredData = () => {
-    let data = [...customerData].sort((a, b) => b.orderCount - a.orderCount); // Sort in descending order
-    if (filterType === "Top 3") {
-      return data.slice(0, 3); // Get top 3
-    } else if (filterType === "Top 5") {
-      return data.slice(0, 5); // Get top 5
-    } else {
-      return data.slice(0, 10); // Get top 10 (default)
-    }
-  };
-
-  const filteredCustomerData = customerfilteredData();
-
-  // Extract series (order counts) and labels (customer names) from filtered data
-  const seriescustomer = filteredCustomerData.map(
-    (customer) => customer.orderCount
-  );
-  const labels = filteredCustomerData.map((customer) => customer.customerName);
 
   const customerPageViewData = [
     {
@@ -926,15 +717,16 @@ const DashboardCard = () => {
             <div className={colFullWidthGraph}>
               <DashboardTitle title={"One Time & Multi Time Customer"} />
 
-              {!chartState?.timeCustomersGraphState == true ? (
-                // <OneTimeMultiTimeCustomer customerData={graphData?.timeCustomersData} />
-                <OneTimeMultiTimeCustomer customerData={OneTimeMultiTimeData} />
-              ) : (
-                <NoDataFound />
-              )}
-            </div>
-            <div className={colFourGraph}>
-              <DashboardTitle title={"Total Visitors Today"} />
+                {chartState?.timeCustomersGraphState == true ? (
+                  <OneTimeMultiTimeCustomer
+                    customerData={graphData?.timeCustomersData}
+                  />
+                ) : (
+                  <NoDataFound />
+                )}
+              </div>
+              <div className={colFourGraph}>
+                <DashboardTitle title={"Total Visitors Today"} />
 
               {filteredData.length > 0 ? (
                 <RadarChart series={series} categories={categories} />
@@ -1051,10 +843,15 @@ const DashboardCard = () => {
             <div className={colFullWidthGraph}>
               <DashboardTitle title={"Customer Distribution by Page"} />
 
-              <CustomerDistributionChart
-                distributionData={customer_distribution_by_page}
-              />
-            </div>
+                {chartState?.customerDistributionByPageDataGraphState ==
+                true ? (
+                  <CustomerDistributionChart
+                    distributionData={graphData?.customerDistributionByPageData}
+                  />
+                ) : (
+                  <NoDataFound />
+                )}
+              </div>
 
             <div className={colSixGraph}>
               <DashboardTitle title={"Entry Page - Exit Page"} />
