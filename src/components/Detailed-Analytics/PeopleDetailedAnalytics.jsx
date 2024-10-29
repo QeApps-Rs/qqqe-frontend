@@ -1091,50 +1091,43 @@ const PeopleDetailedAnalytics = () => {
   return (
     <>
       {loading && <Loader />}
-      {showIframe ? (
-        <>
-          <BookSlotModal handlePageClick={handlePageClick} />
-        </>
-      ) : (
-        <main className="main-content todo-app w-full px-[var(--margin-x)] pb-15">
-          <ScrollAnimation
-            animateIn="animate__fadeInUp"
-            animateOut="animate__fadeOut"
-            duration={1}
-            delay={300}
-            offset={100}
-            animateOnce={true}
-          >
-            {" "}
-            <PolarAnalytics />
-            <div className="flex items-center mt-16 justify-center">
-              <div className="flex items-center">
-                <Link to="/detailed-analytics">
-                  <i
-                    className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
-                    aria-hidden="true"
-                  ></i>
-                </Link>
-              </div>
-              <h2 className="text-title-md2 font-semibold text-black dark:text-white pl-2">
-                Analytics
-              </h2>
-            </div>
-            <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
-            <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
-              <div className={colFullWidthGraph}>
-                <DashboardTitle title={"One Time & Multi Time Customer"} />
 
-                {chartState?.timeCustomersGraphState == true ? (
-                  <OneTimeMultiTimeCustomer
-                    customerData={graphData?.timeCustomersData}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colFourGraph}>
-                <DashboardTitle title={"Total Visitors Today"} />
+      <main className="main-content todo-app w-full px-[var(--margin-x)] pb-15">
+        <ScrollAnimation
+          animateIn="animate__fadeInUp"
+          animateOut="animate__fadeOut"
+          duration={1}
+          delay={300}
+          offset={100}
+          animateOnce={true}
+        >
+          {" "}
+          <div className="flex items-center mt-16 justify-center">
+            <div className="flex items-center">
+              <i
+                className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
+                aria-hidden="true"
+              ></i>
+            </div>
+            <h2 className="text-title-md2 font-semibold text-black dark:text-white pl-2">
+              Analytics
+            </h2>
+          </div>
+          <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
+          <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
+            <div className={colFullWidthGraph}>
+              <DashboardTitle title={"One Time & Multi Time Customer"} />
+
+              {chartState?.timeCustomersGraphState == true ? (
+                <OneTimeMultiTimeCustomer
+                  customerData={graphData?.timeCustomersData}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colFourGraph}>
+              <DashboardTitle title={"Total Visitors Today"} />
 
               {filteredData.length > 0 ? (
                 <RadarChart series={series} categories={categories} />
@@ -1412,20 +1405,20 @@ const PeopleDetailedAnalytics = () => {
               )}
             </div>
 
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Most Visited Categories"} />
-                {chartState?.mostVisitedCategoriesGraphState == true ? (
-                  <GradientLineChart
-                    data={graphData?.mostVisitedCategoriesData}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colFullWidthGraph}>
-                <DashboardTitle
-                  title={"Combined Top Views (Products, Categories, Pages)"}
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Most Visited Categories"} />
+              {chartState?.mostVisitedCategoriesGraphState == true ? (
+                <GradientLineChart
+                  data={graphData?.mostVisitedCategoriesData}
                 />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colFullWidthGraph}>
+              <DashboardTitle
+                title={"Combined Top Views (Products, Categories, Pages)"}
+              />
 
               <div className="w-full flex justify-end items-center p-4">
                 <label className="text-gray-700 mr-3">Show Top: </label>
@@ -1475,124 +1468,118 @@ const PeopleDetailedAnalytics = () => {
               <CustomerPolarAreaChart series={seriescustomer} labels={labels} />
             </div>
 
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Entry Page - Exit Page"} />
-                <DumbbellRangebarChart data={customerPageViewData} />
-              </div>
-              {/* MANSHI CHART CODE START */}
-              <div className={colSixGraph}>
-                <DashboardTitle
-                  title={"Page Flow (Based on Tracking Mechanism)"}
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Entry Page - Exit Page"} />
+              <DumbbellRangebarChart data={customerPageViewData} />
+            </div>
+            {/* MANSHI CHART CODE START */}
+            <div className={colSixGraph}>
+              <DashboardTitle
+                title={"Page Flow (Based on Tracking Mechanism)"}
+              />
+              {chartState?.customerPageFlowGraphState == true ? (
+                <CustomerPageFlowChart
+                  customerPageFlowData={graphData?.customerPageFlowData}
                 />
-                {chartState?.customerPageFlowGraphState == true ? (
-                  <CustomerPageFlowChart
-                    customerPageFlowData={graphData?.customerPageFlowData}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Customer Lost Tracking Mechanism"} />
-                {chartState?.customerLostTrackDataGraphState == true ? (
-                  <CustomerLostTrackChart
-                    customerLostTrackData={graphData?.customerLostTrackData}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-                {/* <CustomerLostTrackChart
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Customer Lost Tracking Mechanism"} />
+              {chartState?.customerLostTrackDataGraphState == true ? (
+                <CustomerLostTrackChart
+                  customerLostTrackData={graphData?.customerLostTrackData}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+              {/* <CustomerLostTrackChart
                   customerLostTrackData={customerLostTrackData}
                 /> */}
-              </div>
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Abandon Checkout Order Sales"} />
-                {chartState?.abandonOrderSalesDataGraphState == true ? (
-                  <AbandonOrderSale
-                    abandon_checkout_order_sales={
-                      graphData?.abandonOrderSalesData
-                    }
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Abandon Checkout Products"} />
-                {chartState?.abandonProductsDataGraphState == true ? (
-                  <AbandonProductChart
-                    abandon_checkout_products={graphData?.abandonProductsData}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Most Time Spent Pages"} />
-                {chartState?.mostTimeSpentDataGraphState == true ? (
-                  <MoreTimeChart
-                    PagesTimeSpent={graphData?.mostTimeSpentData}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Less Time Spent Pages"} />
-                {chartState?.lessTimeSpentDataGraphState == true ? (
-                  <LessTimeChart
-                    PagesTimeSpent={graphData?.lessTimeSpentData}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Total Time Spent – Every Page"} />
-                {chartState?.totalPagesTimeSpentDataGraphState == true ? (
-                  <TotalTimeSpentChart
-                    PagesTimeSpent={graphData?.totalPagesTimeSpentData}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colSixGraph}>
-                <DashboardTitle
-                  title={"Event Tracking - Links / Button Clicked"}
-                />
-                {chartState?.eventTrackingForClicksGraphState == true ? (
-                  <TrackEventChart
-                    EventTrack={graphData?.eventTrackingForClicksData}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colSixGraph}>
-                <DashboardTitle
-                  title={"Page Wise Average Time Spent on Page"}
-                />
-                {chartState?.pageWiseAvgGraphState == true ? (
-                  <PageWiseAvgChart PageWiseAvg={graphData?.pageWiseAvgData} />
-                ) : (
-                  <NoDataFound />
-                )}
-                {/* <PageWiseAvgChart PageWiseAvg={PageWiseAvg} />{" "} */}
-              </div>
-              <div className={colSixGraph}>
-                <DashboardTitle title={"Average Time Spent on Whole Site"} />
-                {chartState?.wholeSiteGraphState == true ? (
-                  <AverageTimeSpentWholeSite data={graphData?.wholeSiteData} />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              {/* MANSHI CHART CODE END */}
             </div>
-          </ScrollAnimation>
-        </main>
-      )}
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Abandon Checkout Order Sales"} />
+              {chartState?.abandonOrderSalesDataGraphState == true ? (
+                <AbandonOrderSale
+                  abandon_checkout_order_sales={
+                    graphData?.abandonOrderSalesData
+                  }
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Abandon Checkout Products"} />
+              {chartState?.abandonProductsDataGraphState == true ? (
+                <AbandonProductChart
+                  abandon_checkout_products={graphData?.abandonProductsData}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Most Time Spent Pages"} />
+              {chartState?.mostTimeSpentDataGraphState == true ? (
+                <MoreTimeChart PagesTimeSpent={graphData?.mostTimeSpentData} />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Less Time Spent Pages"} />
+              {chartState?.lessTimeSpentDataGraphState == true ? (
+                <LessTimeChart PagesTimeSpent={graphData?.lessTimeSpentData} />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Total Time Spent – Every Page"} />
+              {chartState?.totalPagesTimeSpentDataGraphState == true ? (
+                <TotalTimeSpentChart
+                  PagesTimeSpent={graphData?.totalPagesTimeSpentData}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle
+                title={"Event Tracking - Links / Button Clicked"}
+              />
+              {chartState?.eventTrackingForClicksGraphState == true ? (
+                <TrackEventChart
+                  EventTrack={graphData?.eventTrackingForClicksData}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Page Wise Average Time Spent on Page"} />
+              {chartState?.pageWiseAvgGraphState == true ? (
+                <PageWiseAvgChart PageWiseAvg={graphData?.pageWiseAvgData} />
+              ) : (
+                <NoDataFound />
+              )}
+              {/* <PageWiseAvgChart PageWiseAvg={PageWiseAvg} />{" "} */}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Average Time Spent on Whole Site"} />
+              {chartState?.wholeSiteGraphState == true ? (
+                <AverageTimeSpentWholeSite data={graphData?.wholeSiteData} />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            {/* MANSHI CHART CODE END */}
+          </div>
+        </ScrollAnimation>
+      </main>
+
       <NeedHelpPage />
     </>
   );
