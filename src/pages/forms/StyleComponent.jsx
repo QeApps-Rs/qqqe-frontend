@@ -21,6 +21,7 @@ const StyleComponent = ({
   isCrossSellPopup,
   isPurchaseSatisfactionSurvey,
   isFeedbackSurvey,
+  isAttributionSurvey
 }) => {
   const [activeTab, setActiveTab] = useState("Desktop");
 
@@ -216,7 +217,7 @@ const StyleComponent = ({
                     {!isProductBundle &&
                       !isCrossSellPopup &&
                       !isPurchaseSatisfactionSurvey &&
-                      !isFeedbackSurvey && (
+                      !isFeedbackSurvey && !isAttributionSurvey &&(
                         <>
                           <div className="mb-4.5 border-b border-black pb-4">
                             <label className="mb-2 block text-black dark:text-white font-semibold">

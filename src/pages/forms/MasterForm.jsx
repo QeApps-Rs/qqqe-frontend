@@ -285,6 +285,27 @@ const MasterForm = () => {
     return classes.trim();
   };
 
+  const feedbackSurveyClasses = () => {
+    const { formWidth, formType } = templateDesign;
+    let classes = "";
+
+    if (formType === "full page") {
+      classes =
+        formWidth === "large"
+          ? "w-full flex h-[calc(100vh-300px)]"
+          : "w-10/12 flex h-[calc(100vh-300px)]";
+    } else if (formType === "embed") {
+      classes = formWidth === "large" ? "w-full flex" : " w-10/12 flex";
+    } else {
+      classes = "overflow-y-auto h-[500px] w-[380px]";
+    }
+
+    return classes.trim();
+  };
+  const imagePositionContainer = `${
+    templateDesign.imagePosition === "0" ? "-order-none" : "order-1"
+  }`;
+
   const imageSrc = !success
     ? templateDesign.image || popup_img
     : templateDesign.successImage || popup_img;
@@ -1007,11 +1028,12 @@ const MasterForm = () => {
                   item.tag !== "successController"
                 );
               }
-              if (suggestionTemplateStatus?.isFeedbackSurvey) {
+              if (
+                suggestionTemplateStatus?.isFeedbackSurvey ||
+                suggestionTemplateStatus?.isAttributionSurvey
+              ) {
                 return (
-                  item.tag !== "bundle" &&
-                  item.tag !== "surveyController" &&
-                  item.tag !== "successController"
+                  item.tag !== "bundle" && item.tag !== "successController"
                 );
               }
               if (suggestionTemplateStatus?.isPurchaseSatisfactionSurvey) {
@@ -1060,6 +1082,9 @@ const MasterForm = () => {
                     isFeedbackSurvey={
                       suggestionTemplateStatus?.isFeedbackSurvey
                     }
+                    isAttributionSurvey={
+                      suggestionTemplateStatus?.isAttributionSurvey
+                    }
                   />
                 )}
                 {activeIndex === index && item.tag === "inputController" && (
@@ -1082,6 +1107,9 @@ const MasterForm = () => {
                       }
                       isFeedbackSurvey={
                         suggestionTemplateStatus?.isFeedbackSurvey
+                      }
+                      isAttributionSurvey={
+                        suggestionTemplateStatus?.isAttributionSurvey
                       }
                     />
                   </>
@@ -1157,7 +1185,6 @@ const MasterForm = () => {
                   )}
 
                 {!suggestionTemplateStatus?.isProductBundle &&
-                  !suggestionTemplateStatus?.isFeedbackSurvey &&
                   activeIndex === index &&
                   item.tag === "surveyController" && (
                     <SurveyControllerComponent
@@ -1288,7 +1315,7 @@ const MasterForm = () => {
             getStyle={getStyle}
           />
         )}
-        {suggestionTemplateStatus.isPurchaseSatisfactionSurvey && (
+        {suggestionTemplateStatus.isFeedbackSurvey && (
           <div
             className={` flex items-center justify-center ${
               isView !== "Desktop"
@@ -1346,7 +1373,7 @@ const MasterForm = () => {
                   )}
                 </form>
               </div>
-              <div className="flex flex-col justify-center xl:col-span-6 ">
+              <div className="flex flex-col justify-center xl:col-span-6 content">
                 <img
                   src={surveyImageSrc}
                   alt="Promo"
@@ -1356,10 +1383,13 @@ const MasterForm = () => {
             </div>
           </div>
         )}
-        {suggestionTemplateStatus.isFeedbackSurvey && (
-          <div className="h-full items-center justify-center flex">
+        {suggestionTemplateStatus.isPurchaseSatisfactionSurvey && (
+          <div
+            className="flex items-center justify-center bg-white"
+            style={{ height: "calc(100vh - 250px)" }}
+          >
             <div
-              className={`relative w-full shadow-[7px_-7px_57px_#ccc] flex items-center h-[200px] ${formClasses()}`}
+              className={`relative shadow-[7px_-7px_57px_#ccc] flex items-center justify-between ${feedbackSurveyClasses()}`}
               style={{
                 backgroundColor: templateDesign.templateBgColor || "#FFFFFF",
                 borderRadius: templateDesign.borderRadius || "16px",
@@ -1371,8 +1401,7 @@ const MasterForm = () => {
               }}
             >
               <div
-                className={`flex justify-end py-[30px] rounded-l-none rounded-r-[90px]   col-span-6
- w-[120px] overflow-hidden ${containerClass} ${formClasses()}`}
+                className={`flex justify-center py-[30px] px-6 rounded-l-none rounded-r-[90px] w-[150px] h-full  ${imagePositionContainer}`}
                 style={{
                   backgroundColor:
                     templateDesign.templateOverlayColor || "#fcf1e9",
@@ -1381,12 +1410,11 @@ const MasterForm = () => {
                 <img
                   src={surveyImageSrc}
                   alt="Round Image"
-                  className="object-cover min-w-[100px]"
+                  className="object-cover "
                 />
               </div>
-
-              <div className="pl-6 z-10 col-span-6">
-                <div className="mb-4 text-center">
+              <div className="flex flex-wrap justify-center w-full">
+                <div className="mb-4">
                   <span
                     className="w-max inline-block font-semibold leading-normal"
                     style={getStyle(templateDesign, "templateHeading")}
@@ -1395,60 +1423,76 @@ const MasterForm = () => {
                   </span>
                 </div>
 
-                <div className="flex flex-col items-center space-y-4">
-                  {/* Text is already centered within the div */}
-                  <form
-                    className="w-full flex flex-col items-center space-y-4"
-                    onSubmit={handleSubmit}
-                  >
-                    {(templateDesign.reviewType === "review" ||
-                      surveyController.survey_type === "review") && (
-                      <>{renderStars(reviewCount)}</>
-                    )}
-                    {(templateDesign.reviewType === "rating" ||
-                      surveyController.survey_type === "rating") && (
-                      <>{renderNumbers(ratingCount, 5, "border-[#f1e7df]")}</>
-                    )}
-                  </form>
-                </div>
+                {/* Text is already centered within the div */}
+                <form
+                  className="w-full flex flex-col items-center space-y-4"
+                  onSubmit={handleSubmit}
+                >
+                  {(templateDesign.reviewType === "review" ||
+                    surveyController.survey_type === "review") && (
+                    <>{renderStars(reviewCount)}</>
+                  )}
+                  {(templateDesign.reviewType === "rating" ||
+                    surveyController.survey_type === "rating") && (
+                    <>{renderNumbers(ratingCount, 5, "border-[#f1e7df]")}</>
+                  )}
+                </form>
               </div>
             </div>
           </div>
         )}
         {suggestionTemplateStatus.isAttributionSurvey && (
-          <div className="w-full flex justify-center items-center h-full">
-            <div className="relative bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg p-8 w-1/3 shadow-lg">
-              <button className="absolute top-4 right-4 text-white text-lg font-semibold">
+          <div
+            className="flex items-center justify-center bg-white"
+            style={{ height: "calc(100vh - 250px)" }}
+          >
+            <div
+              className={`flex items-center justify-center  p-8 shadow-lg flex-wrap ${feedbackSurveyClasses()}`}
+              style={{
+                backgroundColor: templateDesign.templateBgColor || "#954de3",
+                borderRadius: templateDesign.borderRadius || "16px",
+                borderWidth: templateDesign.borderWidth,
+                borderColor: templateDesign.templateBorderColor,
+                padding: combinedPadding,
+                margin: combinedMargin,
+                borderStyle: templateDesign.formBorderStyle,
+                minHeight: 200,
+              }}
+            >
+              <div className="d-flex ">
+                {/* <button className="absolute top-4 right-4 text-white text-lg font-semibold">
                 &times;
-              </button>
+              </button> */}
 
-              <h2 className="text-center text-white text-xl font-bold mb-2">
-                THANKS FOR YOUR PURCHASE
-              </h2>
+                <h2 className="block text-center text-white text-xl font-bold mb-2">
+                  {templateDesign.heading}
+                </h2>
 
-              <p className="text-center text-white mb-6">
-                Before you go we would like to hear your feedback
-              </p>
-
+                <p className="block text-center text-white mb-6">
+                  {templateDesign.subHeading ||
+                    "Before you go we would like to hear your feedback"}
+                </p>
+                {/* 
               <h1 className="text-2xl text-white font-bold text-center mb-6">
                 {surveyControllerEditState.fieldName}
-              </h1>
-              <div className="grid gap-4 text-center justify-center grid-cols-2">
-                {addedButton.map((field, index) => (
-                  <SurveyButtonComponent
-                    key={index}
-                    templateDesign={templateDesign}
-                    buttonLink={field.buttonLink}
-                    buttonText={field.buttonText}
-                    inputValue={inputBtnSurveyValues[field.buttonText] || ""}
-                    onInputChange={handleBtnInputChange}
-                    isSubmitted={isSubmitted}
-                    onDelete={() =>
-                      handleSurveyBtnDeleteField(field.buttonText, index)
-                    }
-                    onEdit={() => handleSurveyBtnEdit(field, index)}
-                  />
-                ))}
+              </h1> */}
+                <div className="grid gap-4 text-center justify-center grid-cols-2">
+                  {addedButton.map((field, index) => (
+                    <SurveyButtonComponent
+                      key={index}
+                      templateDesign={templateDesign}
+                      buttonLink={field.buttonLink}
+                      buttonText={field.buttonText}
+                      inputValue={inputBtnSurveyValues[field.buttonText] || ""}
+                      onInputChange={handleBtnInputChange}
+                      isSubmitted={isSubmitted}
+                      onDelete={() =>
+                        handleSurveyBtnDeleteField(field.buttonText, index)
+                      }
+                      onEdit={() => handleSurveyBtnEdit(field, index)}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
