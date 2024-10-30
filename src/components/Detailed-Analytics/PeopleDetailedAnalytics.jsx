@@ -71,11 +71,11 @@ const PeopleDetailedAnalytics = () => {
     lessTimeSpentData: {},
     customerDistributionByPageData: {},
     customerLostTrackData: [],
-    customerLostTrackData: [],
     eventTrackingForClicksData: {},
     mostVisitedCategoriesData: [],
     pageWiseAvgData: {},
     wholeSiteData: {},
+    customerBasedOnOrderData: [],
   });
 
   const [chartState, setChartState] = useState({
@@ -103,6 +103,7 @@ const PeopleDetailedAnalytics = () => {
     mostVisitedCategoriesGraphState: false,
     pageWiseAvgGraphState: false,
     wholeSiteGraphState: false,
+    customerBasedOnOrderGraphState: false,
   });
 
   // Reusable function to handle fetching and updating state
@@ -297,6 +298,11 @@ const PeopleDetailedAnalytics = () => {
             "new/averageTime-spent/site/count",
             "wholeSiteData",
             "wholeSiteGraphState"
+          ),
+          fetchDataHandler(
+            "new/customersBasedOnOrder/count",
+            "customerBasedOnOrderData",
+            "customerBasedOnOrderGraphState"
           ),
         ]);
       } catch (error) {
@@ -582,29 +588,11 @@ const PeopleDetailedAnalytics = () => {
     setVisitedSelectedFilter(Number(e.target.value));
   };
 
-  const customerData = [
-    { customerId: "123", customerName: "Alice Smith", orderCount: 10 },
-    { customerId: "456", customerName: "Bob Johnson", orderCount: 7 },
-    { customerId: "789", customerName: "Charlie Brown", orderCount: 5 },
-    { customerId: "101", customerName: "Diana Prince", orderCount: 15 },
-    { customerId: "102", customerName: "Eve Adams", orderCount: 2 },
-    { customerId: "103", customerName: "Frank Wright", orderCount: 8 },
-    { customerId: "104", customerName: "Grace Lee", orderCount: 11 },
-    { customerId: "105", customerName: "Henry Miller", orderCount: 6 },
-    { customerId: "106", customerName: "Irene Black", orderCount: 4 },
-    { customerId: "107", customerName: "Jack White", orderCount: 14 },
-    { customerId: "108", customerName: "Karen Green", orderCount: 3 },
-    { customerId: "109", customerName: "Larry Thompson", orderCount: 9 },
-    { customerId: "110", customerName: "Maria Garcia", orderCount: 12 },
-    { customerId: "111", customerName: "Nathan Taylor", orderCount: 13 },
-    { customerId: "112", customerName: "Olivia King", orderCount: 1 },
-  ];
-
   const [filterType, setFilterType] = useState("Top 3");
 
   // Filter customer data based on the selected filter type
-  const customerfilteredData = () => {
-    let data = [...customerData].sort((a, b) => b.orderCount - a.orderCount); // Sort in descending order
+  const customerFilteredData = () => {
+    let data = [...graphData?.customerBasedOnOrderData].sort((a, b) => b.orderCount - a.orderCount); // Sort in descending order
     if (filterType === "Top 3") {
       return data.slice(0, 3); // Get top 3
     } else if (filterType === "Top 5") {
@@ -614,10 +602,10 @@ const PeopleDetailedAnalytics = () => {
     }
   };
 
-  const filteredCustomerData = customerfilteredData();
+  const filteredCustomerData = customerFilteredData();
 
   // Extract series (order counts) and labels (customer names) from filtered data
-  const seriescustomer = filteredCustomerData.map(
+  const seriesCustomer = filteredCustomerData.map(
     (customer) => customer.orderCount
   );
   const labels = filteredCustomerData.map((customer) => customer.customerName);
@@ -1465,7 +1453,7 @@ const PeopleDetailedAnalytics = () => {
                 </select>
               </div>
 
-              <CustomerPolarAreaChart series={seriescustomer} labels={labels} />
+              <CustomerPolarAreaChart series={seriesCustomer} labels={labels} />
             </div>
 
             <div className={colSixGraph}>
