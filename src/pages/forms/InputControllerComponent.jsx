@@ -21,6 +21,7 @@ const InputControllerComponent = ({
   isCrossSellPopup,
   isPurchaseSatisfactionSurvey,
   isFeedbackSurvey,
+  isAttributionSurvey
 }) => {
   const [fieldState, setFieldState] = useState({
     fieldType: "",
@@ -97,7 +98,7 @@ const InputControllerComponent = ({
             <div className="w-full flex flex-col gap-9">
               <form action="#" onSubmit={(e) => e.preventDefault()}>
                 <div className={inputControllerFieldClass}>
-                  {!isProductBundle && !isCrossSellPopup && (
+                  {!isProductBundle && !isCrossSellPopup && !isAttributionSurvey &&(
                     <>
                       <div className="mb-6">
                         <label className="mb-2.5 block text-black dark:text-white font-semibold">
@@ -208,7 +209,7 @@ const InputControllerComponent = ({
                   </div>
                   {!isCrossSellPopup && !isFeedbackSurvey && (
                     <>
-                      {!isPurchaseSatisfactionSurvey && (
+                      {!isPurchaseSatisfactionSurvey && !isAttributionSurvey && (
                         <div className={`mt-4 ${inputControllerFieldClass}`}>
                           <>
                             <label className="mb-2.5 block text-black dark:text-white font-semibold">
@@ -373,7 +374,7 @@ const InputControllerComponent = ({
                   {!isProductBundle &&
                     !isCrossSellPopup &&
                     !isPurchaseSatisfactionSurvey &&
-                    !isFeedbackSurvey && (
+                    !isFeedbackSurvey && !isAttributionSurvey && (
                       <>
                         <div className="mb-6">
                           <label className="mb-2.5 block text-black dark:text-white font-semibold">
