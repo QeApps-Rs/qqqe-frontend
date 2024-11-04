@@ -18,6 +18,10 @@ const ProductBundleTab = ({
   setSelectedProducts,
   selectedProducts,
   setProductListForPopUp,
+  targetedProductsForPopUp,
+  setTargetedProductsForPopUp,
+  targetedCollectionsForPopUp,
+  setTargetedCollectionsForPopUp,
   noOfProducts,
   setNoOfProducts,
   productListForPopUp,
@@ -35,12 +39,10 @@ const ProductBundleTab = ({
   setTargetedProducts,
   targetedCollections,
   setTargetedCollections,
+  selectedCollections,
+  setSelectedCollections,
 }) => {
-  const [selectedCollections, setSelectedCollections] = useState({});
   const [loading, setLoading] = useState(true);
-  // const [targetedProducts, setTargetedProducts] = useState([]);
-  // const [targetedCollections, setTargetedCollections] = useState([]);
-
   useEffect(() => {
     setLoading(!loading);
   }, [productList]);
@@ -91,11 +93,32 @@ const ProductBundleTab = ({
     });
   };
 
-  const handleTargetedProductCheckboxChange = (id) => {
+  const handleTargetedProductCheckboxChange = (
+    id,
+    variantHandle = "",
+    title = "",
+    image = "",
+    price = 0
+  ) => {
     setTargetedProducts((prevCheckedItems) => ({
       ...prevCheckedItems,
       [id]: !prevCheckedItems[id],
     }));
+    setTargetedProductsForPopUp((prevItems) => {
+      const itemExists = prevItems.some((item) => item.id === id);
+      return itemExists
+        ? prevItems.filter((item) => item.id !== id)
+        : [
+            ...prevItems,
+            {
+              id,
+              title,
+              image,
+              price,
+              variantHandle,
+            },
+          ];
+    });
   };
 
   const handleCollectionCheckboxChange = (id, title = "", handle = "") => {
@@ -114,11 +137,17 @@ const ProductBundleTab = ({
     });
   };
 
-  const handleTargetedCollectionCheckboxChange = (id) => {
+  const handleTargetedCollectionCheckboxChange = (id, title = "", handle = "") => {
     setTargetedCollections((prevCheckedItems) => ({
       ...prevCheckedItems,
       [id]: !prevCheckedItems[id],
     }));
+    setTargetedCollectionsForPopUp((prevItems) => {
+      const itemExists = prevItems.some((item) => item.id === id);
+      return itemExists
+        ? prevItems.filter((item) => item.id !== id)
+        : [...prevItems, { id, title, handle }];
+    });
   };
 
   const ProductListComponent = ({
@@ -191,26 +220,44 @@ const ProductBundleTab = ({
           productList.map(
             (product) =>
               product.variants && product.variants.length > 0
-                ? product.variants.map((item, index) => (
-                    <div
-                      key={index}
-                      className="product-item flex items-center space-x-2"
-                    >
-                      <Checkbox
-                        id={index}
-                        label={
-                          item.title !== "Default Title"
-                            ? product.title + " - " + item.title
-                            : product.title
-                        }
-                        checked={targetedProducts[item.id] || false}
-                        onChange={() =>
-                          handleTargetedProductCheckboxChange(item.id)
-                        }
-                      />
-                      <span className="text-gray-500">{item.price}</span>
-                    </div>
-                  ))
+                ? product.variants.map((item, index) => {
+                    let variantId = item.id;
+                    let variantPrice = item.price;
+                    let imageId = item.image_id;
+                    const image = product.images.find(
+                      (img) => img.id === imageId
+                    );
+
+                    const imageSrc = image ? image.src : product?.image?.src;
+                    let variantTitle =
+                      item.title !== "Default Title"
+                        ? `${product.title} - ${item.title}`
+                        : `${product.title}                       `;
+
+                    let variantHandle = product?.handle;
+                    return (
+                      <div
+                        key={index}
+                        className="product-item flex items-center space-x-2"
+                      >
+                        <Checkbox
+                          id={index}
+                          label={variantTitle}
+                          checked={targetedProducts[item.id] || false}
+                          onChange={() =>
+                            handleTargetedProductCheckboxChange(
+                              variantId,
+                              variantHandle,
+                              variantTitle,
+                              imageSrc,
+                              variantPrice
+                            )
+                          }
+                        />
+                        <span className="text-gray-500">{item.price}</span>
+                      </div>
+                    );
+                  })
                 : null // Skip products without variants
           )
         ) : (
@@ -285,7 +332,11 @@ const ProductBundleTab = ({
                   label={collection.title}
                   checked={targetedCollections[collection.id] || false}
                   onChange={() =>
-                    handleTargetedCollectionCheckboxChange(collection.id)
+                    handleTargetedCollectionCheckboxChange(
+                      collection.id,
+                      collection.title,
+                      collection.handle
+                    )
                   }
                 />
               </div>
@@ -309,27 +360,6 @@ const ProductBundleTab = ({
                 <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                   <form action="#">
                     <div className="p-3">
-                      {/* <div className="mb-4.5 border-b border-black pb-4">
-                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                          Bundle Details
-                        </label>
-                        <div className="mt-3 flex justify-between flex-row items-center">
-                          <span>Title:</span>
-                          <input
-                            id="bundle-title"
-                            type="text"
-                            className=" w-32 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                          />
-                        </div>
-                        <div className="mt-3 flex justify-between flex-row items-center">
-                          <span>Description:</span>
-                          <textarea
-                            id="bundle-description"
-                            type="text"
-                            className=" w-32 h-10 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                          />
-                        </div>
-                      </div> */}
                       <div className="mb-4.5 border-b border-black pb-4">
                         <label className="mb-2.5 block text-black dark:text-white font-semibold">
                           Bundle Settings
