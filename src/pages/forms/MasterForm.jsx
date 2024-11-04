@@ -140,6 +140,10 @@ const MasterForm = () => {
   const [productListForPopUp, setProductListForPopUp] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState({});
   const [noOfProducts, setNoOfProducts] = useState(3);
+  const [targetedProductsForPopUp, setTargetedProductsForPopUp] = useState([]);
+  const [targetedCollectionsForPopUp, setTargetedCollectionsForPopUp] =
+    useState([]);
+  const [selectedCollections, setSelectedCollections] = useState({});
   const location = useLocation();
   const { keywords, subTemplateId } = location.state || {}; // Safely access state
   // TARGETING AND BEHAVIOR START
@@ -477,9 +481,34 @@ const MasterForm = () => {
                 return acc;
               }, {});
             setSelectedProducts(selectedProductIds);
-            setTargetedProducts(jsonObject?.items?.targeted_products);
+            const targetedProductIds =
+              jsonObject?.items?.targeted_products.reduce((acc, product) => {
+                acc[product.id] = true;
+                return acc;
+              }, {});
+            setTargetedProducts(targetedProductIds);
             setCollectionListForPopUp(jsonObject?.items?.selected_collections);
-            setTargetedCollections(jsonObject?.items?.targeted_collections);
+            const selectedCollectionIds =
+              jsonObject?.items?.selected_collections.reduce(
+                (acc, collection) => {
+                  acc[collection.id] = true;
+                  return acc;
+                },
+                {}
+              );
+            setSelectedCollections(selectedCollectionIds);
+            setTargetedCollectionsForPopUp(
+              jsonObject?.items?.targeted_collections
+            );
+            const targetedCollectionIds =
+              jsonObject?.items?.targeted_collections.reduce(
+                (acc, collection) => {
+                  acc[collection.id] = true;
+                  return acc;
+                },
+                {}
+              );
+            setTargetedCollections(targetedCollectionIds);
             setProductDiscountForDetails(
               jsonObject?.items?.discount_details?.discount_for
             );
@@ -982,8 +1011,8 @@ const MasterForm = () => {
     return {
       selected_products: productListForPopUp,
       selected_collections: collectionListForPopUp,
-      targeted_products: targetedProducts,
-      targeted_collections: targetedCollections,
+      targeted_products: targetedProductsForPopUp,
+      targeted_collections: targetedCollectionsForPopUp,
       discount_details: {
         discount_for: productDiscountForDetails,
         discount_type: productDiscountTypeDetails,
@@ -1157,6 +1186,12 @@ const MasterForm = () => {
                       setSelectedProducts={setSelectedProducts}
                       setProductListForPopUp={setProductListForPopUp}
                       setCollectionListForPopUp={setCollectionListForPopUp}
+                      targetedProductsForPopUp={targetedProductsForPopUp}
+                      setTargetedProductsForPopUp={setTargetedProductsForPopUp}
+                      targetedCollectionsForPopUp={targetedCollectionsForPopUp}
+                      setTargetedCollectionsForPopUp={
+                        setTargetedCollectionsForPopUp
+                      }
                       setNoOfProducts={setNoOfProducts}
                       noOfProducts={noOfProducts}
                       productListForPopUp={productListForPopUp}
@@ -1181,6 +1216,8 @@ const MasterForm = () => {
                       setTargetedProducts={setTargetedProducts}
                       targetedCollections={targetedCollections}
                       setTargetedCollections={setTargetedCollections}
+                      selectedCollections={selectedCollections}
+                      setSelectedCollections={setSelectedCollections}
                     />
                   )}
 
