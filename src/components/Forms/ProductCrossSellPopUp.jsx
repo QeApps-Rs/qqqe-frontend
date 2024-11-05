@@ -71,13 +71,16 @@ function ProductCrossSellPopUp({
   return (
     <div
       id="product-bundle"
-      className="flex justify-center items-center w-full h-[calc(100vh-300px)]"
+      className="flex justify-center items-center w-full bg-white"
+      style={{ height: "calc(100vh - 240px)" }}
     >
       <div
-        className="rounded-lg p-6 w-full max-w-4xl shadow-xl  border-l border-[#eaedef]"
+        className="p-6 w-full  shadow-xl "
         style={{
-          backgroundColor: templateDesign.templateBgColor,
-          borderRadius: templateDesign.borderRadius,
+          backgroundColor: templateDesign.templateBgColor || "#a3a126",
+          borderRadius: templateDesign.borderRadius || "16px",
+          margin: combinedMargin,
+          padding: combinedPadding,
         }}
       >
         <div className="text-center mb-4">
@@ -92,52 +95,54 @@ function ProductCrossSellPopUp({
         {/* Red dotted border around products */}
 
         <div
-          className="border-2 border-red-500 border-dotted rounded-lg p-4"
+          className="rounded-lg p-4 "
           style={{
-            borderWidth: templateDesign.borderWidth,
+            borderWidth: templateDesign.borderWidth || "2px",
             borderColor: templateDesign.templateBorderColor,
             borderStyle: templateDesign.formBorderStyle,
           }}
         >
-          <div
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-h-[320px] overflow-y-auto"
-            style={{ margin: combinedMargin }}
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6  ">
             {productData && productData.length > 0 ? (
               productData.map((product, index) => (
                 <div
                   key={index}
-                  className="flex flex-col items-center text-center rounded-lg p-4 "
+                  className="flex flex-row items-center rounded-lg p-4 gap-4"
                   style={{
-                    backgroundColor: templateDesign.templateOverlayColor,
+                    backgroundColor:
+                      templateDesign.templateOverlayColor || "#889885",
                   }}
                 >
-                  <a href="#" className="mb-4">
-                    <img
-                      src={product.image}
-                      alt={product.variantHandle}
-                      className="w-32 h-32 rounded-lg"
-                    />
-                  </a>
-                  <Tooltip
-                    title={product.title}
-                    position="bottom"
-                    trigger="mouseenter"
-                  >
-                    <p className="text-lg font-small mb-2 max-w-[240px] truncate">
-                      <a href="#">{product.title}</a>
-                    </p>
-                  </Tooltip>
-                  <p className="text-xl font-bold mb-4">${product.price}</p>
-                  <a
-                    className="block w-full bg-black text-white py-2 rounded hover:bg-gray-800"
-                    href="#"
-                    style={{
-                      backgroundColor: templateDesign.templateButtonBgColor,
-                    }}
-                  >
-                    {templateDesign.button}
-                  </a>
+                  <div className="block">
+                    <a href="#">
+                      <img
+                        src={product.image}
+                        alt={product.variantHandle}
+                        className="w-32 h-32 rounded-lg"
+                      />
+                    </a>
+                  </div>
+                  <div className="block">
+                    <Tooltip
+                      title={product.title}
+                      position="bottom"
+                      trigger="mouseenter"
+                    >
+                      <p className="text-lg font-small mb-2 max-w-[240px] truncate">
+                        <a href="#">{product.title}</a>
+                      </p>
+                    </Tooltip>
+                    <p className="text-xl font-bold mb-4">${product.price}</p>
+                    <a
+                      className="block w-max bg-black text-white py-2 px-6 rounded hover:bg-gray-800"
+                      href="#"
+                      style={{
+                        backgroundColor: templateDesign.templateButtonBgColor,
+                      }}
+                    >
+                      {templateDesign.button}
+                    </a>
+                  </div>
                 </div>
               ))
             ) : (

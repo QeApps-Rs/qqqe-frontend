@@ -21,7 +21,9 @@ const InputControllerComponent = ({
   isCrossSellPopup,
   isPurchaseSatisfactionSurvey,
   isFeedbackSurvey,
-  isAttributionSurvey
+  isAttributionSurvey,
+  isAbandonmentPopup,
+  isUpSellPopup,
 }) => {
   const [fieldState, setFieldState] = useState({
     fieldType: "",
@@ -98,52 +100,56 @@ const InputControllerComponent = ({
             <div className="w-full flex flex-col gap-9">
               <form action="#" onSubmit={(e) => e.preventDefault()}>
                 <div className={inputControllerFieldClass}>
-                  {!isProductBundle && !isCrossSellPopup && !isAttributionSurvey &&(
-                    <>
-                      <div className="mb-6">
-                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                          Template Picture Upload
-                        </label>
-                        <label
-                          htmlFor="cover"
-                          className="flex cursor-pointer items-center justify-center gap-2 rounded bg-primary py-2 px-2 text-sm font-medium text-white hover:bg-opacity-90 xsm:px-4"
-                        >
-                          <input
-                            type="file"
-                            name="cover"
-                            id="cover"
-                            className="sr-only"
-                            onChange={(e) => {
-                              const file = e.target.files[0];
-                              if (file) {
-                                const reader = new FileReader();
-                                reader.onloadend = () => {
-                                  setTemplateDesign((prev) => ({
-                                    ...prev,
-                                    image: reader.result,
-                                  }));
-                                };
-                                reader.readAsDataURL(file);
-                              }
+                  {!isProductBundle &&
+                    !isCrossSellPopup &&
+                    !isAttributionSurvey &&
+                    !isAbandonmentPopup &&
+                    !isUpSellPopup && (
+                      <>
+                        <div className="mb-6">
+                          <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                            Template Picture Upload
+                          </label>
+                          <label
+                            htmlFor="cover"
+                            className="flex cursor-pointer items-center justify-center gap-2 rounded bg-primary py-2 px-2 text-sm font-medium text-white hover:bg-opacity-90 xsm:px-4"
+                          >
+                            <input
+                              type="file"
+                              name="cover"
+                              id="cover"
+                              className="sr-only"
+                              onChange={(e) => {
+                                const file = e.target.files[0];
+                                if (file) {
+                                  const reader = new FileReader();
+                                  reader.onloadend = () => {
+                                    setTemplateDesign((prev) => ({
+                                      ...prev,
+                                      image: reader.result,
+                                    }));
+                                  };
+                                  reader.readAsDataURL(file);
+                                }
+                              }}
+                            />
+                            <span>
+                              <CameraIcon />
+                            </span>
+                            <span>Edit</span>
+                          </label>
+                        </div>
+                        <div className="mb-6">
+                          <DropDown
+                            jsonData={{
+                              ...imagePositionDropdownData,
                             }}
+                            selectedValue={templateDesign.imagePosition}
+                            setSelectedValue={onTemplateChange("imagePosition")}
                           />
-                          <span>
-                            <CameraIcon />
-                          </span>
-                          <span>Edit</span>
-                        </label>
-                      </div>
-                      <div className="mb-6">
-                        <DropDown
-                          jsonData={{
-                            ...imagePositionDropdownData,
-                          }}
-                          selectedValue={templateDesign.imagePosition}
-                          setSelectedValue={onTemplateChange("imagePosition")}
-                        />
-                      </div>
-                    </>
-                  )}
+                        </div>
+                      </>
+                    )}
 
                   <div className={inputControllerFieldClass}>
                     <label className="mb-2.5 block text-black dark:text-white font-semibold">
@@ -209,137 +215,140 @@ const InputControllerComponent = ({
                   </div>
                   {!isCrossSellPopup && !isFeedbackSurvey && (
                     <>
-                      {!isPurchaseSatisfactionSurvey && !isAttributionSurvey && (
-                        <div className={`mt-4 ${inputControllerFieldClass}`}>
-                          <>
-                            <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                              Template Offer Number
-                            </label>
-                            <input
-                              type="text"
-                              value={templateDesign.offerAmount}
-                              onChange={(e) =>
-                                setTemplateDesign((prev) => ({
-                                  ...prev,
-                                  offerAmount: e.target.value,
-                                }))
-                              }
-                              placeholder="pleaser enter template offer number"
-                              className="w-full p-2 border rounded-md focus:outline-none"
-                            />
-                          </>
+                      {!isPurchaseSatisfactionSurvey &&
+                        !isAttributionSurvey &&
+                        !isAbandonmentPopup &&
+                        !isUpSellPopup && (
+                          <div className={`mt-4 ${inputControllerFieldClass}`}>
+                            <>
+                              <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                                Template Offer Number
+                              </label>
+                              <input
+                                type="text"
+                                value={templateDesign.offerAmount}
+                                onChange={(e) =>
+                                  setTemplateDesign((prev) => ({
+                                    ...prev,
+                                    offerAmount: e.target.value,
+                                  }))
+                                }
+                                placeholder="pleaser enter template offer number"
+                                className="w-full p-2 border rounded-md focus:outline-none"
+                              />
+                            </>
 
-                          <div className="mt-3 flex justify-between flex-row items-center">
-                            <span className="mr-2">Font:</span>
-                            <select
-                              onChange={(e) =>
-                                onTemplateChange("templateOfferFontFamily")(
-                                  e.target.value
-                                )
-                              }
-                              value={templateDesign.templateOfferFontFamily}
-                              className={`${defaultBoxClassName} h-12 mr-2`}
-                            >
-                              {fontFamilyList.map((item) => (
-                                <option key={item.label} value={item.label}>
-                                  {item.label}
-                                </option>
-                              ))}
-                            </select>
-                            <input
-                              id="border-thickness"
-                              type="number"
-                              placeholder="px"
-                              className={`${defaultBoxClassName} h-12`}
-                              value={
-                                templateDesign.templateOfferFontSize.replace(
-                                  "px",
-                                  ""
-                                ) || ""
-                              }
-                              onChange={(e) =>
-                                onTemplateChange("templateOfferFontSize")(
-                                  e.target.value + "px"
-                                )
-                              }
-                            />
+                            <div className="mt-3 flex justify-between flex-row items-center">
+                              <span className="mr-2">Font:</span>
+                              <select
+                                onChange={(e) =>
+                                  onTemplateChange("templateOfferFontFamily")(
+                                    e.target.value
+                                  )
+                                }
+                                value={templateDesign.templateOfferFontFamily}
+                                className={`${defaultBoxClassName} h-12 mr-2`}
+                              >
+                                {fontFamilyList.map((item) => (
+                                  <option key={item.label} value={item.label}>
+                                    {item.label}
+                                  </option>
+                                ))}
+                              </select>
+                              <input
+                                id="border-thickness"
+                                type="number"
+                                placeholder="px"
+                                className={`${defaultBoxClassName} h-12`}
+                                value={
+                                  templateDesign.templateOfferFontSize.replace(
+                                    "px",
+                                    ""
+                                  ) || ""
+                                }
+                                onChange={(e) =>
+                                  onTemplateChange("templateOfferFontSize")(
+                                    e.target.value + "px"
+                                  )
+                                }
+                              />
+                            </div>
+                            <div className="flex items-center mt-3">
+                              <span className="mr-2">Color:</span>
+                              <ColorPicker
+                                defaultColor={templateDesign.templateOfferColor}
+                                onChange={(color) =>
+                                  onTemplateChange("templateOfferColor")(color)
+                                }
+                              />
+                            </div>
                           </div>
-                          <div className="flex items-center mt-3">
-                            <span className="mr-2">Color:</span>
-                            <ColorPicker
-                              defaultColor={templateDesign.templateOfferColor}
-                              onChange={(color) =>
-                                onTemplateChange("templateOfferColor")(color)
-                              }
-                            />
-                          </div>
-                        </div>
-                      )}
-                      <div className={`mt-4 ${inputControllerFieldClass}`}>
-                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                          Template Sub-Heading
-                        </label>
-
-                        <input
-                          type="text"
-                          value={templateDesign.subHeading}
-                          onChange={(e) =>
-                            setTemplateDesign((prev) => ({
-                              ...prev,
-                              subHeading: e.target.value,
-                            }))
-                          }
-                          placeholder="pleaser enter template sub-heading"
-                          className="w-full p-2 border rounded-md focus:outline-none"
-                        />
-                        <div className="mt-3 flex justify-between flex-row items-center">
-                          <span className="mr-2">Font:</span>
-                          <select
-                            onChange={(e) =>
-                              onTemplateChange("templateSubHeadingFontFamily")(
-                                e.target.value
-                              )
-                            }
-                            value={templateDesign.templateSubHeadingFontFamily}
-                            className={`${defaultBoxClassName} h-12 mr-2`}
-                          >
-                            {fontFamilyList.map((item) => (
-                              <option key={item.label} value={item.label}>
-                                {item.label}
-                              </option>
-                            ))}
-                          </select>
-                          <input
-                            id="border-thickness"
-                            type="number"
-                            placeholder="px"
-                            className={`${defaultBoxClassName} h-12`}
-                            value={
-                              templateDesign.templateSubHeadingFontSize.replace(
-                                "px",
-                                ""
-                              ) || ""
-                            }
-                            onChange={(e) =>
-                              onTemplateChange("templateSubHeadingFontSize")(
-                                e.target.value + "px"
-                              )
-                            }
-                          />
-                        </div>
-                        <div className="flex items-center mt-3">
-                          <span className="mr-2">Color:</span>
-                          <ColorPicker
-                            defaultColor={
-                              templateDesign.templateSubHeadingColor
-                            }
-                            onChange={(color) =>
-                              onTemplateChange("templateSubHeadingColor")(color)
-                            }
-                          />
-                        </div>
-                      </div>{" "}
+                        )}{" "}
                     </>
+                  )}
+                  {!isPurchaseSatisfactionSurvey && !isCrossSellPopup && (
+                    <div className={`mt-4 ${inputControllerFieldClass}`}>
+                      <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                        Template Sub-Heading
+                      </label>
+
+                      <input
+                        type="text"
+                        value={templateDesign.subHeading}
+                        onChange={(e) =>
+                          setTemplateDesign((prev) => ({
+                            ...prev,
+                            subHeading: e.target.value,
+                          }))
+                        }
+                        placeholder="pleaser enter template sub-heading"
+                        className="w-full p-2 border rounded-md focus:outline-none"
+                      />
+                      <div className="mt-3 flex justify-between flex-row items-center">
+                        <span className="mr-2">Font:</span>
+                        <select
+                          onChange={(e) =>
+                            onTemplateChange("templateSubHeadingFontFamily")(
+                              e.target.value
+                            )
+                          }
+                          value={templateDesign.templateSubHeadingFontFamily}
+                          className={`${defaultBoxClassName} h-12 mr-2`}
+                        >
+                          {fontFamilyList.map((item) => (
+                            <option key={item.label} value={item.label}>
+                              {item.label}
+                            </option>
+                          ))}
+                        </select>
+                        <input
+                          id="border-thickness"
+                          type="number"
+                          placeholder="px"
+                          className={`${defaultBoxClassName} h-12`}
+                          value={
+                            templateDesign.templateSubHeadingFontSize.replace(
+                              "px",
+                              ""
+                            ) || ""
+                          }
+                          onChange={(e) =>
+                            onTemplateChange("templateSubHeadingFontSize")(
+                              e.target.value + "px"
+                            )
+                          }
+                        />
+                      </div>
+                      <div className="flex items-center mt-3">
+                        <span className="mr-2">Color:</span>
+                        <ColorPicker
+                          defaultColor={templateDesign.templateSubHeadingColor}
+                          onChange={(color) =>
+                            onTemplateChange("templateSubHeadingColor")(color)
+                          }
+                        />
+                      </div>
+                    </div>
                   )}
                   {!isPurchaseSatisfactionSurvey && !isFeedbackSurvey && (
                     <div className="mb-6">
@@ -374,7 +383,10 @@ const InputControllerComponent = ({
                   {!isProductBundle &&
                     !isCrossSellPopup &&
                     !isPurchaseSatisfactionSurvey &&
-                    !isFeedbackSurvey && !isAttributionSurvey && (
+                    !isFeedbackSurvey &&
+                    !isAttributionSurvey &&
+                    !isAbandonmentPopup &&
+                    !isUpSellPopup && (
                       <>
                         <div className="mb-6">
                           <label className="mb-2.5 block text-black dark:text-white font-semibold">

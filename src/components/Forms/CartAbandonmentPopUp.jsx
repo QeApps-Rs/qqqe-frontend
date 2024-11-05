@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import defaultProductImg from "../../images/default_product.png";
 import { Tooltip } from "react-tippy";
@@ -6,7 +7,6 @@ function CartAbandonmentPopUp({
   productData,
   noOfProducts,
   templateDesign,
-  templateData,
   getStyle,
 }) {
   const DefaultProductDiv = ({ noOfProducts, defaultProductImg }) => {
@@ -35,40 +35,50 @@ function CartAbandonmentPopUp({
   };
 
   const combinedPadding = `
-  ${templateDesign.templatePaddingTop} 
-  ${templateDesign.templatePaddingRight} 
-  ${templateDesign.templatePaddingBottom} 
-  ${templateDesign.templatePaddingLeft}
-`;
+    ${templateDesign.templatePaddingTop} 
+    ${templateDesign.templatePaddingRight} 
+    ${templateDesign.templatePaddingBottom} 
+    ${templateDesign.templatePaddingLeft}
+  `;
 
+  // Apply default margin if not provided
   const combinedMargin = `
-  ${templateDesign.templateMarginTop} 
-  ${templateDesign.templateMarginRight} 
-  ${templateDesign.templateMarginBottom} 
-  ${templateDesign.templateMarginLeft}
-`;
+    ${templateDesign.templateMarginTop} 
+    ${templateDesign.templateMarginRight} 
+    ${templateDesign.templateMarginBottom} 
+    ${templateDesign.templateMarginLeft}
+  `;
 
   return (
     <div
       id="product-bundle"
       className="flex justify-center items-center w-full h-full bg-white"
+      style={{ height: "calc(100vh - 240px)" }}
     >
       <div
-        className="rounded-lg p-6 w-full max-w-6xl shadow-xl border border-gray-200"
+        className="w-full shadow-xl "
         style={{
-          backgroundColor: templateDesign.templateBgColor,
-          borderRadius: templateDesign.borderRadius,
+          backgroundColor: templateDesign.templateBgColor || "#c3e7cf",
+          borderRadius: templateDesign.borderRadius || "16px",
+          padding: combinedPadding,
+          margin: combinedMargin,
+          borderStyle: templateDesign.formBorderStyle || "solid",
+          borderWidth: templateDesign.borderWidth || "2px",
+          borderColor: templateDesign.templateBorderColor || "#E5E7EB",
         }}
       >
         <div className="text-center mb-6">
-          <h5 style={getStyle(templateDesign, "templateHeading")}>
-            {templateDesign.heading || "Recommended for You!"}
+          <h5
+            style={getStyle(templateDesign, "templateHeading")}
+            className="leading-none"
+          >
+            {templateDesign.heading}
           </h5>
           <h4
-            className="text-lg font-semibold"
-            style={getStyle(templateDesign, "templateOffer")}
+            className="leading-none mt-3"
+            style={getStyle(templateDesign, "templateSubHeading")}
           >
-            {templateData.offerAmount ||
+            {templateDesign.subHeading ||
               "Check out these products we picked just for you!"}
           </h4>
         </div>
@@ -82,7 +92,9 @@ function CartAbandonmentPopUp({
                   key={index}
                   className="text-center p-4"
                   style={{
-                    backgroundColor: templateDesign.templateOverlayColor,
+                    backgroundColor:
+                      templateDesign.templateOverlayColor || "#959595",
+                    borderRadius: templateDesign.borderRadius || "16px",
                   }}
                 >
                   <a href="#" className="mb-4">
@@ -97,10 +109,21 @@ function CartAbandonmentPopUp({
                     position="bottom"
                     trigger="mouseenter"
                   >
-                    <p className="text-base font-medium max-w-xs mx-auto truncate">
+                    <p className="text-base font-medium max-w-xs mx-auto truncate text-white mt-4">
                       <a href="#">{product.title}</a>
                     </p>
                   </Tooltip>
+                  <a
+                    key={index}
+                    href="#"
+                    className=" text-white py-2 px-6 rounded-lg inline-block mt-4"
+                    style={{
+                      backgroundColor:
+                        templateDesign.templateButtonBgColor ,
+                    }}
+                  >
+                    {templateDesign.button}
+                  </a>
                 </div>
               ))
             ) : (
@@ -113,7 +136,7 @@ function CartAbandonmentPopUp({
         </div>
 
         {/* Shop Now buttons below red border */}
-        <div className="flex justify-around mt-6">
+        {/* <div className="flex justify-around mt-6">
           {productData && productData.length > 0
             ? productData.map((_, index) => (
                 <a
@@ -133,7 +156,7 @@ function CartAbandonmentPopUp({
                   Shop Now
                 </a>
               ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable react/no-unknown-property */
 import { useState, useEffect } from "react";
 import popup_img from "../../../src/images/newsletter_left_img.png";
@@ -257,10 +258,10 @@ const MasterForm = () => {
 
   const formClasses = () => {
     const { formWidth, formType } = templateDesign;
-    let classes = "h-[calc(100vh-250px)] ";
+    let classes = "h-[calc(100vh-300px)] ";
 
     if (isView === "Desktop") {
-      classes += "grid grid-cols-12 items-center shadow-lg overflow-auto ";
+      classes += "grid grid-cols-12  shadow-lg  ";
     } else {
       classes = "overflow-y-auto h-[500px] w-[380px]";
     }
@@ -1114,6 +1115,11 @@ const MasterForm = () => {
                     isAttributionSurvey={
                       suggestionTemplateStatus?.isAttributionSurvey
                     }
+                    isAbandonmentPopup={
+                      suggestionTemplateStatus?.isAbandonmentPopup
+                    }
+                    isPreviewPopup={suggestionTemplateStatus?.isPreviewPopup}
+                    isUpSellPopup={suggestionTemplateStatus?.isUpSellPopup}
                   />
                 )}
                 {activeIndex === index && item.tag === "inputController" && (
@@ -1140,6 +1146,10 @@ const MasterForm = () => {
                       isAttributionSurvey={
                         suggestionTemplateStatus?.isAttributionSurvey
                       }
+                      isAbandonmentPopup={
+                        suggestionTemplateStatus?.isAbandonmentPopup
+                      }
+                      isUpSellPopup={suggestionTemplateStatus?.isUpSellPopup}
                     />
                   </>
                 )}
@@ -1354,34 +1364,40 @@ const MasterForm = () => {
         )}
         {suggestionTemplateStatus.isFeedbackSurvey && (
           <div
-            className={` flex items-center justify-center ${
-              isView !== "Desktop"
-                ? "min-h-[785px] bg-no-repeat bg-top bg-center"
-                : "gap-8 h-[calc(100vh-250px)] "
-            }`}
+            className="flex items-center justify-center bg-white"
             style={{
-              backgroundColor: templateDesign.templateBgColor,
-              margin: combinedMargin,
-              // minHeight: templateDesign.templateMinHeight,
+              backgroundColor: templateDesign.templateBgColor || "#000000",
               backgroundImage:
                 isView !== "Desktop"
                   ? "url('https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/src/images/mobile_bg.png')"
                   : "",
+              height: "calc(100vh - 240px)",
             }}
           >
             <div
               className={formClasses()}
               style={{
-                backgroundColor: templateDesign.templateOverlayColor,
+                backgroundColor:
+                  templateDesign.templateOverlayColor || "#ffffff",
                 borderRadius: templateDesign.borderRadius,
                 borderWidth: templateDesign.borderWidth,
                 borderColor: templateDesign.templateBorderColor,
                 borderStyle: templateDesign.formBorderStyle,
-                padding: combinedPadding,
+                margin: combinedMargin,
               }}
             >
               <div
-                className={`p-8 flex flex-col justify-center xl:col-span-6 ${containerClass}`}
+                className={`flex flex-col justify-center xl:col-span-6 content ${containerClass}`}
+              >
+                <img
+                  src={surveyImageSrc}
+                  alt="Promo"
+                  className={`w-full ${formClasses()}`}
+                />
+              </div>
+              <div
+                className="flex flex-col justify-center xl:col-span-6"
+                style={{ padding: combinedPadding }}
               >
                 <h1
                   className="text-8xl font-bold mb-4 relative leading-none"
@@ -1409,13 +1425,6 @@ const MasterForm = () => {
                     <>{renderNumbers(ratingCount)}</>
                   )}
                 </form>
-              </div>
-              <div className="flex flex-col justify-center xl:col-span-6 content">
-                <img
-                  src={surveyImageSrc}
-                  alt="Promo"
-                  className={`w-full ${formClasses()}`}
-                />
               </div>
             </div>
           </div>
@@ -1453,7 +1462,7 @@ const MasterForm = () => {
               <div className="flex flex-wrap justify-center w-full">
                 <div className="mb-4">
                   <span
-                    className="w-max inline-block font-semibold leading-normal"
+                    className="inline-block font-semibold leading-normal"
                     style={getStyle(templateDesign, "templateHeading")}
                   >
                     {templateDesign.heading}
@@ -1484,7 +1493,7 @@ const MasterForm = () => {
             style={{ height: "calc(100vh - 250px)" }}
           >
             <div
-              className={`flex items-center justify-center  p-8 shadow-lg flex-wrap ${feedbackSurveyClasses()}`}
+              className={`items-center justify-center shadow-lg flex-wrap ${feedbackSurveyClasses()}`}
               style={{
                 backgroundColor: templateDesign.templateBgColor || "#954de3",
                 borderRadius: templateDesign.borderRadius || "16px",
@@ -1496,16 +1505,22 @@ const MasterForm = () => {
                 minHeight: 200,
               }}
             >
-              <div className="d-flex ">
+              <div className="w-1/2">
                 {/* <button className="absolute top-4 right-4 text-white text-lg font-semibold">
                 &times;
               </button> */}
 
-                <h2 className="block text-center text-white text-xl font-bold mb-2">
+                <h2
+                  className="block text-center  font-bold mb-2"
+                  style={getStyle(templateDesign, "templateHeading")}
+                >
                   {templateDesign.heading}
                 </h2>
 
-                <p className="block text-center text-white mb-6">
+                <p
+                  className="block text-center  mb-6"
+                  style={getStyle(templateDesign, "templateSubHeading")}
+                >
                   {templateDesign.subHeading ||
                     "Before you go we would like to hear your feedback"}
                 </p>
@@ -1513,21 +1528,25 @@ const MasterForm = () => {
               <h1 className="text-2xl text-white font-bold text-center mb-6">
                 {surveyControllerEditState.fieldName}
               </h1> */}
-                <div className="grid gap-4 text-center justify-center grid-cols-2">
+                <div className="grid grid-cols-12 gap-4">
                   {addedButton.map((field, index) => (
-                    <SurveyButtonComponent
-                      key={index}
-                      templateDesign={templateDesign}
-                      buttonLink={field.buttonLink}
-                      buttonText={field.buttonText}
-                      inputValue={inputBtnSurveyValues[field.buttonText] || ""}
-                      onInputChange={handleBtnInputChange}
-                      isSubmitted={isSubmitted}
-                      onDelete={() =>
-                        handleSurveyBtnDeleteField(field.buttonText, index)
-                      }
-                      onEdit={() => handleSurveyBtnEdit(field, index)}
-                    />
+                    <div className="col-span-4">
+                      <SurveyButtonComponent
+                        key={index}
+                        templateDesign={templateDesign}
+                        buttonLink={field.buttonLink}
+                        buttonText={field.buttonText}
+                        inputValue={
+                          inputBtnSurveyValues[field.buttonText] || ""
+                        }
+                        onInputChange={handleBtnInputChange}
+                        isSubmitted={isSubmitted}
+                        onDelete={() =>
+                          handleSurveyBtnDeleteField(field.buttonText, index)
+                        }
+                        onEdit={() => handleSurveyBtnEdit(field, index)}
+                      />
+                    </div>
                   ))}
                 </div>
               </div>

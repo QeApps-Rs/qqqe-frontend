@@ -68,31 +68,33 @@ function ProductBundlePopUp({
     <>
       <div
         id="product-bundle"
-        className="h-full justify-center items-center flex w-full"
+        className="justify-center items-center flex w-full bg-white"
+        style={{ height: "calc(100vh - 240px)" }}
       >
         <div
-          className=" rounded-lg  p-6 w-full max-w-3xl relative  shadow-[7px_-7px_57px_#ccc]"
+          className=" rounded-lg  p-6 w-full relative  shadow-[7px_-7px_57px_#ccc]"
           style={{
-            backgroundColor: templateDesign.templateBgColor,
-            border: templateDesign.formBorderStyle,
+            backgroundColor: templateDesign.templateBgColor || "#9f9e9e",
             borderRadius: templateDesign.borderRadius,
-            borderWidth: templateDesign.borderWidth,
-            borderColor: templateDesign.templateBorderColor,
+
             borderStyle: templateDesign.formBorderStyle,
           }}
         >
           <div className="text-center mb-4">
-            <h5 style={getStyle(templateDesign, "templateHeading")}>
+            <h5
+              style={getStyle(templateDesign, "templateHeading")}
+              className="leading-none"
+            >
               {templateDesign.heading || "Welcome back!"}
             </h5>
             <h4
-              className="text-lg font-semibold"
+              className="leading-none mt-4"
               style={getStyle(templateDesign, "templateOffer")}
             >
               {templateDesign.offerAmount || "Pick up where you left off"}
             </h4>
             <p
-              className="text-lg mt-4"
+              className="mt-4 leading-none"
               style={getStyle(templateDesign, "templateSubHeading")}
             >
               {templateDesign.subHeading ||
@@ -108,9 +110,13 @@ function ProductBundlePopUp({
               productData.map((product, index) => (
                 <div
                   key={index}
-                  className="border rounded-lg p-4 "
+                  className="p-4 "
                   style={{
-                    backgroundColor: templateDesign.templateOverlayColor,
+                    backgroundColor:
+                      templateDesign.templateOverlayColor || "#ffffff",
+                    borderWidth: templateDesign.borderWidth,
+                    borderColor: templateDesign.templateBorderColor,
+                    border: templateDesign.formBorderStyle,
                   }}
                 >
                   <div className="mb-4">
@@ -144,7 +150,7 @@ function ProductBundlePopUp({
                       backgroundColor: templateDesign.templateButtonBgColor,
                     }}
                   >
-                    {templateDesign.button || "Continue"}
+                    {templateDesign.button}
                   </a>
                 </div>
               ))

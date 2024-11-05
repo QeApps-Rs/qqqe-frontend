@@ -21,7 +21,10 @@ const StyleComponent = ({
   isCrossSellPopup,
   isPurchaseSatisfactionSurvey,
   isFeedbackSurvey,
-  isAttributionSurvey
+  isAttributionSurvey,
+  isAbandonmentPopup,
+  isPreviewPopup,
+  isUpSellPopup
 }) => {
   const [activeTab, setActiveTab] = useState("Desktop");
 
@@ -93,27 +96,29 @@ const StyleComponent = ({
               <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                 <form>
                   <div className="p-3">
-                    {!isProductBundle && !isCrossSellPopup && (
-                      <>
-                        {renderDropDown("Form Type", {
-                          ...formTypeDropdown,
-                          name: "formType",
-                          defaultValue: templateDesign.formType,
-                        })}
-                        {renderDropDown("Form Width", {
-                          ...widthDropdown,
-                          name: "formWidth",
-                          defaultValue: templateDesign.formWidth,
-                        })}
-                        {/* {renderInputField(
+                    {!isProductBundle &&
+                      !isCrossSellPopup &&
+                      !isAbandonmentPopup && !isUpSellPopup && (
+                        <>
+                          {renderDropDown("Form Type", {
+                            ...formTypeDropdown,
+                            name: "formType",
+                            defaultValue: templateDesign.formType,
+                          })}
+                          {renderDropDown("Form Width", {
+                            ...widthDropdown,
+                            name: "formWidth",
+                            defaultValue: templateDesign.formWidth,
+                          })}
+                          {/* {renderInputField(
                             "Minimum Height(px)",
                             templateDesign.templateMinHeight,
                             onTemplateChange("templateMinHeight"),
                             "minimum-height",
                             "px"
                           )} */}
-                      </>
-                    )}
+                        </>
+                      )}
 
                     <div className="mt-3 font-semibold text-black">Show On</div>
                     <div className="flex items-center space-x-2 bg-slate-100 p-2 rounded-md">
@@ -153,39 +158,46 @@ const StyleComponent = ({
                         "border-radius",
                         "px"
                       )}
-                      <div className="mt-3 flex justify-between flex-row items-center">
-                        <span>Border style:</span>
-                        <select
-                          onChange={(e) => {
-                            onTemplateChange("formBorderStyle")(e.target.value);
-                            onTemplateChange("borderWidth")("");
-                          }}
-                          value={templateDesign.formBorderStyle}
-                          className={`${defaultBoxClassName} h-12`}
-                        >
-                          {borderStyles.map((style) => (
-                            <option key={style.value} value={style.value}>
-                              {style.label}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      {templateDesign.formBorderStyle !== "none" && (
+
+                      {!isPreviewPopup && (
                         <>
-                          {renderColorPicker(
-                            "Border color",
-                            "templateBorderColor"
-                          )}
-                          {renderInputField(
-                            "Border Thickness",
-                            templateDesign.borderWidth,
-                            onTemplateChange("borderWidth"),
-                            "border-thickness",
-                            "px"
+                          <div className="mt-3 flex justify-between flex-row items-center">
+                            <span>Border style:</span>
+                            <select
+                              onChange={(e) => {
+                                onTemplateChange("formBorderStyle")(
+                                  e.target.value
+                                );
+                                onTemplateChange("borderWidth")("");
+                              }}
+                              value={templateDesign.formBorderStyle}
+                              className={`${defaultBoxClassName} h-12`}
+                            >
+                              {borderStyles.map((style) => (
+                                <option key={style.value} value={style.value}>
+                                  {style.label}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          {templateDesign.formBorderStyle !== "none" && (
+                            <>
+                              {renderColorPicker(
+                                "Border color",
+                                "templateBorderColor"
+                              )}
+                              {renderInputField(
+                                "Border Thickness",
+                                templateDesign.borderWidth,
+                                onTemplateChange("borderWidth"),
+                                "border-thickness",
+                                "px"
+                              )}
+                            </>
                           )}
                         </>
                       )}
-
                       <label className="block mt-4">Padding (px):</label>
                       <div className="grid grid-cols-2">
                         {["Top", "Bottom", "Left", "Right"].map((position, i) =>
@@ -217,7 +229,9 @@ const StyleComponent = ({
                     {!isProductBundle &&
                       !isCrossSellPopup &&
                       !isPurchaseSatisfactionSurvey &&
-                      !isFeedbackSurvey && !isAttributionSurvey &&(
+                      !isFeedbackSurvey &&
+                      !isAttributionSurvey &&
+                      !isAbandonmentPopup && !isUpSellPopup && (
                         <>
                           <div className="mb-4.5 border-b border-black pb-4">
                             <label className="mb-2 block text-black dark:text-white font-semibold">

@@ -79,32 +79,40 @@ function ProductUpSellPopUp({
     <>
       <div
         id="product-upSell-popup"
-        className="h-full justify-center items-center flex  border-l border-[#eaedef] w-full bg-white shadow-[6px_0px_7px_#ccc]"
+        className="justify-center items-center flex  border-l border-[#eaedef] w-full bg-white shadow-[6px_0px_7px_#ccc]"
+        style={{ height: "calc(100vh - 240px)" }}
       >
         <div
-          className=" rounded-lg  p-6 w-full max-w-3xl relative  shadow-[7px_-7px_57px_#ccc]"
+          className="p-6 w-full max-w-3xl relative  shadow-[7px_-7px_57px_#ccc]"
           style={{
-            backgroundColor: templateDesign.templateBgColor,
-            border: templateDesign.formBorderStyle,
-            borderRadius: templateDesign.borderRadius,
-            borderWidth: templateDesign.borderWidth,
-            borderColor: templateDesign.templateBorderColor,
-            borderStyle: templateDesign.formBorderStyle,
+            backgroundColor: templateDesign.templateBgColor || "#f43f5b",
           }}
         >
           <div className="text-center mb-4">
-            <h5 style={getStyle(templateDesign, "templateHeading")}>
-              {templateData.heading || "TRANSPARENT"}
+            <h5
+              style={getStyle(templateDesign, "templateHeading")}
+              className="leading-none"
+            >
+              {templateDesign.heading }
             </h5>
             <h4
-              className="text-lg font-semibold"
-              style={getStyle(templateDesign, "templateOffer")}
+              className="leading-none mt-4"
+              style={getStyle(templateDesign, "templateSubHeading")}
             >
-              {templateData.offerAmount || "HOTTEST PICKS YOU'LL LOVE"}
+              {templateDesign.subHeading || "HOTTEST PICKS YOU'LL LOVE"}
             </h4>
           </div>
 
-          <div className="border-2 border-white border-dotted">
+          <div
+            className="border-2 border-white border-dotted"
+            style={{
+              borderWidth: templateDesign.borderWidth,
+              borderColor: templateDesign.templateBorderColor,
+              border: templateDesign.formBorderStyle,
+              borderStyle: templateDesign.formBorderStyle,
+              borderRadius: templateDesign.borderRadius || "12px",
+            }}
+          >
             <div
               className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-h-[360px] overflow-auto"
               style={{ margin: combinedMargin }}
@@ -118,12 +126,18 @@ function ProductUpSellPopUp({
                       backgroundColor: "transparent",
                     }}
                   >
-                    <div className="mb-4 bg-white">
+                    <div
+                      className="mb-4 h-40 flex  rounded-lg items-center justify-center"
+                      style={{
+                        background:
+                          templateDesign.templateOverlayColor || "#FFFFFF",
+                      }}
+                    >
                       <a href="#">
                         <img
                           src={product.image}
                           alt={product.variantHandle}
-                          className="w-32 h-32 mx-auto rounded-lg"
+                          className="h-32 "
                         />
                       </a>
                     </div>
@@ -149,7 +163,7 @@ function ProductUpSellPopUp({
                         backgroundColor: "transparent",
                       }}
                     >
-                      {templateData.button || "See Details"}
+                      {templateDesign.button || "See Details"}
                     </a>
                   </div>
                 ))
