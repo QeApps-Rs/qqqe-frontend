@@ -32,29 +32,23 @@ const PreviewComponent = ({
 }) => {
   return (
     <div
-      className={`h-[700px] flex items-center justify-center  ${
-        isView !== "Desktop"
-          ? "bg-no-repeat bg-top bg-center"
-          : "gap-8 overflow-hidden"
-      }`}
+      className="flex items-center justify-center bg-white"
       style={{
-        backgroundColor: templateDesign.templateBgColor,
-        margin: combinedMargin,
-        minHeight: templateDesign.templateMinHeight,
+        backgroundColor: templateDesign.templateBgColor || "#000000",
         backgroundImage:
           isView !== "Desktop"
             ? "url('https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/src/images/mobile_bg.png')"
             : "",
+
+        height: "calc(100vh - 240px)",
       }}
     >
       <div
         className={formClasses()}
         style={{
-          borderRadius: templateDesign.borderRadius,
-          borderWidth: templateDesign.borderWidth,
-          borderColor: templateDesign.templateBorderColor,
+          borderRadius: templateDesign.borderRadius || "16px",
           padding: combinedPadding,
-          borderStyle: templateDesign.formBorderStyle,
+          margin: combinedMargin,
         }}
       >
         <div className={containerClass}>
@@ -70,7 +64,7 @@ const PreviewComponent = ({
             isView === "Desktop" ? "xl:col-span-7" : "sm:col-span-12"
           } `}
           style={{
-            backgroundColor: templateDesign.templateOverlayColor,
+            backgroundColor: templateDesign.templateOverlayColor || "#FFFFFF",
           }}
         >
           {success ? (
@@ -102,19 +96,22 @@ const PreviewComponent = ({
                 className="text-4xl font-bold mt-4"
                 style={getStyle(templateDesign, "successHeading")}
               >
-                {templateDesign.successHeading || "Thanks for sharing. Please check your email for confirmation message"}
+                {templateDesign.successHeading ||
+                  "Thanks for sharing. Please check your email for confirmation message"}
               </h2>
               <span
                 className="text-xl font-bold mt-4"
                 style={getStyle(templateDesign, "successSubHeading")}
               >
-                {templateDesign.successSubHeading || "Thanks for sharing. Please check your email for confirmation message"}
+                {templateDesign.successSubHeading ||
+                  "Thanks for sharing. Please check your email for confirmation message"}
               </span>
               <p
                 className="text-lg mt-4"
                 style={getStyle(templateDesign, "successDescription")}
               >
-                {templateDesign.successDescription || "Thanks for sharing. Please check your email for confirmation message"}
+                {templateDesign.successDescription ||
+                  "Thanks for sharing. Please check your email for confirmation message"}
               </p>
             </div>
           ) : (
@@ -123,7 +120,7 @@ const PreviewComponent = ({
                 className="text-4xl font-bold mb-4"
                 style={getStyle(templateDesign, "templateHeading")}
               >
-                {templateDesign.heading || "Limited Time Off"}
+                {templateDesign.heading }
               </h2>
               <h2
                 className="text-4xl font-bold mb-4"

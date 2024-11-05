@@ -32,10 +32,10 @@ export const templateFieldCss = {
   templateHeadingFontFamily: "Arial", // styles.form_parameters.title.template_heading_font_family
   templateOfferFontFamily: "Arial", // styles.form_parameters.offer_title.template_offer_font_family
   templateSubHeadingFontFamily: "Arial", // styles.form_parameters.sub_title.template_sub_heading_font_family
-  templateHeadingColor: "#000000", // styles.form_parameters.title.color
-  templateSubHeadingColor: "#000000", // styles.form_parameters.sub_title.color
-  templateOfferColor: "#000000", // styles.form_parameters.offer_title.template_offer_color
-  templateButtonBgColor: "#000000", // styles.form_parameters.button.background_color
+  templateHeadingColor: "", // styles.form_parameters.title.color
+  templateSubHeadingColor: "", // styles.form_parameters.sub_title.color
+  templateOfferColor: "", // styles.form_parameters.offer_title.template_offer_color
+  templateButtonBgColor: "", // styles.form_parameters.button.background_color
   templateProductOverlayColor: "#000000",
   imagePosition: "0", // styles.form_parameters.side_image.side
   successHeadingFontSize: "32px",
@@ -56,7 +56,7 @@ export const templateFieldCss = {
   ratingMinCount: "1",
   ratingMaxCount: "15",
   heading: "", // styles.form_parameters.title.text
-  button: "Continue", // styles.form_parameters.button.text
+  button: "", // styles.form_parameters.button.text
   offerAmount: "", // styles.form_parameters.offer_title.template_offer_amount
   subHeading: "", // styles.form_parameters.sub_title.text
   image: "", // styles.form_parameters.image.link
