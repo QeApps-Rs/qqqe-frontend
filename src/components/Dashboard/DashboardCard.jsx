@@ -432,7 +432,6 @@ const DashboardCard = () => {
     setVisitedSelectedFilter(Number(e.target.value));
   };
 
-
   const customerPageViewData = [
     {
       entryPage: "home",
@@ -676,6 +675,7 @@ const DashboardCard = () => {
       </p>
     </div>
   );
+  const [activeTab, setActiveTab] = useState("before");
 
   return (
     <>
@@ -701,32 +701,54 @@ const DashboardCard = () => {
             </Link>
           </div>
           <AllPageStartOverviewPage />
-          <div className="flex items-center justify-center mt-6">
-            <div className="flex items-center">
+          <div className="w-full flex mt-6">
+            <div className="w-1/2 flex items-center  justify-end">
               <i
                 className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
                 aria-hidden="true"
               ></i>
+              <h2 className="text-title-md2 font-semibold text-black dark:text-white pl-2 ">
+                People Analytics
+              </h2>
             </div>
-            <h2 className="text-title-md2 font-semibold text-black dark:text-white pl-2 ">
-              People Analytics
-            </h2>
+            <div className="w-1/2 flex justify-end">
+              <button
+                onClick={() => setActiveTab("before")}
+                className={`px-5 py-3 font-semibold text-black rounded-lg mx-2 transition-all duration-300 ${
+                  activeTab === "before"
+                    ? "bg-dashboard_gradient text-white shadow-lg transform scale-105"
+                    : "bg-gray-300 hover:bg-gray-400"
+                }`}
+              >
+                Before
+              </button>
+              <button
+                onClick={() => setActiveTab("after")}
+                className={`px-5 py-3 font-semibold text-black rounded-lg mx-2 transition-all duration-300 ${
+                  activeTab === "after"
+                    ? "bg-dashboard_gradient text-white shadow-lg transform scale-105"
+                    : "bg-gray-300 hover:bg-gray-400"
+                }`}
+              >
+                After
+              </button>
+            </div>
           </div>
           <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
           <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
             <div className={colFullWidthGraph}>
               <DashboardTitle title={"One Time & Multi Time Customer"} />
 
-                {chartState?.timeCustomersGraphState == true ? (
-                  <OneTimeMultiTimeCustomer
-                    customerData={graphData?.timeCustomersData}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
-              <div className={colFourGraph}>
-                <DashboardTitle title={"Total Visitors Today"} />
+              {chartState?.timeCustomersGraphState == true ? (
+                <OneTimeMultiTimeCustomer
+                  customerData={graphData?.timeCustomersData}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colFourGraph}>
+              <DashboardTitle title={"Total Visitors Today"} />
 
               {filteredData.length > 0 ? (
                 <RadarChart series={series} categories={categories} />
@@ -843,15 +865,14 @@ const DashboardCard = () => {
             <div className={colFullWidthGraph}>
               <DashboardTitle title={"Customer Distribution by Page"} />
 
-                {chartState?.customerDistributionByPageDataGraphState ==
-                true ? (
-                  <CustomerDistributionChart
-                    distributionData={graphData?.customerDistributionByPageData}
-                  />
-                ) : (
-                  <NoDataFound />
-                )}
-              </div>
+              {chartState?.customerDistributionByPageDataGraphState == true ? (
+                <CustomerDistributionChart
+                  distributionData={graphData?.customerDistributionByPageData}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
 
             <div className={colSixGraph}>
               <DashboardTitle title={"Entry Page - Exit Page"} />
