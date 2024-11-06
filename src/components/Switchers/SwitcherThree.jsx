@@ -1,5 +1,11 @@
 /* eslint-disable react/prop-types */
-const SwitcherThree = ({ label, isLabel = true, enabled = false, onToggle }) => {
+const SwitcherThree = ({
+  label,
+  isLabel = true,
+  enabled = false,
+  onToggle,
+  cursorStyle = "pointer",
+}) => {
   const handleToggle = (e) => {
     if (onToggle) {
       onToggle(e); // Call the passed onToggle function
@@ -9,7 +15,7 @@ const SwitcherThree = ({ label, isLabel = true, enabled = false, onToggle }) => 
     <div>
       <label
         htmlFor={`toggle-${label}`}
-        className="flex cursor-pointer select-none items-center"
+        className={`flex cursor-${cursorStyle} select-none items-center`}
       >
         <div className="relative">
           <input

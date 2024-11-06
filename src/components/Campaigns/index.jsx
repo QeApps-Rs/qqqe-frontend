@@ -3,7 +3,6 @@ import SalesLineGraph from "./Graphs/SalesLineGraph";
 import SalesPieGraph from "./Graphs/SalesPieGraph";
 import SalesBarGraph from "./Graphs/SaleBarChart";
 import SwitcherThree from "../Switchers/SwitcherThree";
-import productImg from "../../images/product.png";
 import { Link } from "react-router-dom";
 import Loader from "../../common/Loader";
 import FormSubmitHandler from "../FormSubmitHandler";
@@ -135,7 +134,7 @@ const Campaigns = () => {
         <div className="flex justify-between items-center mt-4">
           <h1 className="text-lg font-bold text-gray-800">Campaigns</h1>
           <div className="flex items-center">
-            <Link to="/people-dashboard">
+            <Link to="/app-dashboard">
               <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
                 New Campaigns
               </button>
@@ -177,13 +176,17 @@ const Campaigns = () => {
             </div>
           )}
 
-          {productData?.map((product, index) => (
+          {productData?.map((product) => (
             <div
               className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5"
               key={product.id}
             >
               <div className="col-span-2 flex items-center">
-                <img src={productImg} alt="product" className="w-30 max-h-30" />
+                <img
+                  src={product.image_path}
+                  alt="product"
+                  className="w-30 max-h-30"
+                />
                 <div className="block ml-2 text-graydark">
                   <Link to={`/campaigns-details/${product.id}`}>
                     <span className="block text-blue-600">
@@ -195,14 +198,9 @@ const Campaigns = () => {
               </div>
               <div className="col-span-1 hidden items-center sm:flex">
                 <SwitcherThree
-                  label={`switch-${index}`}
                   enabled={product?.service_status}
-                  // onToggle={() => handleToggle(product.id)}
+                  cursorStyle="default"
                 />
-                <i
-                  className="fa fa-exclamation-triangle text-red-500 text-2x"
-                  aria-hidden="true"
-                ></i>
               </div>
               <div className="col-span-1 flex items-center">
                 <i
