@@ -91,12 +91,6 @@ const SignIn = () => {
               {/* <img className="hidden dark:block" src={Logo} alt="Logo" /> */}
               <img className="dark:hidden" src={Logo} alt="Logo" />
             </Link>
-            <button
-              type="button"
-              className="  text-white font-medium rounded-md px-5 py-4 border-2 mt-8"
-            >
-              Load more
-            </button>
             {/* <span className="mt-15 inline-block">
                                 <img src={PhoneIcon} alt="" />
                             </span> */}
