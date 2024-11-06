@@ -27,7 +27,6 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import { Toaster } from "react-hot-toast";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ProtectedRoute from "./ProtectedRoute";
-import Peoplepage from "./pages/Peoplepage";
 import PromotionPage from "./pages/PromotionPage";
 import PricePage from "./pages/PricePage";
 import Productpage from "./pages/Productpage";

@@ -83,7 +83,7 @@ const SignIn = () => {
 
       <div className="flex h-screen">
         <div className="w-full lg:block hidden xl:w-[35%] ">
-          <div className="h-full justify-center items-center flex text-center flex-col	border-r-2 border-white">
+          <div className="h-full justify-center w-full items-center flex text-center flex-col	border-r-2 border-white">
             <h3 className="text-white text-xl font-bold mb-8">
               The future of CRO is here
             </h3>
@@ -97,18 +97,17 @@ const SignIn = () => {
           </div>
         </div>
 
-        <div className="w-full p-4 sm:p-12.5 xl:p-8">
-          <p className="sm:block hidden text-white text-end font-bold">
+        <div className="w-full p-4 sm:p-12.5 xl:p-8 flex items-baseline flex-wrap">
+          <p className="sm:block hidden text-white text-end font-bold w-full">
             Don’t have any account?{" "}
             <Link to="/auth/signup" className="text-blue-500 ml-1">
               Sign Up
             </Link>
           </p>
-          <div className="w-full flex justify-center h-[calc(100vh-40px)] items-center flex-wrap">
+          <div className="w-full flex justify-center  items-center flex-wrap">
             <div className="xl:w-[45%] w-full justify-center">
               <div className="sm:hidden flex justify-center ">
                 <Link className="block" to="/">
-                  {/* <img className="hidden dark:block" src={Logo} alt="Logo" /> */}
                   <img
                     className="dark:hidden"
                     src={Logo}

@@ -1,4 +1,12 @@
+/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
+
+const classObject = {
+  priorityTag:
+    "flex items-center text-sm font-semibold py-2 px-4 rounded-lg shadow transition-all duration-300",
+  button:
+    "w-full sm:w-auto font-bold h-[40px] px-4 bg-blue-600 text-white rounded-md shadow-lg hover:bg-blue-700 transition-colors duration-300 hover:shadow-xl transform hover:scale-105",
+};
 
 const StartAppOverviewPage = ({ title, url }) => {
   return (
@@ -21,20 +29,26 @@ const StartAppOverviewPage = ({ title, url }) => {
       </p>
 
       <div className="flex flex-col sm:flex-row mt-6 sm:space-x-3 space-y-3 sm:space-y-0">
-        <span className="flex items-center text-sm font-semibold py-2 px-4 rounded-lg bg-red-200 text-red-800 hover:bg-red-300 shadow transition-all duration-300">
+        <span
+          className={`${classObject.priorityTag} bg-red-200 text-red-800 hover:bg-red-300`}
+        >
           <i className="fa fa-exclamation-circle mr-2"></i> Critical (2)
         </span>
-        <span className="flex items-center text-sm font-semibold py-2 px-4 rounded-lg bg-yellow-200 text-yellow-800 hover:bg-yellow-300 shadow transition-all duration-300">
+        <span
+          className={`${classObject.priorityTag} bg-yellow-200 text-yellow-800 hover:bg-yellow-300`}
+        >
           <i className="fa fa-exclamation-triangle mr-2"></i> Minor (2)
         </span>
-        <span className="flex items-center text-sm font-semibold py-2 px-4 rounded-lg bg-green-200 text-green-800 hover:bg-green-300 shadow transition-all duration-300">
+        <span
+          className={`${classObject.priorityTag} bg-green-200 text-green-800 hover:bg-green-300`}
+        >
           <i className="fa fa-check-circle mr-2"></i> Average (2)
         </span>
       </div>
 
       <div className="flex flex-col sm:flex-row items-center mt-6 gap-4">
         <Link to={url} className="w-full sm:w-auto">
-          <button className="w-full sm:w-auto font-bold h-[40px] px-4 bg-blue-600 text-white rounded-md shadow-lg hover:bg-blue-700 transition-colors duration-300 hover:shadow-xl transform hover:scale-105">
+          <button className={classObject.button}>
             <i
               className="mr-2 fa fa-lg fa-external-link-square"
               aria-hidden="true"
@@ -42,10 +56,15 @@ const StartAppOverviewPage = ({ title, url }) => {
             Get Started
           </button>
         </Link>
-        <button className="w-full sm:w-auto h-[40px] px-4 font-bold bg-blue-600 text-white rounded-md shadow-lg hover:bg-blue-700 transition-colors duration-300 hover:shadow-xl transform hover:scale-105">
-          <i className="fa fa-headphones mr-2 text-xl" aria-hidden="true"></i>
-          Talk to our Expert
-        </button>
+        <Link
+          to="https://schedule.calrik.com/m3arie1821"
+          className="w-full sm:w-auto"
+        >
+          <button className={classObject.button}>
+            <i className="fa fa-headphones mr-2 text-xl" aria-hidden="true"></i>
+            Talk to our Expert
+          </button>
+        </Link>
       </div>
     </div>
   );
