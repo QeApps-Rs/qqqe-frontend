@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import BookSlotModal from "../BookSlot";
 import StartAppOverviewPage from "../StartAppOverview";
 import qqqeLogo from "/src/images/favicon.png";
+import FormSubmitHandler from "../FormSubmitHandler";
+import toast from "react-hot-toast";
+import Loader from "../../common/Loader";
 
 const AppDashboardPage = () => {
   const categories = [
@@ -23,6 +26,8 @@ const AppDashboardPage = () => {
     },
   ];
   const [showIframe, setShowIframe] = useState(true);
+  const [priorityCount, setPriorityCount] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handlePageClick = () => {
     setShowIframe(false);
@@ -33,10 +38,42 @@ const AppDashboardPage = () => {
     if (screen.width <= 640) {
       setShowIframe(false); // Hide iframe on small screens
     }
+
+    const getDashboardCount = async () => {
+      setLoading(true);
+      await FormSubmitHandler({
+        method: "get",
+        url: "level1/question/list",
+      })
+        .then((res) => {
+          if (res.data) {
+            const responseData = res.data;
+            const count = responseData.reduce((acc, item) => {
+              const category = item?.category?.toLowerCase();
+              const priority = item?.priority?.toLowerCase();
+              if (!acc[category]) {
+                acc[category] = { count: 0 };
+              }
+              acc[category].count += 1;
+              acc[category][priority] = (acc[category][priority] || 0) + 1;
+              return acc;
+            }, {});
+            setPriorityCount(count);
+          }
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
+    getDashboardCount();
   }, []);
 
   return (
     <>
+      {loading && <Loader />}
       {showIframe ? (
         <BookSlotModal handlePageClick={handlePageClick} />
       ) : (
@@ -50,6 +87,7 @@ const AppDashboardPage = () => {
                 <StartAppOverviewPage
                   title={category.title}
                   url={category.url}
+                  priorityCount={priorityCount[category.title.toLowerCase()]}
                 />
               </div>
             ))}

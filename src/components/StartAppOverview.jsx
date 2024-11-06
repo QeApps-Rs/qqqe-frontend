@@ -8,7 +8,7 @@ const classObject = {
     "w-full sm:w-auto font-bold h-[40px] px-4 bg-blue-600 text-white rounded-md shadow-lg hover:bg-blue-700 transition-colors duration-300 hover:shadow-xl transform hover:scale-105",
 };
 
-const StartAppOverviewPage = ({ title, url }) => {
+const StartAppOverviewPage = ({ title, url, priorityCount }) => {
   return (
     <div className="bg-white rounded-lg shadow-lg px-6 py-4 animate-fadeIn">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
@@ -19,7 +19,7 @@ const StartAppOverviewPage = ({ title, url }) => {
           </h1>
         </Link>
         <span className="text-center sm:text-left text-sm font-bold py-2 px-4 rounded-full bg-green-700 text-white w-fit">
-          14 Suggestions
+          {priorityCount?.count || 0} Suggestions
         </span>
       </div>
 
@@ -32,17 +32,17 @@ const StartAppOverviewPage = ({ title, url }) => {
         <span
           className={`${classObject.priorityTag} bg-red-200 text-red-800 hover:bg-red-300`}
         >
-          <i className="fa fa-exclamation-circle mr-2"></i> Critical (2)
+          <i className="fa fa-exclamation-circle mr-2"></i> Critical {priorityCount?.critical || 0}
         </span>
         <span
           className={`${classObject.priorityTag} bg-yellow-200 text-yellow-800 hover:bg-yellow-300`}
         >
-          <i className="fa fa-exclamation-triangle mr-2"></i> Minor (2)
+          <i className="fa fa-exclamation-triangle mr-2"></i> Minor {priorityCount?.minor || 0}
         </span>
         <span
           className={`${classObject.priorityTag} bg-green-200 text-green-800 hover:bg-green-300`}
         >
-          <i className="fa fa-check-circle mr-2"></i> Average (2)
+          <i className="fa fa-check-circle mr-2"></i> Average {priorityCount?.average || 0}
         </span>
       </div>
 
