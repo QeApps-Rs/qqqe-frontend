@@ -1,5 +1,4 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import PhoneIcon from "../../images/svg-icons/phone.svg";
 import { useState } from "react";
 import FormSubmitHandler from "../../components/FormSubmitHandler.jsx";
 import { useForm } from "react-hook-form";
@@ -76,12 +75,8 @@ const ResetPassword = () => {
               The future of CRO is here
             </h3>
             <Link className="block" to="/">
-              {/* <img className="hidden dark:block" src={Logo} alt="Logo" /> */}
               <img className="dark:hidden" src={Logo} alt="Logo" />
             </Link>
-            {/* <span className="mt-15 inline-block">
-                                <img src={PhoneIcon} alt="" />
-                            </span> */}
           </div>
         </div>
 
@@ -92,9 +87,6 @@ const ResetPassword = () => {
             </h2>
             <form onSubmit={handleSubmit(handleResetPassword)}>
               <div className="mb-4">
-                {/* <label className="mb-2.5 block font-medium text-black dark:text-white">
-                  Password
-                </label> */}
                 <div className="relative">
                   <input
                     {...register("password", passwordValiTypes)}
@@ -118,9 +110,6 @@ const ResetPassword = () => {
               </div>
 
               <div className="mb-6">
-                {/* <label className="mb-2.5 block font-medium text-black dark:text-white">
-                  Confirm Password
-                </label> */}
                 <div className="relative">
                   <input
                     {...register("confirm_password", cpasswordValiTypes)}
