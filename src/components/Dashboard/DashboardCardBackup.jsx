@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import ChartOne from "../Charts/ChartOne";
 import { Link } from "react-router-dom";

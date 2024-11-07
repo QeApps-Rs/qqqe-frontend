@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 import { useEffect, useState } from "react";
 import "react-tippy/dist/tippy.css";
 
@@ -124,7 +125,8 @@ const SuggestionCompNew = () => {
   };
 
   const confirmClickEvent = () => {
-    if (JSON.stringify(discountObj) === JSON.stringify(updatedDiscountObj)) {
+    // if (JSON.stringify(discountObj) === JSON.stringify(updatedDiscountObj)) {
+    if (true) {
       navigate(`/template/list/${id}s${suggestionId}`);
     } else {
       setAnalyticsModal(true);
@@ -561,10 +563,10 @@ const SuggestionCompNew = () => {
   // Function to render the status for each problem/suggestion
   // const renderStatusTd = (problemId, statementId, is_applied, is_active) => {
   const renderStatusTd = (problemId, suggestion) => {
-    const { statementId, is_applied, is_active, customer_template_id } =
-      suggestion;
+    const { is_applied, customer_template_id, service_status } = suggestion;
+    const statementId = suggestion.id;
     const currentStatus =
-      toggleState[`${problemId}-${statementId}`] ?? is_active;
+      toggleState[`${problemId}-${statementId}`] ?? service_status;
 
     return (
       <div className="flex items-center">
@@ -586,7 +588,7 @@ const SuggestionCompNew = () => {
             "Not Applied"
           )}
         </span>
-        {is_applied && (
+        {currentStatus && (
           <div className="flex items-center">
             <Link to={`/campaigns-details/${customer_template_id}`}>
               <i

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { BackIcon } from "../custIcon/svgIcon";
 import FormSubmitHandler from "../FormSubmitHandler";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,10 @@ import NeedHelpPage from "../NeedHelp";
 
 const ProblemStatements = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const categoryParam = searchParams.get("category");
+
   const [loading, setLoading] = useState(false);
   const [questionData, setQuestionData] = useState({});
   useEffect(() => {
@@ -18,7 +22,7 @@ const ProblemStatements = () => {
         setLoading(true);
         await FormSubmitHandler({
           method: "get",
-          url: "level1/question/list",
+          url: "level1/question/list?category=" + categoryParam,
         })
           .then((res) => {
             if (res.data) {
