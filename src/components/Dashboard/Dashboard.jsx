@@ -85,7 +85,7 @@ const Dashboard = () => {
         cardProcess={false}
         color="bg-cyan-200"
         cardTextDesc="2 out of 11 suggestions has been implemented"
-        cardUrl="people-problem"
+        cardUrl="problem-statement"
         chart={chart}
         priorityCount={priorityCount}
       />

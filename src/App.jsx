@@ -141,7 +141,7 @@ const App = () => {
                 path="/suggestion/analytics/:id"
                 element={<SuggestionAnalytics />}
               />
-              <Route path="/people-problem" element={<Problem />} />
+              <Route path="/problem-statement" element={<Problem />} />
               <Route path="/templates" element={<Templates />} />
               <Route
                 path="/suggestion/list/:id"

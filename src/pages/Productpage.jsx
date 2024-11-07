@@ -37,7 +37,7 @@ const Productpage = () => {
   const todayStr = today.toISOString().split("T")[0];
   const category = {
     title: "Product",
-    url: "/product-dashboard",
+    url: "/problem-statement?category=product",
   };
   const [loading, setLoading] = useState(false);
   const [graphData, setGraphData] = useState({

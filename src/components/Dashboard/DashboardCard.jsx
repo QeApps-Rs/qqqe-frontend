@@ -30,7 +30,7 @@ const DashboardCard = () => {
   const todayStr = today.toISOString().split("T")[0];
   const category = {
     title: "People",
-    url: "/people-problem",
+    url: "/problem-statement?category=people",
   };
   const [loading, setLoading] = useState(false);
   const [graphData, setGraphData] = useState({

@@ -23,7 +23,7 @@ const PricePage = () => {
   const [pricePriorityCount, setPricePriorityCount] = useState(priorityCount);
   const category = {
     title: "Price",
-    url: "/price-dashboard",
+    url: "/problem-statement?category=price",
   };
   const todayStr = today.toISOString().split("T")[0];
 
