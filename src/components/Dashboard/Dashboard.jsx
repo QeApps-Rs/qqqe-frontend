@@ -48,7 +48,6 @@ const chart = {
 };
 
 const Dashboard = () => {
-  const [userData, setUserData] = useState(null);
 
   const [priorityCount, setPriorityCount] = useState({});
   useEffect(() => {
@@ -63,7 +62,6 @@ const Dashboard = () => {
         //   resultOfLevelOneQuestionList
         // );
         if (resultOfLevelOneQuestionList.data) {
-          setUserData(resultOfLevelOneQuestionList.data);
           const responseData = resultOfLevelOneQuestionList.data;
           const count = responseData.reduce((acc, item) => {
             acc[item.priority] = (acc[item.priority] || 0) + 1;

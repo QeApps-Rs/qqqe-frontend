@@ -19,18 +19,26 @@ import CustomerPolarAreaChart from "../components/Charts/CustomerPolarChart";
 import DumbbellRangebarChart from "../components/Charts/DumbelledRangebar";
 import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Loader from "../common/Loader";
 import FormSubmitHandler from "../components/FormSubmitHandler";
-import PolarAnalytics from "../components/Analytics/PolarAnalaytics";
 import NeedHelpPage from "../components/NeedHelp";
-import BookSlotModal from "../components/BookSlot";
 import { BackIcon } from "../components/custIcon/svgIcon";
+import AllPageStartOverviewPage from "../components/AllPageStartOverview";
+import toast from "react-hot-toast";
 
 const Productpage = () => {
   const today = new Date();
-  const todayStr = today.toISOString().split("T")[0];
+  const location = useLocation();
+  const { priorityCount } = location.state || {};
+  const [productPriorityCount, setProductPriorityCount] =
+    useState(priorityCount);
 
+  const todayStr = today.toISOString().split("T")[0];
+  const category = {
+    title: "Product",
+    url: "/product-dashboard",
+  };
   const [loading, setLoading] = useState(false);
   const [graphData, setGraphData] = useState({
     visitorsData: [],
@@ -136,10 +144,37 @@ const Productpage = () => {
         console.error("Error in one or more API calls:", error);
       } finally {
         setLoading(false);
-        
       }
     };
 
+    const getDashboardCount = async () => {
+      setLoading(true);
+      await FormSubmitHandler({
+        method: "get",
+        url: "level1/question/list?category=product",
+      })
+        .then((res) => {
+          if (res.data) {
+            const responseData = res.data;
+            const productCount = responseData.reduce((acc, item) => {
+              const priority = item?.priority?.toLowerCase();
+              acc["count"] = (acc["count"] || 0) + 1;
+              acc[priority] = (acc[priority] || 0) + 1;
+              return acc;
+            }, {});
+            setProductPriorityCount(productCount);
+          }
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
+    if (productPriorityCount == undefined) {
+      getDashboardCount();
+    }
     fetchData();
   }, []);
 
@@ -822,6 +857,10 @@ const Productpage = () => {
               </button>
             </Link>
           </div>
+          <AllPageStartOverviewPage
+            category={category}
+            priorityCount={productPriorityCount}
+          />
           <div className="flex items-center justify-center">
             <div className="flex items-center">
               <i

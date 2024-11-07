@@ -12,7 +12,7 @@ const StartAppOverviewPage = ({ title, url, priorityCount }) => {
   return (
     <div className="bg-white rounded-lg shadow-lg px-6 py-4 animate-fadeIn">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
-        <Link to={url}>
+        <Link to={url} state={{ priorityCount: priorityCount }}>
           <h1 className="flex items-center text-2xl sm:text-4xl leading-normal font-bold text-black hover:text-blue-700 transition-colors duration-300 transform hover:scale-105">
             <i className="mr-3 fa fa-home bg-blue-600 hover:bg-blue-500 text-white p-1 rounded-full h-8 w-8 flex items-center justify-center text-lg"></i>
             {title}
@@ -32,22 +32,29 @@ const StartAppOverviewPage = ({ title, url, priorityCount }) => {
         <span
           className={`${classObject.priorityTag} bg-red-200 text-red-800 hover:bg-red-300`}
         >
-          <i className="fa fa-exclamation-circle mr-2"></i> Critical {priorityCount?.critical || 0}
+          <i className="fa fa-exclamation-circle mr-2"></i> Critical{" "}
+          {priorityCount?.critical || 0}
         </span>
         <span
           className={`${classObject.priorityTag} bg-yellow-200 text-yellow-800 hover:bg-yellow-300`}
         >
-          <i className="fa fa-exclamation-triangle mr-2"></i> Minor {priorityCount?.minor || 0}
+          <i className="fa fa-exclamation-triangle mr-2"></i> Minor{" "}
+          {priorityCount?.minor || 0}
         </span>
         <span
           className={`${classObject.priorityTag} bg-green-200 text-green-800 hover:bg-green-300`}
         >
-          <i className="fa fa-check-circle mr-2"></i> Average {priorityCount?.average || 0}
+          <i className="fa fa-check-circle mr-2"></i> Average{" "}
+          {priorityCount?.average || 0}
         </span>
       </div>
 
       <div className="flex flex-col sm:flex-row items-center mt-6 gap-4">
-        <Link to={url} className="w-full sm:w-auto">
+        <Link
+          to={url}
+          state={{ priorityCount: priorityCount }}
+          className="w-full sm:w-auto"
+        >
           <button className={classObject.button}>
             <i
               className="mr-2 fa fa-lg fa-external-link-square"

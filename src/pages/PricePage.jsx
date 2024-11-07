@@ -8,16 +8,23 @@ import ColumnMultiSeriesChart from "../components/Charts/ColumnMultiSeriesChart"
 import CustomerPolarAreaChart from "../components/Charts/CustomerPolarChart";
 import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Loader from "../common/Loader";
 import FormSubmitHandler from "../components/FormSubmitHandler";
-import PolarAnalytics from "../components/Analytics/PolarAnalaytics";
 import NeedHelpPage from "../components/NeedHelp";
-import BookSlotModal from "../components/BookSlot";
 import { BackIcon } from "../components/custIcon/svgIcon";
+import AllPageStartOverviewPage from "../components/AllPageStartOverview";
+import toast from "react-hot-toast";
 
 const PricePage = () => {
   const today = new Date();
+  const location = useLocation();
+  const { priorityCount } = location.state || {};
+  const [pricePriorityCount, setPricePriorityCount] = useState(priorityCount);
+  const category = {
+    title: "Price",
+    url: "/price-dashboard",
+  };
   const todayStr = today.toISOString().split("T")[0];
 
   const [loading, setLoading] = useState(false);
@@ -99,6 +106,34 @@ const PricePage = () => {
       }
     };
 
+    const getDashboardCount = async () => {
+      setLoading(true);
+      await FormSubmitHandler({
+        method: "get",
+        url: "level1/question/list?category=product",
+      })
+        .then((res) => {
+          if (res.data) {
+            const responseData = res.data;
+            const priceCount = responseData.reduce((acc, item) => {
+              const priority = item?.priority?.toLowerCase();
+              acc["count"] = (acc["count"] || 0) + 1;
+              acc[priority] = (acc[priority] || 0) + 1;
+              return acc;
+            }, {});
+            setPricePriorityCount(priceCount);
+          }
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
+    if (pricePriorityCount == undefined) {
+      getDashboardCount();
+    }
     fetchData();
   }, []);
 
@@ -916,6 +951,10 @@ const PricePage = () => {
               </button>
             </Link>
           </div>
+          <AllPageStartOverviewPage
+            category={category}
+            priorityCount={pricePriorityCount}
+          />
           <div className="flex items-center justify-center">
             <div className="flex items-center">
               <i
