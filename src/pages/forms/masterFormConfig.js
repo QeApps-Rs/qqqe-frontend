@@ -309,6 +309,12 @@ export const templateEditorCollapseOptions = [
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     tag: "custom_js",
   },
+  {
+    title: "Email Template",
+    content:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    tag: "email_template",
+  },
 ];
 
 export const defaultBoxClassName =
