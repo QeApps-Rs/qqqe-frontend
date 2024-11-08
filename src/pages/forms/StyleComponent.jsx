@@ -152,12 +152,12 @@ const StyleComponent = ({
                       )} */}
                       {templateBgField
                         .filter(({ colorType }) => {
-                          return !(
-                            isExitProductRecommenderPopup ||
-                            isSocialMediaConnectPopup ||
-                            isWorldWideWelcomePopup ||
-                            (isAttributionSurvey &&
-                              colorType === "templateOverlayColor")
+                          return (
+                            colorType !== "templateOverlayColor" ||
+                            (!isAttributionSurvey &&
+                              !isExitProductRecommenderPopup &&
+                              !isSocialMediaConnectPopup &&
+                              !isWorldWideWelcomePopup)
                           );
                         })
                         .map(({ label, colorType }, i) =>
