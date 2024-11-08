@@ -315,13 +315,26 @@ const MasterForm = () => {
     ? templateDesign.image || popup_img
     : templateDesign.successImage || popup_img;
 
+  const socialMediaPopupimageSrc = templateDesign.image;
+
   const surveyImageSrc =
     templateDesign.image || purchaseSatisfactionSurveyDefaultImage;
-  const getStyle = (design, type) => ({
-    fontSize: design[`${type}FontSize`] || "24px", // Fallback to 50px if not defined
-    fontFamily: design[`${type}FontFamily`] || "Arial, sans-serif", // Optional fallback for fontFamily
-    color: design[`${type}Color`] || "#000", // Optional fallback for color
-  });
+  // const getStyle = (design, type) => ({
+  //   fontSize: design[`${type}FontSize`] || "24px", // Fallback to 50px if not defined
+  //   fontFamily: design[`${type}FontFamily`] || "Arial, sans-serif", // Optional fallback for fontFamily
+  //   color: design[`${type}Color`] || "#000", // Optional fallback for color
+  // });
+  const getStyle = (design, type) => {
+    const styles = {
+      fontSize: design[`${type}FontSize`] || "24px", // Fallback to 24px if not defined
+      fontFamily: design[`${type}FontFamily`] || "Arial, sans-serif", // Optional fallback for fontFamily
+      color: design[`${type}Color`] || "#000", // Optional fallback for color
+    };
+    if (type == "templateEmail") {
+      console.log("Generated styles for type:", type, design, styles); // Log the styles to the console
+    }
+    return styles;
+  };
 
   const [advanceSetting, setAdvanceSetting] = useState(false);
 
@@ -348,6 +361,8 @@ const MasterForm = () => {
             setTemplateHeaderState({
               ...templateHeaderState,
               success: false,
+              desktop: false,
+              mobile: false,
             });
           } else if (
             responseKeywords?.includes("Purchase Satisfaction Survey")
@@ -356,19 +371,34 @@ const MasterForm = () => {
               ...suggestionTemplateStatus,
               isPurchaseSatisfactionSurvey: true,
             });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+              desktop: false,
+              mobile: false,
+            });
           } else if (responseKeywords?.includes("Feedback Survey")) {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isFeedbackSurvey: true,
             });
+
             setTemplateHeaderState({
               ...templateHeaderState,
               success: false,
+              desktop: false,
+              mobile: false,
             });
           } else if (responseKeywords?.includes("Survey Popup")) {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isAttributionSurvey: true,
+            });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+              desktop: false,
+              mobile: false,
             });
           } else if (responseKeywords?.includes("Up-selling")) {
             setSuggestionTemplateStatus({
@@ -440,6 +470,12 @@ const MasterForm = () => {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isPreviewPopup: true,
+            });
+            setTemplateHeaderState({
+              ...templateHeaderState,
+              success: false,
+              desktop: false,
+              mobile: false,
             });
           }
 
@@ -617,6 +653,10 @@ const MasterForm = () => {
         "Thanks for sharing. Please check your email for confirmation message",
       successDescription:
         "Thanks for sharing. Please check your email for confirmation message",
+      templateEmailText: styles.form_parameters.email_title.text,
+      templateEmailFontSize: styles.form_parameters.email_title.font_size,
+      templateEmailFontFamily: styles.form_parameters.email_title.font_family,
+      templateEmailColor: styles.form_parameters.email_title.color,
     };
   };
 
@@ -937,6 +977,12 @@ const MasterForm = () => {
           template_offer_font_family: state.templateOfferFontFamily,
           template_offer_color: state.templateOfferColor,
         },
+        email_title: {
+          text: state.templateEmailText,
+          color: state.templateEmailColor,
+          font_size: state.templateEmailFontSize,
+          font_family: state.templateEmailFontFamily,
+        },
       },
     };
   };
@@ -1050,7 +1096,8 @@ const MasterForm = () => {
                 suggestionTemplateStatus?.isUpSellPopup ||
                 suggestionTemplateStatus?.isCrossSellPopup ||
                 suggestionTemplateStatus?.isAbandonmentPopup ||
-                suggestionTemplateStatus?.isExitProductRecommenderPopup
+                suggestionTemplateStatus?.isExitProductRecommenderPopup ||
+                suggestionTemplateStatus?.isSocialMediaConnectPopup
               ) {
                 return (
                   // item.tag !== "inputController" &&
@@ -1071,6 +1118,7 @@ const MasterForm = () => {
                   item.tag !== "successController" && item.tag !== "bundle"
                 );
               }
+
               return item.tag !== "bundle";
             })
             .map((item, index) => (
@@ -1120,6 +1168,15 @@ const MasterForm = () => {
                     }
                     isPreviewPopup={suggestionTemplateStatus?.isPreviewPopup}
                     isUpSellPopup={suggestionTemplateStatus?.isUpSellPopup}
+                    isSocialMediaConnectPopup={
+                      suggestionTemplateStatus?.isSocialMediaConnectPopup
+                    }
+                    isExitProductRecommenderPopup={
+                      suggestionTemplateStatus?.isExitProductRecommenderPopup
+                    }
+                    isWorldWideWelcomePopup={
+                      suggestionTemplateStatus?.isWorldWideWelcomePopup
+                    }
                   />
                 )}
                 {activeIndex === index && item.tag === "inputController" && (
@@ -1150,6 +1207,12 @@ const MasterForm = () => {
                         suggestionTemplateStatus?.isAbandonmentPopup
                       }
                       isUpSellPopup={suggestionTemplateStatus?.isUpSellPopup}
+                      isSocialMediaConnectPopup={
+                        suggestionTemplateStatus?.isSocialMediaConnectPopup
+                      }
+                      isExitProductRecommenderPopup={
+                        suggestionTemplateStatus?.isExitProductRecommenderPopup
+                      }
                     />
                   </>
                 )}
@@ -1396,35 +1459,45 @@ const MasterForm = () => {
                 />
               </div>
               <div
-                className="flex flex-col justify-center xl:col-span-6"
+                className="flex flex-col justify-start xl:col-span-6"
                 style={{ padding: combinedPadding }}
               >
-                <h1
-                  className="text-8xl font-bold mb-4 relative leading-none"
-                  style={getStyle(templateDesign, "templateHeading")}
-                >
-                  {templateDesign.heading || "HI, THANKS FOR STOPPING BY!"}
-                </h1>
-                <p
-                  className="text-lg mb-6 leading-none"
-                  style={getStyle(templateDesign, "templateSubHeading")}
-                >
-                  {templateDesign.subHeading ||
-                    "How would you rate your overall experience with us?"}
-                </p>
-                <hr className="w-48 h-1 my-4 bg-[#d0d5d9] border-0 rounded md:my-10 dark:bg-gray-700"></hr>
-                <form
-                  className="flex flex-col space-y-4"
-                  onSubmit={handleSubmit}
-                >
-                  {/* Display Stars Here */}
-                  {templateDesign.reviewType === "review" && (
-                    <>{renderStars(reviewCount)}</>
-                  )}
-                  {templateDesign.reviewType === "rating" && (
-                    <>{renderNumbers(ratingCount)}</>
-                  )}
-                </form>
+                <div className="flex justify-end mb-2">
+                  <h4
+                    className="leading-none font-bold"
+                    style={getStyle(templateDesign, "templateEmail")}
+                  >
+                    {templateDesign.templateEmailText || "qqqe@gamil.com"}
+                  </h4>
+                </div>
+                <div className="m-auto">
+                  <h1
+                    className="text-8xl font-bold mb-4 relative leading-none"
+                    style={getStyle(templateDesign, "templateHeading")}
+                  >
+                    {templateDesign.heading || "HI, THANKS FOR STOPPING BY!"}
+                  </h1>
+                  <p
+                    className="text-lg mb-6 leading-none"
+                    style={getStyle(templateDesign, "templateSubHeading")}
+                  >
+                    {templateDesign.subHeading ||
+                      "How would you rate your overall experience with us?"}
+                  </p>
+                  <hr className="w-48 h-1 my-4 bg-[#d0d5d9] border-0 rounded md:my-10 dark:bg-gray-700"></hr>
+                  <form
+                    className="flex flex-col space-y-4"
+                    onSubmit={handleSubmit}
+                  >
+                    {/* Display Stars Here */}
+                    {templateDesign.reviewType === "review" && (
+                      <>{renderStars(reviewCount)}</>
+                    )}
+                    {templateDesign.reviewType === "rating" && (
+                      <>{renderNumbers(ratingCount)}</>
+                    )}
+                  </form>
+                </div>
               </div>
             </div>
           </div>
@@ -1459,7 +1532,16 @@ const MasterForm = () => {
                   className="object-cover "
                 />
               </div>
+
               <div className="flex flex-wrap justify-center w-full">
+                <div className="flex justify-end w-full mb-2">
+                  <h4
+                    className="leading-none font-bold"
+                    style={getStyle(templateDesign, "templateEmail")}
+                  >
+                    {templateDesign.templateEmailText || "qqqe@gamil.com"}
+                  </h4>
+                </div>
                 <div className="mb-4">
                   <span
                     className="inline-block font-semibold leading-normal"
@@ -1493,7 +1575,7 @@ const MasterForm = () => {
             style={{ height: "calc(100vh - 250px)" }}
           >
             <div
-              className={`items-center justify-center shadow-lg flex-wrap ${feedbackSurveyClasses()}`}
+              className={`flex flex-col items-center justify-start shadow-lg ${feedbackSurveyClasses()}`}
               style={{
                 backgroundColor: templateDesign.templateBgColor || "#954de3",
                 borderRadius: templateDesign.borderRadius || "16px",
@@ -1505,11 +1587,18 @@ const MasterForm = () => {
                 minHeight: 200,
               }}
             >
-              <div className="w-1/2">
-                {/* <button className="absolute top-4 right-4 text-white text-lg font-semibold">
+              {/* <button className="absolute top-4 right-4 text-white text-lg font-semibold">
                 &times;
               </button> */}
-
+              <div className="flex justify-end mb-2 w-full">
+                <h4
+                  className="leading-none font-bold"
+                  style={getStyle(templateDesign, "templateEmail")}
+                >
+                  {templateDesign.templateEmailText || "qqqe@gamil.com"}
+                </h4>
+              </div>
+              <div className="w-1/2 m-auto">
                 <h2
                   className="block text-center  font-bold mb-2"
                   style={getStyle(templateDesign, "templateHeading")}
@@ -1594,27 +1683,27 @@ const MasterForm = () => {
         )}
         {suggestionTemplateStatus.isSocialMediaConnectPopup && (
           <>
-            <div className="w-full flex justify-center items-center h-full space-x-6 p-10 bg-gradient-to-r from-orange-100 to-orange-200">
+            <div
+              className="w-full flex justify-center items-center space-x-6 p-10 bg-white"
+              style={{ height: "calc(100vh - 240px)" }}
+            >
               <SocialMediaConnectPopUp
-                socialMediaIcon="fa-facebook-square"
-                socialMediaTitle="SECRET FACEBOOK DISCOUNT"
-                socialMediaDesc="We are sure we can pump up your next Facebook story with a cool new blender! Get your secret discount now!"
-                socialMediaBtnText="SHOW MY SECRET DISCOUNT"
-                socialMediaBtnLink={"#"}
-              />
-              <SocialMediaConnectPopUp
-                socialMediaIcon="fa-instagram"
-                socialMediaTitle="SECRET INSTAGRAM DISCOUNT"
-                socialMediaDesc="We are sure you like beautiful things. Well, BlendJet is both nice and effective! Try it now with your secret discount!"
-                socialMediaBtnText="SHOW MY SECRET DISCOUNT"
-                socialMediaBtnLink={"#"}
+                templateDesign={templateDesign}
+                combinedPadding={combinedPadding}
+                combinedMargin={combinedMargin}
+                getStyle={getStyle}
+                socialMediaPopupimageSrc={socialMediaPopupimageSrc}
+                formClasses={formClasses}
               />
             </div>
           </>
         )}
         {suggestionTemplateStatus.isWorldWideWelcomePopup && (
           <>
-            <div className="w-full flex justify-center items-center h-full space-x-6 p-10 bg-[#737378]">
+            <div
+              className="w-full flex justify-center items-center h-full space-x-6 p-10 bg-white"
+              style={{ height: "calc(100vh - 240px)" }}
+            >
               {/* <WorldWideWelcomePopUp
                 worldWideWelcomeTitle="Join us and get 10% OFF"
                 worldWideWelcomeReview="Excellent customer service and a great product! 5 stars!"
@@ -1625,13 +1714,11 @@ const MasterForm = () => {
                 worldWideWelcomeReviewerPosition="Christopher Cloos customer"
               /> */}
               <WorldWideWelcomePopUp
-                worldWideWelcomeTitle="Join us and get 10% OFF"
-                worldWideWelcomeReview="Super fede briller, god service, og hurting levering!"
-                worldWideWelcomeShippingText="We are shipping to Denmark"
-                worldWideWelcomeBtnText="Get 10% OFF"
-                worldWideWelcomeBtnLink={"#"}
-                worldWideWelcomeReviewerName="Charlotte Hasselkjaer Hasen"
-                worldWideWelcomeReviewerPosition="Christopher Cloos customer"
+                templateDesign={templateDesign}
+                getStyle={getStyle}
+                combinedMargin={combinedMargin}
+                combinedPadding={combinedPadding}
+                formClasses={formClasses}
               />
             </div>
           </>

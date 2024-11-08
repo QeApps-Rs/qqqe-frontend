@@ -15,11 +15,12 @@ function ProductCrossSellPopUp({
         {Array.from({ length: noOfProducts }, (_, index) => (
           <div
             key={index}
-            className="flex items-center text-center rounded-lg"
+            className="flex items-center  rounded-lg"
             style={{
               padding: combinedPadding,
-              backgroundColor: templateDesign.templateOverlayColor,
+              backgroundColor: templateDesign.templateOverlayColor || "#889885",
               order: templateDesign.imagePosition,
+              borderRadius: templateDesign.borderRadius || "16px",
             }}
           >
             <div className="block">
@@ -42,10 +43,10 @@ function ProductCrossSellPopUp({
                 className="block w-full bg-[#2db775] text-white p-2 rounded hover:bg-gray-800"
                 href="#"
                 style={{
-                  backgroundColor: "bg-[#2db775]",
+                  backgroundColor: templateDesign.templateButtonBgColor,
                 }}
               >
-                {templateData.button || "Shop Now"}
+                {templateDesign.button}
               </a>
             </div>
           </div>
@@ -80,9 +81,16 @@ function ProductCrossSellPopUp({
           backgroundColor: templateDesign.templateBgColor || "#a3a126",
           borderRadius: templateDesign.borderRadius || "16px",
           margin: combinedMargin,
-          padding: combinedPadding,
         }}
       >
+        <div className="flex justify-end mb-2">
+          <h4
+            className="leading-none font-bold"
+            style={getStyle(templateDesign, "templateEmail")}
+          >
+            {templateDesign.templateEmailText || "qqqe@gamil.com"}
+          </h4>
+        </div>
         <div className="text-center mb-4">
           <h4
             className="text-lg font-semibold leading-none"

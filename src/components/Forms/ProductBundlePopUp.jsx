@@ -14,10 +14,13 @@ function ProductBundlePopUp({
         {Array.from({ length: noOfProducts }, (_, index) => (
           <div
             key={index}
-            className="border rounded-lg "
             style={{
+              backgroundColor: templateDesign.templateOverlayColor || "#ffffff",
+              borderStyle: templateDesign.formBorderStyle ,
+              borderWidth: templateDesign.borderWidth ,
+              borderColor: templateDesign.templateBorderColor,
               padding: combinedPadding,
-              backgroundColor: templateDesign.templateOverlayColor,
+              margin: combinedMargin,
             }}
           >
             <div className="mb-4">
@@ -25,7 +28,7 @@ function ProductBundlePopUp({
                 <img
                   src={defaultProductImg}
                   alt={`product- ${index + 1}`}
-                  className="w-full h-auto rounded-lg"
+                  className="w-32 h-32 mx-auto rounded-lg"
                 />
               </a>
             </div>
@@ -68,24 +71,31 @@ function ProductBundlePopUp({
     <>
       <div
         id="product-bundle"
-        className="justify-center items-center flex w-full bg-white"
+        className="justify-center items-center flex w-full"
         style={{ height: "calc(100vh - 240px)" }}
       >
         <div
-          className=" rounded-lg  p-6 w-full relative  shadow-[7px_-7px_57px_#ccc]"
+          className="p-6 w-full relative  shadow-[7px_-7px_57px_#ccc]"
           style={{
             backgroundColor: templateDesign.templateBgColor || "#9f9e9e",
-            borderRadius: templateDesign.borderRadius,
-
-            borderStyle: templateDesign.formBorderStyle,
+            borderRadius: templateDesign.borderRadius || "14px",
+            margin: combinedMargin,
           }}
         >
+          <div className="flex justify-end mb-2">
+            <h4
+              className="leading-none font-bold"
+              style={getStyle(templateDesign, "templateEmail")}
+            >
+              {templateDesign.templateEmailText || "qqqe@gamil.com"}
+            </h4>
+          </div>
           <div className="text-center mb-4">
             <h5
               style={getStyle(templateDesign, "templateHeading")}
               className="leading-none"
             >
-              {templateDesign.heading || "Welcome back!"}
+              {templateDesign.heading}
             </h5>
             <h4
               className="leading-none mt-4"
@@ -103,7 +113,11 @@ function ProductBundlePopUp({
           </div>
 
           <div
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-h-[360px] overflow-auto"
+            className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 ${
+              productData && productData.length > 0
+                ? ""
+                : "max-h-[360px]  overflow-auto"
+            }`}
             style={{ margin: combinedMargin }}
           >
             {productData && productData.length > 0 ? (
@@ -112,11 +126,13 @@ function ProductBundlePopUp({
                   key={index}
                   className="p-4 "
                   style={{
+                    borderStyle: templateDesign.formBorderStyle,
                     backgroundColor:
                       templateDesign.templateOverlayColor || "#ffffff",
                     borderWidth: templateDesign.borderWidth,
                     borderColor: templateDesign.templateBorderColor,
                     border: templateDesign.formBorderStyle,
+                    borderRadius: templateDesign.borderRadius || "14px",
                   }}
                 >
                   <div className="mb-4">

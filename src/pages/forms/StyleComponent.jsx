@@ -24,7 +24,10 @@ const StyleComponent = ({
   isAttributionSurvey,
   isAbandonmentPopup,
   isPreviewPopup,
-  isUpSellPopup
+  isUpSellPopup,
+  isExitProductRecommenderPopup,
+  isSocialMediaConnectPopup,
+  isWorldWideWelcomePopup,
 }) => {
   const [activeTab, setActiveTab] = useState("Desktop");
 
@@ -98,7 +101,9 @@ const StyleComponent = ({
                   <div className="p-3">
                     {!isProductBundle &&
                       !isCrossSellPopup &&
-                      !isAbandonmentPopup && !isUpSellPopup && (
+                      !isAbandonmentPopup &&
+                      !isUpSellPopup &&
+                      !isExitProductRecommenderPopup && (
                         <>
                           {renderDropDown("Form Type", {
                             ...formTypeDropdown,
@@ -142,9 +147,22 @@ const StyleComponent = ({
                       <label className="mb-2 block text-black dark:text-white font-semibold">
                         Form Background
                       </label>
-                      {templateBgField.map(({ label, colorType }, i) =>
+                      {/* {templateBgField.map(({ label, colorType }, i) =>
                         renderColorPicker(label, colorType, i)
-                      )}
+                      )} */}
+                      {templateBgField
+                        .filter(({ colorType }) => {
+                          return !(
+                            isExitProductRecommenderPopup ||
+                            isSocialMediaConnectPopup ||
+                            isWorldWideWelcomePopup ||
+                            (isAttributionSurvey &&
+                              colorType === "templateOverlayColor")
+                          );
+                        })
+                        .map(({ label, colorType }, i) =>
+                          renderColorPicker(label, colorType, i)
+                        )}
                     </div>
 
                     <div className="mb-4.5  pb-4">
@@ -231,7 +249,9 @@ const StyleComponent = ({
                       !isPurchaseSatisfactionSurvey &&
                       !isFeedbackSurvey &&
                       !isAttributionSurvey &&
-                      !isAbandonmentPopup && !isUpSellPopup && (
+                      !isAbandonmentPopup &&
+                      !isUpSellPopup &&
+                      !isExitProductRecommenderPopup && (
                         <>
                           <div className="mb-4.5 border-b border-black pb-4">
                             <label className="mb-2 block text-black dark:text-white font-semibold">
@@ -270,10 +290,17 @@ const StyleComponent = ({
                                 }
                               />
                             </div>
-                            {inputTextColorFields.map(
-                              ({ label, colorType }, i) =>
+                            {inputTextColorFields
+                              .filter(({ colorType }) => {
+                                return !(
+                                  isWorldWideWelcomePopup ||
+                                  (isSocialMediaConnectPopup &&
+                                    colorType === "formHeadingColor")
+                                );
+                              })
+                              .map(({ label, colorType }, i) =>
                                 renderColorPicker(label, colorType, i)
-                            )}
+                              )}
                           </div>
                           <div className="mb-4.5 border-b border-black pb-4">
                             <label className="mb-2 block text-black dark:text-white font-semibold">

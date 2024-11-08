@@ -31,12 +31,17 @@ function ProductUpSellPopUp({
               backgroundColor: "transparent",
             }}
           >
-            <div className="mb-4 bg-white">
+            <div
+              className="mb-4 h-40 flex rounded-lg items-center justify-center"
+              style={{
+                background: templateDesign.templateOverlayColor || "#FFFFFF",
+              }}
+            >
               <a href="#">
                 <img
                   src={defaultProductImg}
                   alt={`product- ${index + 1}`}
-                  className="w-full h-auto rounded-lg"
+                  className="h-32 "
                 />
               </a>
             </div>
@@ -49,13 +54,13 @@ function ProductUpSellPopUp({
               ${Math.floor(Math.random() * 1000)}
             </div>
             <a
-              className="block w-full text-center border text-white py-2 rounded hover:bg-gray-800"
+              className="block w-full text-center text-white py-2 rounded"
               href="#"
               style={{
-                backgroundColor: "transparent",
+                backgroundColor: templateDesign.templateButtonBgColor,
               }}
             >
-              {templateData.button || "See Details"}
+              {templateDesign.button}
             </a>
           </div>
         ))}
@@ -83,17 +88,28 @@ function ProductUpSellPopUp({
         style={{ height: "calc(100vh - 240px)" }}
       >
         <div
-          className="p-6 w-full max-w-3xl relative  shadow-[7px_-7px_57px_#ccc]"
+          className=" w-full max-w-3xl relative  shadow-[7px_-7px_57px_#ccc]"
           style={{
             backgroundColor: templateDesign.templateBgColor || "#f43f5b",
+            padding: combinedPadding,
+            margin: combinedMargin,
+            borderRadius: templateDesign.borderRadius || "12px",
           }}
         >
+          <div className="flex justify-end mb-2">
+            <h4
+              className="leading-none font-bold"
+              style={getStyle(templateDesign, "templateEmail")}
+            >
+              {templateDesign.templateEmailText || "qqqe@gamil.com"}
+            </h4>
+          </div>
           <div className="text-center mb-4">
             <h5
               style={getStyle(templateDesign, "templateHeading")}
               className="leading-none"
             >
-              {templateDesign.heading }
+              {templateDesign.heading}
             </h5>
             <h4
               className="leading-none mt-4"
@@ -113,19 +129,10 @@ function ProductUpSellPopUp({
               borderRadius: templateDesign.borderRadius || "12px",
             }}
           >
-            <div
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-h-[360px] overflow-auto"
-              style={{ margin: combinedMargin }}
-            >
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-h-[360px] overflow-auto">
               {productData && productData.length > 0 ? (
                 productData.map((product, index) => (
-                  <div
-                    key={index}
-                    className="rounded-lg p-4 "
-                    style={{
-                      backgroundColor: "transparent",
-                    }}
-                  >
+                  <div key={index} className="rounded-lg p-4 ">
                     <div
                       className="mb-4 h-40 flex  rounded-lg items-center justify-center"
                       style={{
@@ -157,10 +164,10 @@ function ProductUpSellPopUp({
                       ${product.price}
                     </div>
                     <a
-                      className="block w-full text-center border text-white py-2 rounded hover:bg-gray-800"
+                      className="block w-full text-center  text-white py-2 rounded hover:bg-gray-800"
                       href="#"
                       style={{
-                        backgroundColor: "transparent",
+                        backgroundColor: templateDesign.templateButtonBgColor,
                       }}
                     >
                       {templateDesign.button || "See Details"}
