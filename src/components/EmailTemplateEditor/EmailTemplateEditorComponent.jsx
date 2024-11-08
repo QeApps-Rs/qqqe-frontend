@@ -1,26 +1,28 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/no-unknown-property */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import FormSubmitHandler from "../../components/FormSubmitHandler";
+import FormSubmitHandler from "../FormSubmitHandler";
 import {
   templateFieldCss,
   templateEditorCollapseOptions,
   surveyControllerDefaults,
   targetAndBehaviorDefaultState as targetAndBehaviorDefaultState,
 } from "../../pages/forms/masterFormConfig";
-import ProductBundleTab from "../../components/Forms/ProductBundleTab";
+import ProductBundleTab from "../Forms/ProductBundleTab";
 import StyleComponent from "../../pages/forms/StyleComponent";
 import InputControllerComponent from "../../pages/forms/InputControllerComponent";
 import { Toaster } from "react-hot-toast";
 import SurveyControllerComponent from "../../pages/forms/SurveyControllerComponent";
 import SuccessControllerComponent from "../../pages/forms/SuccessControllerComponent";
 import Loader from "../../common/Loader";
-import { BackIcon } from "../../components/custIcon/svgIcon";
+import { BackIcon } from "../custIcon/svgIcon";
 import TargetingAndBehaviorControlComponent from "../../pages/forms/TargetingAndBehaviorControlComponent";
 import TemplateHeader from "../Forms/TemplateHeader";
+import EmailTemplateDefault from "./EmailTemplateDefault";
 
-const EmailTemplateEditor = () => {
+const EmailTemplateEditorComponent = () => {
   //  shiv code start
   const [loading, setLoading] = useState(false);
   const [customCssState, setCustomCssState] = useState("");
@@ -134,7 +136,8 @@ const EmailTemplateEditor = () => {
     useState("");
   const [productDiscountAmountDetails, setProductDiscountAmountDetails] =
     useState(0);
-
+    const userName = "John Doe";
+    const message = "Thank you for subscribing to our newsletter! We’re excited to have you with us.";
   return (
     <>
       {loading && <Loader />}
@@ -362,7 +365,9 @@ const EmailTemplateEditor = () => {
           setSuccess={setSuccess}
           templateHeaderState={templateHeaderState}
         />
+              <EmailTemplateDefault />
       </div>
+
 
       <div className="clear-both"></div>
       <style jsx="true">{`
@@ -374,4 +379,4 @@ const EmailTemplateEditor = () => {
   );
 };
 
-export default EmailTemplateEditor;
+export default EmailTemplateEditorComponent;
