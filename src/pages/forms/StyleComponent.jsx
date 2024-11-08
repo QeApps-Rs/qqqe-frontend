@@ -290,17 +290,10 @@ const StyleComponent = ({
                                 }
                               />
                             </div>
-                            {inputTextColorFields
-                              .filter(({ colorType }) => {
-                                return !(
-                                  isWorldWideWelcomePopup ||
-                                  (isSocialMediaConnectPopup &&
-                                    colorType === "formHeadingColor")
-                                );
-                              })
-                              .map(({ label, colorType }, i) =>
+                            {inputTextColorFields.map(
+                              ({ label, colorType }, i) =>
                                 renderColorPicker(label, colorType, i)
-                              )}
+                            )}
                           </div>
                           <div className="mb-4.5 border-b border-black pb-4">
                             <label className="mb-2 block text-black dark:text-white font-semibold">
