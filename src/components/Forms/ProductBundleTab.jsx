@@ -137,7 +137,11 @@ const ProductBundleTab = ({
     });
   };
 
-  const handleTargetedCollectionCheckboxChange = (id, title = "", handle = "") => {
+  const handleTargetedCollectionCheckboxChange = (
+    id,
+    title = "",
+    handle = ""
+  ) => {
     setTargetedCollections((prevCheckedItems) => ({
       ...prevCheckedItems,
       [id]: !prevCheckedItems[id],
@@ -388,7 +392,11 @@ const ProductBundleTab = ({
                             <Tab>Select Collection</Tab>
                           </TabList>
 
-                          <TabPanel className={"max-h-60 overflow-y-auto"}>
+                          <TabPanel
+                            className={
+                              "max-h-60 overflow-y-auto overflow-x-hidden"
+                            }
+                          >
                             {" "}
                             {productListState && (
                               <ProductListComponent
@@ -400,7 +408,11 @@ const ProductBundleTab = ({
                               />
                             )}
                           </TabPanel>
-                          <TabPanel className={"max-h-60 overflow-y-auto"}>
+                          <TabPanel
+                            className={
+                              "max-h-60 overflow-y-auto overflow-x-hidden"
+                            }
+                          >
                             {" "}
                             {collectionListState && (
                               <CollectionListComponent
@@ -430,7 +442,9 @@ const ProductBundleTab = ({
                           </TabList>
 
                           <TabPanel
-                            className={"max-h-60 overflow-y-auto"}
+                            className={
+                              "max-h-60 overflow-y-auto overflow-x-hidden"
+                            }
                             key={"targeted-preference-tabpanel-1"}
                           >
                             {" "}
@@ -445,7 +459,9 @@ const ProductBundleTab = ({
                             )}
                           </TabPanel>
                           <TabPanel
-                            className={"max-h-60 overflow-y-auto"}
+                            className={
+                              "max-h-60 overflow-y-auto overflow-x-hidden"
+                            }
                             key={"targeted-preference-tabpanel-2"}
                           >
                             {" "}
