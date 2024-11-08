@@ -496,7 +496,8 @@ const SuggestionCompNew = () => {
                       className="flex w-full items-center justify-between gap-2 "
                       onClick={() => handlePlusMinus(i)}
                     >
-                      {renderTabTitle(dataItem)}
+                      {/* {renderTabTitle(dataItem)} */}
+                      Open Detail
                       <div className="flex h-9 w-full max-w-9 items-center justify-center rounded-full bg-blue-700 text-white">
                         <PlusSvg plusMinus={plusMinus?.[i]} />
                         <MinusSvg plusMinus={plusMinus?.[i]} />
