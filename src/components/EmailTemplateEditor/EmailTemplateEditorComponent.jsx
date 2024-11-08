@@ -21,6 +21,7 @@ import { BackIcon } from "../custIcon/svgIcon";
 import TargetingAndBehaviorControlComponent from "../../pages/forms/TargetingAndBehaviorControlComponent";
 import TemplateHeader from "../Forms/TemplateHeader";
 import EmailTemplateDefault from "./EmailTemplateDefault";
+import EmailTemplateControllerComponent from "./EmailTemplateControllerComponent";
 
 const EmailTemplateEditorComponent = () => {
   //  shiv code start
@@ -330,16 +331,12 @@ const EmailTemplateEditorComponent = () => {
                   </div>
                 </div>
               )}
+              {activeIndex === index && item.tag === "email_template" && (
+                <EmailTemplateControllerComponent />
+              )}
             </li>
           ))}
-          <button
-            onClick={advanceSettingHandleChange}
-            className="border rounded-lg border-gray-300 w-full p-4 font-semibold text-lg"
-          >
-            {advanceSetting
-              ? "Hide Advanced Settings"
-              : "Show Advanced Settings"}
-          </button>
+        
         </ul>
       </aside>
       <div className="flex justify-end mb-4">
