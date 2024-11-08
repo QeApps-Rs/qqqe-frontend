@@ -19,7 +19,7 @@ const Sidebar = () => {
     {
       href: "/analytics",
       iconType: "analytics",
-      label: "Analytics",
+      label: "Overview",
     },
     { href: "/people-dashboard", iconType: "people", label: "People" },
     { href: "/product-dashboard", iconType: "product", label: "Product" },

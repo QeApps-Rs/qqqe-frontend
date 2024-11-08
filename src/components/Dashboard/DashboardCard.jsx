@@ -17,13 +17,21 @@ import FormSubmitHandler from "../FormSubmitHandler";
 import ScrollAnimation from "react-animate-on-scroll";
 import "animate.css/animate.min.css";
 import AllPageStartOverviewPage from "../AllPageStartOverview";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { BackIcon } from "../custIcon/svgIcon";
+import toast from "react-hot-toast";
 
 const DashboardCard = () => {
   const today = new Date();
-  const todayStr = today.toISOString().split("T")[0];
+  const location = useLocation();
+  const { priorityCount } = location.state || {};
+  const [peoplePriorityCount, setPeoplePriorityCount] = useState(priorityCount);
 
+  const todayStr = today.toISOString().split("T")[0];
+  const category = {
+    title: "People",
+    url: "/problem-statement?category=people",
+  };
   const [loading, setLoading] = useState(false);
   const [graphData, setGraphData] = useState({
     visitorsData: [],
@@ -142,6 +150,34 @@ const DashboardCard = () => {
       }
     };
 
+    const getDashboardCount = async () => {
+      setLoading(true);
+      await FormSubmitHandler({
+        method: "get",
+        url: "level1/question/list?category=people",
+      })
+        .then((res) => {
+          if (res.data) {
+            const responseData = res.data;
+            const peopleCount = responseData.reduce((acc, item) => {
+              const priority = item?.priority?.toLowerCase();
+              acc["count"] = (acc["count"] || 0) + 1;
+              acc[priority] = (acc[priority] || 0) + 1;
+              return acc;
+            }, {});
+            setPeoplePriorityCount(peopleCount);
+          }
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
+    if (peoplePriorityCount == undefined) {
+      getDashboardCount();
+    }
     fetchData();
   }, []);
 
@@ -244,7 +280,6 @@ const DashboardCard = () => {
     const allMonths = [];
     const today = new Date();
     const currentYear = today.getFullYear();
-    const currentMonth = today.getMonth();
 
     for (let i = 0; i < monthCount; i++) {
       const monthIndex = i;
@@ -700,8 +735,11 @@ const DashboardCard = () => {
               </button>
             </Link>
           </div>
-          <AllPageStartOverviewPage />
-          <div className="w-full flex mt-6">
+          <AllPageStartOverviewPage
+            category={category}
+            priorityCount={peoplePriorityCount}
+          />
+          <div className="w-full flex">
             <div className="w-1/2 flex items-center  justify-end">
               <i
                 className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
