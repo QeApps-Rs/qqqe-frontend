@@ -26,6 +26,7 @@ const InputControllerComponent = ({
   isUpSellPopup,
   isSocialMediaConnectPopup,
   isExitProductRecommenderPopup,
+  isWorldWideWelcomePopup
 }) => {
   const [fieldState, setFieldState] = useState({
     fieldType: "",
@@ -107,7 +108,7 @@ const InputControllerComponent = ({
                     !isAttributionSurvey &&
                     !isAbandonmentPopup &&
                     !isUpSellPopup &&
-                    !isExitProductRecommenderPopup && (
+                    !isExitProductRecommenderPopup && !isWorldWideWelcomePopup &&(
                       <>
                         <div className="mb-6">
                           <label className="mb-2.5 block text-black dark:text-white font-semibold">
@@ -477,7 +478,6 @@ const InputControllerComponent = ({
                     !isAttributionSurvey &&
                     !isAbandonmentPopup &&
                     !isUpSellPopup &&
-                    !isSocialMediaConnectPopup &&
                     !isExitProductRecommenderPopup && (
                       <>
                         <div className="mb-6">

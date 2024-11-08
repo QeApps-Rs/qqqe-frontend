@@ -87,7 +87,7 @@ function ProductBundlePopUp({
               className="leading-none font-bold"
               style={getStyle(templateDesign, "templateEmail")}
             >
-              {templateDesign.templateEmailText || "qqqe@gamil.com"}
+              {templateDesign.templateEmailText}
             </h4>
           </div>
           <div className="text-center mb-4">

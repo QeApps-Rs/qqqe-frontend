@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 
+import TemplateBannerComponent from "../../pages/forms/TemplateBannerComponent";
+
 const SocialMediaConnectPopUp = ({
   getStyle,
   templateDesign,
@@ -7,6 +9,13 @@ const SocialMediaConnectPopUp = ({
   combinedMargin,
   socialMediaPopupimageSrc,
   formClasses,
+  handleSubmit,
+  addedFields,
+  handleInputChange,
+  isSubmitted,
+  handleDeleteField,
+  handleEdit,
+  inputValues,
 }) => {
   return (
     <div
@@ -28,7 +37,7 @@ const SocialMediaConnectPopUp = ({
           className="leading-none font-bold"
           style={getStyle(templateDesign, "templateEmail")}
         >
-          {templateDesign.templateEmailText || "qqqe@gamil.com"}
+          {templateDesign.templateEmailText }
         </h4>
       </div>
       <div
@@ -66,7 +75,7 @@ const SocialMediaConnectPopUp = ({
               "We are sure we can pump up your next Facebook story with a cool new blender! Get your secret discount now!"}
           </p>
 
-          <form className="space-y-4">
+          {/* <form className="space-y-4">
             {["email", "text"].map((type, index) => (
               <input
                 key={type}
@@ -97,6 +106,31 @@ const SocialMediaConnectPopUp = ({
               style={{
                 backgroundColor:
                   templateDesign.templateButtonBgColor || "#5B21B6",
+              }}
+            >
+              {templateDesign.button}
+            </button>
+          </form> */}
+
+          <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
+            {addedFields.map((field, index) => (
+              <TemplateBannerComponent
+                key={index}
+                {...field}
+                templateDesign={templateDesign}
+                inputValue={inputValues[field.fieldName] || ""}
+                onInputChange={handleInputChange}
+                isSubmitted={isSubmitted}
+                onDelete={() => handleDeleteField(field.fieldName)}
+                onEdit={() => handleEdit(field, index)}
+              />
+            ))}
+
+            <button
+              type="submit"
+              className="bg-black text-white py-3 rounded-md text-lg mt-3"
+              style={{
+                backgroundColor: templateDesign.templateButtonBgColor,
               }}
             >
               {templateDesign.button}

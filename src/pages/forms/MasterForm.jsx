@@ -858,6 +858,37 @@ const MasterForm = () => {
     ratingCount,
   };
 
+  const worldWideWelcomeProps = {
+    templateDesign,
+    getStyle,
+    combinedPadding,
+    combinedMargin,
+    formClasses,
+    handleSubmit,
+    addedFields,
+    handleInputChange,
+    isSubmitted,
+    handleDeleteField,
+    handleEdit,
+    inputValues,
+  };
+
+  const socialMediaConnectProps = {
+    templateDesign,
+    combinedPadding,
+    combinedMargin,
+    getStyle,
+    socialMediaPopupimageSrc,
+    formClasses,
+    handleSubmit,
+    addedFields,
+    handleInputChange,
+    isSubmitted,
+    handleDeleteField,
+    handleEdit,
+    inputValues,
+  };
+
   const convertStateToNestedObject = (state) => {
     return {
       form_type: {
@@ -1096,8 +1127,7 @@ const MasterForm = () => {
                 suggestionTemplateStatus?.isUpSellPopup ||
                 suggestionTemplateStatus?.isCrossSellPopup ||
                 suggestionTemplateStatus?.isAbandonmentPopup ||
-                suggestionTemplateStatus?.isExitProductRecommenderPopup ||
-                suggestionTemplateStatus?.isSocialMediaConnectPopup
+                suggestionTemplateStatus?.isExitProductRecommenderPopup
               ) {
                 return (
                   // item.tag !== "inputController" &&
@@ -1118,7 +1148,16 @@ const MasterForm = () => {
                   item.tag !== "successController" && item.tag !== "bundle"
                 );
               }
-
+              if (
+                suggestionTemplateStatus?.isWorldWideWelcomePopup ||
+                suggestionTemplateStatus?.isSocialMediaConnectPopup
+              ) {
+                return (
+                  item.tag !== "surveyController" &&
+                  item.tag !== "successController" &&
+                  item.tag !== "bundle"
+                );
+              }
               return item.tag !== "bundle";
             })
             .map((item, index) => (
@@ -1212,6 +1251,9 @@ const MasterForm = () => {
                       }
                       isExitProductRecommenderPopup={
                         suggestionTemplateStatus?.isExitProductRecommenderPopup
+                      }
+                      isWorldWideWelcomePopup={
+                        suggestionTemplateStatus?.isWorldWideWelcomePopup
                       }
                     />
                   </>
@@ -1467,7 +1509,7 @@ const MasterForm = () => {
                     className="leading-none font-bold"
                     style={getStyle(templateDesign, "templateEmail")}
                   >
-                    {templateDesign.templateEmailText || "qqqe@gamil.com"}
+                    {templateDesign.templateEmailText}
                   </h4>
                 </div>
                 <div className="m-auto">
@@ -1539,7 +1581,7 @@ const MasterForm = () => {
                     className="leading-none font-bold"
                     style={getStyle(templateDesign, "templateEmail")}
                   >
-                    {templateDesign.templateEmailText || "qqqe@gamil.com"}
+                    {templateDesign.templateEmailText}
                   </h4>
                 </div>
                 <div className="mb-4">
@@ -1595,7 +1637,7 @@ const MasterForm = () => {
                   className="leading-none font-bold"
                   style={getStyle(templateDesign, "templateEmail")}
                 >
-                  {templateDesign.templateEmailText || "qqqe@gamil.com"}
+                  {templateDesign.templateEmailText}
                 </h4>
               </div>
               <div className="w-1/2 m-auto">
@@ -1694,6 +1736,7 @@ const MasterForm = () => {
                 getStyle={getStyle}
                 socialMediaPopupimageSrc={socialMediaPopupimageSrc}
                 formClasses={formClasses}
+                {...socialMediaConnectProps}
               />
             </div>
           </>
@@ -1713,13 +1756,7 @@ const MasterForm = () => {
                 worldWideWelcomeReviewerName="Anne Roberts"
                 worldWideWelcomeReviewerPosition="Christopher Cloos customer"
               /> */}
-              <WorldWideWelcomePopUp
-                templateDesign={templateDesign}
-                getStyle={getStyle}
-                combinedMargin={combinedMargin}
-                combinedPadding={combinedPadding}
-                formClasses={formClasses}
-              />
+              <WorldWideWelcomePopUp {...worldWideWelcomeProps} />
             </div>
           </>
         )}
