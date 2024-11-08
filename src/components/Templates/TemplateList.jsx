@@ -8,7 +8,7 @@ import FormSubmitHandler from "../FormSubmitHandler";
 import toast from "react-hot-toast";
 import Loader from "../../common/Loader";
 import Checkbox from "../higherOrderComponent/Checkboxes/Checkbox";
-
+import emailTemplateImg from "../../images/email-template.jpg";
 const TemplateList = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -223,6 +223,31 @@ const TemplateList = () => {
           <div className="md:col-span-4 w-full ">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full">
               <RenderTemplates templateListProp={templateList} />
+              {templateList.length == 0 && (
+                <div className="text-center text-black font-semibold">
+                  No Template Found
+                </div>
+              )}
+            </div>
+            <div className="mt-6">
+              <h4 className="text-lg font-bold text-graydark mb-6">
+                Edit email template
+              </h4>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full">
+              <div
+                className={`transition-transform transform hover:scale-105 hover:shadow-lg md:col-span-1`}
+              >
+                <Link to={"/email-template"}>
+                  <div className="px-10 py-6 h-[350px] bg-[url('/src/images/template-background.svg')] bg-no-repeat bg-cover shadow-md shadow-black/28 rounded-lg">
+                    <img
+                      src={emailTemplateImg}
+                      className="mb-3  w-full h-full object-contain"
+                    />
+                  </div>
+                </Link>
+              </div>
+
               {templateList.length == 0 && (
                 <div className="text-center text-black font-semibold">
                   No Template Found
