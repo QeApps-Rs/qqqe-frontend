@@ -65,8 +65,8 @@ export const templateFieldCss = {
   successSubHeading: "",
   successDescription: "",
   templateEmailText:"",
-  templateEmailFontSize:"24px",
-  templateEmailFontFamily:"Arial",
+  templateEmailFontSize:"",
+  templateEmailFontFamily:"",
   templateEmailColor:""
 };
 

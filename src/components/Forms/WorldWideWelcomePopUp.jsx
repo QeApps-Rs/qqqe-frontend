@@ -1,11 +1,20 @@
 /* eslint-disable react/prop-types */
 
+import TemplateBannerComponent from "../../pages/forms/TemplateBannerComponent";
+
 const WorldWideWelcomePopUp = ({
   templateDesign,
   getStyle,
   combinedPadding,
   combinedMargin,
   formClasses,
+  handleSubmit,
+  addedFields,
+  handleInputChange,
+  isSubmitted,
+  handleDeleteField,
+  handleEdit,
+  inputValues,
 }) => {
   return (
     <div
@@ -22,13 +31,13 @@ const WorldWideWelcomePopUp = ({
         display: "block",
       }}
     >
-      <div className="w-full block justify-center items-center h-full">
+      <div className="w-full block  h-full">
         <div className="flex justify-end mb-2">
           <h4
             className="leading-none font-bold"
             style={getStyle(templateDesign, "templateEmail")}
           >
-            {templateDesign.templateEmailText || "qqqe@gamil.com"}
+            {templateDesign.templateEmailText}
           </h4>
         </div>
         <div className="w-full flex justify-center h-full items-center">
@@ -64,7 +73,7 @@ const WorldWideWelcomePopUp = ({
             >
               {templateDesign.offerAmount || "Join us and get 10% OFF"}
             </h2>
-            <form className="space-y-4">
+            {/* <form className="space-y-4">
               <input
                 type="email"
                 placeholder="Email address"
@@ -90,6 +99,31 @@ const WorldWideWelcomePopUp = ({
 
               <button
                 className="w-full text-white p-3 mt-3 rounded-lg font-semibold"
+                style={{
+                  backgroundColor: templateDesign.templateButtonBgColor,
+                }}
+              >
+                {templateDesign.button}
+              </button>
+            </form> */}
+
+            <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
+              {addedFields.map((field, index) => (
+                <TemplateBannerComponent
+                  key={index}
+                  {...field}
+                  templateDesign={templateDesign}
+                  inputValue={inputValues[field.fieldName] || ""}
+                  onInputChange={handleInputChange}
+                  isSubmitted={isSubmitted}
+                  onDelete={() => handleDeleteField(field.fieldName)}
+                  onEdit={() => handleEdit(field, index)}
+                />
+              ))}
+
+              <button
+                type="submit"
+                className="bg-black text-white py-3 rounded-md text-lg mt-3"
                 style={{
                   backgroundColor: templateDesign.templateButtonBgColor,
                 }}
