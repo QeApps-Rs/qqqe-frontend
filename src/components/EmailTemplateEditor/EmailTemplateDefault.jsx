@@ -8,7 +8,7 @@ const EmailTemplateDefault = () => {
       <table className="w-full bg-gray-100">
         <tr>
           <td className="py-5 text-center">
-            <table className="mx-auto w-[630px] bg-white ">
+            <table className="mx-auto w-[630px] ">
               <thead>
                 <tr className="bg-[#e1f2f6] flex justify-between  px-4 py-6">
                   <td className="text-center">
@@ -25,11 +25,18 @@ const EmailTemplateDefault = () => {
                   </td>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                    <td>
-                        <img src=""></img>
-                    </td>
+              <tbody className="bg-white ">
+                <tr className="block">
+                  <td>
+                    <i className="fa fa-shopping-cart" aria-hidden="true"></i>
+                    <h1 className="block text-black text-3xl font-bold">
+                      Still in your cart
+                    </h1>
+                    <span className="block text-graydark text-lg">
+                      These fashionable items are still waiting for you in your
+                      shopping cart.
+                    </span>
+                  </td>
                 </tr>
               </tbody>
             </table>

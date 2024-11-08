@@ -1,7 +1,7 @@
-import EmailTemplateEditor from "../components/EmailTemplateEditor";
+import EmailTemplateEditorComponent from "../components/EmailTemplateEditor/EmailTemplateEditorComponent";
 
 const EmailTemplate = () => {
-  return <EmailTemplateEditor />;
+  return <EmailTemplateEditorComponent />;
 };
 
 export default EmailTemplate;
