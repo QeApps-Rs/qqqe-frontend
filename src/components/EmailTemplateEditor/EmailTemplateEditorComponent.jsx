@@ -3,15 +3,13 @@
 /* eslint-disable react/no-unknown-property */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  emailTemplateEditorCollapseOptions,
-} from "../../pages/forms/masterFormConfig";
+import { emailTemplateEditorCollapseOptions } from "../../pages/forms/masterFormConfig";
 import Loader from "../../common/Loader";
 import { BackIcon } from "../custIcon/svgIcon";
 import TemplateHeader from "../Forms/TemplateHeader";
 import EmailTemplateDefault from "./EmailTemplateDefault";
 import EmailTemplateControllerComponent from "./EmailTemplateControllerComponent";
-
+import { emailTemplateEditorDefaults } from "./masterEmailTemplate";
 const EmailTemplateEditorComponent = () => {
   //  shiv code start
   const [loading, setLoading] = useState(false);
@@ -43,6 +41,9 @@ const EmailTemplateEditorComponent = () => {
       navUrl: "#",
     },
   ]);
+  const [uploadedIcon, setUploadedIcon] = useState({
+    image: "",
+  });
   const toggleAccordion = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
@@ -82,7 +83,11 @@ const EmailTemplateEditorComponent = () => {
               </h3>
 
               {activeIndex === index && item.tag === "email_template" && (
-                <EmailTemplateControllerComponent navButtons={navButtons} setNavButtons={setNavButtons} />
+                <EmailTemplateControllerComponent
+                  navButtons={navButtons}
+                  setNavButtons={setNavButtons}
+                  setUploadedIcon={setUploadedIcon}
+                />
               )}
             </li>
           ))}
@@ -111,7 +116,10 @@ const EmailTemplateEditorComponent = () => {
           setSuccess={setSuccess}
           templateHeaderState={templateHeaderState}
         />
-              <EmailTemplateDefault navButtons={navButtons} />
+        <EmailTemplateDefault
+          navButtons={navButtons}
+          uploadedIcon={uploadedIcon}
+        />
       </div>
 
       <div className="clear-both"></div>

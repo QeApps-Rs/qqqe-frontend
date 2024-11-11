@@ -1,7 +1,13 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { CameraIcon } from "../custIcon/svgIcon";
 
-const EmailTemplateControllerComponent = ({ navButtons, setNavButtons }) => {
+const EmailTemplateControllerComponent = ({
+  navButtons,
+  setNavButtons,
+  uploadedIcon,
+  setUploadedIcon,
+}) => {
   const styleFieldTitleClass =
     "mb-2.5 block text-black dark:text-white font-semibold";
 
@@ -130,6 +136,40 @@ const EmailTemplateControllerComponent = ({ navButtons, setNavButtons }) => {
                           ))}
                         </ul>
                       </div>
+                    </div>
+                    <div className="mb-4.5 border-b border-black pb-4">
+                      <label className={styleFieldTitleClass}>
+                        Logo Upload
+                      </label>
+
+                      <label
+                        htmlFor="cover"
+                        className="flex cursor-pointer items-center justify-center gap-2 rounded bg-primary py-2 px-2 text-sm font-medium text-white hover:bg-opacity-90 xsm:px-4"
+                      >
+                        <input
+                          type="file"
+                          name="cover"
+                          id="cover"
+                          className="sr-only"
+                          onChange={(e) => {
+                            const file = e.target.files[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onloadend = () => {
+                                setUploadedIcon((prev) => ({
+                                  ...prev,
+                                  image: reader.result,
+                                }));
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          }}
+                        />
+                        <span>
+                          <CameraIcon />
+                        </span>
+                        <span>Upload</span>
+                      </label>
                     </div>
                   </div>
                 </form>

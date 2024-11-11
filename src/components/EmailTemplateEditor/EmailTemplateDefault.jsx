@@ -4,8 +4,7 @@ import productImg from "../../images/default_product.png";
 import paymentIcon from "../../images/payment-icon.png";
 
 import { Link } from "react-router-dom";
-const EmailTemplateDefault = ({ navButtons }) => {
-  const NavItems = ["Shop", "Sale", "New"];
+const EmailTemplateDefault = ({ navButtons,uploadedIcon }) => {
 
   const products = [
     {
@@ -49,7 +48,7 @@ const EmailTemplateDefault = ({ navButtons }) => {
         <thead>
           <tr className="bg-[#e1f2f6] flex justify-between px-4 py-6">
             <th className="text-center">
-              <img src={logoSrc} alt="Logo" width={140} height={140} />
+              <img src={uploadedIcon?.image ? uploadedIcon?.image : logoSrc} alt="Logo" width={140} height={140} />
             </th>
             <th className="text-center">
               <ul className="flex justify-center space-x-8">
