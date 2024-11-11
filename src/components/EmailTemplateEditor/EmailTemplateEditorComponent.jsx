@@ -9,7 +9,7 @@ import { BackIcon } from "../custIcon/svgIcon";
 import TemplateHeader from "../Forms/TemplateHeader";
 import EmailTemplateDefault from "./EmailTemplateDefault";
 import EmailTemplateControllerComponent from "./EmailTemplateControllerComponent";
-
+import { emailTemplateEditorDefaults } from "./masterEmailTemplate";
 const EmailTemplateEditorComponent = () => {
   //  shiv code start
   const [loading, setLoading] = useState(false);
@@ -41,10 +41,12 @@ const EmailTemplateEditorComponent = () => {
       navUrl: "#",
     },
   ]);
+  const [uploadedIcon, setUploadedIcon] = useState({
+    image: "",
+  });
   const toggleAccordion = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
-
   return (
     <>
       {loading && <Loader />}
@@ -54,10 +56,7 @@ const EmailTemplateEditorComponent = () => {
         </div>
         <ul className="space-y-4">
           {emailTemplateEditorCollapseOptions.map((item, index) => (
-            <li
-              key={index}
-              className="rounded-lg bg-custom_gradient"
-            >
+            <li key={index} className="rounded-lg bg-custom_gradient">
               <h3
                 className="p-4 flex justify-between items-center cursor-pointer font-semibold text-lg"
                 onClick={() => toggleAccordion(index)}
@@ -77,12 +76,14 @@ const EmailTemplateEditorComponent = () => {
                 </svg>
               </h3>
 
-              {activeIndex === index && item.tag === "header_style_controller" && (
-                <EmailTemplateControllerComponent
-                  navButtons={navButtons}
-                  setNavButtons={setNavButtons}
-                />
-              )}
+              {activeIndex === index &&
+                item.tag === "header_style_controller" && (
+                  <EmailTemplateControllerComponent
+                    navButtons={navButtons}
+                    setNavButtons={setNavButtons}
+                    setUploadedIcon={setUploadedIcon}
+                  />
+                )}
             </li>
           ))}
         </ul>
@@ -110,7 +111,10 @@ const EmailTemplateEditorComponent = () => {
           setSuccess={setSuccess}
           templateHeaderState={templateHeaderState}
         />
-        <EmailTemplateDefault navButtons={navButtons} />
+        <EmailTemplateDefault
+          navButtons={navButtons}
+          uploadedIcon={uploadedIcon}
+        />
       </div>
 
       <div className="clear-both"></div>

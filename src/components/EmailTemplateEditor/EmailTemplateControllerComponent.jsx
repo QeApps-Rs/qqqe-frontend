@@ -1,8 +1,17 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Tooltip } from "react-tippy";
+import { CameraIcon } from "../custIcon/svgIcon";
 
-const EmailTemplateControllerComponent = ({ navButtons, setNavButtons }) => {
+const EmailTemplateControllerComponent = ({
+  navButtons,
+  setNavButtons,
+  uploadedIcon,
+  setUploadedIcon,
+}) => {
+  const styleFieldTitleClass =
+    "text-xl font-bold mb-6 text-gray-700 dark:text-white";
+
   const [newButtonName, setNewButtonName] = useState("");
   const [newButtonUrl, setNewButtonUrl] = useState("");
   const [editingButtonIndex, setEditingButtonIndex] = useState(null);
@@ -59,7 +68,7 @@ const EmailTemplateControllerComponent = ({ navButtons, setNavButtons }) => {
   return (
     <div className="p-4 rounded-lg shadow-lg max-w-lg mx-auto">
       <div className="p-4  bg-white rounded-lg shadow-lg ">
-        <h2 className="text-xl font-bold mb-6 text-gray-700 dark:text-white">
+        <h2 className={styleFieldTitleClass}>
           Manage Navigation Buttons
         </h2>
 
@@ -190,6 +199,40 @@ const EmailTemplateControllerComponent = ({ navButtons, setNavButtons }) => {
             </button>
           </>
         )}
+      </div>
+      <div className="p-4  bg-white rounded-lg shadow-lg my-4 ">
+        <label className={styleFieldTitleClass}>
+          Logo Upload
+        </label>
+
+        <label
+          htmlFor="cover"
+          className="mt-2 flex cursor-pointer items-center justify-center gap-2 rounded-md bg-blue-500 py-3 px-2 text-sm font-medium text-white hover:bg-blue-600 xsm:px-4"
+        >
+          <input
+            type="file"
+            name="cover"
+            id="cover"
+            className="sr-only"
+            onChange={(e) => {
+              const file = e.target.files[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  setUploadedIcon((prev) => ({
+                    ...prev,
+                    image: reader.result,
+                  }));
+                };
+                reader.readAsDataURL(file);
+              }
+            }}
+          />
+          <span>
+            <CameraIcon />
+          </span>
+          <span>Upload</span>
+        </label>
       </div>
     </div>
   );
