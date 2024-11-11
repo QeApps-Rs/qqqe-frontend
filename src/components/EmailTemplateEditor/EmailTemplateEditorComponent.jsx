@@ -3,9 +3,7 @@
 /* eslint-disable react/no-unknown-property */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  emailTemplateEditorCollapseOptions,
-} from "../../pages/forms/masterFormConfig";
+import { emailTemplateEditorCollapseOptions } from "../../pages/forms/masterFormConfig";
 import Loader from "../../common/Loader";
 import { BackIcon } from "../custIcon/svgIcon";
 import TemplateHeader from "../Forms/TemplateHeader";
@@ -52,26 +50,24 @@ const EmailTemplateEditorComponent = () => {
       {loading && <Loader />}
       <aside className="w-1/4  fixed left-[4.7rem] px-6 pt-6 pb-20 shadow-2xl h-full overflow-auto top-0 bg-white">
         <div className="flex justify-between items-center border-b pb-3 mb-4">
-          <p className="font-semibold text-lg">Template Editor</p>
+          <p className="font-semibold text-lg">Email Template Editor</p>
         </div>
         <ul className="space-y-4">
           {emailTemplateEditorCollapseOptions.map((item, index) => (
             <li
               key={index}
-              className={`border rounded-lg ${
-                activeIndex === index ? "border-blue-500" : "border-gray-300"
-              }`}
+              className="rounded-lg bg-custom_gradient"
             >
               <h3
                 className="p-4 flex justify-between items-center cursor-pointer font-semibold text-lg"
                 onClick={() => toggleAccordion(index)}
               >
-                <span> {item.title} </span>
+                <span className="text-white"> {item.title} </span>
                 <span className="text-sm font-normal">{item.subtitle}</span>
                 <svg
-                  className={`fill-primary ${
+                  className={`fill-white ${
                     item.tag === "block" ? "hidden" : ""
-                  } stroke-primary duration-200 ease-in-out dark:fill-white dark:stroke-white w-6 h-6 transform ${
+                  } stroke-white duration-200 ease-in-out  w-6 h-6 transform ${
                     activeIndex === index ? "rotate-180" : "rotate-0"
                   }`}
                   viewBox="0 0 18 10"
@@ -81,8 +77,11 @@ const EmailTemplateEditorComponent = () => {
                 </svg>
               </h3>
 
-              {activeIndex === index && item.tag === "email_template" && (
-                <EmailTemplateControllerComponent navButtons={navButtons} setNavButtons={setNavButtons} />
+              {activeIndex === index && item.tag === "header_style_controller" && (
+                <EmailTemplateControllerComponent
+                  navButtons={navButtons}
+                  setNavButtons={setNavButtons}
+                />
               )}
             </li>
           ))}
@@ -111,7 +110,7 @@ const EmailTemplateEditorComponent = () => {
           setSuccess={setSuccess}
           templateHeaderState={templateHeaderState}
         />
-              <EmailTemplateDefault navButtons={navButtons} />
+        <EmailTemplateDefault navButtons={navButtons} />
       </div>
 
       <div className="clear-both"></div>
