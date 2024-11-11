@@ -19,46 +19,39 @@ const EmailTemplateDefault = () => {
       price: "$120 USD",
       image: productImg,
     },
-
     // Add more products as needed
   ];
 
-  const topProductsPick = [
-    { id: 1, name: "Man's jacket", price: "£90.00", image: productImg },
-    { id: 2, name: "Man's jacket", price: "£90.00", image: productImg },
-    { id: 3, name: "Man's jacket", price: "£90.00", image: productImg },
-  ];
-
-  const ProductRow = ({ product }) => (
-    <td>
-      <div className="flex flex-wrap">
+  const ProductRow = ({ product, isLast }) => (
+    <tr
+      className={`w-full justify-center flex flex-wrap  ${
+        isLast ? "border-b border-[#a4cfd7]" : ""
+      }`}
+    >
+      <td className="flex h-40 w-1/2">
         <img src={product.image} alt={product.name} />
-        <h2 className="block w-full text-[#022b39] text-lg font-bold text-start mt-2">
-          {product.name}
-        </h2>
-        <span className="block text-gray-200 text-md font-normal mt-2">
-          {product.price}
-        </span>
-        <button
-          type="button"
-          className="bg-[#207a8b] px-5 py-2 rounded-md text-white mt-2"
-        >
-          Complete your order
-        </button>
-      </div>
-    </td>
+        <div className="block">
+          <h2 className="block w-full text-[#022b39] text-lg font-bold text-start mt-2">
+            {product.name}
+          </h2>
+          <span className="block text-gray-200 text-md font-normal mt-2">
+            {product.price}
+          </span>
+        </div>
+      </td>
+    </tr>
   );
 
   return (
     <div className="bg-[#e1f2f6]">
-      <table className="mx-auto w-[700px] ">
+      <table className="mx-auto w-[700px]">
         <thead>
-          <tr className="bg-[#e1f2f6] flex justify-between  px-4 py-6">
+          <tr className="bg-[#e1f2f6] flex justify-between px-4 py-6">
             <th className="text-center">
               <img src={logoSrc} alt="Logo" width={140} height={140} />
             </th>
             <th className="text-center">
-              <ul className="flex justify-center space-x-8 ">
+              <ul className="flex justify-center space-x-8">
                 {NavItems.map((item, index) => (
                   <li key={index} className="inline cursor-pointer">
                     {item}
@@ -70,101 +63,90 @@ const EmailTemplateDefault = () => {
         </thead>
 
         <tbody className="bg-white p-6 flex flex-wrap justify-center rounded">
-          <tr className="block bg-[#f2fcfe] p-8 rounded-lg border border-[#a4cfd7]  w-full  mb-14 text-center">
-            <i
-              className="fa fa-shopping-cart text-5xl mb-4 block w-full"
-              aria-hidden="true"
-            ></i>
-            <h1 className="block text-[#022b39] text-3xl font-bold mb-4">
-              Still in your cart
-            </h1>
-            <span className="block text-[#022b39] text-md">
-              These fashionable items are still waiting for you in your shopping
-              cart.
-            </span>
+          <tr className="flex bg-[#f2fcfe] p-8 rounded-lg border border-[#a4cfd7] w-full mb-14 text-center justify-center">
+            <td>
+              <i
+                className="fa fa-shopping-cart text-5xl mb-4 block w-full"
+                aria-hidden="true"
+              ></i>
+              <h1 className="block text-[#022b39] text-3xl font-bold mb-4">
+                Still in your cart
+              </h1>
+              <span className="block text-[#022b39] text-md">
+                These fashionable items are still waiting for you in your
+                shopping cart.
+              </span>
+            </td>
           </tr>
-          <tr className="w-10/12">
-            <td className="flex">
+
+          <tr>
+            <td colSpan="2">
               <h1 className="w-full block text-[#022b39] text-center text-3xl font-bold mb-4">
-                Here are your items{" "}
+                Here are your items
               </h1>
             </td>
-            <div className="w-full block">
-              {products.map((product, index) => (
-                <tr
-                  key={product.id}
-                  className={`flex justify-center h-50 gap-4 ${
-                    index === products.length - 1
-                      ? "border-b border-[#a4cfd7]"
-                      : ""
-                  }`}
-                >
-                  <td>
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      width={100}
-                      height={500}
-                      className="h-full"
-                    />
-                  </td>
-                  <td className="text-start">
-                    <h2 className="block text-black text-2xl font-bold mb-4">
-                      {product.name}
-                    </h2>
-                    <span>{product.price}</span>
-                  </td>
-                </tr>
-              ))}
-            </div>
-            <tr className="w-full flex justify-center py-5 border-b border-[#a4cfd7]">
-              <td className="block">
-                <span className="block text-lg text-gray-300">
-                  Order subtotal
-                </span>
-                <span className="block text-lg text-gray-300">
-                  Estimated Delivery
-                </span>
-                <h2 className="block text-2xl text-black font-bold">TOTAL</h2>
-              </td>
-              <td className="block">
-                <span className="block text-lg text-gray-300">£90.00</span>
-                <span className="block text-lg text-gray-300">-</span>
-                <h2 className="block text-2xl text-black font-bold">£90.00</h2>
-              </td>
-            </tr>
-            <tr className="w-full flex  border-b border-[#a4cfd7] items-center py-4">
-              <td className="flex items-center">
-                <i
-                  className="fa fa-shopping-cart text-xl mr-2"
-                  aria-hidden="true"
-                ></i>
-                <span className="block text-lg text-gray-300">
-                  Congratulations, you qualified for free delivery!{" "}
-                </span>
-              </td>
-            </tr>
-            <tr className="w-full flex justify-center mt-4">
-              <td className="block">
-                <button
-                  type="button"
-                  className="bg-[#207a8b] px-5 py-2 rounded-md text-white"
-                >
-                  Complete your order
-                </button>
-              </td>
-            </tr>
           </tr>
-          <tr className="flex mt-10">
-            <h1 className="w-full block text-[#022b39] text-center text-3xl font-bold mb-4">
-              Here are your items{" "}
-            </h1>
+
+          {products.map((product, index) => (
+            <ProductRow
+              key={product.id}
+              product={product}
+              isLast={index === products.length - 1}
+            />
+          ))}
+
+          <tr className="w-full flex justify-center py-5 border-b border-[#a4cfd7]">
+            <td className="block">
+              <span className="block text-lg text-gray-300">
+                Order subtotal
+              </span>
+              <span className="block text-lg text-gray-300">
+                Estimated Delivery
+              </span>
+              <h2 className="block text-2xl text-black font-bold">TOTAL</h2>
+            </td>
+            <td className="block">
+              <span className="block text-lg text-gray-300">£90.00</span>
+              <span className="block text-lg text-gray-300">-</span>
+              <h2 className="block text-2xl text-black font-bold">£90.00</h2>
+            </td>
           </tr>
-          <tr>
-            {topProductsPick.map((product) => (
-              <ProductRow key={product.id} product={product} />
-            ))}
+
+          <tr className="w-full flex border-b border-[#a4cfd7] items-center py-4">
+            <td className="flex items-center">
+              <i
+                className="fa fa-shopping-cart text-xl mr-2"
+                aria-hidden="true"
+              ></i>
+              <span className="block text-lg text-gray-300">
+                Congratulations, you qualified for free delivery!
+              </span>
+            </td>
           </tr>
+
+          <tr className="w-full flex justify-center mt-4">
+            <td className="block">
+              <button
+                type="button"
+                className="bg-[#207a8b] px-5 py-2 rounded-md text-white"
+              >
+                Complete your order
+              </button>
+            </td>
+          </tr>
+
+          {/* <tr className="flex mt-10">
+            <td colSpan="2">
+              <h1 className="w-full block text-[#022b39] text-center text-3xl font-bold mb-4">
+                Here are your items
+              </h1>
+            </td>
+          </tr> */}
+
+          {/* {topProductsPick.map((product) => (
+            <ProductRow key={product.id} product={product} />
+          ))} */}
+
           <tr className="bg-[#f2fcfe] p-8 rounded-lg border border-[#a4cfd7] w-full my-10 flex justify-center text-center">
             <td>
               <h1 className="text-[#022b39] text-4xl font-bold mb-4">
@@ -190,6 +172,7 @@ const EmailTemplateDefault = () => {
               </p>
             </td>
           </tr>
+
           <tr className="w-full flex flex-wrap md:flex-nowrap">
             {[
               { label: "SECURE PAYMENTS", icon: paymentIcon },
@@ -215,7 +198,7 @@ const EmailTemplateDefault = () => {
           </tr>
         </tbody>
 
-        <tfoot className="block w-full  my-10">
+        <tfoot className="block w-full my-10">
           <tr className="justify-center flex">
             <td colSpan="2" className="text-center">
               <div className="flex justify-center space-x-6 mb-4">
@@ -238,26 +221,25 @@ const EmailTemplateDefault = () => {
               <p className="text-[#022b3a] mt-4">
                 <a href="#" className="underline">
                   Unsubscribe
-                </a>{" "}
+                </a>
               </p>
-              <p className="text-[#022b3a] mt-4 ">
+              <p className="text-[#022b3a] mt-4">
                 <a href="#" className="underline">
-                  {" "}
                   Privacy Policy
                 </a>{" "}
-                and
+                and{" "}
                 <a href="#" className="underline">
                   {" "}
                   Terms of Service
                 </a>
               </p>
-              <p className="text-[#022b3a] mt-4">
+              <p className="text-[#022b3a] mt-4 ">
                 2585 Red Lane, Skamokawa, Louisiana, 70228-6566
               </p>
-              <p className="text-[#022b3a] mt-4">© 2023 Topshop</p>
-              <p className="text-[#022b3a] mt-4">
+              <p className="text-[#022b3a] mt-4 ">© 2023 Topshop</p>
+              <p className="text-[#022b3a] mt-4 ">
                 <a href="#" className="underline">
-                  View Online
+                  View online
                 </a>
               </p>
             </td>
