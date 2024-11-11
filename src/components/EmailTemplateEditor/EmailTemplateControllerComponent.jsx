@@ -72,7 +72,7 @@ const EmailTemplateControllerComponent = ({
           Manage Navigation Buttons
         </h2>
 
-        <div className="space-y-3 max-h-[300px] overflow-y-auto overflow-x-hidden">
+        <div className="space-y-3 max-h-[300px] overflow-y-auto overflow-x-hidden pr-2">
           {navButtons.map((button, index) => (
             <div
               key={index}
