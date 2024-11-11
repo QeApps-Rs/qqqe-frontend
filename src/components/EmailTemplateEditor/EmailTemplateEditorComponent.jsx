@@ -76,7 +76,20 @@ const EmailTemplateEditorComponent = () => {
   const [targetingAndBehavior, setTargetingAndBehavior] = useState(
     targetAndBehaviorDefaultState
   );
-
+  const [navButtons, setNavButtons] = useState([
+    {
+      navName: "Shop",
+      navUrl: "#",
+    },
+    {
+      navName: "Sale",
+      navUrl: "#",
+    },
+    {
+      navName: "New",
+      navUrl: "#",
+    },
+  ]);
   const [advanceSetting, setAdvanceSetting] = useState(false);
 
   const advanceSettingHandleChange = () => {
@@ -332,7 +345,7 @@ const EmailTemplateEditorComponent = () => {
                 </div>
               )}
               {activeIndex === index && item.tag === "email_template" && (
-                <EmailTemplateControllerComponent />
+                <EmailTemplateControllerComponent navButtons={navButtons} setNavButtons={setNavButtons} />
               )}
             </li>
           ))}
@@ -362,7 +375,7 @@ const EmailTemplateEditorComponent = () => {
           setSuccess={setSuccess}
           templateHeaderState={templateHeaderState}
         />
-              <EmailTemplateDefault />
+              <EmailTemplateDefault navButtons={navButtons} />
       </div>
 
 

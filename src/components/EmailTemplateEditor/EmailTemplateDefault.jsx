@@ -2,7 +2,8 @@
 import React from "react";
 import logoSrc from "../../images/qqqe_maintenance.png";
 import productImg from "../../images/default_product.png";
-const EmailTemplateDefault = () => {
+import { Link } from "react-router-dom";
+const EmailTemplateDefault = ({ navButtons }) => {
   const NavItems = ["Shop", "Sale", "New"];
   const products = [
     {
@@ -60,9 +61,9 @@ const EmailTemplateDefault = () => {
                   </th>
                   <th className="text-center">
                     <ul className="flex justify-center space-x-8 ">
-                      {NavItems.map((item, index) => (
+                      {navButtons.map((item, index) => (
                         <li key={index} className="inline cursor-pointer">
-                          {item}
+                          <Link to={item?.navUrl} target="_blank">{item?.navName}</Link>
                         </li>
                       ))}
                     </ul>
