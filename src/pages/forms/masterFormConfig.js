@@ -313,10 +313,10 @@ export const templateEditorCollapseOptions = [
 
 export const emailTemplateEditorCollapseOptions = [
   {
-    title: "Email Template",
+    title: "Header Style Controller",
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    tag: "email_template",
+    tag: "header_style_controller",
   },
 ];
 
