@@ -64,10 +64,10 @@ export const templateFieldCss = {
   successHeading: "",
   successSubHeading: "",
   successDescription: "",
-  templateEmailText:"",
-  templateEmailFontSize:"",
-  templateEmailFontFamily:"",
-  templateEmailColor:""
+  templateEmailText: "",
+  templateEmailFontSize: "",
+  templateEmailFontFamily: "",
+  templateEmailColor: "",
 };
 
 export const targetAndBehaviorDefaultState = {
@@ -309,6 +309,9 @@ export const templateEditorCollapseOptions = [
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     tag: "custom_js",
   },
+];
+
+export const emailTemplateEditorCollapseOptions = [
   {
     title: "Email Template",
     content:
