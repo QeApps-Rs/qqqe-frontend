@@ -1,37 +1,47 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-const EmailTemplateControllerComponent = () => {
-  const styleFieldTitleClass = "mb-2.5 block text-black dark:text-white font-semibold";
+const EmailTemplateControllerComponent = ({ navButtons, setNavButtons }) => {
+  const styleFieldTitleClass =
+    "mb-2.5 block text-black dark:text-white font-semibold";
 
-  const [buttons, setButtons] = useState([]);
   const [newButtonName, setNewButtonName] = useState("");
+  const [newButtonUrl, setNewButtonUrl] = useState("");
   const [editingButtonIndex, setEditingButtonIndex] = useState(null);
 
   const addButton = () => {
-    if (newButtonName.trim() === "") {
-      toast.error("Please select all fields before adding.");
+    if (newButtonName.trim() === "" || newButtonUrl.trim() === "") {
+      toast.error("Please fill out both fields before adding.");
       return;
     }
-    setButtons([...buttons, newButtonName]);
+    setNavButtons([
+      ...navButtons,
+      { navName: newButtonName, navUrl: newButtonUrl },
+    ]);
     setNewButtonName("");
+    setNewButtonUrl("");
   };
 
   const editButton = (index) => {
     setEditingButtonIndex(index);
-    setNewButtonName(buttons[index]);
+    setNewButtonName(navButtons[index].navName);
+    setNewButtonUrl(navButtons[index].navUrl);
   };
 
   const saveEditButton = () => {
-    const updatedButtons = [...buttons];
-    updatedButtons[editingButtonIndex] = newButtonName;
-    setButtons(updatedButtons);
+    const updatedButtons = [...navButtons];
+    updatedButtons[editingButtonIndex] = {
+      navName: newButtonName,
+      navUrl: newButtonUrl,
+    };
+    setNavButtons(updatedButtons);
     setNewButtonName("");
+    setNewButtonUrl("");
     setEditingButtonIndex(null);
   };
 
   const deleteButton = (index) => {
-    setButtons(buttons.filter((_, i) => i !== index));
+    setNavButtons(navButtons.filter((_, i) => i !== index));
   };
 
   return (
@@ -52,8 +62,19 @@ const EmailTemplateControllerComponent = () => {
                           value={newButtonName}
                           onChange={(e) => setNewButtonName(e.target.value)}
                           className="border border-gray-300 p-2 rounded"
-                          placeholder="Enter button name"
+                          placeholder="Enter button Name"
                         />
+                      </div>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={newButtonUrl}
+                          onChange={(e) => setNewButtonUrl(e.target.value)}
+                          className="border border-gray-300 p-2 rounded"
+                          placeholder="Enter button Url"
+                        />
+                      </div>
+                      <div className="flex gap-2">
                         {editingButtonIndex !== null ? (
                           <button
                             type="button"
@@ -75,9 +96,12 @@ const EmailTemplateControllerComponent = () => {
 
                       <div className="mt-4">
                         <ul>
-                          {buttons.map((button, index) => (
-                            <li key={index} className="flex items-center justify-between mb-2 group relative">
-                              <span>{button}</span>
+                          {navButtons.map((button, index) => (
+                            <li
+                              key={index}
+                              className="flex items-center justify-between mb-2 group relative"
+                            >
+                              <span>{button?.navName}</span>
                               <div className="flex gap-2">
                                 <button
                                   type="button"
@@ -85,7 +109,10 @@ const EmailTemplateControllerComponent = () => {
                                   onClick={() => deleteButton(index)}
                                   aria-label="Delete"
                                 >
-                                  <i className="fa fa-times" aria-hidden="true"></i>
+                                  <i
+                                    className="fa fa-times"
+                                    aria-hidden="true"
+                                  ></i>
                                 </button>
                                 <button
                                   type="button"
@@ -93,7 +120,10 @@ const EmailTemplateControllerComponent = () => {
                                   onClick={() => editButton(index)}
                                   aria-label="Edit"
                                 >
-                                  <i className="fa fa-pencil" aria-hidden="true"></i>
+                                  <i
+                                    className="fa fa-pencil"
+                                    aria-hidden="true"
+                                  ></i>
                                 </button>
                               </div>
                             </li>

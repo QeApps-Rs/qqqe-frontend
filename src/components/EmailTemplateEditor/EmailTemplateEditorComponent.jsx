@@ -29,7 +29,20 @@ const EmailTemplateEditorComponent = () => {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isView, setView] = useState("Desktop");
-
+  const [navButtons, setNavButtons] = useState([
+    {
+      navName: "Shop",
+      navUrl: "#",
+    },
+    {
+      navName: "Sale",
+      navUrl: "#",
+    },
+    {
+      navName: "New",
+      navUrl: "#",
+    },
+  ]);
   const toggleAccordion = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
@@ -69,7 +82,7 @@ const EmailTemplateEditorComponent = () => {
               </h3>
 
               {activeIndex === index && item.tag === "email_template" && (
-                <EmailTemplateControllerComponent />
+                <EmailTemplateControllerComponent navButtons={navButtons} setNavButtons={setNavButtons} />
               )}
             </li>
           ))}
@@ -98,7 +111,7 @@ const EmailTemplateEditorComponent = () => {
           setSuccess={setSuccess}
           templateHeaderState={templateHeaderState}
         />
-        <EmailTemplateDefault />
+              <EmailTemplateDefault navButtons={navButtons} />
       </div>
 
       <div className="clear-both"></div>
