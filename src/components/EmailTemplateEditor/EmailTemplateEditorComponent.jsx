@@ -9,7 +9,11 @@ import { BackIcon } from "../custIcon/svgIcon";
 import TemplateHeader from "../Forms/TemplateHeader";
 import EmailTemplateDefault from "./EmailTemplateDefault";
 import EmailTemplateControllerComponent from "./EmailTemplateControllerComponent";
+import CartControllerComponent from "./CartControllerComponent";
 import { emailTemplateEditorDefaults } from "./masterEmailTemplate";
+import ContactControllerComponent from "./ContactControllerComponent";
+import FooterControllerComponent from "./FooterControllerComponent";
+
 const EmailTemplateEditorComponent = () => {
   //  shiv code start
   const [loading, setLoading] = useState(false);
@@ -47,6 +51,20 @@ const EmailTemplateEditorComponent = () => {
   const toggleAccordion = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
+
+  const [emailTemplateJSON, setEmailTemplateJSON] = useState(
+    emailTemplateEditorDefaults
+  );
+  const handleEmailTemplateChange = (newData, styleType) => {
+    setEmailTemplateJSON((prev) => ({
+      ...prev,
+      [styleType]: {
+        ...prev[styleType],
+        ...newData,
+      },
+    }));
+  };
+console.log('emailTemplateJSON', emailTemplateJSON)
   return (
     <>
       {loading && <Loader />}
@@ -84,6 +102,26 @@ const EmailTemplateEditorComponent = () => {
                     setUploadedIcon={setUploadedIcon}
                   />
                 )}
+              {activeIndex === index &&
+                item.tag === "cart_style_controller" && (
+                  <CartControllerComponent
+                    emailTemplateJSON={emailTemplateJSON}
+                    handleEmailTemplateChange={handleEmailTemplateChange}
+                  />
+                )}
+              {activeIndex === index &&
+                item.tag === "contact_style_controller" && (
+                  <ContactControllerComponent
+                    emailTemplateJSON={emailTemplateJSON}
+                    handleEmailTemplateChange={handleEmailTemplateChange}
+                  />
+                )}
+              {activeIndex === index && item.tag === "footer_style_controller" && (
+                <FooterControllerComponent
+                  emailTemplateJSON={emailTemplateJSON}
+                  handleEmailTemplateChange={handleEmailTemplateChange}
+                />
+              )}
             </li>
           ))}
         </ul>
@@ -114,6 +152,7 @@ const EmailTemplateEditorComponent = () => {
         <EmailTemplateDefault
           navButtons={navButtons}
           uploadedIcon={uploadedIcon}
+          emailTemplateJSON={emailTemplateJSON}
         />
       </div>
 
