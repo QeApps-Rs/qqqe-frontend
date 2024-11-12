@@ -4,6 +4,7 @@ import { CameraIcon } from "../custIcon/svgIcon";
 const EmailTemplateCartControllerComponent = ({
   emailTemplateJSON,
   handleEmailTemplateChange,
+  setEmailTemplateJSON,
 }) => {
   const inputControllerFieldClass =
     "p-3 rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark";
@@ -37,17 +38,16 @@ const EmailTemplateCartControllerComponent = ({
                           if (file) {
                             const reader = new FileReader();
                             reader.onloadend = () => {
-                              handleEmailTemplateChange(
-                                (prev) => (
-                                  {
-                                    ...prev,
-                                    imageIcon: reader.result,
-                                  },
-                                  "cart_banner_style"
-                                )
-                              );
+                              setEmailTemplateJSON((prev) => ({
+                                ...prev,
+                                cart_banner_style: {
+                                  ...prev.cart_banner_style,
+                                  imageIcon: reader.result,
+                                },
+                              }));
                             };
                             reader.readAsDataURL(file);
+                            
                           }
                         }}
                       />

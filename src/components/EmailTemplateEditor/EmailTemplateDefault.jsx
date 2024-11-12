@@ -31,11 +31,11 @@ const EmailTemplateDefault = ({
         isLast ? "border-b border-[#a4cfd7]" : ""
       }`}
     >
-      <td className="flex h-40 w-1/2">
-        <img src={product.image} alt={product.name} />
+      <td className="flex h-40 w-1/2" data-product-handle={product.variantHandle}>
+        <img src={product.image} alt={product.title} />
         <div className="block">
           <h2 className="block w-full text-[#022b39] text-lg font-bold text-start mt-2">
-            {product.name}
+            {product.title}
           </h2>
           <span className="block text-gray-200 text-md font-normal mt-2">
             {product.price}
@@ -75,11 +75,13 @@ const EmailTemplateDefault = ({
           <tr className="flex bg-[#f2fcfe] p-8 rounded-lg border border-[#a4cfd7] w-full mb-14 text-center justify-center">
             <td>
               {emailTemplateJSON?.cart_banner_style?.imageIcon ? (
+                <div className="w-full flex justify-center">
                 <img
                   src={emailTemplateJSON.cart_banner_style.imageIcon}
                   alt="Uploaded preview"
                   className="w-24 h-24 mb-4 rounded-lg border border-gray-300" // Adjust styles as needed
                 />
+                </div>
               ) : (
                 <i
                   className="fa fa-shopping-cart text-5xl mb-4 block"
@@ -95,22 +97,26 @@ const EmailTemplateDefault = ({
             </td>
           </tr>
 
-          <tr>
-            <td colSpan="2">
-              <h1 className="w-full block text-[#022b39] text-center text-3xl font-bold mb-4">
-                Here are your items
-              </h1>
-            </td>
-          </tr>
+          {emailTemplateJSON?.email_template_products?.length > 0 && (
+            <>
+              <tr>
+                <td colSpan="2">
+                  <h1 className="w-full block text-[#022b39] text-center text-3xl font-bold mb-4">
+                    Here are your items
+                  </h1>
+                </td>
+              </tr>
 
-          {products.map((product, index) => (
-            <ProductRow
-              key={product.id}
-              product={product}
-              isLast={index === products.length - 1}
-            />
-          ))}
-
+              {emailTemplateJSON?.email_template_products?.map((product, index) => (
+                <ProductRow
+                  key={product.id}
+                  product={product}
+                  isLast={index === emailTemplateJSON?.email_template_products?.length - 1}
+                />
+              ))}
+            </>
+          )}
+         
           {/* <tr className="w-full flex justify-center py-5 border-b border-[#a4cfd7]">
             <td className="block">
               <span className="block text-lg text-gray-300">

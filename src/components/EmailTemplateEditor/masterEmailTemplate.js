@@ -1,5 +1,6 @@
 export const emailTemplateEditorDefaults = {
   type: "emailTemplate",
+  handle_type:"email_marketing",
   cart_banner_style: {
     imageIcon: "",
     heading: "Still in your cart",
@@ -16,4 +17,5 @@ export const emailTemplateEditorDefaults = {
     address: "2585 Red Lane, Skamokawa, Louisiana, 70228-6566",
     company_name: "QQQE",
   },
+  email_template_products: [],
 };

@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/no-unknown-property */
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { emailTemplateEditorCollapseOptions } from "../../pages/forms/masterFormConfig";
 import Loader from "../../common/Loader";
 import { BackIcon } from "../custIcon/svgIcon";
@@ -13,11 +13,11 @@ import CartControllerComponent from "./CartControllerComponent";
 import { emailTemplateEditorDefaults } from "./masterEmailTemplate";
 import ContactControllerComponent from "./ContactControllerComponent";
 import FooterControllerComponent from "./FooterControllerComponent";
-
+import FormSubmitHandler from "../FormSubmitHandler";
 const EmailTemplateEditorComponent = () => {
   //  shiv code start
   const [loading, setLoading] = useState(false);
-
+  const { id } = useParams();
   const [success, setSuccess] = useState(false);
 
   const [templateHeaderState, setTemplateHeaderState] = useState({
@@ -64,7 +64,33 @@ const EmailTemplateEditorComponent = () => {
       },
     }));
   };
-console.log('emailTemplateJSON', emailTemplateJSON)
+  const getTemplateList = async () => {
+    setLoading(true);
+    const sid = id.split("s")[1];
+    await FormSubmitHandler({
+      method: "get",
+      url: `customer/template/${sid}?handle_type=${emailTemplateJSON?.handle_type}`,
+    })
+      .then((res) => {
+        if (res.data) {
+          if (res.data?.selected_products.length > 0) {
+            setEmailTemplateJSON({
+              ...emailTemplateJSON,
+              email_template_products: res.data?.selected_products,
+            });
+          }
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+  useEffect(() => {
+    getTemplateList();
+  }, []);
   return (
     <>
       {loading && <Loader />}
@@ -107,6 +133,7 @@ console.log('emailTemplateJSON', emailTemplateJSON)
                   <CartControllerComponent
                     emailTemplateJSON={emailTemplateJSON}
                     handleEmailTemplateChange={handleEmailTemplateChange}
+                    setEmailTemplateJSON={setEmailTemplateJSON}
                   />
                 )}
               {activeIndex === index &&
@@ -116,12 +143,13 @@ console.log('emailTemplateJSON', emailTemplateJSON)
                     handleEmailTemplateChange={handleEmailTemplateChange}
                   />
                 )}
-              {activeIndex === index && item.tag === "footer_style_controller" && (
-                <FooterControllerComponent
-                  emailTemplateJSON={emailTemplateJSON}
-                  handleEmailTemplateChange={handleEmailTemplateChange}
-                />
-              )}
+              {activeIndex === index &&
+                item.tag === "footer_style_controller" && (
+                  <FooterControllerComponent
+                    emailTemplateJSON={emailTemplateJSON}
+                    handleEmailTemplateChange={handleEmailTemplateChange}
+                  />
+                )}
             </li>
           ))}
         </ul>
