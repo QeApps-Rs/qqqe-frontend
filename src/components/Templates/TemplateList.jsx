@@ -238,7 +238,7 @@ const TemplateList = () => {
               <div
                 className={`transition-transform transform hover:scale-105 hover:shadow-lg md:col-span-1`}
               >
-                <Link to={"/email-template"}>
+                <Link to={`email-template`}>
                   <div className="px-10 py-6 h-[350px] bg-[url('/src/images/template-background.svg')] bg-no-repeat bg-cover shadow-md shadow-black/28 rounded-lg">
                     <img
                       src={emailTemplateImg}
