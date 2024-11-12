@@ -64,6 +64,20 @@ const EmailTemplateEditorComponent = () => {
       },
     }));
   };
+
+  const handleFooterIconChange = (newData, styleType) => {
+    setEmailTemplateJSON((prev) => ({
+      ...prev,
+      footer_banner_style: {
+        ...prev.footer_banner_style,
+        [styleType]: {
+          ...prev.footer_banner_style[styleType],
+          ...newData,
+        },
+      },
+    }));
+  };
+
   const getTemplateList = async () => {
     setLoading(true);
     const sid = id.split("s")[1];
@@ -91,6 +105,7 @@ const EmailTemplateEditorComponent = () => {
   useEffect(() => {
     getTemplateList();
   }, []);
+
   return (
     <>
       {loading && <Loader />}
@@ -147,6 +162,7 @@ const EmailTemplateEditorComponent = () => {
                 item.tag === "footer_style_controller" && (
                   <FooterControllerComponent
                     emailTemplateJSON={emailTemplateJSON}
+                    handleFooterIconChange={handleFooterIconChange}
                     handleEmailTemplateChange={handleEmailTemplateChange}
                   />
                 )}
