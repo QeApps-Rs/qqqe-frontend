@@ -46,9 +46,9 @@ const EmailTemplateDefault = ({ navButtons,uploadedIcon }) => {
     <div className="bg-[#e1f2f6]">
       <table className="mx-auto w-[700px]">
         <thead>
-          <tr className="bg-[#e1f2f6] flex justify-between px-4 py-6">
-            <th className="text-center">
-              <img src={uploadedIcon?.image ? uploadedIcon?.image : logoSrc} alt="Logo" width={140} height={140} />
+          <tr className="bg-[#e1f2f6] flex justify-between px-4 py-6 items-center">
+            <th className="flex items-center ">
+              <img src={uploadedIcon?.image ? uploadedIcon?.image : logoSrc} alt="Logo" style={{maxHeight:"100px" , width:"100px"}}/>
             </th>
             <th className="text-center">
               <ul className="flex justify-center space-x-8">
@@ -95,7 +95,7 @@ const EmailTemplateDefault = ({ navButtons,uploadedIcon }) => {
             />
           ))}
 
-          <tr className="w-full flex justify-center py-5 border-b border-[#a4cfd7]">
+          {/* <tr className="w-full flex justify-center py-5 border-b border-[#a4cfd7]">
             <td className="block">
               <span className="block text-lg text-gray-300">
                 Order subtotal
@@ -110,7 +110,7 @@ const EmailTemplateDefault = ({ navButtons,uploadedIcon }) => {
               <span className="block text-lg text-gray-300">-</span>
               <h2 className="block text-2xl text-black font-bold">£90.00</h2>
             </td>
-          </tr>
+          </tr> */}
 
           <tr className="w-full flex border-b border-[#a4cfd7] items-center py-4">
             <td className="flex items-center">

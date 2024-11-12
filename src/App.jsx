@@ -172,7 +172,7 @@ const App = () => {
                 element={<AppDashboardPage/>}
               />
                <Route
-                path="/email-template"
+                path="template/list/:id/email-template"
                 element={<EmailTemplate/>}
               />
             </Route>
