@@ -1,6 +1,6 @@
 export const emailTemplateEditorDefaults = {
   type: "emailTemplate",
-  handle_type:"email_marketing",
+  handle_type: "email_marketing",
   cart_banner_style: {
     imageIcon: "",
     heading: "Still in your cart",
@@ -13,6 +13,12 @@ export const emailTemplateEditorDefaults = {
     number: "(000) 123-456-789",
   },
   footer_banner_style: {
+    social_media_icon: {
+      facebook_url: "www.facebook.com",
+      twitter_url: "https://x.com/?lang=en",
+      insta_url: "https://www.instagram.com",
+      youtube_url: "https://www.youtube.com",
+    },
     email: "hello@blazetate.com",
     address: "2585 Red Lane, Skamokawa, Louisiana, 70228-6566",
     company_name: "QQQE",
