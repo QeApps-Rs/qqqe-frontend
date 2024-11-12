@@ -318,6 +318,24 @@ export const emailTemplateEditorCollapseOptions = [
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     tag: "header_style_controller",
   },
+  {
+    title: "Cart Style Controller",
+    content:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    tag: "cart_style_controller",
+  },
+  {
+    title: "Contact Style Controller",
+    content:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    tag: "contact_style_controller",
+  },
+  {
+    title: "Footer Style Controller",
+    content:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    tag: "footer_style_controller",
+  },
 ];
 
 export const defaultBoxClassName =
