@@ -1,19 +1,23 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/no-unknown-property */
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { emailTemplateEditorCollapseOptions } from "../../pages/forms/masterFormConfig";
 import Loader from "../../common/Loader";
 import { BackIcon } from "../custIcon/svgIcon";
 import TemplateHeader from "../Forms/TemplateHeader";
 import EmailTemplateDefault from "./EmailTemplateDefault";
 import EmailTemplateControllerComponent from "./EmailTemplateControllerComponent";
+import CartControllerComponent from "./CartControllerComponent";
 import { emailTemplateEditorDefaults } from "./masterEmailTemplate";
+import ContactControllerComponent from "./ContactControllerComponent";
+import FooterControllerComponent from "./FooterControllerComponent";
+import FormSubmitHandler from "../FormSubmitHandler";
 const EmailTemplateEditorComponent = () => {
   //  shiv code start
   const [loading, setLoading] = useState(false);
-
+  const { id } = useParams();
   const [success, setSuccess] = useState(false);
 
   const [templateHeaderState, setTemplateHeaderState] = useState({
@@ -47,6 +51,46 @@ const EmailTemplateEditorComponent = () => {
   const toggleAccordion = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
+
+  const [emailTemplateJSON, setEmailTemplateJSON] = useState(
+    emailTemplateEditorDefaults
+  );
+  const handleEmailTemplateChange = (newData, styleType) => {
+    setEmailTemplateJSON((prev) => ({
+      ...prev,
+      [styleType]: {
+        ...prev[styleType],
+        ...newData,
+      },
+    }));
+  };
+  const getTemplateList = async () => {
+    setLoading(true);
+    const sid = id.split("s")[1];
+    await FormSubmitHandler({
+      method: "get",
+      url: `customer/template/${sid}?handle_type=${emailTemplateJSON?.handle_type}`,
+    })
+      .then((res) => {
+        if (res.data) {
+          if (res.data?.selected_products.length > 0) {
+            setEmailTemplateJSON({
+              ...emailTemplateJSON,
+              email_template_products: res.data?.selected_products,
+            });
+          }
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+  useEffect(() => {
+    getTemplateList();
+  }, []);
   return (
     <>
       {loading && <Loader />}
@@ -84,6 +128,28 @@ const EmailTemplateEditorComponent = () => {
                     setUploadedIcon={setUploadedIcon}
                   />
                 )}
+              {activeIndex === index &&
+                item.tag === "cart_style_controller" && (
+                  <CartControllerComponent
+                    emailTemplateJSON={emailTemplateJSON}
+                    handleEmailTemplateChange={handleEmailTemplateChange}
+                    setEmailTemplateJSON={setEmailTemplateJSON}
+                  />
+                )}
+              {activeIndex === index &&
+                item.tag === "contact_style_controller" && (
+                  <ContactControllerComponent
+                    emailTemplateJSON={emailTemplateJSON}
+                    handleEmailTemplateChange={handleEmailTemplateChange}
+                  />
+                )}
+              {activeIndex === index &&
+                item.tag === "footer_style_controller" && (
+                  <FooterControllerComponent
+                    emailTemplateJSON={emailTemplateJSON}
+                    handleEmailTemplateChange={handleEmailTemplateChange}
+                  />
+                )}
             </li>
           ))}
         </ul>
@@ -114,6 +180,7 @@ const EmailTemplateEditorComponent = () => {
         <EmailTemplateDefault
           navButtons={navButtons}
           uploadedIcon={uploadedIcon}
+          emailTemplateJSON={emailTemplateJSON}
         />
       </div>
 

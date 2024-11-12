@@ -4,8 +4,11 @@ import productImg from "../../images/default_product.png";
 import paymentIcon from "../../images/payment-icon.png";
 
 import { Link } from "react-router-dom";
-const EmailTemplateDefault = ({ navButtons,uploadedIcon }) => {
-
+const EmailTemplateDefault = ({
+  navButtons,
+  uploadedIcon,
+  emailTemplateJSON,
+}) => {
   const products = [
     {
       id: 1,
@@ -28,11 +31,11 @@ const EmailTemplateDefault = ({ navButtons,uploadedIcon }) => {
         isLast ? "border-b border-[#a4cfd7]" : ""
       }`}
     >
-      <td className="flex h-40 w-1/2">
-        <img src={product.image} alt={product.name} />
+      <td className="flex h-40 w-1/2" data-product-handle={product.variantHandle}>
+        <img src={product.image} alt={product.title} />
         <div className="block">
           <h2 className="block w-full text-[#022b39] text-lg font-bold text-start mt-2">
-            {product.name}
+            {product.title}
           </h2>
           <span className="block text-gray-200 text-md font-normal mt-2">
             {product.price}
@@ -46,17 +49,23 @@ const EmailTemplateDefault = ({ navButtons,uploadedIcon }) => {
     <div className="bg-[#e1f2f6]">
       <table className="mx-auto w-[700px]">
         <thead>
-          <tr className="bg-[#e1f2f6] flex justify-between px-4 py-6">
-            <th className="text-center">
-              <img src={uploadedIcon?.image ? uploadedIcon?.image : logoSrc} alt="Logo" width={140} height={140} />
+          <tr className="bg-[#e1f2f6] flex justify-between px-4 py-6 items-center">
+            <th className="flex items-center ">
+              <img
+                src={uploadedIcon?.image ? uploadedIcon?.image : logoSrc}
+                alt="Logo"
+                style={{ maxHeight: "100px", width: "100px" }}
+              />
             </th>
             <th className="text-center">
               <ul className="flex justify-center space-x-8">
-              {navButtons.map((item, index) => (
-                        <li key={index} className="inline cursor-pointer">
-                          <Link to={item?.navUrl} target="_blank">{item?.navName}</Link>
-                        </li>
-                      ))}
+                {navButtons.map((item, index) => (
+                  <li key={index} className="inline cursor-pointer">
+                    <Link to={item?.navUrl} target="_blank">
+                      {item?.navName}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </th>
           </tr>
@@ -65,37 +74,50 @@ const EmailTemplateDefault = ({ navButtons,uploadedIcon }) => {
         <tbody className="bg-white p-6 flex flex-wrap justify-center rounded">
           <tr className="flex bg-[#f2fcfe] p-8 rounded-lg border border-[#a4cfd7] w-full mb-14 text-center justify-center">
             <td>
-              <i
-                className="fa fa-shopping-cart text-5xl mb-4 block w-full"
-                aria-hidden="true"
-              ></i>
+              {emailTemplateJSON?.cart_banner_style?.imageIcon ? (
+                <div className="w-full flex justify-center">
+                <img
+                  src={emailTemplateJSON.cart_banner_style.imageIcon}
+                  alt="Uploaded preview"
+                  className="w-24 h-24 mb-4 rounded-lg border border-gray-300" // Adjust styles as needed
+                />
+                </div>
+              ) : (
+                <i
+                  className="fa fa-shopping-cart text-5xl mb-4 block"
+                  aria-hidden="true"
+                ></i>
+              )}
               <h1 className="block text-[#022b39] text-3xl font-bold mb-4">
-                Still in your cart
+                {emailTemplateJSON?.cart_banner_style?.heading}
               </h1>
               <span className="block text-[#022b39] text-md">
-                These fashionable items are still waiting for you in your
-                shopping cart.
+                {emailTemplateJSON?.cart_banner_style?.sub_heading}
               </span>
             </td>
           </tr>
 
-          <tr>
-            <td colSpan="2">
-              <h1 className="w-full block text-[#022b39] text-center text-3xl font-bold mb-4">
-                Here are your items
-              </h1>
-            </td>
-          </tr>
+          {emailTemplateJSON?.email_template_products?.length > 0 && (
+            <>
+              <tr>
+                <td colSpan="2">
+                  <h1 className="w-full block text-[#022b39] text-center text-3xl font-bold mb-4">
+                    Here are your items
+                  </h1>
+                </td>
+              </tr>
 
-          {products.map((product, index) => (
-            <ProductRow
-              key={product.id}
-              product={product}
-              isLast={index === products.length - 1}
-            />
-          ))}
-
-          <tr className="w-full flex justify-center py-5 border-b border-[#a4cfd7]">
+              {emailTemplateJSON?.email_template_products?.map((product, index) => (
+                <ProductRow
+                  key={product.id}
+                  product={product}
+                  isLast={index === emailTemplateJSON?.email_template_products?.length - 1}
+                />
+              ))}
+            </>
+          )}
+         
+          {/* <tr className="w-full flex justify-center py-5 border-b border-[#a4cfd7]">
             <td className="block">
               <span className="block text-lg text-gray-300">
                 Order subtotal
@@ -110,7 +132,7 @@ const EmailTemplateDefault = ({ navButtons,uploadedIcon }) => {
               <span className="block text-lg text-gray-300">-</span>
               <h2 className="block text-2xl text-black font-bold">£90.00</h2>
             </td>
-          </tr>
+          </tr> */}
 
           <tr className="w-full flex border-b border-[#a4cfd7] items-center py-4">
             <td className="flex items-center">
@@ -150,26 +172,26 @@ const EmailTemplateDefault = ({ navButtons,uploadedIcon }) => {
           <tr className="bg-[#f2fcfe] p-8 rounded-lg border border-[#a4cfd7] w-full my-10 flex justify-center text-center">
             <td>
               <h1 className="text-[#022b39] text-4xl font-bold mb-4">
-                Have a question?
+                {emailTemplateJSON?.contact_banner_style?.heading}
               </h1>
               <a
-                href="mailto:qqqe@gmail.com"
+                href={`mailto:${emailTemplateJSON?.contact_banner_style?.email}`}
                 className="block mt-4 underline text-[#022b3a]"
               >
-                qqqe@gmail.com
+                {emailTemplateJSON?.contact_banner_style?.email}
               </a>
               <a
-                href="tel:+000123456789"
+                href={`tel:${emailTemplateJSON?.contact_banner_style?.number}`}
                 className="block mt-4 underline text-[#022b3a]"
               >
-                (000) 123-456-789
+                {emailTemplateJSON?.contact_banner_style?.number}
               </a>
-              <p className="text-md mt-4 text-[#022b3a]">
+              {/* <p className="text-md mt-4 text-[#022b3a]">
                 Need to return or exchange?
                 <a href="#" className="underline">
                   View our policy
                 </a>
-              </p>
+              </p> */}
             </td>
           </tr>
 
@@ -214,15 +236,18 @@ const EmailTemplateDefault = ({ navButtons,uploadedIcon }) => {
               </div>
               <p className="text-[#022b3a] mt-4">
                 This email was sent to{" "}
-                <a href="#" className="underline">
-                  hello@blazetate.com
+                <a
+                  href={`mailto:${emailTemplateJSON?.footer_banner_style?.email}`}
+                  className="underline"
+                >
+                  {emailTemplateJSON?.footer_banner_style?.email}
                 </a>
               </p>
-              <p className="text-[#022b3a] mt-4">
+              {/* <p className="text-[#022b3a] mt-4">
                 <a href="#" className="underline">
                   Unsubscribe
                 </a>
-              </p>
+              </p> */}
               <p className="text-[#022b3a] mt-4">
                 <a href="#" className="underline">
                   Privacy Policy
@@ -234,14 +259,18 @@ const EmailTemplateDefault = ({ navButtons,uploadedIcon }) => {
                 </a>
               </p>
               <p className="text-[#022b3a] mt-4 ">
-                2585 Red Lane, Skamokawa, Louisiana, 70228-6566
+                {emailTemplateJSON?.footer_banner_style?.address}
               </p>
-              <p className="text-[#022b3a] mt-4 ">© 2023 Topshop</p>
-              <p className="text-[#022b3a] mt-4 ">
+              <p className="text-[#022b3a] mt-4">
+                {`© ${new Date().getFullYear()} ${
+                  emailTemplateJSON?.footer_banner_style?.company_name
+                }`}
+              </p>{" "}
+              {/* <p className="text-[#022b3a] mt-4 ">
                 <a href="#" className="underline">
                   View online
                 </a>
-              </p>
+              </p> */}
             </td>
           </tr>
         </tfoot>

@@ -1,26 +1,21 @@
 export const emailTemplateEditorDefaults = {
-    survey_type: "none",
-    rating: "5",
-    review: "10",
-    new_button: [
-      {
-        buttonText: "Google",
-        buttonLink: "https://www.google.com",
-      },
-      {
-        buttonText: "Facebook",
-        buttonLink: "https://www.facebook.com",
-      },
-      {
-        buttonText: "Twitter",
-        buttonLink: "https://twitter.com",
-      },
-    ],
-    survey: [],
-    quiz: [
-      {
-        question: "",
-        answers: [],
-      },
-    ],
-  };
+  type: "emailTemplate",
+  handle_type:"email_marketing",
+  cart_banner_style: {
+    imageIcon: "",
+    heading: "Still in your cart",
+    sub_heading:
+      "These fashionable items are still waiting for you in your shopping cart.",
+  },
+  contact_banner_style: {
+    heading: "Have a question?",
+    email: "qqqe@gmail.com",
+    number: "(000) 123-456-789",
+  },
+  footer_banner_style: {
+    email: "hello@blazetate.com",
+    address: "2585 Red Lane, Skamokawa, Louisiana, 70228-6566",
+    company_name: "QQQE",
+  },
+  email_template_products: [],
+};
