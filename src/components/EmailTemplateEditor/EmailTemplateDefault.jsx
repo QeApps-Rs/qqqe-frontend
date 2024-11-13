@@ -83,7 +83,13 @@ const EmailTemplateDefault = ({
       </thead>
 
       <tbody className="bg-white p-6 flex flex-wrap justify-center rounded">
-        <tr className="flex bg-[#f2fcfe] p-8 rounded-lg border border-[#a4cfd7] w-full mb-14 text-center justify-center">
+        <tr
+          className="flex p-8 rounded-lg border border-[#a4cfd7] w-full mb-14 text-center justify-center"
+          style={{
+            backgroundColor:
+              emailTemplateJSON.cart_banner_style.background_color,
+          }}
+        >
           <td>
             {emailTemplateJSON?.cart_banner_style?.imageIcon ? (
               <div className="w-full flex justify-center">
@@ -99,7 +105,14 @@ const EmailTemplateDefault = ({
                 aria-hidden="true"
               ></i>
             )}
-            <h1 className="block text-[#022b39] text-3xl font-bold mb-4">
+            <h1
+              className="block font-bold mb-4"
+              style={{
+                fontSize: emailTemplateJSON.cart_banner_style.font_size,
+                fontFamily: emailTemplateJSON.cart_banner_style.font_family,
+                color: emailTemplateJSON.cart_banner_style.text_color,
+              }}
+            >
               {emailTemplateJSON?.cart_banner_style?.heading}
             </h1>
             <span className="block text-[#022b39] text-md">

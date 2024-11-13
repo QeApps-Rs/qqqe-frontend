@@ -6,6 +6,12 @@ export const emailTemplateEditorDefaults = {
     heading: "Still in your cart",
     sub_heading:
       "These fashionable items are still waiting for you in your shopping cart.",
+    style: {
+      font_size: "16px",
+      font_family: "Arial, sans-serif",
+      text_color: "black",
+      background_color: "#f2fcfe",
+    },
   },
   contact_banner_style: {
     heading: "Have a question?",

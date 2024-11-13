@@ -1,4 +1,9 @@
+import {
+  defaultBoxClassName,
+  fontFamilyList,
+} from "../../pages/forms/masterFormConfig";
 import { CameraIcon } from "../custIcon/svgIcon";
+import ColorPicker from "../higherOrderComponent/ColorPicker/ColorPicker";
 
 /* eslint-disable react/prop-types */
 const EmailTemplateCartControllerComponent = ({
@@ -32,9 +37,8 @@ const EmailTemplateCartControllerComponent = ({
                         id="cover"
                         className="sr-only"
                         onChange={(e) => {
-                          
                           const file = e.target.files[0];
-                          
+
                           if (file) {
                             const reader = new FileReader();
                             reader.onloadend = () => {
@@ -47,7 +51,6 @@ const EmailTemplateCartControllerComponent = ({
                               }));
                             };
                             reader.readAsDataURL(file);
-                            
                           }
                         }}
                       />
@@ -58,9 +61,6 @@ const EmailTemplateCartControllerComponent = ({
                     </label>
                   </div>
                   <div className="mb-6">
-                    <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                      Heading
-                    </label>
                     <input
                       type="text"
                       value={emailTemplateJSON?.cart_banner_style?.heading}
@@ -71,12 +71,79 @@ const EmailTemplateCartControllerComponent = ({
                         )
                       }
                       name="fieldName"
-                      placeholder="Please enter heading"
+                      placeholder="Please enter text"
                       className="w-full p-2 border rounded-md focus:outline-none"
                     />
+                    <div className="mt-3 flex justify-between flex-row items-center">
+                      <span className="mr-2">Font:</span>
+                      <select
+                        onChange={(e) =>
+                          handleEmailTemplateChange(
+                            { font_family: e.target.value },
+                            "cart_banner_style"
+                          )
+                        }
+                        value={emailTemplateJSON.cart_banner_style.font_family}
+                        className={`${defaultBoxClassName} h-12 mr-2`}
+                      >
+                        {fontFamilyList.map((item) => (
+                          <option key={item.label} value={item.label}>
+                            {item.label}
+                          </option>
+                        ))}
+                      </select>
+                      <input
+                        id="border-thickness"
+                        type="number"
+                        className={`${defaultBoxClassName} h-12`}
+                        placeholder="px"
+                        value={parseInt(
+                          emailTemplateJSON.cart_banner_style.font_size
+                        )} // Convert '16px' to '16'
+                        onChange={(e) =>
+                          handleEmailTemplateChange(
+                            { font_size: e.target.value + "px" },
+                            "cart_banner_style"
+                          )
+                        }
+                      />
+                    </div>
+                    <div className="flex items-center mt-3">
+                      <span className="mr-2">Color:</span>
+                      <ColorPicker
+                        defaultColor={
+                          emailTemplateJSON.cart_banner_style.text_color
+                        }
+                        onChange={(color) =>
+                          handleEmailTemplateChange(
+                            { text_color: color },
+                            "cart_banner_style"
+                          )
+                        }
+                      />
+                    </div>
+                    <div className="flex items-center mt-3">
+                      <span className="mr-2">Background Color:</span>
+                      <ColorPicker
+                        defaultColor={
+                          emailTemplateJSON.cart_banner_style.background_color
+                        }
+                        onChange={(color) =>
+                          handleEmailTemplateChange(
+                            { background_color: color },
+                            "cart_banner_style"
+                          )
+                        }
+                      />
+                    </div>
                   </div>
-
-                  <div>
+                  <button
+                    type="button"
+                    className="mt-6 w-full bg-blue-500 text-white font-semibold rounded-lg shadow-md px-4 py-2 transition-all duration-200 hover:bg-blue-600"
+                  >
+                    Add Text
+                  </button>
+                  {/* <div>
                     <label className="mb-2.5 block text-black dark:text-white font-semibold">
                       Sub-Heading
                     </label>
@@ -93,7 +160,7 @@ const EmailTemplateCartControllerComponent = ({
                       placeholder="Please enter sub-heading"
                       className="w-full p-2 border rounded-md focus:outline-none"
                     />
-                  </div>
+                  </div> */}
                 </div>
               </form>
             </div>

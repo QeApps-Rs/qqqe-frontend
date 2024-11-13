@@ -64,7 +64,6 @@ const EmailTemplateEditorComponent = () => {
       },
     }));
   };
-
   const handleFooterIconChange = (newData, styleType) => {
     setEmailTemplateJSON((prev) => ({
       ...prev,
@@ -105,6 +104,9 @@ const EmailTemplateEditorComponent = () => {
   useEffect(() => {
     getTemplateList();
   }, []);
+
+
+
 
   return (
     <>
