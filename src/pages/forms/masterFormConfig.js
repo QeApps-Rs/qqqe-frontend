@@ -311,14 +311,6 @@ export const templateEditorCollapseOptions = [
   },
 ];
 
-export const emailTemplateEditorCollapseOptions = [
-  {
-    title: "Header Style Controller",
-    content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    tag: "header_style_controller",
-  },
-];
 
 export const defaultBoxClassName =
   "w-32 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary";

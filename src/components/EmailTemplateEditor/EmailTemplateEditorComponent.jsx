@@ -1,19 +1,23 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/no-unknown-property */
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { emailTemplateEditorCollapseOptions } from "../../pages/forms/masterFormConfig";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../common/Loader";
 import { BackIcon } from "../custIcon/svgIcon";
 import TemplateHeader from "../Forms/TemplateHeader";
 import EmailTemplateDefault from "./EmailTemplateDefault";
 import EmailTemplateControllerComponent from "./EmailTemplateControllerComponent";
-import { emailTemplateEditorDefaults } from "./masterEmailTemplate";
+import CartControllerComponent from "./CartControllerComponent";
+import { emailTemplateEditorCollapseOptions, emailTemplateEditorDefaults } from "./masterEmailTemplate";
+import ContactControllerComponent from "./ContactControllerComponent";
+import FooterControllerComponent from "./FooterControllerComponent";
+import FormSubmitHandler from "../FormSubmitHandler";
+import EmailTemplateBadgeControllerComponent from "./EmailTemplateBadgeControllerComponent";
 const EmailTemplateEditorComponent = () => {
   //  shiv code start
   const [loading, setLoading] = useState(false);
-
+  const { id } = useParams();
   const [success, setSuccess] = useState(false);
 
   const [templateHeaderState, setTemplateHeaderState] = useState({
@@ -27,26 +31,65 @@ const EmailTemplateEditorComponent = () => {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isView, setView] = useState("Desktop");
-  const [navButtons, setNavButtons] = useState([
-    {
-      navName: "Shop",
-      navUrl: "#",
-    },
-    {
-      navName: "Sale",
-      navUrl: "#",
-    },
-    {
-      navName: "New",
-      navUrl: "#",
-    },
-  ]);
-  const [uploadedIcon, setUploadedIcon] = useState({
-    image: "",
-  });
   const toggleAccordion = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
+
+  const [emailTemplateJSON, setEmailTemplateJSON] = useState(
+    emailTemplateEditorDefaults
+  );
+  const handleEmailTemplateChange = (newData, styleType) => {
+    setEmailTemplateJSON((prev) => ({
+      ...prev,
+      [styleType]: {
+        ...prev[styleType],
+        ...newData,
+      },
+    }));
+  };
+  const handleFooterIconChange = (newData, styleType) => {
+    setEmailTemplateJSON((prev) => ({
+      ...prev,
+      footer_banner_style: {
+        ...prev.footer_banner_style,
+        [styleType]: {
+          ...prev.footer_banner_style[styleType],
+          ...newData,
+        },
+      },
+    }));
+  };
+
+  const getTemplateList = async () => {
+    setLoading(true);
+    const sid = id.split("s")[1];
+    await FormSubmitHandler({
+      method: "get",
+      url: `customer/template/${sid}?handle_type=${emailTemplateJSON?.handle_type}`,
+    })
+      .then((res) => {
+        if (res.data) {
+          if (res.data?.selected_products.length > 0) {
+            setEmailTemplateJSON({
+              ...emailTemplateJSON,
+              email_template_products: res.data?.selected_products,
+            });
+          }
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+  useEffect(() => {
+    getTemplateList();
+  }, []);
+
+
+
   return (
     <>
       {loading && <Loader />}
@@ -79,9 +122,40 @@ const EmailTemplateEditorComponent = () => {
               {activeIndex === index &&
                 item.tag === "header_style_controller" && (
                   <EmailTemplateControllerComponent
-                    navButtons={navButtons}
-                    setNavButtons={setNavButtons}
-                    setUploadedIcon={setUploadedIcon}
+                    emailTemplateJSON={emailTemplateJSON}
+                    setEmailTemplateJSON={setEmailTemplateJSON}
+                    handleEmailTemplateChange={handleEmailTemplateChange}
+                  />
+                )}
+              {activeIndex === index &&
+                item.tag === "cart_style_controller" && (
+                  <CartControllerComponent
+                    emailTemplateJSON={emailTemplateJSON}
+                    handleEmailTemplateChange={handleEmailTemplateChange}
+                    setEmailTemplateJSON={setEmailTemplateJSON}
+                  />
+                )}
+              {activeIndex === index &&
+                item.tag === "contact_style_controller" && (
+                  <ContactControllerComponent
+                    emailTemplateJSON={emailTemplateJSON}
+                    handleEmailTemplateChange={handleEmailTemplateChange}
+                  />
+                )}
+                {activeIndex === index &&
+                item.tag === "badge_style_controller" && (
+                  <EmailTemplateBadgeControllerComponent
+                  emailTemplateJSON={emailTemplateJSON}
+                  handleEmailTemplateChange={handleEmailTemplateChange}
+                  setEmailTemplateJSON={setEmailTemplateJSON}
+                />
+                )}
+              {activeIndex === index &&
+                item.tag === "footer_style_controller" && (
+                  <FooterControllerComponent
+                    emailTemplateJSON={emailTemplateJSON}
+                    handleFooterIconChange={handleFooterIconChange}
+                    handleEmailTemplateChange={handleEmailTemplateChange}
                   />
                 )}
             </li>
@@ -112,8 +186,7 @@ const EmailTemplateEditorComponent = () => {
           templateHeaderState={templateHeaderState}
         />
         <EmailTemplateDefault
-          navButtons={navButtons}
-          uploadedIcon={uploadedIcon}
+          emailTemplateJSON={emailTemplateJSON}
         />
       </div>
 
