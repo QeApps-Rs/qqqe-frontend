@@ -24,6 +24,11 @@ const EmailTemplateControllerComponent = ({
   const [newButtonUrl, setNewButtonUrl] = useState("");
   const [editingButtonIndex, setEditingButtonIndex] = useState(null);
   const [showAddFields, setShowAddFields] = useState(false);
+  const [advanceDesignOption, setAdvanceDesignOption] = useState(false);
+
+  const handleAdvanceDesignOption = () => {
+    setAdvanceDesignOption(!advanceDesignOption);
+  };
 
   const handleAddButtonClick = () => {
     setShowAddFields(true);
@@ -149,13 +154,24 @@ const EmailTemplateControllerComponent = ({
       <div className="p-4 bg-white rounded-lg shadow-lg">
         <h2 className={styleFieldTitleClass}>Manage Navigation Buttons</h2>
 
-        <div className="space-y-3 max-h-[300px] overflow-y-auto overflow-x-hidden pr-2">
+        <div className=" max-h-[300px] overflow-auto pr-2  overflow-x-hidden">
           {emailTemplateJSON?.header_banner_style?.nav_links.map(
             (button, index) => (
               <div
                 key={index}
-                className="flex items-start p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg transition-transform duration-200 hover:scale-105"
+                className="relative items-start mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-bodydark "
               >
+                <div className="flex  justify-end top-1 right-3  absolute ">
+                  <Tooltip title="Delete" position="top" trigger="mouseenter">
+                    <button
+                      type="button"
+                      onClick={() => deleteButton(index)}
+                      className="text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors duration-200 ml-4"
+                    >
+                      <i className="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                  </Tooltip>
+                </div>
                 <div className="flex-grow">
                   {editingButtonIndex === index ? (
                     <div>
@@ -216,15 +232,6 @@ const EmailTemplateControllerComponent = ({
                     </div>
                   )}
                 </div>
-                <Tooltip title="Delete" position="top" trigger="mouseenter">
-                  <button
-                    type="button"
-                    onClick={() => deleteButton(index)}
-                    className="text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors duration-200 ml-4"
-                  >
-                    <i className="fa fa-times" aria-hidden="true"></i>
-                  </button>
-                </Tooltip>
               </div>
             )
           )}
@@ -277,7 +284,7 @@ const EmailTemplateControllerComponent = ({
           <button
             type="button"
             onClick={handleAddButtonClick}
-            className="mt-6 w-full bg-blue-500 text-white font-semibold rounded-lg shadow-md px-4 py-2 transition-all duration-200 hover:bg-blue-600"
+            className="mt-5 w-full bg-blue-500 text-white font-semibold rounded-lg shadow-md px-4 py-2 transition-all duration-200 hover:bg-blue-600"
           >
             Add New Nav Button
           </button>
@@ -313,154 +320,187 @@ const EmailTemplateControllerComponent = ({
             }
           />
         </div>
-        <div className="mt-3 flex justify-between items-center">
-          <span className="mr-2 font-semibold">Navbar Font Family:</span>
-          <select
-            onChange={(e) =>
-              handleEmailTemplateChange(
-                { nav_bar_font_family: e.target.value },
-                "header_banner_style"
-              )
-            }
-            value={emailTemplateJSON.header_banner_style.nav_bar_font_family}
-            className={`${defaultBoxClassName} h-12 mr-2`}
-          >
-            {fontFamilyList.map((item) => (
-              <option key={item.label} value={item.label}>
-                {item.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="mt-3 flex justify-between items-center">
-          <span className="mr-2 font-semibold">Navbar Font Size:</span>
-          <input
-            id="border-thickness"
-            type="number"
-            className={`${defaultBoxClassName} h-12`}
-            placeholder="px"
-            value={
-              parseInt(
-                emailTemplateJSON.header_banner_style.nav_bar_font_size
-              ) || ""
-            }
-            onChange={(e) =>
-              handleEmailTemplateChange(
-                { nav_bar_font_size: e.target.value + "px" },
-                "header_banner_style"
-              )
-            }
-          />
-        </div>
-        <div className="mt-3 flex justify-between items-center">
-          <span className="mr-2 font-semibold">Border Radius:</span>
-          <input
-            id="border-thickness"
-            type="number"
-            className={`${defaultBoxClassName} h-12`}
-            placeholder="px"
-            value={
-              parseInt(emailTemplateJSON.header_banner_style.border_radius) ||
-              ""
-            }
-            onChange={(e) =>
-              handleEmailTemplateChange(
-                { border_radius: e.target.value + "px" },
-                "header_banner_style"
-              )
-            }
-          />
-        </div>
-        <div className="mt-3 flex justify-between flex-row items-center">
-          <span className="mr-2 font-semibold">Border Style:</span>
-          <select
-            onChange={(e) =>
-              handleEmailTemplateChange(
-                { border_style: e.target.value },
-                "header_banner_style"
-              )
-            }
-            value={emailTemplateJSON.header_banner_style.border_style}
-            className={`${defaultBoxClassName} h-12`}
-          >
-            {borderStyles.map((style) => (
-              <option key={style.value} value={style.value}>
-                {style.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="mt-3 flex justify-between items-center">
-          <span className="mr-2 font-semibold">Border Width:</span>
-          <input
-            id="border-thickness"
-            type="number"
-            className={`${defaultBoxClassName} h-12`}
-            placeholder="px"
-            value={
-              parseInt(emailTemplateJSON.header_banner_style.border_width) || ""
-            }
-            onChange={(e) =>
-              handleEmailTemplateChange(
-                { border_width: e.target.value + "px" },
-                "header_banner_style"
-              )
-            }
-          />
-        </div>
+        {advanceDesignOption && (
+          <>
+            <div className="mt-3 flex justify-between items-center">
+              <span className="mr-2 font-semibold">Navbar Font Family:</span>
+              <select
+                onChange={(e) =>
+                  handleEmailTemplateChange(
+                    { nav_bar_font_family: e.target.value },
+                    "header_banner_style"
+                  )
+                }
+                value={
+                  emailTemplateJSON.header_banner_style.nav_bar_font_family
+                }
+                className={`${defaultBoxClassName} h-12 mr-2`}
+              >
+                {fontFamilyList.map((item) => (
+                  <option key={item.label} value={item.label}>
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mt-3 flex justify-between items-center">
+              <span className="mr-2 font-semibold">Navbar Font Size:</span>
+              <input
+                id="border-thickness"
+                type="number"
+                className={`${defaultBoxClassName} h-12`}
+                placeholder="px"
+                value={
+                  parseInt(
+                    emailTemplateJSON.header_banner_style.nav_bar_font_size
+                  ) || ""
+                }
+                onChange={(e) =>
+                  handleEmailTemplateChange(
+                    { nav_bar_font_size: e.target.value + "px" },
+                    "header_banner_style"
+                  )
+                }
+              />
+            </div>
+            <div className="mt-3 flex justify-between items-center">
+              <span className="mr-2 font-semibold">Border Radius:</span>
+              <input
+                id="border-thickness"
+                type="number"
+                className={`${defaultBoxClassName} h-12`}
+                placeholder="px"
+                value={
+                  parseInt(
+                    emailTemplateJSON.header_banner_style.border_radius
+                  ) || ""
+                }
+                onChange={(e) =>
+                  handleEmailTemplateChange(
+                    { border_radius: e.target.value + "px" },
+                    "header_banner_style"
+                  )
+                }
+              />
+            </div>
+            <div className="mt-3 flex justify-between flex-row items-center">
+              <span className="mr-2 font-semibold">Border Style:</span>
+              <select
+                onChange={(e) =>
+                  handleEmailTemplateChange(
+                    { border_style: e.target.value },
+                    "header_banner_style"
+                  )
+                }
+                value={emailTemplateJSON.header_banner_style.border_style}
+                className={`${defaultBoxClassName} h-12`}
+              >
+                {borderStyles.map((style) => (
+                  <option key={style.value} value={style.value}>
+                    {style.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mt-3 flex justify-between items-center">
+              <span className="mr-2 font-semibold">Border Width:</span>
+              <input
+                id="border-thickness"
+                type="number"
+                className={`${defaultBoxClassName} h-12`}
+                placeholder="px"
+                value={
+                  parseInt(
+                    emailTemplateJSON.header_banner_style.border_width
+                  ) || ""
+                }
+                onChange={(e) =>
+                  handleEmailTemplateChange(
+                    { border_width: e.target.value + "px" },
+                    "header_banner_style"
+                  )
+                }
+              />
+            </div>
+            <div className="flex items-center mt-4 justify-between items-center">
+              <span className="mr-2 font-semibold">Border Color:</span>
+              <ColorPicker
+                defaultColor={
+                  emailTemplateJSON.header_banner_style.border_color
+                }
+                onChange={(color) =>
+                  handleEmailTemplateChange(
+                    { border_color: color },
+                    "header_banner_style"
+                  )
+                }
+              />
+            </div>
+            <div className="mt-3">
+              <span className="mr-2 font-semibold">Padding (PX):</span>
+              <div className="grid grid-cols-2">
+                {["top", "bottom", "left", "right"].map((position, i) =>
+                  renderPaddingMarginField(
+                    `${position}`,
+                    emailTemplateJSON.header_banner_style[
+                      `padding_${position}`
+                    ],
+                    (value) =>
+                      handleEmailTemplateChange(
+                        { [`padding_${position}`]: value },
+                        "header_banner_style"
+                      ),
+                    `padding_${position}`,
+                    "px",
+                    i
+                  )
+                )}
+              </div>
+            </div>
+            <div className="mt-3">
+              <span className="mr-2 font-semibold">Margin (PX):</span>
+              <div className="grid grid-cols-2">
+                {["Top", "Bottom", "Left", "Right"].map((position, i) =>
+                  renderPaddingMarginField(
+                    `${position}`,
+                    emailTemplateJSON.header_banner_style[
+                      `templateMargin${position}`
+                    ],
+                    (value) =>
+                      handleEmailTemplateChange(
+                        { [`templateMargin${position}`]: value },
+                        "header_banner_style"
+                      ),
+                    `templateMargin${position}`,
+                    "px",
+                    i
+                  )
+                )}
+              </div>
+            </div>{" "}
+          </>
+        )}
 
-        <div className="flex items-center mt-4 justify-between items-center">
-          <span className="mr-2 font-semibold">Border Color:</span>
-          <ColorPicker
-            defaultColor={emailTemplateJSON.header_banner_style.border_color}
-            onChange={(color) =>
-              handleEmailTemplateChange(
-                { border_color: color },
-                "header_banner_style"
-              )
-            }
-          />
-        </div>
-        <div className="mt-3">
-          <span className="mr-2 font-semibold">Padding (PX):</span>
-          <div className="grid grid-cols-2">
-            {["top", "bottom", "left", "right"].map((position, i) =>
-              renderPaddingMarginField(
-                `${position}`,
-                emailTemplateJSON.header_banner_style[`padding_${position}`],
-                (value) =>
-                  handleEmailTemplateChange(
-                    { [`padding_${position}`]: value },
-                    "header_banner_style"
-                  ),
-                `padding_${position}`,
-                "px",
-                i
-              )
-            )}
-          </div>
-        </div>
-        <div className="mt-3">
-          <span className="mr-2 font-semibold">Margin (PX):</span>
-          <div className="grid grid-cols-2">
-            {["Top", "Bottom", "Left", "Right"].map((position, i) =>
-              renderPaddingMarginField(
-                `${position}`,
-                emailTemplateJSON.header_banner_style[
-                  `templateMargin${position}`
-                ],
-                (value) =>
-                  handleEmailTemplateChange(
-                    { [`templateMargin${position}`]: value },
-                    "header_banner_style"
-                  ),
-                `templateMargin${position}`,
-                "px",
-                i
-              )
-            )}
-          </div>
-        </div>
+        <span
+          type="button"
+          className="inline-flex items-center text-blue-600 font-semibold p-2 mt-4 rounded transition-colors duration-200 ease-in-out hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+          onClick={handleAdvanceDesignOption}
+        >
+          {advanceDesignOption ? (
+            <>
+              <span>Hide design options</span>
+              <i className="fa fa-arrow-up ml-2 w-5 h-5 transform transition-transform duration-300 rotate-180" aria-hidden="true"></i>
+
+
+            </>
+          ) : (
+            <>
+              <span>More design options</span>
+              <i className="fa fa-arrow-down ml-2 w-5 h-5 transform transition-transform duration-300" aria-hidden="true"></i>
+
+            </>
+          )}
+        </span>
       </div>
     </div>
   );
