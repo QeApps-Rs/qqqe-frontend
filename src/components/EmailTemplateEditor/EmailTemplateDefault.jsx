@@ -4,26 +4,7 @@ import productImg from "../../images/default_product.png";
 import paymentIcon from "../../images/payment-icon.png";
 
 import { Link } from "react-router-dom";
-const EmailTemplateDefault = ({
-  navButtons,
-  uploadedIcon,
-  emailTemplateJSON,
-}) => {
-  const products = [
-    {
-      id: 1,
-      name: "Man's Jacket",
-      price: "$210 USD",
-      image: productImg,
-    },
-    {
-      id: 2,
-      name: "Woman's Dress",
-      price: "$120 USD",
-      image: productImg,
-    },
-    // Add more products as needed
-  ];
+const EmailTemplateDefault = ({ emailTemplateJSON }) => {
   const socialMediaPlatforms = [
     { label: "Facebook", icon: "facebook", key: "facebook" },
     { label: "Twitter", icon: "twitter", key: "twitter" },
@@ -63,20 +44,26 @@ const EmailTemplateDefault = ({
         <tr className="bg-[#e1f2f6] flex justify-between px-4 py-6 items-center">
           <th className="flex items-center ">
             <img
-              src={uploadedIcon?.image ? uploadedIcon?.image : logoSrc}
+              src={
+                emailTemplateJSON?.header_banner_style?.imageIcon
+                  ? emailTemplateJSON?.header_banner_style?.imageIcon
+                  : logoSrc
+              }
               alt="Logo"
               style={{ maxHeight: "100px", width: "100px" }}
             />
           </th>
           <th className="text-center">
             <ul className="flex justify-center space-x-8">
-              {navButtons.map((item, index) => (
-                <li key={index} className="inline cursor-pointer">
-                  <Link to={item?.navUrl} target="_blank">
-                    {item?.navName}
-                  </Link>
-                </li>
-              ))}
+              {emailTemplateJSON?.header_banner_style?.nav_links.map(
+                (item, index) => (
+                  <li key={index} className="inline cursor-pointer">
+                    <Link to={item?.navUrl} target="_blank">
+                      {item?.navName}
+                    </Link>
+                  </li>
+                )
+              )}
             </ul>
           </th>
         </tr>

@@ -1,6 +1,23 @@
 export const emailTemplateEditorDefaults = {
   type: "emailTemplate",
   handle_type: "email_marketing",
+  header_banner_style: {
+    imageIcon: "",
+    nav_links: [
+      {
+        navName: "Shop",
+        navUrl: "#",
+      },
+      {
+        navName: "Sale",
+        navUrl: "#",
+      },
+      {
+        navName: "New",
+        navUrl: "#",
+      },
+    ]
+  },
   cart_banner_style: {
     imageIcon: "",
     heading: "Still in your cart",

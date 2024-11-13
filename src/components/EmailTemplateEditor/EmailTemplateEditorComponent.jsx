@@ -31,23 +31,6 @@ const EmailTemplateEditorComponent = () => {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isView, setView] = useState("Desktop");
-  const [navButtons, setNavButtons] = useState([
-    {
-      navName: "Shop",
-      navUrl: "#",
-    },
-    {
-      navName: "Sale",
-      navUrl: "#",
-    },
-    {
-      navName: "New",
-      navUrl: "#",
-    },
-  ]);
-  const [uploadedIcon, setUploadedIcon] = useState({
-    image: "",
-  });
   const toggleAccordion = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
@@ -138,9 +121,8 @@ const EmailTemplateEditorComponent = () => {
               {activeIndex === index &&
                 item.tag === "header_style_controller" && (
                   <EmailTemplateControllerComponent
-                    navButtons={navButtons}
-                    setNavButtons={setNavButtons}
-                    setUploadedIcon={setUploadedIcon}
+                    emailTemplateJSON={emailTemplateJSON}
+                    setEmailTemplateJSON={setEmailTemplateJSON}
                   />
                 )}
               {activeIndex === index &&
@@ -194,8 +176,6 @@ const EmailTemplateEditorComponent = () => {
           templateHeaderState={templateHeaderState}
         />
         <EmailTemplateDefault
-          navButtons={navButtons}
-          uploadedIcon={uploadedIcon}
           emailTemplateJSON={emailTemplateJSON}
         />
       </div>
