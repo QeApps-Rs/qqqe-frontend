@@ -104,14 +104,14 @@ const EmailTemplateCartControllerComponent = ({
           <span>Upload</span>
         </label>
       </div>
-      <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
+      <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5 p-4 bg-white rounded-lg shadow-lg " >
         <div className="col-span-12 xl:col-span-12">
-          <div className="space-y-3 max-h-[320px] overflow-y-auto overflow-x-hidden pr-2">
+          <div className="space-y-3 max-h-[380px] overflow-y-auto overflow-x-hidden pr-2">
             {emailTemplateJSON?.cart_banner_style?.text_components.map(
               (component, index) => (
                 <div
                   key={index}
-                  className="relative items-start p-4 bg-white rounded-lg shadow-lg "
+                  className="relative items-start p-4 bg-white rounded-lg shadow-lg border border-bodydark"
                 >
                   <div className="flex  justify-end top-1 right-3  absolute ">
                     <Tooltip title="Delete" position="top">
@@ -119,7 +119,7 @@ const EmailTemplateCartControllerComponent = ({
                         onClick={() => handleDeleteTextComponent(index)}
                         className="text-red-500 "
                       >
-                        <i className="fa fa-times text-xl"></i>
+                        <i className="fa fa-times"></i>
                       </button>
                     </Tooltip>
                   </div>
@@ -203,7 +203,8 @@ const EmailTemplateCartControllerComponent = ({
                             onClick={() => setEditingTextComponentIndex(index)}
                             className="text-blue-500"
                           >
-                            <i className="fa fa-pencil"></i>
+                            <i className="fa fa-pencil mr-1"></i>
+                            Edit
                           </button>
                         </Tooltip>
                       </>
