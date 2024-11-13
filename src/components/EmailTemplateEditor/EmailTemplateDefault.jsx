@@ -254,21 +254,19 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
         </tr>
 
         <tr className="w-full flex flex-wrap md:flex-nowrap">
-          {[
-            { label: "SECURE PAYMENTS", icon: paymentIcon },
-            { label: "EASY RETURNS", icon: paymentIcon },
-            { label: "FREE SHIPPING", icon: paymentIcon },
-            { label: "CUSTOMER SERVICE", icon: paymentIcon },
-          ].map((item, index) => (
+          {emailTemplateJSON?.badge_section_style.map((item, index) => (
             <td
               key={index}
               className="w-full md:w-1/4 p-4 flex flex-col items-center"
             >
               <div className="w-20 h-20 rounded-full flex items-center justify-center">
-                <img src={item.icon} alt={`${item.label.toLowerCase()}-icon`} />
+                <img
+                  src={item.badgeImage == "" ? paymentIcon : item.badgeImage}
+                  alt={`${item.badgeName.toLowerCase()}-icon`}
+                />
               </div>
               <span className="w-min mt-2 uppercase text-lg text-[#022b3a] text-center">
-                {item.label}
+                {item.badgeName}
               </span>
             </td>
           ))}

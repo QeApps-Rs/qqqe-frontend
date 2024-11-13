@@ -3,17 +3,17 @@
 /* eslint-disable react/no-unknown-property */
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { emailTemplateEditorCollapseOptions } from "../../pages/forms/masterFormConfig";
 import Loader from "../../common/Loader";
 import { BackIcon } from "../custIcon/svgIcon";
 import TemplateHeader from "../Forms/TemplateHeader";
 import EmailTemplateDefault from "./EmailTemplateDefault";
 import EmailTemplateControllerComponent from "./EmailTemplateControllerComponent";
 import CartControllerComponent from "./CartControllerComponent";
-import { emailTemplateEditorDefaults } from "./masterEmailTemplate";
+import { emailTemplateEditorCollapseOptions, emailTemplateEditorDefaults } from "./masterEmailTemplate";
 import ContactControllerComponent from "./ContactControllerComponent";
 import FooterControllerComponent from "./FooterControllerComponent";
 import FormSubmitHandler from "../FormSubmitHandler";
+import EmailTemplateBadgeControllerComponent from "./EmailTemplateBadgeControllerComponent";
 const EmailTemplateEditorComponent = () => {
   //  shiv code start
   const [loading, setLoading] = useState(false);
@@ -89,7 +89,6 @@ const EmailTemplateEditorComponent = () => {
   }, []);
 
 
-console.log('emailTemplateJSON', emailTemplateJSON)
 
   return (
     <>
@@ -142,6 +141,14 @@ console.log('emailTemplateJSON', emailTemplateJSON)
                     emailTemplateJSON={emailTemplateJSON}
                     handleEmailTemplateChange={handleEmailTemplateChange}
                   />
+                )}
+                {activeIndex === index &&
+                item.tag === "badge_style_controller" && (
+                  <EmailTemplateBadgeControllerComponent
+                  emailTemplateJSON={emailTemplateJSON}
+                  handleEmailTemplateChange={handleEmailTemplateChange}
+                  setEmailTemplateJSON={setEmailTemplateJSON}
+                />
                 )}
               {activeIndex === index &&
                 item.tag === "footer_style_controller" && (

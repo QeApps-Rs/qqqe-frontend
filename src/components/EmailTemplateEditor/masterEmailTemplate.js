@@ -58,6 +58,24 @@ export const emailTemplateEditorDefaults = {
     email: "qqqe@gmail.com",
     number: "(000) 123-456-789",
   },
+  badge_section_style: [
+    {
+      badgeImage: "",
+      badgeName: "SECURE PAYMENTS",
+    },
+    {
+      badgeImage: "",
+      badgeName: "EASY RETURNS",
+    },
+    {
+      badgeImage: "",
+      badgeName: "FREE SHIPPING",
+    },
+    {
+      badgeImage: "",
+      badgeName: "CUSTOMER SERVICES",
+    },
+  ],
   footer_banner_style: {
     social_media_icon: {
       facebook_url: "www.facebook.com",
@@ -71,3 +89,36 @@ export const emailTemplateEditorDefaults = {
   },
   email_template_products: [],
 };
+
+export const emailTemplateEditorCollapseOptions = [
+  {
+    title: "Header Style Controller",
+    content:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    tag: "header_style_controller",
+  },
+  {
+    title: "Cart Style Controller",
+    content:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    tag: "cart_style_controller",
+  },
+  {
+    title: "Contact Style Controller",
+    content:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    tag: "contact_style_controller",
+  },
+  {
+    title: "Badge Style Controller",
+    content:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    tag: "badge_style_controller",
+  },
+  {
+    title: "Footer Style Controller",
+    content:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    tag: "footer_style_controller",
+  },
+];
