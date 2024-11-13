@@ -4,26 +4,7 @@ import productImg from "../../images/default_product.png";
 import paymentIcon from "../../images/payment-icon.png";
 
 import { Link } from "react-router-dom";
-const EmailTemplateDefault = ({
-  navButtons,
-  uploadedIcon,
-  emailTemplateJSON,
-}) => {
-  const products = [
-    {
-      id: 1,
-      name: "Man's Jacket",
-      price: "$210 USD",
-      image: productImg,
-    },
-    {
-      id: 2,
-      name: "Woman's Dress",
-      price: "$120 USD",
-      image: productImg,
-    },
-    // Add more products as needed
-  ];
+const EmailTemplateDefault = ({ emailTemplateJSON }) => {
   const socialMediaPlatforms = [
     { label: "Facebook", icon: "facebook", key: "facebook" },
     { label: "Twitter", icon: "twitter", key: "twitter" },
@@ -56,41 +37,93 @@ const EmailTemplateDefault = ({
 
     return { icon, key, url: validUrl };
   });
-
+  const combinedPadding = `
+    ${emailTemplateJSON.header_banner_style.padding_top} 
+    ${emailTemplateJSON.header_banner_style.padding_bottom} 
+    ${emailTemplateJSON.header_banner_style.padding_left} 
+    ${emailTemplateJSON.header_banner_style.padding_right}
+  `;
+  const combinedMargin = `
+    ${emailTemplateJSON.header_banner_style.templateMarginTop} 
+    ${emailTemplateJSON.header_banner_style.templateMarginRight} 
+    ${emailTemplateJSON.header_banner_style.templateMarginBottom} 
+    ${emailTemplateJSON.header_banner_style.templateMarginLeft}
+  `;
   return (
     <table className="mx-auto w-[700px]">
       <thead>
-        <tr className="bg-[#e1f2f6] flex justify-between px-4 py-6 items-center">
+        <tr
+          className=" flex justify-between px-4 py-6 items-center"
+          style={{
+            borderRadius: emailTemplateJSON.header_banner_style.border_radius,
+            backgroundColor:
+              emailTemplateJSON.header_banner_style.background_color,
+            borderStyle: emailTemplateJSON.header_banner_style.border_style,
+            borderWidth: emailTemplateJSON.header_banner_style.border_width,
+            borderColor: emailTemplateJSON.header_banner_style.border_color,
+            padding: combinedPadding,
+            margin: combinedMargin,
+          }}
+        >
           <th className="flex items-center ">
             <img
-              src={uploadedIcon?.image ? uploadedIcon?.image : logoSrc}
+              src={
+                emailTemplateJSON?.header_banner_style?.imageIcon
+                  ? emailTemplateJSON?.header_banner_style?.imageIcon
+                  : logoSrc
+              }
               alt="Logo"
-              style={{ maxHeight: "100px", width: "100px" }}
+              style={{ maxHeight: "50px", maxWidth: "100px" }}
             />
           </th>
           <th className="text-center">
             <ul className="flex justify-center space-x-8">
-              {navButtons.map((item, index) => (
-                <li key={index} className="inline cursor-pointer">
-                  <Link to={item?.navUrl} target="_blank">
-                    {item?.navName}
-                  </Link>
-                </li>
-              ))}
+              {emailTemplateJSON?.header_banner_style?.nav_links.map(
+                (item, index) => (
+                  <li
+                    key={index}
+                    className="inline cursor-pointer "
+                    style={{
+                      color:
+                        emailTemplateJSON.header_banner_style
+                          .nav_bar_text_color,
+                      fontSize:
+                        emailTemplateJSON.header_banner_style.nav_bar_font_size,
+                      fontFamily:
+                        emailTemplateJSON.header_banner_style
+                          .nav_bar_font_family,
+                    }}
+                  >
+                    <Link
+                      to={item?.navUrl}
+                      target="_blank"
+                      className="hover:text-primary"
+                    >
+                      {item?.navName}
+                    </Link>
+                  </li>
+                )
+              )}
             </ul>
           </th>
         </tr>
       </thead>
 
       <tbody className="bg-white p-6 flex flex-wrap justify-center rounded">
-        <tr className="flex bg-[#f2fcfe] p-8 rounded-lg border border-[#a4cfd7] w-full mb-14 text-center justify-center">
+        <tr
+          className="flex p-8 rounded-lg border border-[#a4cfd7] w-full mb-14 text-center justify-center"
+          style={{
+            backgroundColor:
+              emailTemplateJSON.cart_banner_style.background_color,
+          }}
+        >
           <td>
             {emailTemplateJSON?.cart_banner_style?.imageIcon ? (
               <div className="w-full flex justify-center">
                 <img
                   src={emailTemplateJSON.cart_banner_style.imageIcon}
                   alt="Uploaded preview"
-                  className="w-24 h-24 mb-4 rounded-lg border border-gray-300" // Adjust styles as needed
+                  className="w-24 h-24 mb-4" // Adjust styles as needed
                 />
               </div>
             ) : (
@@ -99,12 +132,21 @@ const EmailTemplateDefault = ({
                 aria-hidden="true"
               ></i>
             )}
-            <h1 className="block text-[#022b39] text-3xl font-bold mb-4">
-              {emailTemplateJSON?.cart_banner_style?.heading}
-            </h1>
-            <span className="block text-[#022b39] text-md">
-              {emailTemplateJSON?.cart_banner_style?.sub_heading}
-            </span>
+            {emailTemplateJSON?.cart_banner_style?.text_components.map(
+              (component, index) => (
+                <p
+                  key={index}
+                  className="block text-[#022b39] text-md"
+                  style={{
+                    fontSize: component?.font_size,
+                    fontFamily: component?.font_family,
+                    color: component?.text_color,
+                  }}
+                >
+                  {component?.heading}
+                </p>
+              )
+            )}
           </td>
         </tr>
 
