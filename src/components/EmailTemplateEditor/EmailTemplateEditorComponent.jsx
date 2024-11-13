@@ -89,7 +89,7 @@ const EmailTemplateEditorComponent = () => {
   }, []);
 
 
-
+console.log('emailTemplateJSON', emailTemplateJSON)
 
   return (
     <>

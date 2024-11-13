@@ -29,6 +29,17 @@ export const emailTemplateEditorDefaults = {
       text_color: "black",
       background_color: "#f2fcfe",
     },
+    text_components: [{
+      heading: "Title Heading Component",
+      font_size: "16px",
+      font_family: "Arial, sans-serif",
+      text_color: "black",
+    }, {
+      heading: "Sub Heading Component",
+      font_size: "12px",
+      font_family: "Arial, sans-serif",
+      text_color: "red",
+    }]
   },
   contact_banner_style: {
     heading: "Have a question?",

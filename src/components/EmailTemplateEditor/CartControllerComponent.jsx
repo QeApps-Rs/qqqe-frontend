@@ -1,3 +1,4 @@
+import { Tooltip } from "react-tippy";
 import {
   defaultBoxClassName,
   fontFamilyList,
@@ -14,6 +15,9 @@ const EmailTemplateCartControllerComponent = ({
   const inputControllerFieldClass =
     "p-3 rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark";
 
+  const handleTextAddComponent = () => {
+    console.log("first");
+  };
   return (
     <div className="p-4 border-t">
       <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
@@ -97,9 +101,11 @@ const EmailTemplateCartControllerComponent = ({
                         type="number"
                         className={`${defaultBoxClassName} h-12`}
                         placeholder="px"
-                        value={parseInt(
-                          emailTemplateJSON.cart_banner_style.font_size
-                        )} // Convert '16px' to '16'
+                        value={
+                          parseInt(
+                            emailTemplateJSON.cart_banner_style.font_size
+                          ) || "16px"
+                        } // Convert '16px' to '16'
                         onChange={(e) =>
                           handleEmailTemplateChange(
                             { font_size: e.target.value + "px" },
@@ -137,8 +143,96 @@ const EmailTemplateCartControllerComponent = ({
                       />
                     </div>
                   </div>
+                  <div className="space-y-3 max-h-[300px] overflow-y-auto overflow-x-hidden pr-2">
+                    {emailTemplateJSON?.cart_banner_style?.text_components.map(
+                      (component, index) => (
+                        <div
+                          key={index}
+                          className="flex items-start p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg transition-transform duration-200 hover:scale-105"
+                        >
+                          <div className="flex-grow">
+                            {1 === index ? (
+                              <div>
+                                <label className="block mb-2 text-gray-700 dark:text-gray-200 font-semibold">
+                                  Button Name
+                                </label>
+                                <input
+                                  type="text"
+                                  // value={newButtonName}
+                                  // onChange={(e) =>
+                                  //   setNewButtonName(e.target.value)
+                                  // }
+                                  className="w-full border border-gray-300 dark:border-gray-600 p-2 rounded-lg shadow-sm mb-2 dark:bg-gray-800 dark:text-white"
+                                  placeholder="Edit button name"
+                                />
+                                <label className="block mt-4 mb-2 text-gray-700 dark:text-gray-200 font-semibold">
+                                  Button URL
+                                </label>
+                                <input
+                                  type="text"
+                                  // value={newButtonUrl}
+                                  // onChange={(e) =>
+                                  //   setNewButtonUrl(e.target.value)
+                                  // }
+                                  className="w-full border border-gray-300 dark:border-gray-600 p-2 rounded-lg shadow-sm dark:bg-gray-800 dark:text-white"
+                                  placeholder="Edit button URL"
+                                />
+                                <div className="flex justify-end mt-2">
+                                  <button
+                                    type="button"
+                                    // onClick={saveEditButton}
+                                    className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-600 transition-all duration-200"
+                                  >
+                                    Save
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              <div>
+                                <span className="block text-gray-800 dark:text-gray-300 font-semibold">
+                                  {component.heading}
+                                </span>
+                                <div className="mt-2">
+                                  <Tooltip
+                                    title="Edit"
+                                    position="top"
+                                    trigger="mouseenter"
+                                  >
+                                    <button
+                                      type="button"
+                                      // onClick={() => editButton(index)}
+                                      className="text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 transition-colors duration-200"
+                                    >
+                                      <i
+                                        className="fa fa-pencil"
+                                        aria-hidden="true"
+                                      ></i>
+                                    </button>
+                                  </Tooltip>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                          <Tooltip
+                            title="Delete"
+                            position="top"
+                            trigger="mouseenter"
+                          >
+                            <button
+                              type="button"
+                              // onClick={() => deleteButton(index)}
+                              className="text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors duration-200 ml-4"
+                            >
+                              <i className="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                          </Tooltip>
+                        </div>
+                      )
+                    )}
+                  </div>
                   <button
                     type="button"
+                    onClick={handleTextAddComponent}
                     className="mt-6 w-full bg-blue-500 text-white font-semibold rounded-lg shadow-md px-4 py-2 transition-all duration-200 hover:bg-blue-600"
                   >
                     Add Text

@@ -105,6 +105,21 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
             <span className="block text-[#022b39] text-md">
               {emailTemplateJSON?.cart_banner_style?.sub_heading}
             </span>
+            {emailTemplateJSON?.cart_banner_style?.text_components.map(
+              (component, index) => (
+                <p
+                  key={index}
+                  className="block text-[#022b39] text-md"
+                  style={{
+                    fontSize: component?.font_size,
+                    fontFamily: component?.font_family,
+                    color: component?.text_color,
+                  }}
+                >
+                  {component?.heading}
+                </p>
+              )
+            )}
           </td>
         </tr>
 
