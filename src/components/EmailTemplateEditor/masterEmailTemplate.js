@@ -16,30 +16,42 @@ export const emailTemplateEditorDefaults = {
         navName: "New",
         navUrl: "#",
       },
-    ]
+    ],
+    background_color: "#e1f2f6",
+    nav_bar_text_color: "#000000",
+    nav_bar_font_size: "14px",
+    nav_bar_font_family: "Arial, sans-serif",
+    border_radius: "",
+    border_style: "none",
+    border_width: "",
+    border_color: "",
+    padding_top: "16px",
+    padding_bottom: "16px",
+    padding_left: "16px",
+    padding_right: "16px",
+    templateMarginTop: "0px",
+    templateMarginBottom: "0px",
+    templateMarginLeft: "0px",
+    templateMarginRight: "0px",
   },
   cart_banner_style: {
     imageIcon: "",
-    heading: "Still in your cart",
-    sub_heading:
-      "These fashionable items are still waiting for you in your shopping cart.",
-    style: {
-      font_size: "16px",
-      font_family: "Arial, sans-serif",
-      text_color: "black",
-      background_color: "#f2fcfe",
-    },
-    text_components: [{
-      heading: "Title Heading Component",
-      font_size: "16px",
-      font_family: "Arial, sans-serif",
-      text_color: "black",
-    }, {
-      heading: "Sub Heading Component",
-      font_size: "12px",
-      font_family: "Arial, sans-serif",
-      text_color: "red",
-    }]
+    text_components: [
+      {
+        heading: "Still in your cart",
+        font_size: "24px",
+        font_family: "Arial, sans-serif",
+        text_color: "#022b3a",
+      },
+      {
+        heading:
+          "These fashionable items are still waiting for you in your shopping cart.",
+        font_size: "16px",
+        font_family: "Arial, sans-serif",
+        text_color: "#022b3a",
+      },
+    ],
+    background_color: "#e1f2f6",
   },
   contact_banner_style: {
     heading: "Have a question?",

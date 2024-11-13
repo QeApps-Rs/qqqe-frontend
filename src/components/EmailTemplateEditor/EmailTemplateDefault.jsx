@@ -37,11 +37,34 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
 
     return { icon, key, url: validUrl };
   });
-
+  const combinedPadding = `
+    ${emailTemplateJSON.header_banner_style.padding_top} 
+    ${emailTemplateJSON.header_banner_style.padding_bottom} 
+    ${emailTemplateJSON.header_banner_style.padding_left} 
+    ${emailTemplateJSON.header_banner_style.padding_right}
+  `;
+  const combinedMargin = `
+    ${emailTemplateJSON.header_banner_style.templateMarginTop} 
+    ${emailTemplateJSON.header_banner_style.templateMarginRight} 
+    ${emailTemplateJSON.header_banner_style.templateMarginBottom} 
+    ${emailTemplateJSON.header_banner_style.templateMarginLeft}
+  `;
   return (
     <table className="mx-auto w-[700px]">
       <thead>
-        <tr className="bg-[#e1f2f6] flex justify-between px-4 py-6 items-center">
+        <tr
+          className=" flex justify-between px-4 py-6 items-center"
+          style={{
+            borderRadius: emailTemplateJSON.header_banner_style.border_radius,
+            backgroundColor:
+              emailTemplateJSON.header_banner_style.background_color,
+            borderStyle: emailTemplateJSON.header_banner_style.border_style,
+            borderWidth: emailTemplateJSON.header_banner_style.border_width,
+            borderColor: emailTemplateJSON.header_banner_style.border_color,
+            padding: combinedPadding,
+            margin: combinedMargin,
+          }}
+        >
           <th className="flex items-center ">
             <img
               src={
@@ -50,15 +73,32 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
                   : logoSrc
               }
               alt="Logo"
-              style={{ maxHeight: "100px", width: "100px" }}
+              style={{ maxHeight: "50px", maxWidth: "100px" }}
             />
           </th>
           <th className="text-center">
             <ul className="flex justify-center space-x-8">
               {emailTemplateJSON?.header_banner_style?.nav_links.map(
                 (item, index) => (
-                  <li key={index} className="inline cursor-pointer">
-                    <Link to={item?.navUrl} target="_blank">
+                  <li
+                    key={index}
+                    className="inline cursor-pointer "
+                    style={{
+                      color:
+                        emailTemplateJSON.header_banner_style
+                          .nav_bar_text_color,
+                      fontSize:
+                        emailTemplateJSON.header_banner_style.nav_bar_font_size,
+                      fontFamily:
+                        emailTemplateJSON.header_banner_style
+                          .nav_bar_font_family,
+                    }}
+                  >
+                    <Link
+                      to={item?.navUrl}
+                      target="_blank"
+                      className="hover:text-primary"
+                    >
                       {item?.navName}
                     </Link>
                   </li>
@@ -83,7 +123,7 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
                 <img
                   src={emailTemplateJSON.cart_banner_style.imageIcon}
                   alt="Uploaded preview"
-                  className="w-24 h-24 mb-4 rounded-lg border border-gray-300" // Adjust styles as needed
+                  className="w-24 h-24 mb-4" // Adjust styles as needed
                 />
               </div>
             ) : (
@@ -92,19 +132,6 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
                 aria-hidden="true"
               ></i>
             )}
-            <h1
-              className="block font-bold mb-4"
-              style={{
-                fontSize: emailTemplateJSON.cart_banner_style.font_size,
-                fontFamily: emailTemplateJSON.cart_banner_style.font_family,
-                color: emailTemplateJSON.cart_banner_style.text_color,
-              }}
-            >
-              {emailTemplateJSON?.cart_banner_style?.heading}
-            </h1>
-            <span className="block text-[#022b39] text-md">
-              {emailTemplateJSON?.cart_banner_style?.sub_heading}
-            </span>
             {emailTemplateJSON?.cart_banner_style?.text_components.map(
               (component, index) => (
                 <p

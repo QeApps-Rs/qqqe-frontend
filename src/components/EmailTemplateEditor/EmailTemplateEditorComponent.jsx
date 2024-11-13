@@ -125,6 +125,7 @@ console.log('emailTemplateJSON', emailTemplateJSON)
                   <EmailTemplateControllerComponent
                     emailTemplateJSON={emailTemplateJSON}
                     setEmailTemplateJSON={setEmailTemplateJSON}
+                    handleEmailTemplateChange={handleEmailTemplateChange}
                   />
                 )}
               {activeIndex === index &&
