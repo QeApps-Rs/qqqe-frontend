@@ -20,29 +20,6 @@ import NeedHelpPage from "../../NeedHelp";
 const CampaignsDetailsPage = () => {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("medium");
-  // const handleToggle = (key) => {
-  //   setSwitchStates((prevStates) => ({
-  //     ...prevStates,
-  //     [key]: !prevStates[key],
-  //   }));
-  // };
-  const productData = [
-    {
-      variant: "Customer",
-      productDataImg: customerImg,
-      conversions_rate: "0%",
-      conversions: 0,
-      impressions: 0,
-    },
-    {
-      variant: "Product",
-      conversions_rate: "0%",
-      productDataImg: product1Img,
-      conversions: 0,
-      impressions: 0,
-    },
-  ];
-
   const renderTab = (tab, label, activeColor) => (
     <div
       onClick={() => setActiveTab(tab)}
@@ -113,6 +90,7 @@ const CampaignsDetailsPage = () => {
   const chartTitle = "Sales by Product Category";
 
   const [productDetailsData, setProductDetailsData] = useState({});
+  const [abTest, setAbTest] = useState([]);
 
   const [loading, setLoading] = useState(false);
 
@@ -127,6 +105,9 @@ const CampaignsDetailsPage = () => {
           .then((res) => {
             if (res.data) {
               setProductDetailsData(res.data);
+              if (res.data.campaignResult) {
+                setAbTest(Object.values(res.data.campaignResult));
+              }
             }
           })
           .catch((err) => {
@@ -223,14 +204,17 @@ const CampaignsDetailsPage = () => {
               )
             )}
           </div>
-          {productData?.map((product, index) => (
+
+          {abTest.map((product, index) => (
             <div
               className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5"
               key={index}
             >
               <div className="col-span-2 flex items-center">
                 <img
-                  src={product.productDataImg}
+                  src={
+                    product.variant === "Product" ? product1Img : customerImg
+                  }
                   alt="product"
                   className="w-30 max-h-30 object-contain"
                 />
