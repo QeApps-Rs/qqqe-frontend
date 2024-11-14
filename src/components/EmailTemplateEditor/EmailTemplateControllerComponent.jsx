@@ -124,7 +124,7 @@ const EmailTemplateControllerComponent = ({
   );
 
   return (
-    <div className="p-4 rounded-lg shadow-lg max-w-lg mx-auto">
+    <div className="p-4 border-t border-white">
       <div className="p-4 bg-white rounded-lg shadow-lg mb-4">
         <label className={styleFieldTitleClass}>Logo Upload</label>
         <label
@@ -159,7 +159,7 @@ const EmailTemplateControllerComponent = ({
             (button, index) => (
               <div
                 key={index}
-                className="relative items-start mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-bodydark "
+                className="relative items-start mb-6 p-4 bg-white  rounded-lg shadow-lg border border-bodydark "
               >
                 <div className="flex  justify-end top-1 right-3  absolute ">
                   <Tooltip title="Delete" position="top" trigger="mouseenter">
@@ -460,18 +460,18 @@ const EmailTemplateControllerComponent = ({
             <div className="mt-3">
               <span className="mr-2 font-semibold">Margin (PX):</span>
               <div className="grid grid-cols-2">
-                {["Top", "Bottom", "Left", "Right"].map((position, i) =>
+                {["top", "bottom", "left", "right"].map((position, i) =>
                   renderPaddingMarginField(
                     `${position}`,
                     emailTemplateJSON.header_banner_style[
-                      `templateMargin${position}`
+                      `margin_${position}`
                     ],
                     (value) =>
                       handleEmailTemplateChange(
-                        { [`templateMargin${position}`]: value },
+                        { [`margin_${position}`]: value },
                         "header_banner_style"
                       ),
-                    `templateMargin${position}`,
+                    `margin_${position}`,
                     "px",
                     i
                   )
@@ -489,15 +489,18 @@ const EmailTemplateControllerComponent = ({
           {advanceDesignOption ? (
             <>
               <span>Hide design options</span>
-              <i className="fa fa-arrow-up ml-2 w-5 h-5 transform transition-transform duration-300 rotate-180" aria-hidden="true"></i>
-
-
+              <i
+                className="fa fa-arrow-up ml-2 w-5 h-5 transform transition-transform duration-300 rotate-180"
+                aria-hidden="true"
+              ></i>
             </>
           ) : (
             <>
               <span>More design options</span>
-              <i className="fa fa-arrow-down ml-2 w-5 h-5 transform transition-transform duration-300" aria-hidden="true"></i>
-
+              <i
+                className="fa fa-arrow-down ml-2 w-5 h-5 transform transition-transform duration-300"
+                aria-hidden="true"
+              ></i>
             </>
           )}
         </span>

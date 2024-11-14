@@ -153,6 +153,12 @@ export const fontFamilyList = [
   { label: "Brush Script MT", value: "'Brush Script MT', cursive" },
 ];
 
+export const textPositionList = [
+  { label: "Left", value: "left" },
+  { label: "Right", value: "right" },
+  { label: "Center", value: "center" },
+ 
+];
 export const borderStyles = [
   { value: "none", label: "None" },
   { value: "solid", label: "Solid" },
