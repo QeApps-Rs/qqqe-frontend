@@ -33,6 +33,16 @@ const DashboardCard = () => {
     url: "/problem-statement?category=people",
   };
   const [loading, setLoading] = useState(false);
+  const [isBeforeDetails, setIsBeforeDetails] = useState({
+    dateFilterType: "before",
+    date: "2024-08-01",
+  });
+  const handleTabClick = (tab) => {
+    setIsBeforeDetails({
+      ...isBeforeDetails,
+      dateFilterType: tab,
+    })
+  };
   const [graphData, setGraphData] = useState({
     visitorsData: [],
     mobileUserData: {},
@@ -44,14 +54,15 @@ const DashboardCard = () => {
     customerDistributionByPageData: {},
   });
 
-  const [chartState, setChartState] = useState({
+  const defaultState = {
     mobileUserGraphState: false,
     desktopUserGraphState: false,
     locationWiseGraphState: false,
     timeCustomersGraphState: false,
     countryWiseCustomerGraphState: false,
     customerDistributionByPageDataGraphState: false,
-  });
+  }
+  const [chartState, setChartState] = useState(defaultState);
 
   // Reusable function to handle fetching and updating state
   const fetchDataHandler = async (url, dataKey, graphState) => {
@@ -72,12 +83,7 @@ const DashboardCard = () => {
               [dataKey]: visitorsData,
             }));
           });
-        } else if (dataKey == "mobileUserData") {
-          setGraphData((prevState) => ({
-            ...prevState,
-            [dataKey]: response?.data?.response,
-          }));
-        } else if (dataKey == "countryWiseCustomerData") {
+        }  else if (dataKey == "countryWiseCustomerData") {
           setGraphData((prevState) => ({
             ...prevState,
             [dataKey]: response?.data?.countryWiseCustomerData,
@@ -105,6 +111,7 @@ const DashboardCard = () => {
 
   // Fetch all data
   useEffect(() => {
+    setChartState(defaultState);
     const fetchData = async () => {
       setLoading(true);
 
@@ -113,12 +120,12 @@ const DashboardCard = () => {
           fetchDataHandler("customerJourney", "visitorsData", null),
 
           fetchDataHandler(
-            "new/device/mobile/count",
+            `new/device/mobile/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "mobileUserData",
             "mobileUserGraphState"
           ),
           fetchDataHandler(
-            "new/device/desktop/count",
+            `new/device/desktop/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "desktopUserData",
             "desktopUserGraphState"
           ),
@@ -128,7 +135,7 @@ const DashboardCard = () => {
             "locationWiseGraphState"
           ),
           fetchDataHandler(
-            "new/oneTime/customer/count",
+            `new/oneTime/customer/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "timeCustomersData",
             "timeCustomersGraphState"
           ),
@@ -179,7 +186,7 @@ const DashboardCard = () => {
       getDashboardCount();
     }
     fetchData();
-  }, []);
+  }, [isBeforeDetails]);
 
   const filteredData = graphData?.visitorsData.filter((item) =>
     item.timestamp.startsWith(todayStr)
@@ -710,7 +717,6 @@ const DashboardCard = () => {
       </p>
     </div>
   );
-  const [activeTab, setActiveTab] = useState("before");
 
   return (
     <>
@@ -751,9 +757,9 @@ const DashboardCard = () => {
             </div>
             <div className="w-1/2 flex justify-end">
               <button
-                onClick={() => setActiveTab("before")}
+                onClick={() => handleTabClick("before")}
                 className={`px-5 py-3 font-semibold text-black rounded-lg mx-2 transition-all duration-300 ${
-                  activeTab === "before"
+                  isBeforeDetails.dateFilterType === "before"
                     ? "bg-dashboard_gradient text-white shadow-lg transform scale-105"
                     : "bg-gray-300 hover:bg-gray-400"
                 }`}
@@ -761,9 +767,9 @@ const DashboardCard = () => {
                 Before
               </button>
               <button
-                onClick={() => setActiveTab("after")}
+                onClick={() => handleTabClick("after")}
                 className={`px-5 py-3 font-semibold text-black rounded-lg mx-2 transition-all duration-300 ${
-                  activeTab === "after"
+                  isBeforeDetails.dateFilterType === "after"
                     ? "bg-dashboard_gradient text-white shadow-lg transform scale-105"
                     : "bg-gray-300 hover:bg-gray-400"
                 }`}
