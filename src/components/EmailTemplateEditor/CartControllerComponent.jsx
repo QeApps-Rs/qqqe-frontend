@@ -3,6 +3,7 @@ import { Tooltip } from "react-tippy";
 import {
   defaultBoxClassName,
   fontFamilyList,
+  textPositionList,
 } from "../../pages/forms/masterFormConfig";
 import { CameraIcon } from "../custIcon/svgIcon";
 import ColorPicker from "../higherOrderComponent/ColorPicker/ColorPicker";
@@ -11,6 +12,7 @@ import { useState } from "react";
 const EmailTemplateCartControllerComponent = ({
   emailTemplateJSON,
   setEmailTemplateJSON,
+  handleEmailTemplateChange,
 }) => {
   const [editingTextComponentIndex, setEditingTextComponentIndex] =
     useState(null);
@@ -27,6 +29,7 @@ const EmailTemplateCartControllerComponent = ({
             font_size: "16px",
             font_family: "Arial, sans-serif",
             text_color: "black",
+            text_position: "center",
           },
         ],
       },
@@ -65,7 +68,7 @@ const EmailTemplateCartControllerComponent = ({
   };
 
   return (
-    <div className="p-4 border-t">
+    <div className="p-4 border-t border-white">
       <div className="p-4 bg-white rounded-lg shadow-lg mb-4">
         <label className="text-lg font-bold mb-6 text-gray-700 dark:text-white">
           Logo Upload
@@ -103,8 +106,63 @@ const EmailTemplateCartControllerComponent = ({
           </span>
           <span>Upload</span>
         </label>
+        <div className="flex items-center mt-4 justify-between items-center">
+          <span className="mr-2 font-semibold">Background Color:</span>
+          <ColorPicker
+            defaultColor={emailTemplateJSON.cart_banner_style.background_color}
+            onChange={(color) =>
+              handleEmailTemplateChange(
+                { background_color: color },
+                "cart_banner_style"
+              )
+            }
+          />
+        </div>
       </div>
-      <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5 p-4 bg-white rounded-lg shadow-lg " >
+      <div className="p-4 bg-white rounded-lg shadow-lg mb-4">
+        <label className="text-lg font-bold mb-6 text-gray-700 dark:text-white">
+          Button style change
+        </label>
+        <input
+          type="text"
+          value={emailTemplateJSON.cart_banner_style.btn_name}
+          onChange={(e) =>
+            handleEmailTemplateChange(
+              { btn_name: e.target.value },
+              "cart_banner_style"
+            )
+          }
+          className="w-full p-2 border rounded-md"
+          placeholder="please enter button name"
+        />
+        <div className="flex items-center mt-4 justify-between items-center">
+          <span className="mr-2 font-semibold">Background Color:</span>
+          <ColorPicker
+            defaultColor={
+              emailTemplateJSON.cart_banner_style.btn_background_color
+            }
+            onChange={(color) =>
+              handleEmailTemplateChange(
+                { btn_background_color: color },
+                "cart_banner_style"
+              )
+            }
+          />
+        </div>
+        <div className="flex items-center mt-4 justify-between items-center">
+          <span className="mr-2 font-semibold">Text Color:</span>
+          <ColorPicker
+            defaultColor={emailTemplateJSON.cart_banner_style.btn_text_color}
+            onChange={(color) =>
+              handleEmailTemplateChange(
+                { btn_text_color: color },
+                "cart_banner_style"
+              )
+            }
+          />
+        </div>
+      </div>
+      <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5 p-4 bg-white rounded-lg shadow-lg ">
         <div className="col-span-12 xl:col-span-12">
           <div className="space-y-3 max-h-[380px] overflow-y-auto overflow-x-hidden pr-2">
             {emailTemplateJSON?.cart_banner_style?.text_components.map(
@@ -159,32 +217,48 @@ const EmailTemplateCartControllerComponent = ({
                           </select>
                         </div>
                         <div className="mt-3 flex justify-between items-center">
-                          <span className="mr-2 font-semibold">
-                            Font Size:
-                          </span>
-                        <input
-                          type="number"
-                          value={parseInt(component.font_size) || "16"}
-                          onChange={(e) =>
-                            handleEditTextComponent(index, {
-                              font_size: e.target.value + "px",
-                            })
-                          }
-                          className={`${defaultBoxClassName} h-12`}
-                        />
+                          <span className="mr-2 font-semibold">Font Size:</span>
+                          <input
+                            type="number"
+                            value={parseInt(component.font_size) || "16"}
+                            onChange={(e) =>
+                              handleEditTextComponent(index, {
+                                font_size: e.target.value + "px",
+                              })
+                            }
+                            className={`${defaultBoxClassName} h-12`}
+                          />
+                        </div>
+                        <div className="mt-3 flex justify-between items-center">
+                          <span className="mr-2 font-semibold">Color:</span>
+                          <ColorPicker
+                            defaultColor={component.text_color}
+                            onChange={(color) =>
+                              handleEditTextComponent(index, {
+                                text_color: color,
+                              })
+                            }
+                          />
                         </div>
                         <div className="mt-3 flex justify-between items-center">
                           <span className="mr-2 font-semibold">
-                          Color:
+                            Text Position:
                           </span>
-                        <ColorPicker
-                          defaultColor={component.text_color}
-                          onChange={(color) =>
-                            handleEditTextComponent(index, {
-                              text_color: color,
-                            })
-                          }
-                        />
+                          <select
+                            value={component.text_position}
+                            onChange={(e) =>
+                              handleEditTextComponent(index, {
+                                text_position: e.target.value,
+                              })
+                            }
+                            className={`${defaultBoxClassName} h-12 mr-2`}
+                          >
+                            {textPositionList.map((item) => (
+                              <option key={item.label} value={item.label}>
+                                {item.label}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                         <button
                           onClick={() => setEditingTextComponentIndex(null)}
@@ -216,7 +290,7 @@ const EmailTemplateCartControllerComponent = ({
           </div>
           <button
             onClick={handleTextAddComponent}
-            className="mt-6 w-full bg-blue-500 text-white rounded-lg px-4 py-2"
+            className="mt-6 w-full bg-blue-500 hover:bg-blue-700 text-white rounded-lg px-4 py-2"
           >
             Add Text
           </button>

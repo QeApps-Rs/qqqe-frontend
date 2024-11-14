@@ -55,7 +55,7 @@ const DefaultLayout = () => {
               className={
                 pathname == "/master-form"
                   ? ""
-                  : `xl:py-8 xl:px-18 lg:py-8 lg:pl-8 lg:pr-6 sm:py-8 sm:pl-24 sm:pr-6 py-8 px-4`
+                  : `xl:pt-8 xl:pb-12  xl:px-18 lg:pt-8 lg:pb-12 lg:pl-8 lg:pr-6 sm:pt-8 sm:pb-12 sm:pl-24 sm:pr-6 py-8 px-4`
               }
             >
               <Outlet />
