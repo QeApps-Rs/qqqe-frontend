@@ -35,13 +35,13 @@ const DashboardCard = () => {
   const [loading, setLoading] = useState(false);
   const [isBeforeDetails, setIsBeforeDetails] = useState({
     dateFilterType: "before",
-    date: "2024-08-01",
+    date: "2024-10-15",
   });
   const handleTabClick = (tab) => {
     setIsBeforeDetails({
       ...isBeforeDetails,
       dateFilterType: tab,
-    })
+    });
   };
   const [graphData, setGraphData] = useState({
     visitorsData: [],
@@ -52,6 +52,8 @@ const DashboardCard = () => {
     countryWiseCustomerData: {},
     mostVisitedProducts: [],
     customerDistributionByPageData: {},
+    mostVisitedCategoriesData: [],
+    mostVisitedPagesData: [],
   });
 
   const defaultState = {
@@ -61,7 +63,10 @@ const DashboardCard = () => {
     timeCustomersGraphState: false,
     countryWiseCustomerGraphState: false,
     customerDistributionByPageDataGraphState: false,
-  }
+    mostVisitedProductsGraphState: false,
+    mostVisitedCategoriesGraphState: false,
+    mostVisitedPagesGraphState: false,
+  };
   const [chartState, setChartState] = useState(defaultState);
 
   // Reusable function to handle fetching and updating state
@@ -83,7 +88,7 @@ const DashboardCard = () => {
               [dataKey]: visitorsData,
             }));
           });
-        }  else if (dataKey == "countryWiseCustomerData") {
+        } else if (dataKey == "countryWiseCustomerData") {
           setGraphData((prevState) => ({
             ...prevState,
             [dataKey]: response?.data?.countryWiseCustomerData,
@@ -92,6 +97,16 @@ const DashboardCard = () => {
           setGraphData((prevState) => ({
             ...prevState,
             [dataKey]: response?.data?.mostVisitedProducts,
+          }));
+        } else if (dataKey == "mostVisitedCategoriesData") {
+          setGraphData((prevState) => ({
+            ...prevState,
+            [dataKey]: response?.data?.most_visited_categories,
+          }));
+        } else if (dataKey == "mostVisitedPagesData") {
+          setGraphData((prevState) => ({
+            ...prevState,
+            [dataKey]: response?.data?.most_visited_pages,
           }));
         } else {
           setGraphData((prevState) => ({
@@ -130,7 +145,7 @@ const DashboardCard = () => {
             "desktopUserGraphState"
           ),
           fetchDataHandler(
-            "new/location/customer/count",
+            `new/location/customer/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "locationWiseData",
             "locationWiseGraphState"
           ),
@@ -140,14 +155,29 @@ const DashboardCard = () => {
             "timeCustomersGraphState"
           ),
           fetchDataHandler(
-            "new/country/customer/count",
+            `new/country/customer/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "countryWiseCustomerData",
             "countryWiseCustomerGraphState"
           ),
           fetchDataHandler(
-            "new/distributionPage/customer/count",
+            `new/distributionPage/customer/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "customerDistributionByPageData",
             "customerDistributionByPageDataGraphState"
+          ),
+          fetchDataHandler(
+            `new/mostVisited/product/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
+            "mostVisitedProducts",
+            "mostVisitedProductsGraphState"
+          ),
+          fetchDataHandler(
+            `new/mostVisited/categories/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
+            "mostVisitedCategoriesData",
+            "mostVisitedCategoriesGraphState"
+          ),
+          fetchDataHandler(
+            `new/mostVisited/pages/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
+            "mostVisitedPagesData",
+            "mostVisitedPagesGraphState"
           ),
         ]);
       } catch (error) {
@@ -187,7 +217,6 @@ const DashboardCard = () => {
     }
     fetchData();
   }, [isBeforeDetails]);
-
   const filteredData = graphData?.visitorsData.filter((item) =>
     item.timestamp.startsWith(todayStr)
   );
@@ -363,22 +392,7 @@ const DashboardCard = () => {
     ytitle: "Number of Visitors",
   };
 
-  //////////         for sales   and orders        ////////////////
-
   ///////////////////////   products   ///////////////////////
-
-  const most_visited_categories = [
-    { category_name: "Hardware", category_count: "60" },
-    { category_name: "Furniture", category_count: "58" },
-    { category_name: "Software", category_count: "55" },
-    { category_name: "Gift Cards", category_count: "53" },
-    { category_name: "Electronics", category_count: "52" },
-    { category_name: "Arts & Entertainment", category_count: "51" },
-    { category_name: "Sporting Goods", category_count: "47" },
-    { category_name: "Services", category_count: "45" },
-    { category_name: "Business & Industrial", category_count: "41" },
-    { category_name: "Baby & Toddler", category_count: "40" },
-  ];
 
   const most_visited_pages = [
     { page_name: "Home", page_count: "100" },
@@ -417,11 +431,13 @@ const DashboardCard = () => {
   };
 
   const filteredCategories = getFilteredData(
-    most_visited_categories,
+    // most_visited_categories,
+    graphData?.mostVisitedCategoriesData,
     visitedSelectedFilter
   );
   const filteredPages = getFilteredData(
-    most_visited_pages,
+      // most_visited_pages,
+      graphData?.mostVisitedPagesData,
     visitedSelectedFilter
   );
 

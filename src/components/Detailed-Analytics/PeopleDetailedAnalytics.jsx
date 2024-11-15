@@ -49,6 +49,16 @@ const PeopleDetailedAnalytics = () => {
   const todayStr = today.toISOString().split("T")[0];
 
   const [loading, setLoading] = useState(false);
+  const [isBeforeDetails, setIsBeforeDetails] = useState({
+    dateFilterType: "before",
+    date: "2024-08-01",
+  });
+  const handleTabClick = (tab) => {
+    setIsBeforeDetails({
+      ...isBeforeDetails,
+      dateFilterType: tab,
+    })
+  };
   const [graphData, setGraphData] = useState({
     visitorsData: [],
     totalOrderData: {},
@@ -76,9 +86,10 @@ const PeopleDetailedAnalytics = () => {
     pageWiseAvgData: {},
     wholeSiteData: {},
     customerBasedOnOrderData: [],
+    mostVisitedPagesData: [],
   });
 
-  const [chartState, setChartState] = useState({
+  const defaultState = {
     totalSalesGraphState: false,
     totalOrderGraphState: false,
     mobileUserGraphState: false,
@@ -104,7 +115,10 @@ const PeopleDetailedAnalytics = () => {
     pageWiseAvgGraphState: false,
     wholeSiteGraphState: false,
     customerBasedOnOrderGraphState: false,
-  });
+    mostVisitedPagesGraphState: false,
+  };
+
+  const [chartState, setChartState] = useState(defaultState);
 
   // Reusable function to handle fetching and updating state
   const fetchDataHandler = async (url, dataKey, graphState) => {
@@ -125,12 +139,7 @@ const PeopleDetailedAnalytics = () => {
               [dataKey]: visitorsData,
             }));
           });
-        } else if (dataKey == "mobileUserData") {
-          setGraphData((prevState) => ({
-            ...prevState,
-            [dataKey]: response?.data?.response,
-          }));
-        } else if (dataKey == "countryWiseCustomerData") {
+        }  else if (dataKey == "countryWiseCustomerData") {
           setGraphData((prevState) => ({
             ...prevState,
             [dataKey]: response?.data?.countryWiseCustomerData,
@@ -154,6 +163,11 @@ const PeopleDetailedAnalytics = () => {
           setGraphData((prevState) => ({
             ...prevState,
             [dataKey]: response?.data?.most_visited_categories,
+          }));
+        }else if (dataKey == "mostVisitedPagesData") {
+          setGraphData((prevState) => ({
+            ...prevState,
+            [dataKey]: response?.data?.most_visited_pages,
           }));
         } else {
           setGraphData((prevState) => ({
@@ -190,37 +204,37 @@ const PeopleDetailedAnalytics = () => {
             "totalOrderGraphState"
           ),
           fetchDataHandler(
-            "new/device/mobile/count",
+            `new/device/mobile/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "mobileUserData",
             "mobileUserGraphState"
           ),
           fetchDataHandler(
-            "new/device/desktop/count",
+            `new/device/desktop/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "desktopUserData",
             "desktopUserGraphState"
           ),
           fetchDataHandler(
-            "new/location/customer/count",
+            `new/location/customer/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "locationWiseData",
             "locationWiseGraphState"
           ),
           fetchDataHandler(
-            "new/oneTime/customer/count",
+            `new/oneTime/customer/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "timeCustomersData",
             "timeCustomersGraphState"
           ),
           fetchDataHandler(
-            "new/country/customer/count",
+            `new/country/customer/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "countryWiseCustomerData",
             "countryWiseCustomerGraphState"
           ),
           fetchDataHandler(
-            "new/mostVisited/product/count",
+            `new/mostVisited/product/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "mostVisitedProducts",
             "mostVisitedProductsGraphState"
           ),
           fetchDataHandler(
-            "new/mostPurchased/product/count",
+            `new/mostPurchased/product/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "mostPurchasedProducts",
             "mostPurchasedProductsGraphState"
           ),
@@ -270,7 +284,7 @@ const PeopleDetailedAnalytics = () => {
             "lessTimeSpentDataGraphState"
           ),
           fetchDataHandler(
-            "new/distributionPage/customer/count",
+            `new/distributionPage/customer/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "customerDistributionByPageData",
             "customerDistributionByPageDataGraphState"
           ),
@@ -285,7 +299,7 @@ const PeopleDetailedAnalytics = () => {
             "eventTrackingForClicksGraphState"
           ),
           fetchDataHandler(
-            "new/mostVisited/categories/count",
+            `new/mostVisited/categories/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "mostVisitedCategoriesData",
             "mostVisitedCategoriesGraphState"
           ),
@@ -304,6 +318,11 @@ const PeopleDetailedAnalytics = () => {
             "customerBasedOnOrderData",
             "customerBasedOnOrderGraphState"
           ),
+          fetchDataHandler(
+            `new/mostVisited/pages/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
+            "mostVisitedPagesData",
+            "mostVisitedPagesGraphState"
+          ),
         ]);
       } catch (error) {
         console.error("Error in one or more API calls:", error);
@@ -313,7 +332,7 @@ const PeopleDetailedAnalytics = () => {
     };
 
     fetchData();
-  }, []);
+  }, [isBeforeDetails]);
 
   const filteredData = graphData?.visitorsData.filter((item) =>
     item.timestamp.startsWith(todayStr)
@@ -535,7 +554,7 @@ const PeopleDetailedAnalytics = () => {
   );
   const filteredPages = getFilteredData(
     // most_visited_pages,
-    graphData?.mostVisitedProducts,
+    graphData?.mostVisitedPagesData,
     visitedSelectedFilter
   );
 
@@ -592,7 +611,9 @@ const PeopleDetailedAnalytics = () => {
 
   // Filter customer data based on the selected filter type
   const customerFilteredData = () => {
-    let data = [...graphData?.customerBasedOnOrderData].sort((a, b) => b.orderCount - a.orderCount); // Sort in descending order
+    let data = [...graphData?.customerBasedOnOrderData].sort(
+      (a, b) => b.orderCount - a.orderCount
+    ); // Sort in descending order
     if (filterType === "Top 3") {
       return data.slice(0, 3); // Get top 3
     } else if (filterType === "Top 5") {
