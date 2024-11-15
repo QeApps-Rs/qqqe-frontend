@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import logoSrc from "../../images/qqqe_maintenance.png";
 import paymentIcon from "../../images/payment-icon.png";
+import { Link } from "react-router-dom";
 
-const EmailTemplateDefault = ({ emailTemplateJSON }) => {
+const EmailTemplateDefaultBackup = ({ emailTemplateJSON }) => {
   const socialMediaPlatforms = [
     { label: "Facebook", icon: "facebook", key: "facebook" },
     { label: "Twitter", icon: "twitter", key: "twitter" },
@@ -72,21 +73,19 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
     <div
       style={{
         backgroundColor: emailTemplateJSON.global_style.background_color,
-        fontFamily: emailTemplateJSON.global_style.font_family,
       }}
     >
       <table
-        width="600"
+        className="w-6/12 grid"
         style={{
+          fontFamily: emailTemplateJSON.global_style.font_family,
           padding: combinedGlobalPadding,
           margin: combinedGlobalMargin,
-          borderCollapse: "collapse",
-          fontFamily: emailTemplateJSON.global_style.font_family,
-          display: "grid",
         }}
       >
         <thead>
           <tr
+            className="flex justify-between px-4 py-6 items-center"
             style={{
               borderRadius: emailTemplateJSON.header_banner_style.border_radius,
               backgroundColor:
@@ -96,11 +95,9 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
               borderColor: emailTemplateJSON.header_banner_style.border_color,
               padding: combinedPadding,
               margin: combinedMargin,
-              display: "flex",
-              justifyContent: "space-between",
             }}
           >
-            <th style={{ textAlign: "left" }}>
+            <th className="flex items-center ">
               <img
                 src={
                   emailTemplateJSON?.header_banner_style?.imageIcon
@@ -108,29 +105,17 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
                     : logoSrc
                 }
                 alt="Logo"
-                style={{
-                  maxHeight: "50px",
-                  maxWidth: "100px",
-                }}
+                style={{ maxHeight: "50px", maxWidth: "100px" }}
               />
             </th>
-            <th style={{ textAlign: "center" }}>
-              <ul
-                style={{
-                  listStyleType: "none",
-                  padding: 0,
-                  margin: 0,
-                  display: "flex",
-                }}
-              >
+            <th className="text-center">
+              <ul className="flex justify-center space-x-8">
                 {emailTemplateJSON?.header_banner_style?.nav_links.map(
                   (item, index) => (
                     <li
                       key={index}
+                      className="inline cursor-pointer "
                       style={{
-                        display: "inline-block",
-                        marginRight: "15px",
-                        cursor: "pointer",
                         color:
                           emailTemplateJSON.header_banner_style
                             .nav_bar_text_color,
@@ -142,16 +127,13 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
                             .nav_bar_font_family,
                       }}
                     >
-                      <a
-                        href={item?.navUrl}
+                      <Link
+                        to={item?.navUrl}
                         target="_blank"
-                        style={{
-                          color: "inherit",
-                          textDecoration: "none",
-                        }}
+                        className="hover:text-primary"
                       >
                         {item?.navName}
-                      </a>
+                      </Link>
                     </li>
                   )
                 )}
@@ -160,65 +142,40 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
           </tr>
         </thead>
 
-        <tbody
-          style={{
-            backgroundColor: "white",
-            padding: "30px",
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-          }}
-        >
+        <tbody className="bg-white p-6 flex flex-wrap justify-center">
           <tr
+            className="flex p-8 rounded-lg  w-full mb-14 text-center justify-center"
             style={{
               backgroundColor:
                 emailTemplateJSON.cart_banner_style.background_color,
-              padding: "30px",
-              borderRadius: "10px",
-              width: "100%",
-              textAlign: "center",
-              marginBottom: "20px",
             }}
           >
             <td>
               {emailTemplateJSON?.cart_banner_style?.imageIcon ? (
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
+                <div className="w-full flex justify-center">
                   <img
                     src={emailTemplateJSON.cart_banner_style.imageIcon}
                     alt="Uploaded preview"
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      marginBottom: "10px",
-                    }}
+                    className="w-24 h-24 mb-4" // Adjust styles as needed
                   />
                 </div>
               ) : (
                 <i
                   className="fa fa-shopping-cart text-5xl mb-4 block"
                   aria-hidden="true"
-                  style={{
-                    fontSize: "50px",
-                    marginBottom: "10px",
-                  }}
                 ></i>
               )}
               {emailTemplateJSON?.cart_banner_style?.text_components.map(
                 (component, index) => (
                   <p
                     key={index}
+                    className="flex text-[#022b39] text-md"
                     style={{
                       fontSize: component?.font_size,
                       fontFamily: component?.font_family,
                       color: component?.text_color,
+                      justifyContent: component?.text_position,
                       textAlign: component?.text_position,
-                      margin: "0",
                     }}
                   >
                     {component?.heading}
@@ -231,27 +188,13 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
           {emailTemplateJSON?.email_template_products?.length > 0 && (
             <>
               <tr>
-                <td colSpan="2" style={{ textAlign: "center" }}>
-                  <h1
-                    style={{
-                      color: "#022b39",
-                      fontSize: "24px",
-                      fontWeight: "bold",
-                      marginBottom: "15px",
-                    }}
-                  >
+                <td colSpan="2">
+                  <h1 className="w-full block text-[#022b39] text-center text-3xl font-bold mb-4">
                     Here are your items
                   </h1>
                 </td>
               </tr>
-              <tr
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "center",
-                  width: "100%",
-                }}
-              >
+              <tr className="flex flex-wrap w-full items-center justify-center">
                 {emailTemplateJSON?.email_template_products?.map(
                   (product, index) => (
                     <ProductRow
@@ -268,26 +211,15 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
             </>
           )}
 
-          <tr
-            style={{
-              width: "100%",
-              paddingTop: "15px",
-              textAlign: "center",
-              justifyContent: "center",
-              display: "flex",
-            }}
-          >
-            <td>
+          <tr className="w-full flex justify-center pt-4 ">
+            <td className="block">
               <button
                 type="button"
+                className="px-5 py-2 rounded-md "
                 style={{
                   backgroundColor:
                     emailTemplateJSON?.cart_banner_style?.btn_background_color,
                   color: emailTemplateJSON?.cart_banner_style?.btn_text_color,
-                  padding: "10px 20px",
-                  borderRadius: "5px",
-                  fontSize: "16px",
-                  cursor: "pointer",
                 }}
               >
                 {emailTemplateJSON?.cart_banner_style?.btn_name}
@@ -296,16 +228,12 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
           </tr>
 
           <tr
+            className="p-8 rounded-lg w-full my-10 flex justify-center text-center"
             style={{
               backgroundColor:
                 emailTemplateJSON?.contact_banner_style?.background_color,
               borderRadius:
                 emailTemplateJSON?.contact_banner_style?.border_radius,
-              padding: "20px",
-              margin: "20px 0",
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
             }}
           >
             <td>
@@ -313,12 +241,11 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
                 (component, index) => (
                   <p
                     key={index}
+                    className="flex text-[#022b39] text-md mb-2 justify-center text-center leading-tight"
                     style={{
                       fontSize: component?.font_size,
                       fontFamily: component?.font_family,
                       color: component?.text_color,
-                      textAlign: component?.text_position,
-                      marginBottom: "10px",
                     }}
                   >
                     {component?.heading}
@@ -328,46 +255,28 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
             </td>
           </tr>
 
-          <tr style={{ width: "100%", display: "flex", flexWrap: "wrap" }}>
+          <tr className="w-full flex flex-wrap">
             {emailTemplateJSON?.badge_section_style?.badge_icon?.map(
               (item, index) => (
                 <td
                   key={index}
-                  style={{
-                    width: "25%",
-                    padding: "15px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    textAlign: "center",
-                  }}
+                  className="w-full md:w-1/4 p-4 flex flex-col items-center"
                 >
-                  <div
-                    style={{
-                      width: "80px",
-                      height: "80px",
-                      borderRadius: "50%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
+                  <div className="w-20 h-20 rounded-full flex items-center justify-center">
                     <img
                       src={
-                        item.badgeImage === "" ? paymentIcon : item.badgeImage
+                        item.badgeImage == "" ? paymentIcon : item.badgeImage
                       }
                       alt={`${item.badgeName.toLowerCase()}-icon`}
-                      style={{ width: "60px", height: "60px" }}
                     />
                   </div>
                   <span
+                    className="w-min mt-2 uppercase text-center font-medium"
                     style={{
-                      marginTop: "10px",
                       fontSize: emailTemplateJSON.badge_section_style.font_size,
                       fontFamily:
                         emailTemplateJSON.badge_section_style.font_family,
                       color: emailTemplateJSON.badge_section_style.color,
-                      textTransform: "uppercase",
                     }}
                   >
                     {item.badgeName}
@@ -379,24 +288,15 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
         </tbody>
 
         <tfoot
+          className="block w-full py-10"
           style={{
             backgroundColor:
               emailTemplateJSON?.footer_banner_style?.background_color,
-            padding: "20px",
-            textAlign: "center",
-            display: "flex",
-            justifyContent: "center",
           }}
         >
-          <tr>
-            <td colSpan="2">
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginBottom: "20px",
-                }}
-              >
+          <tr className="justify-center flex">
+            <td colSpan="2" className="text-center">
+              <div className="flex justify-center space-x-6 mb-4">
                 {socialMediaLinks.map(({ icon, key, url }) =>
                   url ? (
                     <a
@@ -404,11 +304,10 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
                       href={url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{ margin: "0 10px" }}
                     >
                       <i
                         className={`fa fa-${icon} text-3xl cursor-pointer`}
-                        style={{ fontSize: "24px" }}
+                        aria-hidden="true"
                       ></i>
                     </a>
                   ) : null
@@ -418,12 +317,13 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
                 (component, index) => (
                   <p
                     key={index}
+                    className="flex text-[#022b39] text-md mb-2 justify-center text-center leading-tight"
                     style={{
                       fontSize: component?.font_size,
                       fontFamily: component?.font_family,
                       color: component?.text_color,
+                      justifyContent: component?.text_position,
                       textAlign: component?.text_position,
-                      marginBottom: "10px",
                     }}
                   >
                     {component?.heading}
@@ -438,4 +338,4 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
   );
 };
 
-export default EmailTemplateDefault;
+export default EmailTemplateDefaultBackup;
