@@ -15,6 +15,7 @@ import FooterControllerComponent from "./FooterControllerComponent";
 import FormSubmitHandler from "../FormSubmitHandler";
 import EmailTemplateBadgeControllerComponent from "./EmailTemplateBadgeControllerComponent";
 import GlobalStyleControllerComponent from "./GlobalStyleControllerComponent";
+
 const EmailTemplateEditorComponent = () => {
   //  shiv code start
   const [loading, setLoading] = useState(false);
@@ -88,8 +89,6 @@ const EmailTemplateEditorComponent = () => {
   useEffect(() => {
     getTemplateList();
   }, []);
-
-
 
   return (
     <>

@@ -11,8 +11,6 @@ import {
 } from "../../pages/forms/masterFormConfig";
 
 const EmailTemplateControllerComponent = ({
-  uploadedIcon,
-  setUploadedIcon,
   emailTemplateJSON,
   setEmailTemplateJSON,
   handleEmailTemplateChange,
@@ -122,6 +120,7 @@ const EmailTemplateControllerComponent = ({
       />
     </div>
   );
+  
 
   return (
     <div className="p-4 border-t border-white">
@@ -137,15 +136,23 @@ const EmailTemplateControllerComponent = ({
             id="cover"
             accept="image/*"
             className="sr-only"
-            onChange={(e) =>
-              setEmailTemplateJSON((prev) => ({
-                ...prev,
-                header_banner_style: {
-                  ...prev.header_banner_style,
-                  imageIcon: URL.createObjectURL(e.target.files[0]),
-                },
-              }))
-            }
+            onChange={(e) => {
+              const file = e.target.files[0];
+
+              if (file) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  setEmailTemplateJSON((prev) => ({
+                    ...prev,
+                    header_banner_style: {
+                      ...prev.header_banner_style,
+                      imageIcon: reader.result,
+                    },
+                  }));
+                };
+                reader.readAsDataURL(file);
+              }
+            }}
           />
           <CameraIcon className="h-5 w-5 text-gray-700" />
           <span>Upload Logo</span>

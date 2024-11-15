@@ -99,13 +99,13 @@ const EmailTemplateBadgeControllerComponent = ({
                 </label>
 
                 {/* Display Uploaded Image */}
-                {badge.badgeImage && (
+                {/* {badge.badgeImage && (
                   <img
                     src={badge.badgeImage}
                     alt="Badge"
                     className="h-12 w-12 object-contain rounded-full ml-4"
                   />
-                )}
+                )} */}
 
                 {/* Edit Badge Name */}
                 <input
