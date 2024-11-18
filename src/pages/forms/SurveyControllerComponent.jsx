@@ -118,7 +118,7 @@ const SurveyControllerComponent = ({
   };
 
   return (
-    <div className="p-4 border-t">
+    <div className="p-4 border-t border-white">
       <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
         <div className="col-span-12 xl:col-span-12">
           <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
@@ -126,13 +126,15 @@ const SurveyControllerComponent = ({
               <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                 <form action="#">
                   <div className="p-3">
-                    <div className="mb-4.5 border-b border-black pb-4">
+                    <div className="mb-4.5 ">
                       <label className={styleFieldTitleClass}>
                         Survey Styles
                       </label>
 
                       <div className="mt-3 flex justify-between flex-row items-center">
-                        <span>Survey Type style:</span>
+                        <span className="block font-semibold">
+                          Survey Type style:
+                        </span>
                         <select
                           onChange={(e) => {
                             setSurveyController({
@@ -154,7 +156,9 @@ const SurveyControllerComponent = ({
 
                       {surveyController.survey_type === "review" && (
                         <div className="mt-3 flex justify-between flex-row">
-                          <span>Review Count:</span>
+                          <span className="block font-semibold">
+                            Review Count:
+                          </span>
                           <select
                             onChange={(e) => {
                               setSurveyController({
@@ -180,7 +184,9 @@ const SurveyControllerComponent = ({
 
                       {surveyController.survey_type === "rating" && (
                         <div className="mt-3 flex justify-between flex-row">
-                          <span>Rating Count:</span>
+                          <span className="block font-semibold">
+                            Rating Count:
+                          </span>
                           <input
                             id="rating-count"
                             type="number"
@@ -266,7 +272,7 @@ const SurveyControllerComponent = ({
                     {(surveyController.survey_type === "survey" ||
                       surveyController.survey_type === "button") && (
                       <button
-                        className="bg-blue-500 text-white py-2 px-4 rounded w-full"
+                        className="w-full bg-blue-500 text-white font-semibold rounded-lg shadow-md px-4 py-2 transition-all duration-200 hover:bg-blue-600"
                         onClick={handleAddField}
                       >
                         {isEditMode ? "Update Field" : "Add Field"}

@@ -473,7 +473,7 @@ const MasterForm = () => {
             });
             setTemplateHeaderState({
               ...templateHeaderState,
-              success: false,
+              success: true,
               desktop: false,
               mobile: false,
             });
@@ -1161,22 +1161,17 @@ const MasterForm = () => {
               return item.tag !== "bundle";
             })
             .map((item, index) => (
-              <li
-                key={index}
-                className={`border rounded-lg ${
-                  activeIndex === index ? "border-blue-500" : "border-gray-300"
-                }`}
-              >
+              <li key={index} className="rounded-lg bg-custom_gradient">
                 <h3
-                  className="p-4 flex justify-between items-center cursor-pointer font-semibold text-lg"
+                  className="p-4 flex justify-between items-center cursor-pointer font-semibold text-lg text-white"
                   onClick={() => toggleAccordion(index)}
                 >
                   <span> {item.title} </span>
                   <span className="text-sm font-normal">{item.subtitle}</span>
                   <svg
-                    className={`fill-primary ${
+                    className={`fill-white ${
                       item.tag === "block" ? "hidden" : ""
-                    } stroke-primary duration-200 ease-in-out dark:fill-white dark:stroke-white w-6 h-6 transform ${
+                    } stroke-white duration-200 ease-in-out  w-6 h-6 transform ${
                       activeIndex === index ? "rotate-180" : "rotate-0"
                     }`}
                     viewBox="0 0 18 10"
@@ -1350,7 +1345,7 @@ const MasterForm = () => {
                     />
                   )}
                 {activeIndex === index && item.tag === "custom_style" && (
-                  <div className="p-4 border-t">
+                  <div className="p-4 border-t border-white">
                     <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
                       <div className="col-span-12 xl:col-span-12">
                         <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
@@ -1358,22 +1353,15 @@ const MasterForm = () => {
                             <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                               <form action="#">
                                 <div className="p-3">
-                                  <div className="mb-6">
-                                    <label className="mb-2.5 font font-medium text-black dark:text-white block">
-                                      Custom CSS
-                                    </label>
-                                    <div className="mb-6">
-                                      <textarea
-                                        className="w-full mt-2 w-25 border border-gray-300 rounded p-1 h-40"
-                                        id="custom-css"
-                                        name="custom-css"
-                                        value={customCssState}
-                                        onChange={(e) =>
-                                          setCustomCssState(e.target.value)
-                                        }
-                                      />
-                                    </div>
-                                  </div>
+                                    <textarea
+                                      className="w-full mt-2 w-25 border border-gray-300 rounded p-1 h-40"
+                                      id="custom-css"
+                                      name="custom-css"
+                                      value={customCssState}
+                                      onChange={(e) =>
+                                        setCustomCssState(e.target.value)
+                                      }
+                                    />
                                   {/* <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
                                     Save
                                   </button> */}
@@ -1387,7 +1375,7 @@ const MasterForm = () => {
                   </div>
                 )}
                 {activeIndex === index && item.tag === "custom_js" && (
-                  <div className="p-4 border-t">
+                  <div className="p-4 border-t border-white">
                     <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
                       <div className="col-span-12 xl:col-span-12">
                         <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
@@ -1395,22 +1383,16 @@ const MasterForm = () => {
                             <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                               <form action="#">
                                 <div className="p-3">
-                                  <div className="mb-6">
-                                    <label className="mb-2.5 font font-medium text-black dark:text-white block">
-                                      Custom JS
-                                    </label>
-                                    <div className="mb-6">
-                                      <textarea
-                                        id="custom-js"
-                                        name="custom-js"
-                                        className="w-full mt-2 w-25 border border-gray-300 rounded p-1 h-40"
-                                        value={customJsState}
-                                        onChange={(e) =>
-                                          setCustomJsState(e.target.value)
-                                        }
-                                      />
-                                    </div>
-                                  </div>
+                                
+                                    <textarea
+                                      id="custom-js"
+                                      name="custom-js"
+                                      className="w-full mt-2 w-25 border border-gray-300 rounded p-1 h-40"
+                                      value={customJsState}
+                                      onChange={(e) =>
+                                        setCustomJsState(e.target.value)
+                                      }
+                                    />
                                   {/* <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
                                     Save
                                   </button> */}
@@ -1427,8 +1409,9 @@ const MasterForm = () => {
             ))}
           <button
             onClick={advanceSettingHandleChange}
-            className="border rounded-lg border-gray-300 w-full p-4 font-semibold text-lg"
+            className="rounded-lg text-white w-full p-4 font-semibold text-lg bg-custom_gradient"
           >
+            <i className="fa fa-cog mr-2" aria-hidden="true"></i>
             {advanceSetting
               ? "Hide Advanced Settings"
               : "Show Advanced Settings"}

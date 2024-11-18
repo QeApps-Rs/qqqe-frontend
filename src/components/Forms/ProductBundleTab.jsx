@@ -356,222 +356,213 @@ const ProductBundleTab = ({
   return (
     <>
       {loading && <Loader />}
-      <div className="p-4 border-t">
+      <div className="p-4 border-t border-white">
         <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
           <div className="col-span-12 xl:col-span-12">
             <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
               <div className="w-full flex flex-col gap-9">
-                <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                  <form action="#">
-                    <div className="p-3">
-                      <div className="mb-4.5 border-b border-black pb-4">
-                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                          Bundle Settings
-                        </label>
-                        <div className="mt-3 flex justify-between flex-row items-center">
-                          <span>No of Products:</span>
-                          <select
-                            onChange={(e) => onNoOfProductsSelect(e)}
-                            value={noOfProducts}
-                            className="w-32 h-12 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                          >
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                          </select>
-                        </div>
+                <form action="#">
+                  <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
+                    <div className="mb-4.5 border-b border-black pb-4">
+                      <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                        Bundle Settings
+                      </label>
+                      <div className="mt-3 flex justify-between flex-row items-center">
+                        <span>No of Products:</span>
+                        <select
+                          onChange={(e) => onNoOfProductsSelect(e)}
+                          value={noOfProducts}
+                          className="w-32 h-12 rounded border-[1.5px] border-stroke bg-transparent py-3 px-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        >
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                        </select>
                       </div>
-                      <div className="mb-4.5 border-b border-black pb-4">
-                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                          Selected Preference
-                        </label>
-                        <Tabs>
-                          <TabList>
-                            <Tab>Select Product</Tab>
-                            <Tab>Select Collection</Tab>
-                          </TabList>
+                    </div>
+                    <div className="mb-4.5 border-b border-black pb-4">
+                      <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                        Selected Preference
+                      </label>
+                      <Tabs>
+                        <TabList>
+                          <Tab>Select Product</Tab>
+                          <Tab>Select Collection</Tab>
+                        </TabList>
 
-                          <TabPanel
-                            className={
-                              "max-h-60 overflow-y-auto overflow-x-hidden"
-                            }
-                          >
-                            {" "}
-                            {productListState && (
-                              <ProductListComponent
-                                productList={productList}
-                                selectedProducts={selectedProducts}
-                                handleProductCheckboxChange={
-                                  handleProductCheckboxChange
-                                }
-                              />
-                            )}
-                          </TabPanel>
-                          <TabPanel
-                            className={
-                              "max-h-60 overflow-y-auto overflow-x-hidden"
-                            }
-                          >
-                            {" "}
-                            {collectionListState && (
-                              <CollectionListComponent
-                                collectionList={collectionList}
-                                selectedCollections={selectedCollections}
-                                handleCollectionCheckboxChange={
-                                  handleCollectionCheckboxChange
-                                }
-                              />
-                            )}
-                          </TabPanel>
-                        </Tabs>
-                      </div>
+                        <TabPanel
+                          className={
+                            "max-h-60 overflow-y-auto overflow-x-hidden"
+                          }
+                        >
+                          {" "}
+                          {productListState && (
+                            <ProductListComponent
+                              productList={productList}
+                              selectedProducts={selectedProducts}
+                              handleProductCheckboxChange={
+                                handleProductCheckboxChange
+                              }
+                            />
+                          )}
+                        </TabPanel>
+                        <TabPanel
+                          className={
+                            "max-h-60 overflow-y-auto overflow-x-hidden"
+                          }
+                        >
+                          {" "}
+                          {collectionListState && (
+                            <CollectionListComponent
+                              collectionList={collectionList}
+                              selectedCollections={selectedCollections}
+                              handleCollectionCheckboxChange={
+                                handleCollectionCheckboxChange
+                              }
+                            />
+                          )}
+                        </TabPanel>
+                      </Tabs>
+                    </div>
+                    <div className="mb-4.5">
+                      <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                        Targeted Preference
+                      </label>
+                      <Tabs key={"targeted-preference-tabs-1"}>
+                        <TabList key={"targeted-preference-tablist-1"}>
+                          <Tab key={"targeted-preference-tab-1"}>
+                            Select Product
+                          </Tab>
+                          <Tab key={"targeted-preference-tab-2"}>
+                            Select Collection
+                          </Tab>
+                        </TabList>
 
-                      <div className="mb-4.5 border-b border-black pb-4">
-                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                          Targeted Preference
-                        </label>
-                        <Tabs key={"targeted-preference-tabs-1"}>
-                          <TabList key={"targeted-preference-tablist-1"}>
-                            <Tab key={"targeted-preference-tab-1"}>
-                              Select Product
-                            </Tab>
-                            <Tab key={"targeted-preference-tab-2"}>
-                              Select Collection
-                            </Tab>
-                          </TabList>
-
-                          <TabPanel
-                            className={
-                              "max-h-60 overflow-y-auto overflow-x-hidden"
-                            }
-                            key={"targeted-preference-tabpanel-1"}
-                          >
-                            {" "}
-                            {productListState && (
-                              <TargetedProductListComponent
-                                productList={productList}
-                                targetedProducts={targetedProducts}
-                                handleTargetedProductCheckboxChange={
-                                  handleTargetedProductCheckboxChange
-                                }
-                              />
-                            )}
-                          </TabPanel>
-                          <TabPanel
-                            className={
-                              "max-h-60 overflow-y-auto overflow-x-hidden"
-                            }
-                            key={"targeted-preference-tabpanel-2"}
-                          >
-                            {" "}
-                            {collectionListState && (
-                              <TargetedCollectionListComponent
-                                collectionList={collectionList}
-                                targetedCollections={targetedCollections}
-                                handleTargetedCollectionCheckboxChange={
-                                  handleTargetedCollectionCheckboxChange
-                                }
-                              />
-                            )}
-                          </TabPanel>
-                        </Tabs>
-                      </div>
-
-                      <div className="mb-4.5 border-b border-black pb-4">
-                        <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                          Discount Configuration
-                        </label>
-                        <div className="mb-6">
-                          <label className="mb-2.5 block text-black dark:text-white font-medium">
-                            Discount For
-                          </label>
-                          <label className="mb-2.5 block">
-                            <div className="mb-6">
-                              <DropDown
-                                jsonData={discountForDropdown}
-                                selectedValue={productDiscountForDetails} // Pass the value to child
-                                setSelectedValue={setProductDiscountForDetails} // Pass the setter to child
-                              />
-                            </div>
-                          </label>
-                        </div>
-
-                        <div className="mb-6">
-                          <label className="mb-2.5 block text-black dark:text-white font-medium">
-                            Discount Type
-                          </label>
-                          <label className="mb-2.5 block">
-                            <div className="mb-6">
-                              <DropDown
-                                jsonData={discountTypeDropdown}
-                                selectedValue={productDiscountTypeDetails} // Pass the value to child
-                                setSelectedValue={setProductDiscountTypeDetails} // Pass the setter to child
-                              />
-                            </div>
-                          </label>
-                        </div>
-                        <div className="mb-6">
-                          <label className="mb-2.5 block text-black dark:text-white font-medium">
-                            Discount Amount
-                          </label>
-                          <label className="mb-2.5 block">
-                            <div className="mb-6 ">
-                              <input
-                                className="border-[1.5px] border-stroke"
-                                type="number"
-                                name="dis_amount"
-                                id="dis_amount"
-                                value={productDiscountAmountDetails}
-                                onChange={(e) =>
-                                  setProductDiscountAmountDetails(
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </div>
-                          </label>
-                        </div>
+                        <TabPanel
+                          className={
+                            "max-h-60 overflow-y-auto overflow-x-hidden"
+                          }
+                          key={"targeted-preference-tabpanel-1"}
+                        >
+                          {" "}
+                          {productListState && (
+                            <TargetedProductListComponent
+                              productList={productList}
+                              targetedProducts={targetedProducts}
+                              handleTargetedProductCheckboxChange={
+                                handleTargetedProductCheckboxChange
+                              }
+                            />
+                          )}
+                        </TabPanel>
+                        <TabPanel
+                          className={
+                            "max-h-60 overflow-y-auto overflow-x-hidden"
+                          }
+                          key={"targeted-preference-tabpanel-2"}
+                        >
+                          {" "}
+                          {collectionListState && (
+                            <TargetedCollectionListComponent
+                              collectionList={collectionList}
+                              targetedCollections={targetedCollections}
+                              handleTargetedCollectionCheckboxChange={
+                                handleTargetedCollectionCheckboxChange
+                              }
+                            />
+                          )}
+                        </TabPanel>
+                      </Tabs>
+                    </div>
+                  </div>
+                  <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
+                    <div className="mb-4.5 ">
+                      <label className="mb-2.5 block text-black dark:text-white font-semibold">
+                        Discount Configuration
+                      </label>
+                      <div className="mb-6">
+                        <DropDown
+                          jsonData={discountForDropdown}
+                          selectedValue={productDiscountForDetails} // Pass the value to child
+                          setSelectedValue={setProductDiscountForDetails} // Pass the setter to child
+                        />
                       </div>
 
+                      <div className="mb-6">
+                        <DropDown
+                          jsonData={discountTypeDropdown}
+                          selectedValue={productDiscountTypeDetails} // Pass the value to child
+                          setSelectedValue={setProductDiscountTypeDetails} // Pass the setter to child
+                        />
+                      </div>
+                      <div>
+                        <label className="mb-2.5 block text-black dark:text-white font-medium">
+                          Discount Amount
+                        </label>
+                        <input
+                          className="border-[1.5px] border-stroke p-2 w-full"
+                          type="number"
+                          name="dis_amount"
+                          id="dis_amount"
+                          value={productDiscountAmountDetails}
+                          onChange={(e) =>
+                            setProductDiscountAmountDetails(e.target.value)
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="mb-3">
                       <SwitcherThree
                         label="Open in new tab"
                         enabled={switchStates.openInNewTab}
                         onToggle={() => handleToggle("openInNewTab")}
                       />
+                    </div>
+                    <div className="mb-3">
                       <SwitcherThree
                         label="Image"
                         enabled={switchStates.image}
                         onToggle={() => handleToggle("image")}
                       />
+                    </div>
+                    <div className="mb-3">
                       <SwitcherThree
                         label="Name"
                         enabled={switchStates.name}
                         onToggle={() => handleToggle("name")}
                       />
+                    </div>
+                    <div className="mb-3">
                       <SwitcherThree
                         label="Sku"
                         enabled={switchStates.sku}
                         onToggle={() => handleToggle("sku")}
                       />
+                    </div>
+                    <div className="mb-3">
                       <SwitcherThree
                         label="Price"
                         enabled={switchStates.price}
                         onToggle={() => handleToggle("price")}
                       />
+                    </div>
+                    <div className="mb-3">
                       <SwitcherThree
                         label="Variant Swatch"
                         enabled={switchStates.variantSwatch}
                         onToggle={() => handleToggle("variantSwatch")}
                       />
+                    </div>
+                    <div className="mb-3">
                       <SwitcherThree
                         label="ATC Button"
                         enabled={switchStates.atcButton}
                         onToggle={() => handleToggle("atcButton")}
                       />
                     </div>
-                  </form>
-                </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
