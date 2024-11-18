@@ -211,7 +211,7 @@ export const formTypeDropdown = {
 };
 
 export const discountForDropdown = {
-  label: "Select discount for",
+  label: " Discount For",
   placeholder: "Select discount for",
   options: [
     { value: "dis_for_order", label: "Order" },
@@ -230,7 +230,7 @@ export const discountForDropdown = {
 };
 
 export const discountTypeDropdown = {
-  label: "",
+  label: "Discount Type",
   placeholder: "Select discount type",
   options: [
     { value: "dis_type_amt", label: "Fixed Amount" },

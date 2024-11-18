@@ -52,7 +52,7 @@ const Sidebar = () => {
 
       <div
         className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear "
-        style={{ maxHeight: "calc(100% - 400px)" }}
+        style={{ maxHeight: "calc(100% - 180px)" }}
       >
         {/* <!-- Sidebar Menu --> */}
 
@@ -73,47 +73,6 @@ const Sidebar = () => {
         </nav>
         <div className="fixed w-20 bottom-0 flex left-0 pb-4">
           <div className="grid justify-center text-center w-full">
-            <Link
-              to="https://web.whatsapp.com/"
-              className="min-h-10 items-center flex justify-center"
-              target="#"
-            >
-              <i
-                className="fa fa-whatsapp bg-green-500  text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
-                aria-hidden="true"
-              ></i>
-            </Link>{" "}
-          
-            <Link
-              to="https://calendly.com/"
-              className="min-h-10 items-center flex justify-center"
-              target="#"
-            >
-              <i
-                className="fa fa-calendar-check-o bg-blue-400  text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
-                aria-hidden="true"
-              ></i>
-            </Link>{" "}
-            <Link
-              to="https://www.tawk.to/"
-              className="min-h-10 items-center flex justify-center"
-              target="#"
-            >
-              <i
-                className="fa fa-commenting bg-pink-400  text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
-                aria-hidden="true"
-              ></i>
-            </Link>{" "}
-            <Link
-              to="https://www.calrik.com/"
-              className="min-h-10 items-center flex justify-center "
-              target="#"
-            >
-              <i
-                className="fa fa-phone bg-cyan-300  text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
-                aria-hidden="true"
-              ></i>
-            </Link>
             <DropdownNotification />
             <DropdownHelp />
             <DropdownUser />
