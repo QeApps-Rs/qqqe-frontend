@@ -1,118 +1,7 @@
 import { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const EventTrack = {
-  today: {
-    "2024-10-18": {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [10, 0, 30, 0, 0],
-    },
-  },
-  weekly: {
-    "2024-10-18": {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [0,0,0,0,0],
-    },
-    "2024-10-17": {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [25, 20, 10, 10, 25],
-    },
-    "2024-10-16": {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [45, 16, 27, 50, 30],
-    },
-    "2024-10-15": {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [25, 36, 17, 20, 10],
-    },
-    "2024-10-14": {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [15, 46, 37, 35, 22],
-    },
-    "2024-10-13": {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [35, 36, 37, 30, 30],
-    },
-    "2024-10-12": {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [25, 26, 27, 20, 20],
-    },
-  },
-  monthly: {
-    january: {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [25, 26, 17, 30, 20],
-    },
-    february: {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [35, 16, 67, 30, 20],
-    },
-    march: {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [15, 26, 17, 30, 20],
-    },
-    april: {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [35, 16, 27, 40, 10],
-    },
-    may: {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [15, 26, 17, 30, 20],
-    },
-    june: {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [35, 16, 27, 20, 40],
-    },
-    july: {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [25, 46, 57, 10, 20],
-    },
-    august: {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [15, 26, 17, 30, 20],
-    },
-    september: {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [19, 28, 47, 20, 20],
-    },
-    october: {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [15, 26, 17, 30, 20],
-    },
-    november: {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [15, 26, 17, 30, 20],
-    },
-    december: {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [15, 26, 17, 30, 20],
-    },
-  },
-  yearly: {
-    2024: {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [15, 26, 17, 30, 20],
-    },
-    2023: {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [55, 46, 27, 30, 20],
-    },
-    2022: {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [35, 16, 17, 30, 20],
-    },
-    2021: {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [15, 26, 17, 30, 20],
-    },
-    2020: {
-      label: ["home", "product", "collection", "cart", "checkout"],
-      count: [12, 24, 11, 20, 20],
-    },
-  },
-};
-
-const TrackEventChart = () => {
+const TrackEventChart = ({ EventTrack }) => {
   const [timeframe, setTimeframe] = useState("weekly");
 
   const categories = Object.keys(EventTrack[timeframe]);
@@ -127,6 +16,7 @@ const TrackEventChart = () => {
     { name: "Collection", data: seriesData.map((day) => day[2]) },
     { name: "Cart", data: seriesData.map((day) => day[3]) },
     { name: "Checkout", data: seriesData.map((day) => day[4]) },
+    { name: "Blog", data: seriesData.map((day) => day[5]) },
   ];
 
   const options = {

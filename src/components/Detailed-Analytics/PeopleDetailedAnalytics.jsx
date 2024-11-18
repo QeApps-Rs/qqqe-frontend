@@ -51,7 +51,7 @@ const PeopleDetailedAnalytics = () => {
   const [loading, setLoading] = useState(false);
   const [isBeforeDetails, setIsBeforeDetails] = useState({
     dateFilterType: "before",
-    date: "2024-08-01",
+    date: "2024-11-18",
   });
   const handleTabClick = (tab) => {
     setIsBeforeDetails({
@@ -259,17 +259,17 @@ const PeopleDetailedAnalytics = () => {
             "customerPageFlowGraphState"
           ),
           fetchDataHandler(
-            "new/abandonCheckout/orderSales/count",
+            `new/abandonCheckout/orderSales/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "abandonOrderSalesData",
             "abandonOrderSalesDataGraphState"
           ),
           fetchDataHandler(
-            "new/abandonCheckout/product/count",
+            `new/abandonCheckout/product/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "abandonProductsData",
             "abandonProductsDataGraphState"
           ),
           fetchDataHandler(
-            "new/TotalTime/pages/count",
+            `new/TotalTime/pages/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "totalPagesTimeSpentData",
             "totalPagesTimeSpentDataGraphState"
           ),
@@ -294,7 +294,7 @@ const PeopleDetailedAnalytics = () => {
             "customerLostTrackDataGraphState"
           ),
           fetchDataHandler(
-            "new/event/tracking/count",
+            `new/event/tracking/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "eventTrackingForClicksData",
             "eventTrackingForClicksGraphState"
           ),
