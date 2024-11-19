@@ -132,7 +132,11 @@ const DashboardCard = () => {
 
       try {
         await Promise.all([
-          fetchDataHandler("customerJourney", "visitorsData", null),
+          fetchDataHandler(
+            `customerJourney?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
+            "visitorsData",
+            null
+          ),
 
           fetchDataHandler(
             `new/device/mobile/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,

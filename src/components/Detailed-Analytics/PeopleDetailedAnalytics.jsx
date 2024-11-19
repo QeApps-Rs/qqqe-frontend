@@ -57,7 +57,7 @@ const PeopleDetailedAnalytics = () => {
     setIsBeforeDetails({
       ...isBeforeDetails,
       dateFilterType: tab,
-    })
+    });
   };
   const [graphData, setGraphData] = useState({
     visitorsData: [],
@@ -70,7 +70,6 @@ const PeopleDetailedAnalytics = () => {
     countryWiseCustomerData: {},
     mostVisitedProducts: [],
     mostPurchasedProducts: [],
-    unSoldProducts: [],
     bestSellingProducts: [],
     mostATCProducts: [],
     customerPageFlowData: [],
@@ -99,7 +98,6 @@ const PeopleDetailedAnalytics = () => {
     countryWiseCustomerGraphState: false,
     mostVisitedProductsGraphState: false,
     mostPurchasedProductsGraphState: false,
-    unSoldProductsGraphState: false,
     bestSellingProductsGraphState: false,
     mostATCProductsGraphState: false,
     customerPageFlowGraphState: false,
@@ -139,7 +137,7 @@ const PeopleDetailedAnalytics = () => {
               [dataKey]: visitorsData,
             }));
           });
-        }  else if (dataKey == "countryWiseCustomerData") {
+        } else if (dataKey == "countryWiseCustomerData") {
           setGraphData((prevState) => ({
             ...prevState,
             [dataKey]: response?.data?.countryWiseCustomerData,
@@ -164,7 +162,7 @@ const PeopleDetailedAnalytics = () => {
             ...prevState,
             [dataKey]: response?.data?.most_visited_categories,
           }));
-        }else if (dataKey == "mostVisitedPagesData") {
+        } else if (dataKey == "mostVisitedPagesData") {
           setGraphData((prevState) => ({
             ...prevState,
             [dataKey]: response?.data?.most_visited_pages,
@@ -192,9 +190,13 @@ const PeopleDetailedAnalytics = () => {
 
       try {
         await Promise.all([
-          fetchDataHandler("customerJourney", "visitorsData", null),
           fetchDataHandler(
-            "new/order/sales/count",
+            `customerJourney?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
+            "visitorsData",
+            null
+          ),
+          fetchDataHandler(
+            `new/order/sales/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "totalSalesData",
             "totalSalesGraphState"
           ),
@@ -239,22 +241,17 @@ const PeopleDetailedAnalytics = () => {
             "mostPurchasedProductsGraphState"
           ),
           fetchDataHandler(
-            "new/unSold/product/count",
-            "unSoldProducts",
-            "unSoldProductsGraphState"
-          ),
-          fetchDataHandler(
-            "new/bestSelling/product/count",
+            `new/bestSelling/product/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "bestSellingProducts",
             "bestSellingProductsGraphState"
           ),
           fetchDataHandler(
-            "new/mostATC/product/count",
+            `new/mostATC/product/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "mostATCProducts",
             "mostATCProductsGraphState"
           ),
           fetchDataHandler(
-            "new/pageFlow/customer/count",
+            `new/pageFlow/customer/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "customerPageFlowData",
             "customerPageFlowGraphState"
           ),
@@ -274,7 +271,7 @@ const PeopleDetailedAnalytics = () => {
             "totalPagesTimeSpentDataGraphState"
           ),
           fetchDataHandler(
-            "new/mostTime/pages/count",
+            `new/mostTime/pages/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "mostTimeSpentData",
             "mostTimeSpentDataGraphState"
           ),
@@ -289,7 +286,7 @@ const PeopleDetailedAnalytics = () => {
             "customerDistributionByPageDataGraphState"
           ),
           fetchDataHandler(
-            "new/lostTracking/customer/count",
+            `new/lostTracking/customer/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "customerLostTrackData",
             "customerLostTrackDataGraphState"
           ),
@@ -304,12 +301,12 @@ const PeopleDetailedAnalytics = () => {
             "mostVisitedCategoriesGraphState"
           ),
           fetchDataHandler(
-            "new/averageTime-spent/pages/count",
+            `new/averageTime-spent/pages/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "pageWiseAvgData",
             "pageWiseAvgGraphState"
           ),
           fetchDataHandler(
-            "new/averageTime-spent/site/count",
+            `new/averageTime-spent/site/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "wholeSiteData",
             "wholeSiteGraphState"
           ),
@@ -510,19 +507,6 @@ const PeopleDetailedAnalytics = () => {
   //////////         for sales   and orders        ////////////////
 
   ///////////////////////   products   ///////////////////////
-
-  const un_sold_products = [
-    { product_name: "7 Shakra Bracelet - Blue", product_count: "50" },
-    { product_name: "Anchor Bracelet Mens - Gold", product_count: "47" },
-    { product_name: "Antique Drawers", product_count: "41" },
-    { product_name: "Bangle Bracelet", product_count: "38" },
-    { product_name: "Bedside Table", product_count: "37" },
-    { product_name: "The Collection Snowboard: Hydrogen", product_count: "36" },
-    { product_name: "The Complete Snowboard", product_count: "35" },
-    { product_name: "The Compare at Price Snowboard", product_count: "33" },
-    { product_name: "The Hidden Snowboard", product_count: "32" },
-    { product_name: "The Videographer Snowboard", product_count: "30" },
-  ];
 
   const [visitedSelectedFilter, setVisitedSelectedFilter] = useState(5); // Default to "Top 5"
 
@@ -962,8 +946,8 @@ const PeopleDetailedAnalytics = () => {
 
             <div className={colFourGraph}>
               <DashboardTitle title={"Total & Average Sales (Today)"} />
-
-              {chartState?.totalSalesGraphState == true ? (
+              <>Working On It</>
+              {/* {chartState?.totalSalesGraphState == true ? (
                 <ColumnMultiSeriesChart
                   salesData={graphData?.totalSalesData?.TodaySales}
                   dateRange={[
@@ -973,7 +957,7 @@ const PeopleDetailedAnalytics = () => {
                 />
               ) : (
                 <NoDataFound />
-              )}
+              )} */}
             </div>
             <div className={colFourGraph}>
               <DashboardTitle title={"Total & Average Sales (Weekly)"} />
@@ -1175,12 +1159,6 @@ const PeopleDetailedAnalytics = () => {
                 <NoDataFound />
               )}
             </div>
-            <div className={colSixGraph}>
-              <DashboardTitle title={"Un Sold Products"} />
-
-              <RangeBarChart data={un_sold_products} />
-            </div>
-
             <div className={colSixGraph}>
               <DashboardTitle title={"Most ATC Products"} />
 
