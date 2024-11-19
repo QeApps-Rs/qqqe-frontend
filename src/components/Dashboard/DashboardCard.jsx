@@ -766,7 +766,7 @@ const DashboardCard = () => {
             priorityCount={peoplePriorityCount}
           />
           <div className="w-full flex">
-            <div className="w-1/2 flex items-center  justify-end">
+            <div className="sm:w-1/2 w-full flex items-center  sm:justify-end justify-center">
               <i
                 className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
                 aria-hidden="true"
@@ -775,7 +775,7 @@ const DashboardCard = () => {
                 People Analytics
               </h2>
             </div>
-            <div className="w-1/2 flex justify-end">
+            <div className="sm:w-1/2 w-full sm:mt-0 mt-4 flex justify-end">
               <button
                 onClick={() => handleTabClick("before")}
                 className={`px-5 py-3 font-semibold text-black rounded-lg mx-2 transition-all duration-300 ${
