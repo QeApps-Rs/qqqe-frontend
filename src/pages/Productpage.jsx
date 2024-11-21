@@ -59,6 +59,11 @@ const Productpage = () => {
     mostATCProductsGraphState: false,
   });
 
+  const [selectedTab, setSelectedTab] = useState("before");
+  const handleTabClick = (tab) => {
+    setSelectedTab(tab);
+  };
+
   // Reusable function to handle fetching and updating state
   const fetchDataHandler = async (url, dataKey, graphState) => {
     try {
@@ -834,6 +839,7 @@ const Productpage = () => {
     </div>
   );
 
+
   return (
     <>
       {loading && <Loader />}
@@ -861,16 +867,39 @@ const Productpage = () => {
             category={category}
             priorityCount={productPriorityCount}
           />
-          <div className="flex items-center justify-center">
-            <div className="flex items-center">
+          
+          <div className="w-full flex flex-wrap">
+            <div className="sm:w-1/2 w-full flex items-center  sm:justify-end justify-center">
               <i
                 className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
                 aria-hidden="true"
               ></i>
-            </div>
-            <h2 className="text-title-md2 font-semibold text-black dark:text-white pl-2">
+              <h2 className="text-title-md2 font-semibold text-black dark:text-white pl-2 ">
               Product Analytics
-            </h2>
+              </h2>
+            </div>
+            <div className="sm:w-1/2 w-full sm:mt-0 mt-4 flex justify-end">
+              <button
+                onClick={() => handleTabClick("before")}
+                className={`px-5 py-3 font-semibold text-black rounded-lg mx-2 transition-all duration-300 ${
+                  selectedTab === "before"
+                    ? "bg-dashboard_gradient text-white shadow-lg transform scale-105"
+                    : "bg-gray-300 hover:bg-gray-400"
+                }`}
+              >
+                Before
+              </button>
+              <button
+                onClick={() => handleTabClick("after")}
+                className={`px-5 py-3 font-semibold text-black rounded-lg mx-2 transition-all duration-300 ${
+                  selectedTab === "after"
+                    ? "bg-dashboard_gradient text-white shadow-lg transform scale-105"
+                    : "bg-gray-300 hover:bg-gray-400"
+                }`}
+              >
+                After
+              </button>
+            </div>
           </div>
           <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
           <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">

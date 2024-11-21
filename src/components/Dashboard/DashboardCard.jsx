@@ -765,7 +765,7 @@ const DashboardCard = () => {
             category={category}
             priorityCount={peoplePriorityCount}
           />
-          <div className="w-full flex">
+          <div className="w-full flex flex-wrap">
             <div className="sm:w-1/2 w-full flex items-center  sm:justify-end justify-center">
               <i
                 className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
