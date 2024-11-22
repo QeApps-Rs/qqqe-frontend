@@ -196,12 +196,12 @@ const PeopleDetailedAnalytics = () => {
             null
           ),
           fetchDataHandler(
-            `new/order/sales/count`,
+            `new/order/sales/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "totalSalesData",
             "totalSalesGraphState"
           ),
           fetchDataHandler(
-            "new/order/averageSales/count",
+            `new/order/averageSales/count?date=${isBeforeDetails?.date}&dateFilterType=${isBeforeDetails?.dateFilterType}`,
             "totalOrderData",
             "totalOrderGraphState"
           ),
@@ -858,7 +858,7 @@ const PeopleDetailedAnalytics = () => {
       </p>
     </div>
   );
-
+console.log('graphData?.totalOrderData', graphData?.totalOrderData)
   return (
     <>
       {loading && <Loader />}
@@ -967,10 +967,25 @@ const PeopleDetailedAnalytics = () => {
                 <NoDataFound />
               )}
             </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Total & Average Order Count (Yearly)"} />
 
-            <div className={colFourGraph}>
+              {chartState?.totalOrderGraphState == true ? (
+                <ColumnMultiSeriesChartOrder
+                  orderData={
+                    graphData?.totalOrderData?.yearlySalesResponse?.chart_data
+                  }
+                  dateRange={Object.keys(
+                    graphData?.totalOrderData?.yearlySalesResponse?.chart_data
+                  )}
+                  isToday={false}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            {/* <div className={colFourGraph}>
               <DashboardTitle title={"Total & Average Sales (Today)"} />
-              <>Working On It</>
               {chartState?.totalSalesGraphState == true ? (
                 <ColumnMultiSeriesChart
                   salesData={graphData?.totalSalesData?.TodaySales}
@@ -992,8 +1007,7 @@ const PeopleDetailedAnalytics = () => {
                     graphData?.totalSalesData?.weeklySalesResponse?.chart_data
                   }
                   dateRange={Object.keys(
-                    graphData?.totalOrderData?.combinedWeeklySalesResponse
-                      ?.chart_data
+                    graphData?.totalSalesData?.weeklySalesResponse?.chart_data
                   )}
                   isToday={false}
                   color={["#FF4560", "#FF9800"]}
@@ -1001,8 +1015,8 @@ const PeopleDetailedAnalytics = () => {
               ) : (
                 <NoDataFound />
               )}
-            </div>
-            <div className={colFourGraph}>
+            </div> */}
+            <div className={colSixGraph}>
               <DashboardTitle title={"Total & Average Sales (Yearly)"} />
 
               {chartState?.totalOrderGraphState == true &&
@@ -1012,7 +1026,7 @@ const PeopleDetailedAnalytics = () => {
                     graphData?.totalSalesData?.yearSalesData?.chart_data
                   }
                   dateRange={Object.keys(
-                    graphData?.totalOrderData?.yearlySalesResponse?.chart_data
+                    graphData?.totalSalesData?.yearSalesData?.chart_data
                   )}
                   isToday={false}
                   color={["#775DD0", "#FEB019"]}
@@ -1031,7 +1045,7 @@ const PeopleDetailedAnalytics = () => {
                     graphData?.totalSalesData?.monthSalesData?.chart_data
                   }
                   dateRange={Object.keys(
-                    graphData?.totalOrderData?.monthlySalesResponse.chart_data
+                    graphData?.totalSalesData?.monthSalesData?.chart_data
                   )}
                   isToday={false}
                   color={["#008FFB", "#FF4560"]}
@@ -1041,7 +1055,7 @@ const PeopleDetailedAnalytics = () => {
               )}
             </div>
 
-            <div className={colFourGraph}>
+            {/* <div className={colFourGraph}>
               <DashboardTitle title={"Total & Average Order Count (Today)"} />
 
               {chartState?.totalOrderGraphState == true ? (
@@ -1074,24 +1088,8 @@ const PeopleDetailedAnalytics = () => {
               ) : (
                 <NoDataFound />
               )}
-            </div>
-            <div className={colFourGraph}>
-              <DashboardTitle title={"Total & Average Order Count (Yearly)"} />
-
-              {chartState?.totalOrderGraphState == true ? (
-                <ColumnMultiSeriesChartOrder
-                  orderData={
-                    graphData?.totalOrderData?.yearlySalesResponse?.chart_data
-                  }
-                  dateRange={Object.keys(
-                    graphData?.totalOrderData?.yearlySalesResponse?.chart_data
-                  )}
-                  isToday={false}
-                />
-              ) : (
-                <NoDataFound />
-              )}
-            </div>
+            </div> */}
+          
             <div className={colFullWidthGraph}>
               <DashboardTitle title={"Total & Average Order Count (Monthly)"} />
 

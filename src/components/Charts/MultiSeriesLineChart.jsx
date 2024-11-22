@@ -74,8 +74,8 @@ const MultiSeriesLineChart = ({
       setChartState((prevState) => ({
         ...prevState,
         series: [
-          { name: "Total Sales", data: salesValues },
-          { name: "Average Sales", data: averageValues },
+          { name: "Total Orders", data: salesValues },
+          { name: "Average Orders", data: averageValues },
         ],
         options: {
           ...prevState.options,
