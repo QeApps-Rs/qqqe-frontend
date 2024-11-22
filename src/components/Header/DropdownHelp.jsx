@@ -8,7 +8,8 @@ const DropdownHelp = () => {
 
   const dropDownDivClass = "flex flex-col border-stroke";
 
-  const menuItemClasses = "flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base";
+  const menuItemClasses =
+    "flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base";
   return (
     <>
       <ClickOutside onClick={() => setDropdownOpen(false)}>

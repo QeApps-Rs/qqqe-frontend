@@ -1,4 +1,4 @@
-import  {  useRef } from "react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 import SidebarLink from "./SidebarLink";
 import smallLogo from "../../images/favicon-A.png";
@@ -7,9 +7,8 @@ import DropdownNotification from "../Header/DropdownNotification";
 import DropdownHelp from "../Header/DropdownHelp";
 
 const Sidebar = () => {
-
   const sidebar = useRef(null);
-  
+
   const sidebarLinks = [
     {
       href: "/app-dashboard",
@@ -73,6 +72,14 @@ const Sidebar = () => {
         </nav>
         <div className="fixed w-20 bottom-0 flex left-0 pb-4">
           <div className="grid justify-center text-center w-full">
+            <Link to={"/changelog"}>
+              <div className="min-h-10 items-center flex justify-center cursor-pointer">
+                <i
+                  className="fa fa-refresh text-[20px] bg-[#907dfff0] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
+                  aria-hidden="true"
+                ></i>
+              </div>
+            </Link>
             <DropdownNotification />
             <DropdownHelp />
             <DropdownUser />
