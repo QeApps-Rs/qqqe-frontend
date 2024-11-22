@@ -225,13 +225,7 @@ const Campaigns = () => {
               ].map((key, index) => (
                 <div className="col-span-1 flex items-center" key={index}>
                   <p className="text-sm text-graydark">
-                    {key === "date_created"
-                      ? product.applied_at
-                      : key === "conversions_rate"
-                      ? product[key]
-                        ? `${product[key]}%`
-                        : "0%"
-                      : product[key] || 0}
+                      {product.campaignResult[key]}
                   </p>
                 </div>
               ))}
