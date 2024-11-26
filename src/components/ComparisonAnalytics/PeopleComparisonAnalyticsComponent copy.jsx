@@ -609,222 +609,11 @@ const PeopleDetailedAnalytics = () => {
 
   const filteredCustomerData = customerFilteredData();
 
+  // Extract series (order counts) and labels (customer names) from filtered data
   const seriesCustomer = filteredCustomerData.map(
     (customer) => customer.orderCount
   );
   const labels = filteredCustomerData.map((customer) => customer.customerName);
-
-  const customerPageViewData = [
-    {
-      entryPage: "home",
-      exitPage: "cart",
-    },
-    {
-      entryPage: "product",
-      exitPage: "collection",
-    },
-    {
-      entryPage: "home",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "collection",
-      exitPage: "product",
-    },
-    {
-      entryPage: "cart",
-      exitPage: "pages",
-    },
-
-    {
-      entryPage: "home",
-      exitPage: "cart",
-    },
-    {
-      entryPage: "product",
-      exitPage: "cart",
-    },
-    {
-      entryPage: "home",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "collection",
-      exitPage: "cart",
-    },
-    {
-      entryPage: "cart",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "home",
-      exitPage: "product",
-    },
-    {
-      entryPage: "product",
-      exitPage: "cart",
-    },
-    {
-      entryPage: "collection",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "pages",
-      exitPage: "cart",
-    },
-    {
-      entryPage: "home",
-      exitPage: "collection",
-    },
-
-    {
-      entryPage: "home",
-      exitPage: "cart",
-    },
-    {
-      entryPage: "product",
-      exitPage: "collection",
-    },
-
-    {
-      entryPage: "home",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "collection",
-      exitPage: "product",
-    },
-
-    {
-      entryPage: "cart",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "home",
-      exitPage: "product",
-    },
-
-    {
-      entryPage: "cart",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "home",
-      exitPage: "product",
-    },
-
-    {
-      entryPage: "cart",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "home",
-      exitPage: "product",
-    },
-
-    {
-      entryPage: "cart",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "home",
-      exitPage: "product",
-    },
-
-    {
-      entryPage: "cart",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "home",
-      exitPage: "product",
-    },
-
-    {
-      entryPage: "cart",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "home",
-      exitPage: "product",
-    },
-
-    {
-      entryPage: "cart",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "home",
-      exitPage: "product",
-    },
-
-    {
-      entryPage: "cart",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "home",
-      exitPage: "product",
-    },
-
-    {
-      entryPage: "cart",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "home",
-      exitPage: "product",
-    },
-
-    {
-      entryPage: "cart",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "home",
-      exitPage: "product",
-    },
-
-    {
-      entryPage: "home",
-      exitPage: "cart",
-    },
-    {
-      entryPage: "product",
-      exitPage: "collection",
-    },
-
-    {
-      entryPage: "home",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "collection",
-      exitPage: "product",
-    },
-
-    {
-      entryPage: "cart",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "home",
-      exitPage: "product",
-    },
-    {
-      entryPage: "product",
-      exitPage: "cart",
-    },
-
-    {
-      entryPage: "collection",
-      exitPage: "pages",
-    },
-    {
-      entryPage: "pages",
-      exitPage: "cart",
-    },
-  ];
 
   const DashboardTitle = ({ title }) => {
     return (
@@ -908,8 +697,8 @@ const PeopleDetailedAnalytics = () => {
           </div>
           <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
           <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
-            <div className={colFullWidthGraph}>
-              <DashboardTitle title={"One Time & Multi Time Customer"} />
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before One Time & Multi Time Customer"} />
 
               {chartState?.timeCustomersGraphState == true ? (
                 <OneTimeMultiTimeCustomer
@@ -919,17 +708,19 @@ const PeopleDetailedAnalytics = () => {
                 <NoDataFound />
               )}
             </div>
-            <div className={colFourGraph}>
-              <DashboardTitle title={"Total Visitors Today"} />
+            <div className={colSixGraph}>
+              <DashboardTitle title={"After One Time & Multi Time Customer"} />
 
-              {filteredData.length > 0 ? (
-                <RadarChart series={series} categories={categories} />
+              {chartState?.timeCustomersGraphState == true ? (
+                <OneTimeMultiTimeCustomer
+                  customerData={graphData?.timeCustomersData}
+                />
               ) : (
                 <NoDataFound />
               )}
             </div>
-            <div className={colFourGraph}>
-              <DashboardTitle title={"Total Visitors Monthly"} />
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Total Visitors Monthly"} />
               {monthData.length > 0 ? (
                 <LineChart
                   series={monthSeries}
@@ -943,8 +734,23 @@ const PeopleDetailedAnalytics = () => {
                 <NoDataFound />
               )}
             </div>
-            <div className={colFourGraph}>
-              <DashboardTitle title={"Total Visitors Yearly"} />
+            <div className={colSixGraph}>
+              <DashboardTitle title={"After Total Visitors Monthly"} />
+              {monthData.length > 0 ? (
+                <LineChart
+                  series={monthSeries}
+                  categories={monthCategories}
+                  yAxisTitle="Number Of Visitors"
+                  xAxisTitle="Months"
+                  color="green"
+                  curve="smooth"
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Total Visitors Yearly"} />
 
               {yearData.length > 0 ? (
                 <ColumnChart chartData={chartData} />
@@ -952,21 +758,20 @@ const PeopleDetailedAnalytics = () => {
                 <NoDataFound />
               )}
             </div>
-            <div className={colFullWidthGraph}>
-              <DashboardTitle title={"Total Visitors Weekly"} />
-              {weekData.length > 0 ? (
-                <AreaChart
-                  series={weekSeries}
-                  categories={weekCategories}
-                  yAxisTitle="Number Of Visitor"
-                  xAxisTitle="Date Of Week"
-                />
+            <div className={colSixGraph}>
+              <DashboardTitle title={"After Total Visitors Yearly"} />
+
+              {yearData.length > 0 ? (
+                <ColumnChart chartData={chartData} />
               ) : (
                 <NoDataFound />
               )}
             </div>
+            {/*
             <div className={colSixGraph}>
-              <DashboardTitle title={"Total & Average Order Count (Yearly)"} />
+              <DashboardTitle
+                title={"Before Total & Average Order Count (Yearly)"}
+              />
 
               {chartState?.totalOrderGraphState == true ? (
                 <ColumnMultiSeriesChartOrder
@@ -982,40 +787,27 @@ const PeopleDetailedAnalytics = () => {
                 <NoDataFound />
               )}
             </div>
-            {/* <div className={colFourGraph}>
-              <DashboardTitle title={"Total & Average Sales (Today)"} />
-              {chartState?.totalSalesGraphState == true ? (
-                <ColumnMultiSeriesChart
-                  salesData={graphData?.totalSalesData?.TodaySales}
-                  dateRange={[
-                    graphData?.totalSalesData?.TodaySales?.start_date,
-                  ]}
-                  isToday={true}
+            <div className={colSixGraph}>
+              <DashboardTitle
+                title={"After Total & Average Order Count (Yearly)"}
+              />
+
+              {chartState?.totalOrderGraphState == true ? (
+                <ColumnMultiSeriesChartOrder
+                  orderData={
+                    graphData?.totalOrderData?.yearlySalesResponse?.chart_data
+                  }
+                  dateRange={Object.keys(
+                    graphData?.totalOrderData?.yearlySalesResponse?.chart_data
+                  )}
+                  isToday={false}
                 />
               ) : (
                 <NoDataFound />
               )}
             </div>
-            <div className={colFourGraph}>
-              <DashboardTitle title={"Total & Average Sales (Weekly)"} />
-              {chartState?.totalOrderGraphState == true &&
-              chartState?.totalSalesGraphState == true ? (
-                <LineMultiSeriesChart
-                  salesData={
-                    graphData?.totalSalesData?.weeklySalesResponse?.chart_data
-                  }
-                  dateRange={Object.keys(
-                    graphData?.totalSalesData?.weeklySalesResponse?.chart_data
-                  )}
-                  isToday={false}
-                  color={["#FF4560", "#FF9800"]}
-                />
-              ) : (
-                <NoDataFound />
-              )}
-            </div> */}
             <div className={colSixGraph}>
-              <DashboardTitle title={"Total & Average Sales (Yearly)"} />
+              <DashboardTitle title={"Before Total & Average Sales (Yearly)"} />
 
               {chartState?.totalOrderGraphState == true &&
               chartState?.totalSalesGraphState == true ? (
@@ -1033,8 +825,29 @@ const PeopleDetailedAnalytics = () => {
                 <NoDataFound />
               )}
             </div>
-            <div className={colFullWidthGraph}>
-              <DashboardTitle title={"Total & Average Sales (Monthly)"} />
+            <div className={colSixGraph}>
+              <DashboardTitle title={"After Total & Average Sales (Yearly)"} />
+
+              {chartState?.totalOrderGraphState == true &&
+              chartState?.totalSalesGraphState == true ? (
+                <LineMultiSeriesChart
+                  salesData={
+                    graphData?.totalSalesData?.yearSalesData?.chart_data
+                  }
+                  dateRange={Object.keys(
+                    graphData?.totalSalesData?.yearSalesData?.chart_data
+                  )}
+                  isToday={false}
+                  color={["#775DD0", "#FEB019"]}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle
+                title={"Before Total & Average Sales (Monthly)"}
+              />
 
               {chartState?.totalOrderGraphState == true &&
               chartState?.totalSalesGraphState == true ? (
@@ -1052,44 +865,29 @@ const PeopleDetailedAnalytics = () => {
                 <NoDataFound />
               )}
             </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"After Total & Average Sales (Monthly)"} />
 
-            {/* <div className={colFourGraph}>
-              <DashboardTitle title={"Total & Average Order Count (Today)"} />
-
-              {chartState?.totalOrderGraphState == true ? (
-                <ColumnMultiSeriesChartOrder
-                  orderData={graphData?.totalOrderData?.TodaySales}
-                  dateRange={[
-                    graphData?.totalOrderData?.TodaySales?.start_date,
-                  ]}
-                  isToday={true}
+              {chartState?.totalOrderGraphState == true &&
+              chartState?.totalSalesGraphState == true ? (
+                <LineMultiSeriesChart
+                  salesData={
+                    graphData?.totalSalesData?.monthSalesData?.chart_data
+                  }
+                  dateRange={Object.keys(
+                    graphData?.totalSalesData?.monthSalesData?.chart_data
+                  )}
+                  isToday={false}
+                  color={["#008FFB", "#FF4560"]}
                 />
               ) : (
                 <NoDataFound />
               )}
             </div>
-
-            <div className={colFourGraph}>
-              <DashboardTitle title={"Total & Average Order Count (Weekly)"} />
-
-              {chartState?.totalOrderGraphState == true ? (
-                <LineChartDashedData
-                  orderData={
-                    graphData?.totalOrderData?.combinedWeeklySalesResponse
-                  }
-                  dateRange={Object.keys(
-                    graphData?.totalOrderData?.combinedWeeklySalesResponse
-                      ?.chart_data
-                  )}
-                  isToday={false}
-                />
-              ) : (
-                <NoDataFound />
-              )}
-            </div> */}
-          
-            <div className={colFullWidthGraph}>
-              <DashboardTitle title={"Total & Average Order Count (Monthly)"} />
+            <div className={colSixGraph}>
+              <DashboardTitle
+                title={"Before Total & Average Order Count (Monthly)"}
+              />
 
               {chartState?.totalSalesGraphState == true &&
               chartState?.totalOrderGraphState == true ? (
@@ -1107,7 +905,27 @@ const PeopleDetailedAnalytics = () => {
               )}
             </div>
             <div className={colSixGraph}>
-              <DashboardTitle title={"Mobile User"} />
+              <DashboardTitle
+                title={"After Total & Average Order Count (Monthly)"}
+              />
+
+              {chartState?.totalSalesGraphState == true &&
+              chartState?.totalOrderGraphState == true ? (
+                <MultiSeriesLineChart
+                  orderData={
+                    graphData?.totalOrderData?.monthlySalesResponse?.chart_data
+                  }
+                  dateRange={Object.keys(
+                    graphData?.totalOrderData?.monthlySalesResponse?.chart_data
+                  )}
+                  isToday={false}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Mobile User"} />
 
               {chartState?.mobileUserGraphState == true ? (
                 <MobileUsersChart orderData={graphData?.mobileUserData} />
@@ -1115,9 +933,17 @@ const PeopleDetailedAnalytics = () => {
                 <NoDataFound />
               )}
             </div>
-
             <div className={colSixGraph}>
-              <DashboardTitle title={"Desktop User"} />
+              <DashboardTitle title={"After Mobile User"} />
+
+              {chartState?.mobileUserGraphState == true ? (
+                <MobileUsersChart orderData={graphData?.mobileUserData} />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Desktop User"} />
 
               {chartState?.desktopUserGraphState == true ? (
                 <DesktopUsersChart orderData={graphData?.desktopUserData} />
@@ -1125,9 +951,17 @@ const PeopleDetailedAnalytics = () => {
                 <NoDataFound />
               )}
             </div>
-
             <div className={colSixGraph}>
-              <DashboardTitle title={"Location Wise User"} />
+              <DashboardTitle title={"After Desktop User"} />
+
+              {chartState?.desktopUserGraphState == true ? (
+                <DesktopUsersChart orderData={graphData?.desktopUserData} />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Location Wise User"} />
 
               {chartState?.locationWiseGraphState == true ? (
                 <LocationCountChart
@@ -1137,9 +971,19 @@ const PeopleDetailedAnalytics = () => {
                 <NoDataFound />
               )}
             </div>
-
             <div className={colSixGraph}>
-              <DashboardTitle title={"Country Wise User"} />
+              <DashboardTitle title={"After Location Wise User"} />
+
+              {chartState?.locationWiseGraphState == true ? (
+                <LocationCountChart
+                  locationData={graphData?.locationWiseData}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Country Wise User"} />
 
               {chartState?.countryWiseCustomerGraphState == true ? (
                 <PieChart
@@ -1151,7 +995,19 @@ const PeopleDetailedAnalytics = () => {
               )}
             </div>
             <div className={colSixGraph}>
-              <DashboardTitle title={"Most Visited Products"} />
+              <DashboardTitle title={"After Country Wise User"} />
+
+              {chartState?.countryWiseCustomerGraphState == true ? (
+                <PieChart
+                  chartData={graphData?.countryWiseCustomerData}
+                  colors={graphData?.countryWiseCustomerData?.colors}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Most Visited Products"} />
 
               {chartState?.mostVisitedProductsGraphState == true ? (
                 <PyramidBarChart data={graphData?.mostVisitedProducts} />
@@ -1159,9 +1015,17 @@ const PeopleDetailedAnalytics = () => {
                 <NoDataFound />
               )}
             </div>
-
             <div className={colSixGraph}>
-              <DashboardTitle title={"Most Purchased Products"} />
+              <DashboardTitle title={"After Most Visited Products"} />
+
+              {chartState?.mostVisitedProductsGraphState == true ? (
+                <PyramidBarChart data={graphData?.mostVisitedProducts} />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Most Purchased Products"} />
 
               {chartState?.mostPurchasedProductsGraphState == true ? (
                 <PolarAreaChart data={graphData?.mostPurchasedProducts} />
@@ -1170,7 +1034,16 @@ const PeopleDetailedAnalytics = () => {
               )}
             </div>
             <div className={colSixGraph}>
-              <DashboardTitle title={"Best Selling Products"} />
+              <DashboardTitle title={"After Most Purchased Products"} />
+
+              {chartState?.mostPurchasedProductsGraphState == true ? (
+                <PolarAreaChart data={graphData?.mostPurchasedProducts} />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Best Selling Products"} />
 
               {chartState?.bestSellingProductsGraphState == true ? (
                 <PatternedDonutChart data={graphData?.bestSellingProducts} />
@@ -1180,7 +1053,17 @@ const PeopleDetailedAnalytics = () => {
               )}
             </div>
             <div className={colSixGraph}>
-              <DashboardTitle title={"Most ATC Products"} />
+              <DashboardTitle title={"After Best Selling Products"} />
+
+              {chartState?.bestSellingProductsGraphState == true ? (
+                <PatternedDonutChart data={graphData?.bestSellingProducts} />
+              ) : (
+                // <PatternedDonutChart data={best_selling_products} />
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Most ATC Products"} />
 
               {chartState?.mostATCProductsGraphState == true ? (
                 <RadialBarChart data={graphData?.mostATCProducts} />
@@ -1189,9 +1072,18 @@ const PeopleDetailedAnalytics = () => {
                 <NoDataFound />
               )}
             </div>
-
             <div className={colSixGraph}>
-              <DashboardTitle title={"Most Visited Categories"} />
+              <DashboardTitle title={"After Most ATC Products"} />
+
+              {chartState?.mostATCProductsGraphState == true ? (
+                <RadialBarChart data={graphData?.mostATCProducts} />
+              ) : (
+                // <RadialBarChart data={most_ATC_products} />
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Most Visited Categories"} />
               {chartState?.mostVisitedCategoriesGraphState == true ? (
                 <GradientLineChart
                   data={graphData?.mostVisitedCategoriesData}
@@ -1200,9 +1092,21 @@ const PeopleDetailedAnalytics = () => {
                 <NoDataFound />
               )}
             </div>
-            <div className={colFullWidthGraph}>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"After Most Visited Categories"} />
+              {chartState?.mostVisitedCategoriesGraphState == true ? (
+                <GradientLineChart
+                  data={graphData?.mostVisitedCategoriesData}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
               <DashboardTitle
-                title={"Combined Top Views (Products, Categories, Pages)"}
+                title={
+                  "Before Combined Top Views (Products, Categories, Pages)"
+                }
               />
 
               <div className="w-full flex justify-end items-center p-4">
@@ -1222,9 +1126,30 @@ const PeopleDetailedAnalytics = () => {
                 xAxisCategories={xAxisCategories}
               />
             </div>
+            <div className={colSixGraph}>
+              <DashboardTitle
+                title={"After Combined Top Views (Products, Categories, Pages)"}
+              />
 
-            <div className={colFullWidthGraph}>
-              <DashboardTitle title={"Customer Distribution by Page"} />
+              <div className="w-full flex justify-end items-center p-4">
+                <label className="text-gray-700 mr-3">Show Top: </label>
+                <select
+                  id="productFilter"
+                  onChange={handleVisitedFilterChange}
+                  value={visitedSelectedFilter}
+                  className="h-12 bg-white w-30 rounded-lg text-black border flex justify-end p-1 font-bold border-strokedark shadow-md focus:outline-none"
+                >
+                  <option value={5}>Top 5</option>
+                  <option value={10}>Top 10</option>
+                </select>
+              </div>
+              <DataBarChart
+                series={seriesCombined}
+                xAxisCategories={xAxisCategories}
+              />
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Customer Distribution by Page"} />
 
               {chartState?.customerDistributionByPageDataGraphState == true ? (
                 <CustomerDistributionChart
@@ -1234,9 +1159,19 @@ const PeopleDetailedAnalytics = () => {
                 <NoDataFound />
               )}
             </div>
-
             <div className={colSixGraph}>
-              <DashboardTitle title={"Top Customers by Orders"} />
+              <DashboardTitle title={"After Customer Distribution by Page"} />
+
+              {chartState?.customerDistributionByPageDataGraphState == true ? (
+                <CustomerDistributionChart
+                  distributionData={graphData?.customerDistributionByPageData}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Top Customers by Orders"} />
               <div className="w-full flex justify-end items-center p-4">
                 <label className="text-gray-700 mr-3">Show Top: </label>
                 <select
@@ -1252,15 +1187,26 @@ const PeopleDetailedAnalytics = () => {
 
               <CustomerPolarAreaChart series={seriesCustomer} labels={labels} />
             </div>
-
             <div className={colSixGraph}>
-              <DashboardTitle title={"Entry Page - Exit Page"} />
-              <DumbbellRangebarChart data={customerPageViewData} />
+              <DashboardTitle title={"After Top Customers by Orders"} />
+              <div className="w-full flex justify-end items-center p-4">
+                <label className="text-gray-700 mr-3">Show Top: </label>
+                <select
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value)}
+                  className="h-12 bg-white w-30 rounded-lg text-black border flex justify-end p-1 font-bold border-strokedark shadow-md focus:outline-none"
+                >
+                  <option value="Top 3">Top 3</option>
+                  <option value="Top 5">Top 5</option>
+                  <option value="Top 10">Top 10</option>
+                </select>
+              </div>
+
+              <CustomerPolarAreaChart series={seriesCustomer} labels={labels} />
             </div>
-            {/* MANSHI CHART CODE START */}
             <div className={colSixGraph}>
               <DashboardTitle
-                title={"Page Flow (Based on Tracking Mechanism)"}
+                title={"Before Page Flow (Based on Tracking Mechanism)"}
               />
               {chartState?.customerPageFlowGraphState == true ? (
                 <CustomerPageFlowChart
@@ -1271,20 +1217,19 @@ const PeopleDetailedAnalytics = () => {
               )}
             </div>
             <div className={colSixGraph}>
-              <DashboardTitle title={"Customer Lost Tracking Mechanism"} />
-              {chartState?.customerLostTrackDataGraphState == true ? (
-                <CustomerLostTrackChart
-                  customerLostTrackData={graphData?.customerLostTrackData}
+              <DashboardTitle
+                title={"After Page Flow (Based on Tracking Mechanism)"}
+              />
+              {chartState?.customerPageFlowGraphState == true ? (
+                <CustomerPageFlowChart
+                  customerPageFlowData={graphData?.customerPageFlowData}
                 />
               ) : (
                 <NoDataFound />
               )}
-              {/* <CustomerLostTrackChart
-                  customerLostTrackData={customerLostTrackData}
-                /> */}
             </div>
             <div className={colSixGraph}>
-              <DashboardTitle title={"Abandon Checkout Order Sales"} />
+              <DashboardTitle title={"Before  Abandon Checkout Order Sales"} />
               {chartState?.abandonOrderSalesDataGraphState == true ? (
                 <AbandonOrderSale
                   abandon_checkout_order_sales={
@@ -1296,7 +1241,19 @@ const PeopleDetailedAnalytics = () => {
               )}
             </div>
             <div className={colSixGraph}>
-              <DashboardTitle title={"Abandon Checkout Products"} />
+              <DashboardTitle title={"After Abandon Checkout Order Sales"} />
+              {chartState?.abandonOrderSalesDataGraphState == true ? (
+                <AbandonOrderSale
+                  abandon_checkout_order_sales={
+                    graphData?.abandonOrderSalesData
+                  }
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Abandon Checkout Products"} />
               {chartState?.abandonProductsDataGraphState == true ? (
                 <AbandonProductChart
                   abandon_checkout_products={graphData?.abandonProductsData}
@@ -1306,7 +1263,17 @@ const PeopleDetailedAnalytics = () => {
               )}
             </div>
             <div className={colSixGraph}>
-              <DashboardTitle title={"Most Time Spent Pages"} />
+              <DashboardTitle title={"After Abandon Checkout Products"} />
+              {chartState?.abandonProductsDataGraphState == true ? (
+                <AbandonProductChart
+                  abandon_checkout_products={graphData?.abandonProductsData}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Most Time Spent Pages"} />
               {chartState?.mostTimeSpentDataGraphState == true ? (
                 <MoreTimeChart PagesTimeSpent={graphData?.mostTimeSpentData} />
               ) : (
@@ -1314,7 +1281,15 @@ const PeopleDetailedAnalytics = () => {
               )}
             </div>
             <div className={colSixGraph}>
-              <DashboardTitle title={"Less Time Spent Pages"} />
+              <DashboardTitle title={"After Most Time Spent Pages"} />
+              {chartState?.mostTimeSpentDataGraphState == true ? (
+                <MoreTimeChart PagesTimeSpent={graphData?.mostTimeSpentData} />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Less Time Spent Pages"} />
               {chartState?.lessTimeSpentDataGraphState == true ? (
                 <LessTimeChart PagesTimeSpent={graphData?.lessTimeSpentData} />
               ) : (
@@ -1322,7 +1297,25 @@ const PeopleDetailedAnalytics = () => {
               )}
             </div>
             <div className={colSixGraph}>
-              <DashboardTitle title={"Total Time Spent – Every Page"} />
+              <DashboardTitle title={"After Less Time Spent Pages"} />
+              {chartState?.lessTimeSpentDataGraphState == true ? (
+                <LessTimeChart PagesTimeSpent={graphData?.lessTimeSpentData} />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Total Time Spent – Every Page"} />
+              {chartState?.totalPagesTimeSpentDataGraphState == true ? (
+                <TotalTimeSpentChart
+                  PagesTimeSpent={graphData?.totalPagesTimeSpentData}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"After Total Time Spent – Every Page"} />
               {chartState?.totalPagesTimeSpentDataGraphState == true ? (
                 <TotalTimeSpentChart
                   PagesTimeSpent={graphData?.totalPagesTimeSpentData}
@@ -1333,7 +1326,7 @@ const PeopleDetailedAnalytics = () => {
             </div>
             <div className={colSixGraph}>
               <DashboardTitle
-                title={"Event Tracking - Links / Button Clicked"}
+                title={"Before Event Tracking - Links / Button Clicked"}
               />
               {chartState?.eventTrackingForClicksGraphState == true ? (
                 <TrackEventChart
@@ -1344,23 +1337,57 @@ const PeopleDetailedAnalytics = () => {
               )}
             </div>
             <div className={colSixGraph}>
-              <DashboardTitle title={"Page Wise Average Time Spent on Page"} />
+              <DashboardTitle
+                title={"After Event Tracking - Links / Button Clicked"}
+              />
+              {chartState?.eventTrackingForClicksGraphState == true ? (
+                <TrackEventChart
+                  EventTrack={graphData?.eventTrackingForClicksData}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle
+                title={"Before Page Wise Average Time Spent on Page"}
+              />
               {chartState?.pageWiseAvgGraphState == true ? (
                 <PageWiseAvgChart PageWiseAvg={graphData?.pageWiseAvgData} />
               ) : (
                 <NoDataFound />
               )}
-              {/* <PageWiseAvgChart PageWiseAvg={PageWiseAvg} />{" "} */}
             </div>
             <div className={colSixGraph}>
-              <DashboardTitle title={"Average Time Spent on Whole Site"} />
+              <DashboardTitle
+                title={"After Page Wise Average Time Spent on Page"}
+              />
+              {chartState?.pageWiseAvgGraphState == true ? (
+                <PageWiseAvgChart PageWiseAvg={graphData?.pageWiseAvgData} />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle
+                title={"Before Average Time Spent on Whole Site"}
+              />
               {chartState?.wholeSiteGraphState == true ? (
                 <AverageTimeSpentWholeSite data={graphData?.wholeSiteData} />
               ) : (
                 <NoDataFound />
               )}
             </div>
-            {/* MANSHI CHART CODE END */}
+            <div className={colSixGraph}>
+              <DashboardTitle
+                title={"After Average Time Spent on Whole Site"}
+              />
+              {chartState?.wholeSiteGraphState == true ? (
+                <AverageTimeSpentWholeSite data={graphData?.wholeSiteData} />
+              ) : (
+                <NoDataFound />
+              )}
+            </div> */}
           </div>
         </ScrollAnimation>
       </main>
