@@ -3,15 +3,15 @@ export const emailTemplateEditorDefaults = {
   handle_type: "email_marketing",
   global_style: {
     background_color: "#000000",
-    font_family:"Arial, sans-serif",
-    border_radius:"16px",
+    font_family: "Arial, sans-serif",
+    border_radius: "16px",
     padding_top: "16px",
     padding_bottom: "16px",
     padding_left: "16px",
     padding_right: "16px",
     margin_top: "auto",
     margin_bottom: "auto",
-    margin_left:"auto",
+    margin_left: "auto",
     margin_right: "auto",
   },
   header_banner_style: {
@@ -30,8 +30,8 @@ export const emailTemplateEditorDefaults = {
         navUrl: "#",
       },
     ],
-    background_color: "#e1f2f6",
-    nav_bar_text_color: "#000000",
+    background_color: "",
+    nav_bar_text_color: "",
     nav_bar_font_size: "14px",
     nav_bar_font_family: "Arial, sans-serif",
     border_radius: "",
@@ -49,10 +49,10 @@ export const emailTemplateEditorDefaults = {
   },
   cart_banner_style: {
     imageIcon: "",
-    background_color: "#e1f2f6",
+    background_color: "",
     btn_background_color: "#207a8b",
-    btn_text_color:"#ffffff",
-    btn_name:"Complete your order",
+    btn_text_color: "#ffffff",
+    btn_name: "Complete your order",
     text_components: [
       {
         heading: "Still in your cart",
@@ -68,6 +68,11 @@ export const emailTemplateEditorDefaults = {
         font_family: "Arial, sans-serif",
         text_color: "#022b3a",
         text_position: "center",
+      },
+    ],
+    cart_product_style: [
+      {
+        product_background_color: "",
       },
     ],
   },
@@ -102,6 +107,7 @@ export const emailTemplateEditorDefaults = {
     font_size: "16px",
     font_family: "Arial, sans-serif",
     color: "#022b3a",
+    background_color: "",
     badge_icon: [
       {
         badgeImage: "",
@@ -120,46 +126,26 @@ export const emailTemplateEditorDefaults = {
         badgeName: "CUSTOMER SERVICES",
       },
     ],
+    text_components: [
+      {
+        heading: "The QQQE Advantage",
+        font_size: "24px",
+        font_family: "Arial, sans-serif",
+        text_color: "#022b3a",
+        text_position: "center",
+      },
+    ],
   },
   footer_banner_style: {
-    background_color:"#e1f2f6",
+    background_color: "",
+    imageIcon: "",
     social_media_icon: {
       facebook_url: "www.facebook.com",
       twitter_url: "https://x.com/?lang=en",
       insta_url: "https://www.instagram.com",
       youtube_url: "https://www.youtube.com",
     },
-    text_components: [
-      {
-        heading: "This email was sent to hello@blazetate.com",
-        font_size: "24px",
-        font_family: "Arial, sans-serif",
-        text_color: "#022b3a",
-        text_position: "center",
-      },
-      {
-        heading: "2585 Red Lane, Skamokawa, Louisiana, 70228-6566",
-        font_size: "16px",
-        font_family: "Arial, sans-serif",
-        text_color: "#022b3a",
-        text_position: "center",
-      },
-      {
-        heading: "Privacy Policy and Terms of Service",
-        font_size: "16px",
-        font_family: "Arial, sans-serif",
-        text_color: "#022b3a",
-        text_position: "center",
-      },
-
-      {
-        heading: "©2024 QQQE",
-        font_size: "16px",
-        font_family: "Arial, sans-serif",
-        text_color: "#022b3a",
-        text_position: "center",
-      },
-    ],
+    text_components: [],
   },
   email_template_products: [],
 };

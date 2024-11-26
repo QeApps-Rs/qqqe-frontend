@@ -82,7 +82,6 @@ const App = () => {
     <Loader />
   ) : (
     <Router>
-      
       <div className="App">
         <header className="App-header">
           <div>
@@ -173,18 +172,12 @@ const App = () => {
                 path="/compare-analytics"
                 element={<ComparisonAnalytics />}
               />
-                <Route
-                path="/app-dashboard"
-                element={<AppDashboardPage/>}
-              />
-               <Route
-                path="template/list/:id/email-template"
-                element={<EmailTemplate/>}
-              />
+              <Route path="/app-dashboard" element={<AppDashboardPage />} />
               <Route
-                path="/changelog"
-                element={<ChangeLog/>}
+                path="template/list/:id/email-template/:templateId"
+                element={<EmailTemplate />}
               />
+              <Route path="/changelog" element={<ChangeLog />} />
             </Route>
           </Routes>
         </header>

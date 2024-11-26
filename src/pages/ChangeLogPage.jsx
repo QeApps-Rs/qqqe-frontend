@@ -12,77 +12,6 @@ const ChangeLog = () => {
       change_log_type: "Improvement",
     },
     {
-      date: "November 18",
-      title: "Validate shipping addresses in Admin",
-      description:
-        "The Companies, Customers, Draft Orders, and Shipping Labels pages now validate addresses to help merchants avoid delayed or failed deliveries.",
-      change_log_type: "Feature",
-    },
-    {
-      date: "November 15",
-      title:
-        "Shopify Tax now supports automated filing for U.S. sales tax returns",
-      description:
-        "We're excited to announce that Shopify Tax now offers automated filing for sales tax management. Merchants can streamline compliance, ensuring accuracy and flexibility for U.S. tax returns. 🚀",
-      change_log_type: "New",
-    },
-    {
-      date: "November 14",
-      title: "Increased limits for automatic app-based discounts",
-      description:
-        "You can now configure up to a total of 25 automatic discounts per shop using discount apps.",
-      change_log_type: "Improvement",
-    },
-    {
-      date: "November 10",
-      title: "Validate shipping addresses in Admin",
-      description:
-        "The Companies, Customers, Draft Orders, and Shipping Labels pages now validate addresses to help merchants avoid delayed or failed deliveries.",
-      change_log_type: "Feature",
-    },
-    {
-      date: "November 5",
-      title:
-        "Shopify Tax now supports automated filing for U.S. sales tax returns",
-      description:
-        "We're excited to announce that Shopify Tax now offers automated filing for sales tax management. Merchants can streamline compliance, ensuring accuracy and flexibility for U.S. tax returns. 🚀",
-      change_log_type: "New",
-    },
-    {
-      date: "November 4",
-      title: "Increased limits for automatic app-based discounts",
-      description:
-        "You can now configure up to a total of 25 automatic discounts per shop using discount apps.",
-      change_log_type: "Improvement",
-    },
-    {
-      date: "November 3",
-      title: "Validate shipping addresses in Admin",
-      description:
-        "The Companies, Customers, Draft Orders, and Shipping Labels pages now validate addresses to help merchants avoid delayed or failed deliveries.",
-      change_log_type: "Feature",
-    },
-    {
-      date: "November 1",
-      title:
-        "Shopify Tax now supports automated filing for U.S. sales tax returns",
-      description:
-        "We're excited to announce that Shopify Tax now offers automated filing for sales tax management. Merchants can streamline compliance, ensuring accuracy and flexibility for U.S. tax returns. 🚀",
-      change_log_type: "New",
-    },
-    {
-      date: "October 30",
-      title: "Bug Fix Example",
-      description: "We resolved a critical issue affecting performance.",
-      change_log_type: "Bug Fix",
-    },
-    {
-      date: "October 29",
-      title: "UI Update Example",
-      description: "The interface for the settings page has been revamped.",
-      change_log_type: "UI Update",
-    },
-    {
       date: "November 19",
       title: "Increased limits for automatic app-based discounts",
       description:
@@ -97,69 +26,161 @@ const ChangeLog = () => {
       change_log_type: "Feature",
     },
     {
-      date: "November 15",
-      title:
-        "Shopify Tax now supports automated filing for U.S. sales tax returns",
-      description:
-        "We're excited to announce that Shopify Tax now offers automated filing for sales tax management. Merchants can streamline compliance, ensuring accuracy and flexibility for U.S. tax returns. 🚀",
-      change_log_type: "New",
-    },
-    {
-      date: "November 14",
-      title: "Increased limits for automatic app-based discounts",
-      description:
-        "You can now configure up to a total of 25 automatic discounts per shop using discount apps.",
-      change_log_type: "Improvement",
-    },
-    {
-      date: "November 10",
+      date: "November 17",
       title: "Validate shipping addresses in Admin",
       description:
         "The Companies, Customers, Draft Orders, and Shipping Labels pages now validate addresses to help merchants avoid delayed or failed deliveries.",
       change_log_type: "Feature",
     },
     {
-      date: "November 5",
-      title:
-        "Shopify Tax now supports automated filing for U.S. sales tax returns",
-      description:
-        "We're excited to announce that Shopify Tax now offers automated filing for sales tax management. Merchants can streamline compliance, ensuring accuracy and flexibility for U.S. tax returns. 🚀",
-      change_log_type: "New",
-    },
-    {
-      date: "November 4",
-      title: "Increased limits for automatic app-based discounts",
-      description:
-        "You can now configure up to a total of 25 automatic discounts per shop using discount apps.",
-      change_log_type: "Improvement",
-    },
-    {
-      date: "November 3",
+      date: "November 17",
       title: "Validate shipping addresses in Admin",
       description:
         "The Companies, Customers, Draft Orders, and Shipping Labels pages now validate addresses to help merchants avoid delayed or failed deliveries.",
       change_log_type: "Feature",
     },
-    {
-      date: "November 1",
-      title:
-        "Shopify Tax now supports automated filing for U.S. sales tax returns",
-      description:
-        "We're excited to announce that Shopify Tax now offers automated filing for sales tax management. Merchants can streamline compliance, ensuring accuracy and flexibility for U.S. tax returns. 🚀",
-      change_log_type: "New",
-    },
-    {
-      date: "October 30",
-      title: "Bug Fix Example",
-      description: "We resolved a critical issue affecting performance.",
-      change_log_type: "Bug Fix",
-    },
-    {
-      date: "October 29",
-      title: "UI Update Example",
-      description: "The interface for the settings page has been revamped.",
-      change_log_type: "UI Update",
-    },
+    // {
+    //   date: "November 15",
+    //   title:
+    //     "Shopify Tax now supports automated filing for U.S. sales tax returns",
+    //   description:
+    //     "We're excited to announce that Shopify Tax now offers automated filing for sales tax management. Merchants can streamline compliance, ensuring accuracy and flexibility for U.S. tax returns. 🚀",
+    //   change_log_type: "New",
+    // },
+    // {
+    //   date: "November 14",
+    //   title: "Increased limits for automatic app-based discounts",
+    //   description:
+    //     "You can now configure up to a total of 25 automatic discounts per shop using discount apps.",
+    //   change_log_type: "Improvement",
+    // },
+    // {
+    //   date: "November 10",
+    //   title: "Validate shipping addresses in Admin",
+    //   description:
+    //     "The Companies, Customers, Draft Orders, and Shipping Labels pages now validate addresses to help merchants avoid delayed or failed deliveries.",
+    //   change_log_type: "Feature",
+    // },
+    // {
+    //   date: "November 5",
+    //   title:
+    //     "Shopify Tax now supports automated filing for U.S. sales tax returns",
+    //   description:
+    //     "We're excited to announce that Shopify Tax now offers automated filing for sales tax management. Merchants can streamline compliance, ensuring accuracy and flexibility for U.S. tax returns. 🚀",
+    //   change_log_type: "New",
+    // },
+    // {
+    //   date: "November 4",
+    //   title: "Increased limits for automatic app-based discounts",
+    //   description:
+    //     "You can now configure up to a total of 25 automatic discounts per shop using discount apps.",
+    //   change_log_type: "Improvement",
+    // },
+    // {
+    //   date: "November 3",
+    //   title: "Validate shipping addresses in Admin",
+    //   description:
+    //     "The Companies, Customers, Draft Orders, and Shipping Labels pages now validate addresses to help merchants avoid delayed or failed deliveries.",
+    //   change_log_type: "Feature",
+    // },
+    // {
+    //   date: "November 1",
+    //   title:
+    //     "Shopify Tax now supports automated filing for U.S. sales tax returns",
+    //   description:
+    //     "We're excited to announce that Shopify Tax now offers automated filing for sales tax management. Merchants can streamline compliance, ensuring accuracy and flexibility for U.S. tax returns. 🚀",
+    //   change_log_type: "New",
+    // },
+    // {
+    //   date: "October 30",
+    //   title: "Bug Fix Example",
+    //   description: "We resolved a critical issue affecting performance.",
+    //   change_log_type: "Bug Fix",
+    // },
+    // {
+    //   date: "October 29",
+    //   title: "UI Update Example",
+    //   description: "The interface for the settings page has been revamped.",
+    //   change_log_type: "UI Update",
+    // },
+    // {
+    //   date: "November 19",
+    //   title: "Increased limits for automatic app-based discounts",
+    //   description:
+    //     "You can now configure up to a total of 25 automatic discounts per shop using discount apps.",
+    //   change_log_type: "Improvement",
+    // },
+    // {
+    //   date: "November 18",
+    //   title: "Validate shipping addresses in Admin",
+    //   description:
+    //     "The Companies, Customers, Draft Orders, and Shipping Labels pages now validate addresses to help merchants avoid delayed or failed deliveries.",
+    //   change_log_type: "Feature",
+    // },
+    // {
+    //   date: "November 15",
+    //   title:
+    //     "Shopify Tax now supports automated filing for U.S. sales tax returns",
+    //   description:
+    //     "We're excited to announce that Shopify Tax now offers automated filing for sales tax management. Merchants can streamline compliance, ensuring accuracy and flexibility for U.S. tax returns. 🚀",
+    //   change_log_type: "New",
+    // },
+    // {
+    //   date: "November 14",
+    //   title: "Increased limits for automatic app-based discounts",
+    //   description:
+    //     "You can now configure up to a total of 25 automatic discounts per shop using discount apps.",
+    //   change_log_type: "Improvement",
+    // },
+    // {
+    //   date: "November 10",
+    //   title: "Validate shipping addresses in Admin",
+    //   description:
+    //     "The Companies, Customers, Draft Orders, and Shipping Labels pages now validate addresses to help merchants avoid delayed or failed deliveries.",
+    //   change_log_type: "Feature",
+    // },
+    // {
+    //   date: "November 5",
+    //   title:
+    //     "Shopify Tax now supports automated filing for U.S. sales tax returns",
+    //   description:
+    //     "We're excited to announce that Shopify Tax now offers automated filing for sales tax management. Merchants can streamline compliance, ensuring accuracy and flexibility for U.S. tax returns. 🚀",
+    //   change_log_type: "New",
+    // },
+    // {
+    //   date: "November 4",
+    //   title: "Increased limits for automatic app-based discounts",
+    //   description:
+    //     "You can now configure up to a total of 25 automatic discounts per shop using discount apps.",
+    //   change_log_type: "Improvement",
+    // },
+    // {
+    //   date: "November 3",
+    //   title: "Validate shipping addresses in Admin",
+    //   description:
+    //     "The Companies, Customers, Draft Orders, and Shipping Labels pages now validate addresses to help merchants avoid delayed or failed deliveries.",
+    //   change_log_type: "Feature",
+    // },
+    // {
+    //   date: "November 1",
+    //   title:
+    //     "Shopify Tax now supports automated filing for U.S. sales tax returns",
+    //   description:
+    //     "We're excited to announce that Shopify Tax now offers automated filing for sales tax management. Merchants can streamline compliance, ensuring accuracy and flexibility for U.S. tax returns. 🚀",
+    //   change_log_type: "New",
+    // },
+    // {
+    //   date: "October 30",
+    //   title: "Bug Fix Example",
+    //   description: "We resolved a critical issue affecting performance.",
+    //   change_log_type: "Bug Fix",
+    // },
+    // {
+    //   date: "October 29",
+    //   title: "UI Update Example",
+    //   description: "The interface for the settings page has been revamped.",
+    //   change_log_type: "UI Update",
+    // },
     // Add more dummy data if needed
   ];
 
@@ -230,11 +251,16 @@ const ChangeLog = () => {
         <div className="lg:col-span-9 md:col-span-8 sm:col-span-7 col-span-12 p-6 rounded-lg">
           {paginatedData.map((step, index) => (
             <div key={index} className="flex w-full mb-6">
-              <div className="w-1/6 ">
-                <span className="text-gray-600 text-md font-semibold uppercase break-words">
-                  {step.date}
-                </span>
+              {/* Check if the current date is different from the previous one */}
+              <div className="w-1/6">
+                {(index === 0 ||
+                  step.date !== paginatedData[index - 1].date) && (
+                  <span className="text-gray-600 text-md font-semibold uppercase break-words">
+                    {step.date}
+                  </span>
+                )}
               </div>
+
               <div className="relative flex flex-col items-center">
                 <div className="w-6 h-6 flex items-center justify-center rounded-full bg-custom_gradient shadow-md">
                   <div className="w-3 h-3 rounded-full border-2 border-white bg-white"></div>
@@ -243,6 +269,7 @@ const ChangeLog = () => {
                   <div className="absolute top-6 w-px h-full bg-cyan-950"></div>
                 )}
               </div>
+
               <div className="w-3/4 pl-4">
                 <h3 className="font-semibold text-lg inline-block">
                   {step.title}
@@ -262,6 +289,7 @@ const ChangeLog = () => {
               </div>
             </div>
           ))}
+
           <div className="flex justify-center mt-4 mb-20 ">
             {Array.from({ length: totalPages }).map((_, i) => (
               <button

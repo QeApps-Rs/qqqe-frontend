@@ -14,6 +14,10 @@ const TemplateList = () => {
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const [templateList, setTemplateList] = useState([]);
+  const emailTemplateList = [
+    { id: 1, name: "Template 1" },
+    { id: 2, name: "Template 2" },
+  ];
   const [keywords, setKeywords] = useState([]);
   const [filterKeyword, setFilterKeyword] = useState("");
 
@@ -235,20 +239,24 @@ const TemplateList = () => {
               </h4>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full">
-              <div
-                className={`transition-transform transform hover:scale-105 hover:shadow-lg md:col-span-1`}
-              >
-                <Link to={`email-template`}>
-                  <div className="px-10 py-6 h-[350px] bg-[url('/src/images/template-background.svg')] bg-no-repeat bg-cover shadow-md shadow-black/28 rounded-lg">
-                    <img
-                      src={emailTemplateImg}
-                      className="mb-3  w-full h-full object-contain"
-                    />
+              {emailTemplateList.length > 0 ? (
+                emailTemplateList.map((template, index) => (
+                  <div
+                    key={index}
+                    className="transition-transform transform hover:scale-105 hover:shadow-lg md:col-span-1"
+                  >
+                    <Link to={`email-template/${template.id}`}>
+                      <div className="px-10 py-6 h-[350px] bg-[url('/src/images/template-background.svg')] bg-no-repeat bg-cover shadow-md shadow-black/28 rounded-lg">
+                        <img
+                          src={emailTemplateImg}
+                          alt={`Template ${template.id}`}
+                          className="mb-3 w-full h-full object-contain"
+                        />
+                      </div>
+                    </Link>
                   </div>
-                </Link>
-              </div>
-
-              {templateList.length == 0 && (
+                ))
+              ) : (
                 <div className="text-center text-black font-semibold">
                   No Template Found
                 </div>

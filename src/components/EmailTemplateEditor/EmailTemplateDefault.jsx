@@ -90,7 +90,8 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
             style={{
               borderRadius: emailTemplateJSON.header_banner_style.border_radius,
               backgroundColor:
-                emailTemplateJSON.header_banner_style.background_color,
+                emailTemplateJSON.header_banner_style.background_color ||
+                "#e1f2f6",
               borderStyle: emailTemplateJSON.header_banner_style.border_style,
               borderWidth: emailTemplateJSON.header_banner_style.border_width,
               borderColor: emailTemplateJSON.header_banner_style.border_color,
@@ -133,7 +134,7 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
                         cursor: "pointer",
                         color:
                           emailTemplateJSON.header_banner_style
-                            .nav_bar_text_color,
+                            .nav_bar_text_color || "#000000",
                         fontSize:
                           emailTemplateJSON.header_banner_style
                             .nav_bar_font_size,
@@ -172,7 +173,8 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
           <tr
             style={{
               backgroundColor:
-                emailTemplateJSON.cart_banner_style.background_color,
+                emailTemplateJSON.cart_banner_style.background_color ||
+                "#e1f2f6",
               padding: "30px",
               borderRadius: "10px",
               width: "100%",
@@ -381,7 +383,7 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
         <tfoot
           style={{
             backgroundColor:
-              emailTemplateJSON?.footer_banner_style?.background_color,
+              emailTemplateJSON?.footer_banner_style?.background_color || "#e1f2f6",
             padding: "20px",
             textAlign: "center",
             display: "flex",
@@ -421,7 +423,7 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
                     style={{
                       fontSize: component?.font_size,
                       fontFamily: component?.font_family,
-                      color: component?.text_color,
+                      color: component?.text_color || "#022b3a",
                       textAlign: component?.text_position,
                       marginBottom: "10px",
                     }}
