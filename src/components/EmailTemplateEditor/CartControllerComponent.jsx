@@ -162,7 +162,7 @@ const EmailTemplateCartControllerComponent = ({
           />
         </div>
       </div>
-      <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5 p-4 bg-white rounded-lg shadow-lg ">
+      <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5 p-4 bg-white rounded-lg shadow-lg mb-4">
         <div className="col-span-12 xl:col-span-12">
           <div className="space-y-3 max-h-[380px] overflow-y-auto overflow-x-hidden pr-2">
             {emailTemplateJSON?.cart_banner_style?.text_components.map(
@@ -294,6 +294,27 @@ const EmailTemplateCartControllerComponent = ({
           >
             Add Text
           </button>
+        </div>
+      </div>
+
+      <div className="p-4 bg-white rounded-lg shadow-lg">
+        <label className="text-lg font-bold mb-6 text-gray-700 dark:text-white">
+          Cart Product Style
+        </label>
+        <div className="flex items-center mt-4 justify-between items-center">
+          <span className="mr-2 font-semibold">Background Color:</span>
+          <ColorPicker
+            defaultColor={
+              emailTemplateJSON?.cart_banner_style?.cart_product_style
+                ?.product_background_color
+            }
+            onChange={(color) =>
+              handleEmailTemplateChange(
+                { product_background_color: color },
+                "cart_banner_style"
+              )
+            }
+          />
         </div>
       </div>
     </div>
