@@ -776,7 +776,7 @@ const DashboardCard = () => {
               </h2>
             </div>
             <div className="sm:w-1/2 w-full sm:mt-0 mt-4 flex justify-end">
-              <button
+              {/* <button
                 onClick={() => handleTabClick("before")}
                 className={`px-5 py-3 font-semibold text-black rounded-lg mx-2 transition-all duration-300 ${
                   isBeforeDetails.dateFilterType === "before"
@@ -784,9 +784,15 @@ const DashboardCard = () => {
                     : "bg-gray-300 hover:bg-gray-400"
                 }`}
               >
-                Before
+                Comparison Graph
+              </button> */}
+          
+              <Link to="/compare-analytics">
+              <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
+              Comparison Graph
               </button>
-              <button
+            </Link>
+              {/* <button
                 onClick={() => handleTabClick("after")}
                 className={`px-5 py-3 font-semibold text-black rounded-lg mx-2 transition-all duration-300 ${
                   isBeforeDetails.dateFilterType === "after"
@@ -795,7 +801,7 @@ const DashboardCard = () => {
                 }`}
               >
                 After
-              </button>
+              </button> */}
             </div>
           </div>
           <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
