@@ -44,14 +44,14 @@ import BookSlotModal from "../BookSlot";
 import NeedHelpPage from "../NeedHelp";
 import { BackIcon } from "../custIcon/svgIcon";
 
-const PeopleDetailedAnalytics = () => {
+const PeopleComparisonAnalyticsComponent = () => {
   const today = new Date();
   const todayStr = today.toISOString().split("T")[0];
 
   const [loading, setLoading] = useState(false);
   const [isBeforeDetails, setIsBeforeDetails] = useState({
-    dateFilterType: "before",
-    date: "2024-11-18",
+    dateFilterType: "after",
+    date: "2024-10-18",
   });
   const handleTabClick = (tab) => {
     setIsBeforeDetails({
@@ -86,6 +86,8 @@ const PeopleDetailedAnalytics = () => {
     wholeSiteData: {},
     customerBasedOnOrderData: [],
     mostVisitedPagesData: [],
+    countryWiseCustomerDataForComparison: {},
+    visitorsDataForComparison: {},
   });
 
   const defaultState = {
@@ -114,6 +116,7 @@ const PeopleDetailedAnalytics = () => {
     wholeSiteGraphState: false,
     customerBasedOnOrderGraphState: false,
     mostVisitedPagesGraphState: false,
+    countryWiseCustomerGraphStateForComparison: false,
   };
 
   const [chartState, setChartState] = useState(defaultState);
@@ -166,6 +169,34 @@ const PeopleDetailedAnalytics = () => {
           setGraphData((prevState) => ({
             ...prevState,
             [dataKey]: response?.data?.most_visited_pages,
+          }));
+        } else if (dataKey == "visitorsDataForComparison") {
+          let beforeData = [];
+          let afterData = [];
+
+          // Handle 'before.store_event'
+          response?.data?.before?.store_event?.forEach((item) => {
+            if (item?.data) {
+              const parsedData = JSON.parse(item?.data);
+              beforeData.push(...parsedData);
+            }
+          });
+
+          // Handle 'after.store_event'
+          response?.data?.after?.store_event?.forEach((item) => {
+            if (item?.data) {
+              const parsedData = JSON.parse(item?.data);
+              afterData.push(...parsedData);
+            }
+          });
+
+          // Update state with both datasets
+          setGraphData((prevState) => ({
+            ...prevState,
+            [dataKey]: {
+              beforeData,
+              afterData,
+            },
           }));
         } else {
           setGraphData((prevState) => ({
@@ -320,6 +351,16 @@ const PeopleDetailedAnalytics = () => {
             "mostVisitedPagesData",
             "mostVisitedPagesGraphState"
           ),
+          fetchDataHandler(
+            `comparison/country/customer/count?date=${isBeforeDetails?.date}`,
+            "countryWiseCustomerDataForComparison",
+            "countryWiseCustomerGraphStateForComparison"
+          ),
+          fetchDataHandler(
+            `comparison/customerJourney?date=${isBeforeDetails?.date}`,
+            "visitorsDataForComparison",
+            null
+          ),
         ]);
       } catch (error) {
         console.error("Error in one or more API calls:", error);
@@ -330,7 +371,7 @@ const PeopleDetailedAnalytics = () => {
 
     fetchData();
   }, [isBeforeDetails]);
-
+  console.log("graphData", graphData?.visitorsDataForComparison);
   const filteredData = graphData?.visitorsData.filter((item) =>
     item.timestamp.startsWith(todayStr)
   );
@@ -453,17 +494,71 @@ const PeopleDetailedAnalytics = () => {
     };
   };
 
+  const getVisitorsForCurrentMonthsForComparison = (
+    monthCount,
+    comparisonType
+  ) => {
+    const visitorsMap = {};
+    const allMonths = [];
+    const today = new Date();
+    const currentYear = today.getFullYear();
+
+    for (let i = 0; i < monthCount; i++) {
+      const monthIndex = i;
+      const monthStart = new Date(currentYear, monthIndex, 1);
+      const monthEnd = new Date(currentYear, monthIndex + 1, 0);
+
+      // Get all data for the current month
+      const monthlyData =
+        comparisonType == "before"
+          ? graphData?.visitorsDataForComparison?.beforeData.filter((item) => {
+              const timestamp = new Date(item.timestamp);
+              return timestamp >= monthStart && timestamp <= monthEnd;
+            })
+          : graphData?.visitorsDataForComparison?.afterData.filter((item) => {
+              const timestamp = new Date(item.timestamp);
+              return timestamp >= monthStart && timestamp <= monthEnd;
+            });
+
+      const monthName = monthStart.toLocaleString("default", { month: "long" });
+      allMonths.push(monthName);
+
+      // Count visitors for the month
+      visitorsMap[monthName] = monthlyData.length;
+    }
+
+    return {
+      categories: allMonths,
+      data: Object.values(visitorsMap),
+    };
+  };
+
   const monthCount = 12; // Number of months to show
   const { categories: monthCategories, data: monthData } =
     getVisitorsForCurrentMonths(monthCount);
 
+  // const { categories: monthCategoriesBefore, data: monthDataBefore } =
+  //   getVisitorsForCurrentMonthsForComparison(monthCount, "before");
+  //   const { categories: monthCategoriesAfter, data: monthDataAfter } =
+  //   getVisitorsForCurrentMonthsForComparison(monthCount, "after");
   const monthSeries = [
     {
       name: "Visitors",
       data: monthData,
     },
   ];
-
+  // const monthSeriesBefore = [
+  //   {
+  //     name: "Visitors",
+  //     data: monthDataBefore,
+  //   },
+  // ];
+  // const monthSeriesAfter = [
+  //   {
+  //     name: "Visitors",
+  //     data: monthDataAfter,
+  //   },
+  // ];
   //year
   const getVisitorsForCurrentYears = (yearCount) => {
     const visitorsMap = {};
@@ -909,6 +1004,74 @@ const PeopleDetailedAnalytics = () => {
           </div>
           <div className="mb-1 -mt-2 p-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between __web-inspector-hide-shortcut__"></div>
           <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
+            <div className={colSixGraph}>
+              <DashboardTitle title={"Before Country Wise User"} />
+
+              {chartState?.countryWiseCustomerGraphStateForComparison ==
+              true ? (
+                <PieChart
+                  chartData={
+                    graphData?.countryWiseCustomerDataForComparison
+                      ?.countryWiseCustomerDataBefore
+                  }
+                  colors={
+                    graphData?.countryWiseCustomerDataForComparison
+                      ?.countryWiseCustomerDataBefore?.colors
+                  }
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"After Country Wise User"} />
+
+              {chartState?.countryWiseCustomerGraphStateForComparison ==
+              true ? (
+                <PieChart
+                  chartData={
+                    graphData?.countryWiseCustomerDataForComparison
+                      ?.countryWiseCustomerDataAfter
+                  }
+                  colors={
+                    graphData?.countryWiseCustomerDataForComparison
+                      ?.countryWiseCustomerDataAfter?.colors
+                  }
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            {/* <div className={colSixGraph}>
+              <DashboardTitle title={"Before Total Visitors Monthly"} />
+              {monthDataBefore.length > 0 ? (
+                <LineChart
+                  series={monthSeriesBefore}
+                  categories={monthCategoriesBefore}
+                  yAxisTitle="Number Of Visitors"
+                  xAxisTitle="Months"
+                  color="green"
+                  curve="smooth"
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+            <div className={colSixGraph}>
+              <DashboardTitle title={"After Total Visitors Monthly"} />
+              {monthSeriesAfter.length > 0 ? (
+                <LineChart
+                  series={monthSeriesAfter}
+                  categories={monthCategoriesAfter}
+                  yAxisTitle="Number Of Visitors"
+                  xAxisTitle="Months"
+                  color="green"
+                  curve="smooth"
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div> */}
             <div className={colFullWidthGraph}>
               <DashboardTitle title={"One Time & Multi Time Customer"} />
 
@@ -1088,7 +1251,7 @@ const PeopleDetailedAnalytics = () => {
                 <NoDataFound />
               )}
             </div> */}
-          
+
             <div className={colFullWidthGraph}>
               <DashboardTitle title={"Total & Average Order Count (Monthly)"} />
 
@@ -1139,18 +1302,6 @@ const PeopleDetailedAnalytics = () => {
               )}
             </div>
 
-            <div className={colSixGraph}>
-              <DashboardTitle title={"Country Wise User"} />
-
-              {chartState?.countryWiseCustomerGraphState == true ? (
-                <PieChart
-                  chartData={graphData?.countryWiseCustomerData}
-                  colors={graphData?.countryWiseCustomerData?.colors}
-                />
-              ) : (
-                <NoDataFound />
-              )}
-            </div>
             <div className={colSixGraph}>
               <DashboardTitle title={"Most Visited Products"} />
 
@@ -1371,4 +1522,4 @@ const PeopleDetailedAnalytics = () => {
   );
 };
 
-export default PeopleDetailedAnalytics;
+export default PeopleComparisonAnalyticsComponent;
