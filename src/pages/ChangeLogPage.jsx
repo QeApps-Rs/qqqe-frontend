@@ -4,6 +4,7 @@ import changeLogImg from "../images/change-log-img.jpg";
 import toast from "react-hot-toast";
 import Loader from "../common/Loader";
 import FormSubmitHandler from "../components/FormSubmitHandler";
+import noDataAnimationIcon from "../images/no-data.png";
 
 const ChangeLog = () => {
   const [loading, setLoading] = useState(false);
@@ -124,9 +125,13 @@ const ChangeLog = () => {
                   <h3 className="font-semibold text-lg inline-block">
                     {step.title}
                   </h3>
-                  <p className="text-gray-600 text-md mt-2">
-                    {step.description}
-                  </p>
+                  <ul className="ml-10">
+                    {step?.suggestions?.length > 0 &&step?.suggestions?.map((suggestion, index) => (
+                      <li key={index} className="text-gray-600 text-md mt-2 list-disc">
+                        {suggestion?.title}
+                      </li>
+                    ))}
+                  </ul>
                   <span
                     className={`py-1 px-4 rounded-full font-bold text-sm text-white ${
                       step.change_log_type === "Improvement"
@@ -141,6 +146,16 @@ const ChangeLog = () => {
                 </div>
               </div>
             ))}
+            {paginatedData.length === 0 && (
+              <div className="w-full justify-center flex items-center h-full">
+                <img
+                  src={noDataAnimationIcon}
+                  alt="no data"
+                  style={{ width: "400px", height: "auto" }}
+                />
+              </div>
+            )}
+
             <div className="flex justify-center mt-4 mb-20 ">
               {Array.from({ length: totalPages }).map((_, i) => (
                 <button

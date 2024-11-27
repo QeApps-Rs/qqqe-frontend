@@ -41,6 +41,7 @@ import DetailedAnalytics from "./pages/detailed-analytics";
 import AppDashboardPage from "./components/Detailed-Analytics/AppDashboard";
 import EmailTemplate from "./pages/Emailtemplate";
 import ChangeLog from "./pages/ChangeLogPage";
+import ComparisonAnalytics from "./pages/ComparisonAnalytics";
 
 const env_type = import.meta.env.VITE_ENV;
 
@@ -81,7 +82,6 @@ const App = () => {
     <Loader />
   ) : (
     <Router>
-      
       <div className="App">
         <header className="App-header">
           <div>
@@ -168,18 +168,16 @@ const App = () => {
                 path="/detailed-analytics"
                 element={<DetailedAnalytics />}
               />
-                <Route
-                path="/app-dashboard"
-                element={<AppDashboardPage/>}
-              />
-               <Route
-                path="template/list/:id/email-template"
-                element={<EmailTemplate/>}
-              />
               <Route
-                path="/changelog"
-                element={<ChangeLog/>}
+                path="/compare-analytics"
+                element={<ComparisonAnalytics />}
               />
+              <Route path="/app-dashboard" element={<AppDashboardPage />} />
+              <Route
+                path="template/list/:id/email-template/:templateId"
+                element={<EmailTemplate />}
+              />
+              <Route path="/changelog" element={<ChangeLog />} />
             </Route>
           </Routes>
         </header>
