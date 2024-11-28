@@ -47,7 +47,7 @@ const ChangeLog = () => {
   ]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 3;
 
   const handleCheckboxChange = (id) => {
     setFilterCheckBox((prev) =>
@@ -122,24 +122,37 @@ const ChangeLog = () => {
                   )}
                 </div>
                 <div className="w-3/4 pl-4">
-                  <h3 className="font-semibold text-lg inline-block">
+                  {/* Title */}
+                  <h3 className="font-extrabold text-lg text-gray-800 mb-6 tracking-wide uppercase">
                     {step.title}
                   </h3>
-                  <ul className="ml-10">
-                    {step?.suggestions?.length > 0 &&step?.suggestions?.map((suggestion, index) => (
-                      <li key={index} className="text-gray-600 text-md mt-2 list-disc">
-                        {suggestion?.title}
-                      </li>
-                    ))}
+
+                  {/* Suggestions List */}
+                  <ul className="space-y-4">
+                    {step?.suggestions?.length > 0 &&
+                      step?.suggestions?.map((suggestion, index) => (
+                        <li
+                          key={index}
+                          className="relative text-gray-800 text-base bg-gradient-to-br from-gray-50 to-gray-200 shadow-lg border-l-4
+                           border-blue-700 min-h-[40px] rounded-lg flex items-center font-semibold px-6 py-4 
+                           before:content-[''] before:absolute before:inset-0 before:-z-10 
+                           before:rounded-lg before:bg-gradient-to-r before:from-indigo-100 before:via-blue-200 before:to-purple-200 
+                           before:opacity-10 hover:before:opacity-30"
+                        >
+                          {suggestion?.title}
+                        </li>
+                      ))}
                   </ul>
+
+                  {/* Change Log Type Badge */}
                   <span
-                    className={`py-1 px-4 rounded-full font-bold text-sm text-white ${
+                    className={`inline-block py-2 px-6 rounded-full font-bold text-sm text-whiten mt-8 shadow-md  ${
                       step.change_log_type === "Improvement"
-                        ? "bg-green-600 "
+                        ? "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-500 hover:to-green-700"
                         : step.change_log_type === "Feature"
-                        ? "bg-yellow-700 "
-                        : "bg-teal-600"
-                    } mt-2 inline-block`}
+                        ? "bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700"
+                        : "bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-500 hover:to-teal-700"
+                    }`}
                   >
                     {step.change_log_type}
                   </span>
