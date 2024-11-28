@@ -40,7 +40,7 @@ import WelcomePage from "./pages/welcome";
 import DetailedAnalytics from "./pages/detailed-analytics";
 import AppDashboardPage from "./components/Detailed-Analytics/AppDashboard";
 import EmailTemplate from "./pages/Emailtemplate";
-import ChangeLog from "./pages/ChangeLogPage";
+import ActivityLog from "./pages/ActivityLogPage";
 import ComparisonAnalytics from "./pages/ComparisonAnalytics";
 
 const env_type = import.meta.env.VITE_ENV;
@@ -177,7 +177,7 @@ const App = () => {
                 path="template/list/:id/email-template/:templateId"
                 element={<EmailTemplate />}
               />
-              <Route path="/changelog" element={<ChangeLog />} />
+              <Route path="/activity/log" element={<ActivityLog />} />
             </Route>
           </Routes>
         </header>

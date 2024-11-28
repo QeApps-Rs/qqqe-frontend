@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
 import Checkbox from "../components/higherOrderComponent/Checkboxes/Checkbox";
-import changeLogImg from "../images/change-log-img.jpg";
+import activityLogImg from "../images/change-log-img.jpg";
 import toast from "react-hot-toast";
 import Loader from "../common/Loader";
 import FormSubmitHandler from "../components/FormSubmitHandler";
 import noDataAnimationIcon from "../images/no-data.png";
 
-const ChangeLog = () => {
+const ActivityLog = () => {
   const [loading, setLoading] = useState(false);
   const [stepsData, setStepsData] = useState([]);
   useEffect(() => {
-    const fetchChangeLogs = async () => {
+    const fetchActivityLogs = async () => {
       try {
         setLoading(true);
         await FormSubmitHandler({
           method: "get",
-          url: `change-log/list`,
+          url: `activity/log/list`,
         })
           .then((res) => {
             if (res.data.length > 0) {
@@ -33,7 +33,7 @@ const ChangeLog = () => {
       }
     };
 
-    fetchChangeLogs();
+    fetchActivityLogs();
   }, []);
 
   const [filterCheckBox, setFilterCheckBox] = useState([
@@ -74,7 +74,7 @@ const ChangeLog = () => {
       .map((checkbox) => checkbox.label);
 
     return (
-      activeFilters.length === 0 || activeFilters.includes(step.change_log_type)
+      activeFilters.length === 0 || activeFilters.includes(step.activity_log_type)
     );
   });
 
@@ -92,14 +92,14 @@ const ChangeLog = () => {
     <>
       {loading && <Loader />}
       <div className="block ">
-        <div className="w-full bg-change_log_bg_gradient flex justify-between items-center shadow-[0_0_11px_#ccc]">
+        <div className="w-full bg-activity_log_bg_gradient flex justify-between items-center shadow-[0_0_11px_#ccc]">
           <div className="block sm:pl-10 sm:p-0 p-4">
-            <span className="text-lg font-medium text-whiter">Changelog</span>
+            <span className="text-lg font-medium text-whiter">Activity Log</span>
             <h1 className="text-3xl font-bold text-whiter">
               What’s New at QQQE?{" "}
             </h1>
           </div>
-          <img src={changeLogImg} alt="" className="w-60 sm:block hidden" />
+          <img src={activityLogImg} alt="" className="w-60 sm:block hidden" />
         </div>
         <div className="grid grid-cols-1  sm:grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5 mt-10 ">
           <div className="lg:col-span-9 md:col-span-8 sm:col-span-7 col-span-12 p-6 rounded-lg">
@@ -147,14 +147,14 @@ const ChangeLog = () => {
                   {/* Change Log Type Badge */}
                   <span
                     className={`inline-block py-2 px-6 rounded-full font-bold text-sm text-whiten mt-8 shadow-md  ${
-                      step.change_log_type === "Improvement"
+                      step.activity_log_type === "Improvement"
                         ? "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-500 hover:to-green-700"
-                        : step.change_log_type === "Feature"
+                        : step.activity_log_type === "Feature"
                         ? "bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700"
                         : "bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-500 hover:to-teal-700"
                     }`}
                   >
-                    {step.change_log_type}
+                    {step.activity_log_type}
                   </span>
                 </div>
               </div>
@@ -216,4 +216,4 @@ const ChangeLog = () => {
   );
 };
 
-export default ChangeLog;
+export default ActivityLog;
