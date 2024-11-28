@@ -25,7 +25,8 @@ const EmailTemplateEditorComponent = () => {
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const { templateId } = useParams(); // Extract templateId from URL
-
+  const pid = id.split("s")[0];
+  const sid = id.split("s")[1];
   const [success, setSuccess] = useState(false);
 
   const [templateHeaderState, setTemplateHeaderState] = useState({
@@ -93,7 +94,7 @@ const EmailTemplateEditorComponent = () => {
 
   const getTemplateList = async () => {
     setLoading(true);
-    const sid = id.split("s")[1];
+   
     await FormSubmitHandler({
       method: "get",
       url: `customer/template/${sid}?handle_type=${emailTemplateJSON?.handle_type}`,
@@ -238,7 +239,11 @@ const EmailTemplateEditorComponent = () => {
           setView={setView}
           success={success}
           setSuccess={setSuccess}
+          setLoading={setLoading}
           templateHeaderState={templateHeaderState}
+          emailTemplateJSON={emailTemplateJSON}
+          pid={pid}
+          sid={sid}
         />
         {emailTemplate.isAbandonmentCartFirstDesign && (
           <EmailTemplateDefault emailTemplateJSON={emailTemplateJSON} />

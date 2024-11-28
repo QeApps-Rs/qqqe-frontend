@@ -1,11 +1,51 @@
+import FormSubmitHandler from "../FormSubmitHandler";
+import toast from "react-hot-toast";
 const TemplateHeader = ({
   isView,
   setView,
   success,
   setSuccess,
+  setLoading,
   templateHeaderState,
-  onPublish
+  emailTemplateJSON,
+  pid,
+  sid,
 }) => {
+  const onPublish = async () => {
+    console.log([
+      "emailTemplateJSON",
+      emailTemplateJSON,
+      "pid",
+      pid,
+      "sid",
+      sid,
+    ]);
+    try {
+      setLoading(true);
+      await FormSubmitHandler({
+        method: "post",
+        url: `store/email/template`,
+        data: {
+          pid: pid,
+          sid: sid,
+          json_response: emailTemplateJSON,
+        },
+      })
+        .then((res) => {
+          if (res.data) {
+            toast.success(res.message);
+          }
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
   return (
     <div className="flex mb-4 justify-between p-4 pl-10 pr-10 border-l border-[#eaedef] items-center flex-wrap w-full bg-white shadow-[6px_0px_7px_#ccc]">
       <div className="w-[70%] flex justify-center">

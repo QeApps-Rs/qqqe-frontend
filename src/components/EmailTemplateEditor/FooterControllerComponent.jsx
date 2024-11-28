@@ -467,7 +467,6 @@ const FooterControllerComponent = ({
               {emailTemplateJSON?.footer_banner_style?.text_components.map(
                 (component, index) => (
                   <>
-                    {console.log("component", component)}
                     <div
                       key={index}
                       className="relative items-start p-4 bg-white rounded-lg shadow-lg border border-bodydark"
