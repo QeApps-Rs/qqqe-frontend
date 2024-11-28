@@ -2,10 +2,8 @@
 import logoSrc from "../../images/favicon.png";
 import paymentIcon from "../../images/payment-icon.png";
 import emailTemplateBannerImg from "../../images/email-template-dummy_img.png";
-import { useEffect } from "react";
 const EmailAbandonmentCartTemplate = ({
   emailTemplateJSON,
-  setEmailTemplateJSON,
 }) => {
   const socialMediaPlatforms = [
     { label: "Facebook", icon: "facebook", key: "facebook" },
@@ -29,21 +27,18 @@ const EmailAbandonmentCartTemplate = ({
           src={product.image}
           alt={product.title}
           style={{
-            maxHeight: "120px",
-            maxWidth: "150px",
+          height: "120px",
+            width: "120px",
             borderRadius: "100%",
             marginRight: "24px",
           }}
         />
-        <h2
-          title={product.title}
-          className="block text-[#022b39] text-lg font-semibold text-start leading-tight "
-        >
+        <h2 className="block text-[#022b39] text-lg font-semibold text-start leading-tight ">
           {product.title}
         </h2>
       </div>
       <div style={{ display: "flex", justifyContent: "end", width: "25%" }}>
-        <span className="block text-gray-200 text-xl font-medium">
+        <span className="block text-gray-200 text-lg font-medium">
           {product.price}
         </span>
       </div>
@@ -146,7 +141,8 @@ const EmailAbandonmentCartTemplate = ({
               display: "block",
             }}
           >
-            <td style={{ padding: "20px", width: "100%", display: "block" }}>
+            <td style={{ padding: "20px", width: "100%", display: "flex" , justifyContent:"center"  }}>
+              <div style={{width:"75%"}}>
               {emailTemplateJSON?.cart_banner_style?.text_components.map(
                 (component, index) => (
                   <p
@@ -154,15 +150,17 @@ const EmailAbandonmentCartTemplate = ({
                     style={{
                       fontSize: component?.font_size,
                       fontFamily: component?.font_family,
-                      color: component?.text_color,
+                      color: component?.text_color || "#000000",
                       textAlign: component?.text_position,
                       margin: "0",
+                      paddingBottom: "10px",
                     }}
                   >
                     {component?.heading}
                   </p>
                 )
               )}
+              </div>
             </td>
             <td
               style={{
@@ -257,6 +255,7 @@ const EmailAbandonmentCartTemplate = ({
                 emailTemplateJSON.badge_section_style.background_color ||
                 "#fff",
               padding: "20px",
+              display: "block",
             }}
           >
             <div style={{ width: "100%" }}>
@@ -395,63 +394,67 @@ const EmailAbandonmentCartTemplate = ({
               </ul>
             </tr>
           )}
-          <tr style={{ width: "75%" }}>
-            <td colSpan="2">
-              <div
+          <tr style={{ width: "75%", padding: "20px" }}>
+            <td
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "10px",
+              }}
+            >
+              <img
+                src={
+                  emailTemplateJSON?.footer_banner_style?.imageIcon
+                    ? emailTemplateJSON?.footer_banner_style?.imageIcon
+                    : logoSrc
+                }
+                alt="Logo"
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginBottom: "20px",
+                  maxHeight: "50px",
+                  maxWidth: "100px",
                 }}
-              >
-                {socialMediaLinks.map(({ icon, key, url }) =>
-                  url ? (
-                    <a
-                      key={key}
-                      href={url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ margin: "0 10px" }}
-                    >
-                      <i
-                        className={`fa fa-${icon} text-3xl cursor-pointer`}
-                        style={{ fontSize: "24px", color: "#FFFFFF" }}
-                      ></i>
-                    </a>
-                  ) : null
-                )}
-              </div>
-              <td style={{ display: "flex", justifyContent: "center" }}>
-                <img
-                  src={
-                    emailTemplateJSON?.footer_banner_style?.imageIcon
-                      ? emailTemplateJSON?.footer_banner_style?.imageIcon
-                      : logoSrc
-                  }
-                  alt="Logo"
-                  style={{
-                    maxHeight: "50px",
-                    maxWidth: "100px",
-                  }}
-                />
-              </td>
-              {emailTemplateJSON.footer_banner_style.text_components.map(
-                (component, index) => (
-                  <p
-                    key={index}
-                    style={{
-                      fontSize: component?.font_size,
-                      fontFamily: component?.font_family,
-                      color: component?.text_color || "#FFFFFF",
-                      textAlign: component?.text_position,
-                      marginBottom: "10px",
-                    }}
-                  >
-                    {component?.heading}
-                  </p>
-                )
-              )}
+              />
             </td>
+            {socialMediaLinks.map(({ icon, key, url }) =>
+              url ? (
+                <div
+                  key={key}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <a
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ margin: "0 10px" }}
+                  >
+                    <i
+                      className={`fa fa-${icon} text-3xl cursor-pointer`}
+                      style={{ fontSize: "24px", color: "#FFFFFF" }}
+                    ></i>
+                  </a>
+                </div>
+              ) : null
+            )}
+            {emailTemplateJSON.footer_banner_style.text_components.map(
+              (component, index) => (
+                <p
+                  key={index}
+                  style={{
+                    fontSize: component?.font_size,
+                    fontFamily: component?.font_family,
+                    color: component?.text_color || "#FFFFFF",
+                    textAlign: component?.text_position,
+                    marginBottom: "10px",
+                  }}
+                >
+                  {component?.heading}
+                </p>
+              )
+            )}
           </tr>
         </tfoot>
       </table>

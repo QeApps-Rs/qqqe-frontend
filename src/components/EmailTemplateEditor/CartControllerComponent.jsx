@@ -13,6 +13,7 @@ const EmailTemplateCartControllerComponent = ({
   emailTemplateJSON,
   setEmailTemplateJSON,
   handleEmailTemplateChange,
+  isAbandonmentCartSecondDesign
 }) => {
   const [editingTextComponentIndex, setEditingTextComponentIndex] =
     useState(null);
@@ -28,7 +29,7 @@ const EmailTemplateCartControllerComponent = ({
             heading: "New Heading",
             font_size: "16px",
             font_family: "Arial, sans-serif",
-            text_color: "black",
+            text_color: "#000000",
             text_position: "center",
           },
         ],
@@ -297,7 +298,7 @@ const EmailTemplateCartControllerComponent = ({
         </div>
       </div>
 
-      <div className="p-4 bg-white rounded-lg shadow-lg">
+      {isAbandonmentCartSecondDesign && <div className="p-4 bg-white rounded-lg shadow-lg">
         <label className="text-lg font-bold mb-6 text-gray-700 dark:text-white">
           Cart Product Style
         </label>
@@ -316,7 +317,7 @@ const EmailTemplateCartControllerComponent = ({
             }
           />
         </div>
-      </div>
+      </div>}
     </div>
   );
 };

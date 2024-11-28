@@ -43,47 +43,16 @@ const EmailTemplateEditorComponent = () => {
   const [emailTemplateJSON, setEmailTemplateJSON] = useState(
     emailTemplateEditorDefaults
   );
-  const defaultTextComponents2 = [
-    {
-      heading: "This email was sent to hello@blazetate.com",
-      font_size: "24px",
-      font_family: "Arial, sans-serif",
-      text_color: "#000000", // Default to white
-      text_position: "center",
-    },
-    {
-      heading: "2585 Red Lane, Skamokawa, Louisiana, 70228-6566",
-      font_size: "16px",
-      font_family: "Arial, sans-serif",
-      text_color: "#000000", // Default to white
-      text_position: "center",
-    },
-    {
-      heading: "Privacy Policy and Terms of Service",
-      font_size: "16px",
-      font_family: "Arial, sans-serif",
-      text_color: "#000000", // Default to white
-      text_position: "center",
-    },
-    {
-      heading: "©2024 QQQE",
-      font_size: "16px",
-      font_family: "Arial, sans-serif",
-      text_color: "#000000", // Default to white
-      text_position: "center",
-    },
-  ];
-  const [isSetDefaultState, setIsSetDefaultState] = useState(false);
 
   useEffect(() => {
     if (templateId === "1") {
-      setIsSetDefaultState(true); // Trigger the state update for footer text
+
       setEmailTemplate({
         isAbandonmentCartFirstDesign: true,
         isAbandonmentCartSecondDesign: false,
       });
     } else if (templateId === "2") {
-      setIsSetDefaultState(true); // Trigger the state update for footer text
+
       setEmailTemplate({
         isAbandonmentCartFirstDesign: false,
         isAbandonmentCartSecondDesign: true,
@@ -91,21 +60,7 @@ const EmailTemplateEditorComponent = () => {
     }
   }, [templateId]);
 
-  useEffect(() => {
-    if (isSetDefaultState) {
-      setTimeout(() => {
-        setEmailTemplateJSON((prev) => ({
-          ...prev,
-          footer_banner_style: {
-            ...prev.footer_banner_style,
-            text_components: defaultTextComponents2,
-          },
-        }));
-      }, 200);
-
-      setIsSetDefaultState(false); // Reset the flag
-    }
-  }, [isSetDefaultState]);
+ 
 
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -223,6 +178,8 @@ const EmailTemplateEditorComponent = () => {
                       emailTemplateJSON={emailTemplateJSON}
                       handleEmailTemplateChange={handleEmailTemplateChange}
                       setEmailTemplateJSON={setEmailTemplateJSON}
+                      isAbandonmentCartSecondDesign={
+                        emailTemplate?.isAbandonmentCartSecondDesign}
                     />
                   )}
                 {activeIndex === index &&

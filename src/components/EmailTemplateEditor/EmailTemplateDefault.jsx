@@ -18,7 +18,7 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
       <img
         src={product.image}
         alt={product.title}
-        style={{ maxHeight: "120px", maxWidth: "150px" }}
+        style={{ maxHeight: "120px", width: "120px" }}
       />
       <div className="block">
         <h2
@@ -218,7 +218,7 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
                     style={{
                       fontSize: component?.font_size,
                       fontFamily: component?.font_family,
-                      color: component?.text_color,
+                      color: component?.text_color || "#000000",
                       textAlign: component?.text_position,
                       margin: "0",
                     }}

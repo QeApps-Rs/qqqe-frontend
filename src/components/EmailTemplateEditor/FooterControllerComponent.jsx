@@ -106,7 +106,7 @@ const FooterControllerComponent = ({
             heading: "New Heading",
             font_size: "16px",
             font_family: "Arial, sans-serif",
-            text_color: "black",
+            text_color: "#000000",
             text_position: "center",
           },
         ],

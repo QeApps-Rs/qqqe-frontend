@@ -29,6 +29,10 @@ export const emailTemplateEditorDefaults = {
         navName: "New",
         navUrl: "#",
       },
+      {
+        navName: "Contact",
+        navUrl: "#",
+      },
     ],
     background_color: "",
     nav_bar_text_color: "",
@@ -58,7 +62,7 @@ export const emailTemplateEditorDefaults = {
         heading: "Still in your cart",
         font_size: "24px",
         font_family: "Arial, sans-serif",
-        text_color: "#022b3a",
+        text_color: "",
         text_position: "center",
       },
       {
@@ -66,7 +70,7 @@ export const emailTemplateEditorDefaults = {
           "These fashionable items are still waiting for you in your shopping cart.",
         font_size: "16px",
         font_family: "Arial, sans-serif",
-        text_color: "#022b3a",
+        text_color: "",
         text_position: "center",
       },
     ],
@@ -145,9 +149,38 @@ export const emailTemplateEditorDefaults = {
       insta_url: "https://www.instagram.com",
       youtube_url: "https://www.youtube.com",
     },
-    text_components: [],
+    text_components: [
+      {
+        heading: "This email was sent to hello@blazetate.com",
+        font_size: "24px",
+        font_family: "Arial, sans-serif",
+        text_color: "",
+        text_position: "center",
+      },
+      {
+        heading: "2585 Red Lane, Skamokawa, Louisiana, 70228-6566",
+        font_size: "16px",
+        font_family: "Arial, sans-serif",
+        text_color: "",
+        text_position: "center",
+      },
+      {
+        heading: "Privacy Policy and Terms of Service",
+        font_size: "16px",
+        font_family: "Arial, sans-serif",
+        text_color: "",
+        text_position: "center",
+      },
+
+      {
+        heading: "©2024 QQQE",
+        font_size: "16px",
+        font_family: "Arial, sans-serif",
+        text_color: "",
+        text_position: "center",
+      },
+    ],
   },
-  email_template_products: [],
 };
 
 export const emailTemplateEditorCollapseOptions = [
