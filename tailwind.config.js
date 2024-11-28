@@ -215,7 +215,7 @@ export default {
         book_appointment:
           "linear-gradient(21deg, rgba(30,30,30,0.87) 0%, rgba(5,40,120,1) 68%, rgba(3,65,160,1) 100%)",
         bg_blue_gradient: "linear-gradient(21deg, rgba(0,78,255,0.120) 0%, rgba(161,189,245,0.9) 68%, rgba(1,41,125,1) 100%)",
-        change_log_bg_gradient:"linear-gradient(21deg, rgb(34 8 8) 0%, rgb(27 46 92 / 85%) 44%, rgb(22 7 43 / 84%) 80%)"
+        activity_log_bg_gradient:"linear-gradient(21deg, rgb(34 8 8) 0%, rgb(27 46 92 / 85%) 44%, rgb(22 7 43 / 84%) 80%)"
       },
 
       content: {

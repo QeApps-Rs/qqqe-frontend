@@ -115,7 +115,7 @@ const PricePage = () => {
       setLoading(true);
       await FormSubmitHandler({
         method: "get",
-        url: "level1/question/list?category=product",
+        url: "level1/question/list?category=price",
       })
         .then((res) => {
           if (res.data) {
