@@ -93,7 +93,7 @@ const CampaignsDetailsPage = () => {
   const [abTest, setAbTest] = useState([]);
 
   const [loading, setLoading] = useState(false);
-
+  const [emailList, setEmailList] = useState([]);
   useEffect(() => {
     const fetchSuggestionDetailsData = async () => {
       try {
@@ -123,7 +123,68 @@ const CampaignsDetailsPage = () => {
 
     fetchSuggestionDetailsData();
   }, [id]);
+  const handleSendEmail = async () => {
+    console.log("product Details Data", productDetailsData);
+    if (productDetailsData?.suggestion?.data?.length > 0) {
+      console.log("productDetailsData", productDetailsData?.suggestion?.data);
 
+      let responseProductDetailsData = productDetailsData?.suggestion?.data;
+      let newEmailList = []; // Collect all new email details before updating the state
+
+      responseProductDetailsData.forEach((productDetails) => {
+        console.log("productDetails", productDetails);
+
+        let customerDetailForEmail = productDetails?.customer_detail || [];
+        let productListForEmail = [];
+
+        // Limit the product list to a maximum of 3 items
+        if (productDetails?.product_list?.length > 0) {
+          productDetails.product_list.forEach((item, index) => {
+            if (index < 3) {
+              productListForEmail.push(item);
+            }
+          });
+        }
+
+        let emailDetails = {
+          customerDetail: customerDetailForEmail,
+          productList: productListForEmail,
+        };
+
+        newEmailList.push(emailDetails); // Add email details to the local list
+        console.log("emailDetails", emailDetails);
+      });
+
+      // Update the state once with the complete list
+      setEmailList((prev) => [...prev, ...newEmailList]);
+    }
+
+    try {
+      // return;
+      setLoading(true);
+      await FormSubmitHandler({
+        method: "post",
+        url: `sent/email/to-customers`,
+        data: {
+          productDetailsData: productDetailsData,
+        },
+      })
+        .then((res) => {
+          if (res.data) {
+            toast.success(res.message);
+          }
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  console.log("emailList", emailList);
   return (
     <>
       {loading && <Loader />}
@@ -286,6 +347,13 @@ const CampaignsDetailsPage = () => {
             >
               <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
                 Edit Template
+              </button>
+            </Link>
+          </div>
+          <div className="flex items-center">
+            <Link onClick={handleSendEmail}>
+              <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
+                Send Email
               </button>
             </Link>
           </div>
