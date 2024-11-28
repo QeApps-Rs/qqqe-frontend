@@ -72,7 +72,7 @@ const Sidebar = () => {
         </nav>
         <div className="fixed w-20 bottom-0 flex left-0 pb-4">
           <div className="grid justify-center text-center w-full">
-            <Link to={"/changelog"}>
+            <Link to={"/activity/log"}>
               <div className="min-h-10 items-center flex justify-center cursor-pointer">
                 <i
                   className="fa fa-refresh text-[20px] bg-[#907dfff0] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
