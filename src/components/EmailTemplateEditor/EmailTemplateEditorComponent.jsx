@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../common/Loader";
 import { BackIcon } from "../custIcon/svgIcon";
-import TemplateHeader from "../Forms/TemplateHeader";
 import EmailTemplateDefault from "./EmailTemplateDefault";
 import EmailTemplateControllerComponent from "./EmailTemplateControllerComponent";
 import CartControllerComponent from "./CartControllerComponent";
@@ -19,6 +18,7 @@ import FormSubmitHandler from "../FormSubmitHandler";
 import EmailTemplateBadgeControllerComponent from "./EmailTemplateBadgeControllerComponent";
 import GlobalStyleControllerComponent from "./GlobalStyleControllerComponent";
 import EmailAbandonmentCartTemplate from "./EmailAbandonmentCartTemplate";
+import EmailTemplateHeader from "./EmailTemplateHeader";
 
 const EmailTemplateEditorComponent = () => {
   //  shiv code start
@@ -234,7 +234,7 @@ const EmailTemplateEditorComponent = () => {
       </div>
 
       <div className="w-3/4 float-right p-0">
-        <TemplateHeader
+        <EmailTemplateHeader
           isView={isView}
           setView={setView}
           success={success}
