@@ -21,6 +21,7 @@ const PreferenceSurvey = ({
   },
 }) => {
   const navigate = useNavigate();
+  const isFromSetting = "?create="+isTitleDisplay
   const [loading, setLoading] = useState(false);
   const [checkedItems, setCheckedItems] = useState([]);
   const [answers, setAnswers] = useState([]);
@@ -63,7 +64,7 @@ const PreferenceSurvey = ({
       setLoading(true);
       await FormSubmitHandler({
         method: "post",
-        url: "preference/store",
+        url: "preference/store" + isFromSetting,
         data: answers,
       })
         .then((res) => {
