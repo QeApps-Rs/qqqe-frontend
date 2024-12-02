@@ -1,10 +1,9 @@
 import React from 'react'
-import CommingSoon from '../components/higherOrderComponent/commingSoon/CommingSoon'
+import ComingSoon from '../components/higherOrderComponent/ComingSoon/ComingSoon'
 
 const PromotionPage = () => {
   return (
-    <CommingSoon/>
+    <ComingSoon/>
   )
 }
-
 export default PromotionPage
