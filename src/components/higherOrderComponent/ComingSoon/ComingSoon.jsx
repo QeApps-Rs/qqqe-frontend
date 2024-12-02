@@ -2,7 +2,7 @@ import logo from '../../../images/qqqe_maintenance.png'
 import Button from '../button/button';
 import { Link } from 'react-router-dom';
 
-const CommingSoon = () => {
+const ComingSoon = () => {
   return (
     <div className="w-full h-4/6 flex flex-col items-center justify-between min-h-[500px]">
       <div className="xl:w-1/2 flex-1 flex flex-col items-center justify-center text-center px-4 lg:px-0">
@@ -27,4 +27,4 @@ const CommingSoon = () => {
   );
 };
 
-export default CommingSoon;
+export default ComingSoon;

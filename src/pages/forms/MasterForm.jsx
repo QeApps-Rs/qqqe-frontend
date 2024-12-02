@@ -331,7 +331,7 @@ const MasterForm = () => {
       color: design[`${type}Color`] || "#000", // Optional fallback for color
     };
     if (type == "templateEmail") {
-      console.log("Generated styles for type:", type, design, styles); // Log the styles to the console
+      // console.log("Generated styles for type:", type, design, styles);
     }
     return styles;
   };
