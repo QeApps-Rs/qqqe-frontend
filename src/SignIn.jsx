@@ -97,7 +97,7 @@ const SignIn = () => {
           </div>
         </div>
 
-        <div className="w-full p-4 sm:p-12.5 xl:p-8 flex items-baseline flex-wrap">
+        <div className="w-full p-4 sm:p-12.5 xl:p-8 flex sm:items-baseline flex-wrap items-center">
           <p className="sm:block hidden text-white text-end font-bold w-full">
             Don’t have any account?{" "}
             <Link to="/auth/signup" className="text-blue-500 ml-1">
