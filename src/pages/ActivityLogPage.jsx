@@ -67,25 +67,60 @@ const ActivityLog = () => {
       }))
     );
   };
+  // const filteredData = stepsData.filter((step) => {
+  //   const activeFilters = filterCheckBox
+  //     .filter((checkbox) => checkbox.checked)
+  //     .map((checkbox) => checkbox.label);
 
+  //   return (
+  //     activeFilters.length === 0 || activeFilters.includes(step.activity_log_type)
+  //   );
+  // });
+
+  // const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  // const paginatedData = filteredData.slice(
+  //   (currentPage - 1) * itemsPerPage,
+  //   currentPage * itemsPerPage
+  // );
+
+  // const handlePageChange = (newPage) => {
+  //   setCurrentPage(newPage);
+  // };
+
+  // Step 1: Filter data based on the active filters
   const filteredData = stepsData.filter((step) => {
     const activeFilters = filterCheckBox
       .filter((checkbox) => checkbox.checked)
       .map((checkbox) => checkbox.label);
 
     return (
-      activeFilters.length === 0 || activeFilters.includes(step.activity_log_type)
+      activeFilters.length === 0 ||
+      activeFilters.includes(step.activity_log_type)
     );
   });
 
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const paginatedData = filteredData.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  // Step 2: Group data by date
+  const groupedByDate = filteredData.reduce((acc, step) => {
+    if (!acc[step.date]) {
+      acc[step.date] = [];
+    }
+    acc[step.date].push(step);
+    return acc;
+  }, {});
+
+  const groupedData = Object.entries(groupedByDate).map(([date, items]) => ({
+    date,
+    items,
+  }));
+
+  // Step 3: Pagination logic based on grouped data
+  const totalPages = groupedData.length;
+  const paginatedData = groupedData[currentPage - 1] || { date: "", items: [] };
 
   const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
+    if (newPage > 0 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
   };
 
   return (
@@ -94,7 +129,9 @@ const ActivityLog = () => {
       <div className="block ">
         <div className="w-full bg-activity_log_bg_gradient flex justify-between items-center shadow-[0_0_11px_#ccc]">
           <div className="block sm:pl-10 sm:p-0 p-4">
-            <span className="text-lg font-medium text-whiter">Activity Log</span>
+            <span className="text-lg font-medium text-whiter">
+              Activity Log
+            </span>
             <h1 className="text-3xl font-bold text-whiter">
               What’s New at QQQE?{" "}
             </h1>
@@ -103,13 +140,12 @@ const ActivityLog = () => {
         </div>
         <div className="grid grid-cols-1  sm:grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5 mt-10 ">
           <div className="lg:col-span-9 md:col-span-8 sm:col-span-7 col-span-12 p-6 rounded-lg">
-            {paginatedData.map((step, index) => (
+            {paginatedData?.items.map((step, index) => (
               <div key={index} className="flex w-full mb-6">
                 <div className="w-1/6 ">
-                  {(index === 0 ||
-                    step.date !== paginatedData[index - 1].date) && (
+                  {index === 0 && (
                     <span className="text-gray-600 text-md font-semibold uppercase break-words">
-                      {step.date}
+                      {paginatedData.date}
                     </span>
                   )}
                 </div>
@@ -159,7 +195,7 @@ const ActivityLog = () => {
                 </div>
               </div>
             ))}
-            {paginatedData.length === 0 && (
+            {paginatedData?.items?.length === 0 && (
               <div className="w-full justify-center flex items-center h-full">
                 <img
                   src={noDataAnimationIcon}
