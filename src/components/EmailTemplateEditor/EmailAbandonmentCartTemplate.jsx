@@ -2,9 +2,7 @@
 import logoSrc from "../../images/favicon.png";
 import paymentIcon from "../../images/payment-icon.png";
 import emailTemplateBannerImg from "../../images/email-template-dummy_img.png";
-const EmailAbandonmentCartTemplate = ({
-  emailTemplateJSON,
-}) => {
+const EmailAbandonmentCartTemplate = ({ emailTemplateJSON }) => {
   const socialMediaPlatforms = [
     { label: "Facebook", icon: "facebook", key: "facebook" },
     { label: "Twitter", icon: "twitter", key: "twitter" },
@@ -13,7 +11,8 @@ const EmailAbandonmentCartTemplate = ({
   ];
 
   const ProductRow = ({ product }) => (
-    <td
+    
+    <div
       style={{
         width: "100%",
         display: "flex",
@@ -27,7 +26,7 @@ const EmailAbandonmentCartTemplate = ({
           src={product.image}
           alt={product.title}
           style={{
-          height: "120px",
+            height: "120px",
             width: "120px",
             borderRadius: "100%",
             marginRight: "24px",
@@ -42,7 +41,7 @@ const EmailAbandonmentCartTemplate = ({
           {product.price}
         </span>
       </div>
-    </td>
+    </div>
   );
 
   const socialMediaLinks = socialMediaPlatforms.map(({ icon, key }) => {
@@ -141,25 +140,34 @@ const EmailAbandonmentCartTemplate = ({
               display: "block",
             }}
           >
-            <td style={{ padding: "20px", width: "100%", display: "flex" , justifyContent:"center"  }}>
-              <div style={{width:"75%"}}>
-              {emailTemplateJSON?.cart_banner_style?.text_components.map(
-                (component, index) => (
-                  <p
-                    key={index}
-                    style={{
-                      fontSize: component?.font_size,
-                      fontFamily: component?.font_family,
-                      color: component?.text_color || "#000000",
-                      textAlign: component?.text_position,
-                      margin: "0",
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    {component?.heading}
-                  </p>
-                )
-              )}
+            <td
+              style={{
+                padding: "20px",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <div style={{ width: "75%" }}>
+                {emailTemplateJSON?.cart_banner_style?.text_components.map(
+                  (component, index) => (
+                    <div key={index}>
+                      <p
+                        key={index}
+                        style={{
+                          fontSize: component?.font_size,
+                          fontFamily: component?.font_family,
+                          color: component?.text_color || "#000000",
+                          textAlign: component?.text_position,
+                          margin: "0",
+                          paddingBottom: "10px",
+                        }}
+                      >
+                        {component?.heading}
+                      </p>
+                    </div>
+                  )
+                )}
               </div>
             </td>
             <td
@@ -182,71 +190,75 @@ const EmailAbandonmentCartTemplate = ({
           </tr>
 
           {emailTemplateJSON?.email_template_products?.length > 0 && (
-            <tr
-              style={{
-                backgroundColor:
-                  emailTemplateJSON?.cart_banner_style
-                    ?.product_background_color || "#fff",
-                padding: "20px",
-                display: "block",
-              }}
-            >
-              <div
+            <tr>
+              <td
+                colSpan="2" // Ensure proper cell spanning
                 style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: "20px",
+                  backgroundColor:
+                    emailTemplateJSON?.cart_banner_style
+                      ?.product_background_color || "#fff",
+                  padding: "20px",
+                  display: "block",
                 }}
               >
-                <h2
+                <div
                   style={{
-                    fontSize: "24px",
-                    fontWeight: "bold",
-                    textAlign: "center",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "20px",
                   }}
                 >
-                  3 Items
-                </h2>
+                  <h2
+                    style={{
+                      fontSize: "24px",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                    }}
+                  >
+                    3 Items
+                  </h2>
 
-                <button
-                  type="button"
+                  <button
+                    type="button"
+                    style={{
+                      backgroundColor:
+                        emailTemplateJSON?.cart_banner_style
+                          ?.btn_background_color,
+                      color:
+                        emailTemplateJSON?.cart_banner_style?.btn_text_color,
+                      padding: "10px 20px",
+                      borderRadius: "5px",
+                      fontSize: "16px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {emailTemplateJSON?.cart_banner_style?.btn_name}
+                  </button>
+                </div>
+
+                <div
                   style={{
-                    backgroundColor:
-                      emailTemplateJSON?.cart_banner_style
-                        ?.btn_background_color,
-                    color: emailTemplateJSON?.cart_banner_style?.btn_text_color,
-                    padding: "10px 20px",
-                    borderRadius: "5px",
-                    fontSize: "16px",
-                    cursor: "pointer",
+                    display: "flex",
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                    width: "100%",
                   }}
                 >
-                  {emailTemplateJSON?.cart_banner_style?.btn_name}
-                </button>
-              </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "center",
-                  width: "100%",
-                }}
-              >
-                {emailTemplateJSON?.email_template_products?.map(
-                  (product, index) => (
-                    <ProductRow
-                      key={product.id}
-                      product={product}
-                      isLast={
-                        index ===
-                        emailTemplateJSON?.email_template_products?.length - 1
-                      }
-                    />
-                  )
-                )}
-              </div>
+                  {emailTemplateJSON?.email_template_products?.map(
+                    (product, index) => (
+                      <ProductRow
+                        key={product.id}
+                        product={product}
+                        isLast={
+                          index ===
+                          emailTemplateJSON?.email_template_products?.length - 1
+                        }
+                      />
+                    )
+                  )}
+                </div>
+              </td>
             </tr>
           )}
           <tr
@@ -255,76 +267,82 @@ const EmailAbandonmentCartTemplate = ({
                 emailTemplateJSON.badge_section_style.background_color ||
                 "#fff",
               padding: "20px",
-              display: "block",
+              display: "grid",
             }}
           >
-            <div style={{ width: "100%" }}>
+            <td style={{ width: "100%" }}>
               {emailTemplateJSON?.badge_section_style?.text_components.map(
                 (component, index) => (
-                  <p
-                    key={index}
-                    style={{
-                      fontSize: component?.font_size,
-                      fontFamily: component?.font_family,
-                      color: component?.text_color,
-                      textAlign: component?.text_position,
-                      marginBottom: "10px",
-                    }}
-                  >
-                    {component?.heading}
-                  </p>
+                  <div key={index}>
+                    <p
+                      key={index}
+                      style={{
+                        fontSize: component?.font_size,
+                        fontFamily: component?.font_family,
+                        color: component?.text_color,
+                        textAlign: component?.text_position,
+                        marginBottom: "10px",
+                      }}
+                    >
+                      {component?.heading}
+                    </p>
+                  </div>
                 )
               )}
-            </div>
-            <tr style={{ width: "100%", display: "flex", flexWrap: "wrap" }}>
-              {emailTemplateJSON?.badge_section_style?.badge_icon?.map(
-                (item, index) => (
-                  <td
-                    key={index}
-                    style={{
-                      width: "25%",
-                      padding: "15px",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      textAlign: "center",
-                    }}
-                  >
+            </td>
+            <td>
+              <div style={{ width: "100%", display: "flex", flexWrap: "wrap" }}>
+                {emailTemplateJSON?.badge_section_style?.badge_icon?.map(
+                  (item, index) => (
                     <div
+                      key={index}
                       style={{
-                        width: "80px",
-                        height: "80px",
-                        borderRadius: "50%",
+                        width: "25%",
+                        padding: "15px",
                         display: "flex",
+                        flexDirection: "column",
                         alignItems: "center",
-                        justifyContent: "center",
+                        textAlign: "center",
                       }}
                     >
-                      <img
-                        src={
-                          item.badgeImage === "" ? paymentIcon : item.badgeImage
-                        }
-                        alt={`${item.badgeName.toLowerCase()}-icon`}
-                        style={{ width: "60px", height: "60px" }}
-                      />
+                      <div
+                        style={{
+                          width: "80px",
+                          height: "80px",
+                          borderRadius: "50%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <img
+                          src={
+                            item.badgeImage === ""
+                              ? paymentIcon
+                              : item.badgeImage
+                          }
+                          alt={`${item.badgeName.toLowerCase()}-icon`}
+                          style={{ width: "60px", height: "60px" }}
+                        />
+                      </div>
+                      <span
+                        style={{
+                          marginTop: "10px",
+                          fontSize:
+                            emailTemplateJSON.badge_section_style.font_size,
+                          fontFamily:
+                            emailTemplateJSON.badge_section_style.font_family,
+                          color: emailTemplateJSON.badge_section_style.color,
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {item.badgeName}
+                      </span>
                     </div>
-                    <span
-                      style={{
-                        marginTop: "10px",
-                        fontSize:
-                          emailTemplateJSON.badge_section_style.font_size,
-                        fontFamily:
-                          emailTemplateJSON.badge_section_style.font_family,
-                        color: emailTemplateJSON.badge_section_style.color,
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {item.badgeName}
-                    </span>
-                  </td>
-                )
-              )}
-            </tr>
+                  )
+                )}
+              </div>
+            </td>
           </tr>
         </tbody>
 
@@ -349,52 +367,54 @@ const EmailAbandonmentCartTemplate = ({
                 padding: "20px",
               }}
             >
-              <ul
-                style={{
-                  listStyleType: "none",
-                  padding: 0,
-                  margin: 0,
-                  display: "flex",
-                  width: "100%",
-                  flexWrap: "wrap",
-                }}
-              >
-                {emailTemplateJSON?.header_banner_style?.nav_links.map(
-                  (item, index) => (
-                    <li
-                      key={index}
-                      style={{
-                        display: "inline-block",
-                        cursor: "pointer",
-                        color:
-                          emailTemplateJSON.header_banner_style
-                            .nav_bar_text_color || "#f0cfba",
-                        fontSize:
-                          emailTemplateJSON.header_banner_style
-                            .nav_bar_font_size,
-                        fontFamily:
-                          emailTemplateJSON.header_banner_style
-                            .nav_bar_font_family,
-                        width: "25%",
-                      }}
-                    >
-                      <a
-                        href={item?.navUrl}
-                        target="_blank"
+              <td style={{ display: "block" }}>
+                <ul
+                  style={{
+                    listStyleType: "none",
+                    padding: 0,
+                    margin: 0,
+                    display: "flex",
+                    width: "100%",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  {emailTemplateJSON?.header_banner_style?.nav_links.map(
+                    (item, index) => (
+                      <li
+                        key={index}
                         style={{
-                          color: "inherit",
-                          textDecoration: "none",
+                          display: "inline-block",
+                          cursor: "pointer",
+                          color:
+                            emailTemplateJSON.header_banner_style
+                              .nav_bar_text_color || "#f0cfba",
+                          fontSize:
+                            emailTemplateJSON.header_banner_style
+                              .nav_bar_font_size,
+                          fontFamily:
+                            emailTemplateJSON.header_banner_style
+                              .nav_bar_font_family,
+                          width: "25%",
                         }}
                       >
-                        {item?.navName}
-                      </a>
-                    </li>
-                  )
-                )}
-              </ul>
+                        <a
+                          href={item?.navUrl}
+                          target="_blank"
+                          style={{
+                            color: "inherit",
+                            textDecoration: "none",
+                          }}
+                        >
+                          {item?.navName}
+                        </a>
+                      </li>
+                    )
+                  )}
+                </ul>
+              </td>
             </tr>
           )}
-          <tr style={{ width: "75%", padding: "20px" }}>
+          <tr style={{ width: "75%", padding: "20px" , display:"grid"}}>
             <td
               style={{
                 display: "flex",
@@ -417,9 +437,9 @@ const EmailAbandonmentCartTemplate = ({
             </td>
             {socialMediaLinks.map(({ icon, key, url }) =>
               url ? (
-                <div
-                  key={key}
-                  style={{
+                <td
+                key={key}
+                style={{
                     display: "flex",
                     justifyContent: "center",
                     marginBottom: "10px",
@@ -436,23 +456,24 @@ const EmailAbandonmentCartTemplate = ({
                       style={{ fontSize: "24px", color: "#FFFFFF" }}
                     ></i>
                   </a>
-                </div>
+                </td>
               ) : null
             )}
             {emailTemplateJSON.footer_banner_style.text_components.map(
               (component, index) => (
-                <p
-                  key={index}
-                  style={{
-                    fontSize: component?.font_size,
-                    fontFamily: component?.font_family,
-                    color: component?.text_color || "#FFFFFF",
-                    textAlign: component?.text_position,
-                    marginBottom: "10px",
-                  }}
-                >
-                  {component?.heading}
-                </p>
+                <td key={index}>
+                  <p
+                    style={{
+                      fontSize: component?.font_size,
+                      fontFamily: component?.font_family,
+                      color: component?.text_color || "#FFFFFF",
+                      textAlign: component?.text_position,
+                      marginBottom: "10px",
+                    }}
+                  >
+                    {component?.heading}
+                  </p>
+                </td>
               )
             )}
           </tr>

@@ -4,7 +4,7 @@ import ClickOutside from "../ClickOutside";
 import LogOutSvg from "../../images/svg-icons/logoutSvg";
 import SettingSvg from "../../images/svg-icons/settingSvg";
 
-const DropdownUser = () => {
+const DropdownUser = ({className}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [user, setUser] = useState({});
   const [initial, setInitial] = useState("U");
@@ -48,7 +48,7 @@ const DropdownUser = () => {
           </span>
           {dropdownOpen && (
             <div
-              className={`${dropDownDivClass} absolute left-15 bottom-12 z-200 mt-2 w-62.5 rounded-lg border bg-white shadow-[0px_5px_10px_rgba(0,0,0,0.25)] border border-[#cccccc6b]`}
+              className={`${dropDownDivClass} absolute ${className} z-200 mt-2 w-62.5 rounded-lg border bg-white shadow-[0px_5px_10px_rgba(0,0,0,0.25)] border border-[#cccccc6b]`}
             >
               <ul className={`${dropDownDivClass} gap-5 border-b px-6 py-4`}>
                 <li>

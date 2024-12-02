@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import BookSlotModal from "../BookSlot";
 import StartAppOverviewPage from "../StartAppOverview";
-import qqqeLogo from "/src/images/favicon.png";
 import FormSubmitHandler from "../FormSubmitHandler";
 import toast from "react-hot-toast";
 import Loader from "../../common/Loader";
@@ -77,10 +76,10 @@ const AppDashboardPage = () => {
       {showIframe ? (
         <BookSlotModal handlePageClick={handlePageClick} />
       ) : (
-        <div className="w-full mb-20">
-          <div className="bg-[url('/src/images/purple-bg.jpg')] bg-no-repeat bg-cover sm:hidden mb-4 rounded-md p-2">
+        <div className="w-full">
+          {/* <div className="bg-[url('/src/images/purple-bg.jpg')] bg-no-repeat bg-cover sm:hidden mb-4 rounded-md p-2">
             <img src={qqqeLogo} alt="logo" style={{ height: "70px" }} />
-          </div>
+          </div> */}
           <div className="grid grid-cols-12 gap-4">
             {categories.map((category) => (
               <div className="lg:col-span-6 col-span-12" key={category.title}>

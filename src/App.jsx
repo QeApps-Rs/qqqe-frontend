@@ -87,20 +87,7 @@ const App = () => {
           <div>
             <Toaster position="top-center" reverseOrder={false} />
           </div>
-          <nav>
-            <ul>
-              <li>
-                <Link
-                  style={{ display: "none" }}
-                  ref={buttonRef}
-                  onClick={handleClick}
-                  to="/"
-                >
-                  QQQE
-                </Link>
-              </li>
-            </ul>
-          </nav>
+         
 
           <Routes>
             <Route element={<AuthLayout />}>

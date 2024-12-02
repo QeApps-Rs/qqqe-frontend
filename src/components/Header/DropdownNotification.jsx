@@ -22,7 +22,7 @@ const notifications = [
   },
 ];
 
-const DropdownNotification = () => {
+const DropdownNotification = ({className}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
@@ -34,9 +34,8 @@ const DropdownNotification = () => {
       >
         <NotificationIcon />
       </div>
-
       {dropdownOpen && (
-        <div className="absolute left-15 bottom-30 z-200 mt-2 w-62.5 rounded-lg border bg-white shadow-[0px_5px_10px_rgba(0,0,0,0.25)] border-[#cccccc6b]">
+        <div className={`absolute  z-200 mt-2 w-62.5 ${className} rounded-lg border bg-white shadow-[0px_5px_10px_rgba(0,0,0,0.25)] border-[#cccccc6b]`}>
           <div className="px-4.5 py-3">
             <h5 className="text-sm font-bold text-black text-justify">
               Notifications

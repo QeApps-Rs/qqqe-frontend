@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import ClickOutside from "../ClickOutside";
 
-const DropdownHelp = () => {
+const DropdownHelp = ({className}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   // const [notifying, setNotifying] = useState(true);
 
@@ -33,7 +33,7 @@ const DropdownHelp = () => {
           ></i>
         </div>
         {dropdownOpen && (
-          <div className="absolute left-15 bottom-20 z-200 mt-2 w-62.5 rounded-lg bg-white shadow-[0px_5px_10px_rgba(0,0,0,0.25)] border border-[#cccccc6b]">
+          <div className={`absolute ${className} z-200 mt-2 w-62.5 rounded-lg bg-white shadow-[0px_5px_10px_rgba(0,0,0,0.25)] border border-[#cccccc6b]`}>
             <div className="px-4.5 py-3">
               <h5 className="text-md font-medium text-black flex justify-start">
                 Help Center
