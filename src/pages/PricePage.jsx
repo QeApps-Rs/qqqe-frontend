@@ -15,6 +15,7 @@ import NeedHelpPage from "../components/NeedHelp";
 import { BackIcon } from "../components/custIcon/svgIcon";
 import AllPageStartOverviewPage from "../components/AllPageStartOverview";
 import toast from "react-hot-toast";
+import Support from "../components/Support/Support";
 
 const PricePage = () => {
   const today = new Date();
@@ -937,7 +938,7 @@ const PricePage = () => {
     <>
       {loading && <Loader />}
 
-      <main className="main-content todo-app w-full px-[var(--margin-x)] pb-15">
+      <main className="main-content todo-app w-full px-[var(--margin-x)] pb-8">
         <ScrollAnimation
           animateIn="animate__fadeInUp"
           animateOut="animate__fadeOut"
@@ -1158,7 +1159,7 @@ const PricePage = () => {
           </div>
         </ScrollAnimation>
       </main>
-      <NeedHelpPage />
+      <Support />
     </>
   );
 };

@@ -8,6 +8,7 @@ import Loader from "../../common/Loader";
 import FormSubmitHandler from "../FormSubmitHandler";
 import NeedHelpPage from "../NeedHelp";
 import toast from "react-hot-toast";
+import Support from "../Support/Support";
 
 const Campaigns = () => {
   // const handleToggle = (productId) => {
@@ -233,7 +234,7 @@ const Campaigns = () => {
           ))}
         </div>
 
-        <NeedHelpPage />
+        <Support />
       </div>
     </>
   );

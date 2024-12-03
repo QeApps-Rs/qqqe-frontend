@@ -249,17 +249,13 @@ const ProblemStatements = () => {
                 </div>
               ))
             ) : (
-              <div className="w-full text-center text-gray-600">
+              <div className="w-full text-center text-lg font-semibold text-gray-600">
                 No Problem Statement Found.
               </div>
             )}
           </div>
         </div>
-
-        <div className="my-20">
           <Support />
-        </div>
-        <NeedHelpPage />
       </main>
     </>
   );

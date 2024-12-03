@@ -23,37 +23,37 @@ const SidebarLink = ({ href, iconType, label }) => {
           <span className="flex justify-center">
             {iconType === "dashboard" ? (
               <i
-                className="fa fa-home bg-[#4680ff] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-lg"
+                className="fa fa-home bg-[#4680ff] text-white p-1 rounded-full h-7 w-7 flex items-center justify-center text-lg"
                 aria-hidden="true"
               ></i>
             ) : iconType === "people" ? (
               <i
-                className="fa fa-user bg-[#7d7c7d] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
+                className="fa fa-user bg-[#734a4a] text-white p-1 rounded-full h-7 w-7 flex items-center justify-center text-base"
                 aria-hidden="true"
               ></i>
             ) : iconType === "product" ? (
               <i
-                className="fa fa-shopping-bag bg-[#7aa13f] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-sm"
+                className="fa fa-shopping-bag bg-[#7aa13f] text-white p-1 rounded-full h-7 w-7 flex items-center justify-center text-sm"
                 aria-hidden="true"
               ></i>
             ) : iconType === "price" ? (
               <i
-                className="fa fa-usd bg-[#f7ac3f] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
+                className="fa fa-usd bg-[#f7ac3f] text-white p-1 rounded-full h-7 w-7 flex items-center justify-center text-base"
                 aria-hidden="true"
               ></i>
             ) : iconType === "promotion" ? (
               <i
-                className="fa fa-gift bg-[#963ce5] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
+                className="fa fa-gift bg-[#963ce5] text-white p-1 rounded-full h-7 w-7 flex items-center justify-center text-base"
                 aria-hidden="true"
               ></i>
             ) : iconType === "analytics" ? (
               <i
-                className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
+                className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-7 w-7 flex items-center justify-center"
                 aria-hidden="true"
               ></i>
             ) : iconType === "campaigns" ? (
               <i
-                className="fa fa-bullhorn  bg-orange-700 text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-base"
+                className="fa fa-bullhorn  bg-orange-700 text-white p-1 rounded-full h-7 w-7 flex items-center justify-center text-base"
                 aria-hidden="true"
               ></i>
             ) : null}

@@ -16,6 +16,7 @@ import BundleCampaignComponent from "./BundleCampaignComponent";
 import TargetingAndBehaviorControlComponent from "./TargetAndBehaviourCampaignComponent";
 import SurveyCampaignCompon from "./SurveyCampaignComponent";
 import NeedHelpPage from "../../NeedHelp";
+import Support from "../../Support/Support";
 
 const CampaignsDetailsPage = () => {
   const { id } = useParams();
@@ -504,7 +505,7 @@ const CampaignsDetailsPage = () => {
         <SurveyCampaignCompon productDetailsData={productDetailsData} />
 
         <BundleCampaignComponent productDetailsData={productDetailsData} />
-        <NeedHelpPage />
+        <Support />
       </div>
     </>
   );
