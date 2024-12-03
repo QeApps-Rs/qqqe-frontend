@@ -742,7 +742,7 @@ const DashboardCard = () => {
     <>
       {loading && <Loader />}
 
-      <main className="main-content todo-app w-full px-[var(--margin-x)] pb-15">
+      <main className="main-content todo-app w-full px-[var(--margin-x)] pb-8">
         <ScrollAnimation
           animateIn="animate__fadeInUp"
           animateOut="animate__fadeOut"

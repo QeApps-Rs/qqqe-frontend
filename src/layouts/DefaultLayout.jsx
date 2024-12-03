@@ -48,7 +48,7 @@ const DefaultLayout = () => {
                   : `xl:pt-24 xl:pb-12 
 lg:pt-24 lg:pb-12 lg:pl-28 lg:pr-6 
 sm:pt-24 sm:pb-12 sm:pl-28 sm:pr-6 
-py-24 px-8`
+py-24 px-4`
               }
             >
               <Outlet />

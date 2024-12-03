@@ -29,7 +29,7 @@ const Modal = ({
         <div
           className={`${
             isAnalytics ? "w-6/12" : "w-4/12"
-          } inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle`}
+          } inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:align-middle relative top-25`}
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-headline"

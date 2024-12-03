@@ -16,6 +16,7 @@ import { GraphCard, TabCard } from "./GraphCard";
 import PolarAnalytics from "./PolarAnalaytics";
 import NeedHelpPage from "../NeedHelp";
 import { Link } from "react-router-dom";
+import Support from "../Support/Support";
 
 const PeopleAnalytics = () => {
   const [loading, setLoading] = useState(false);
@@ -881,7 +882,7 @@ const PeopleAnalytics = () => {
             />
           </GraphCard>
         </div>
-        <NeedHelpPage />
+        <Support />
       </main>
     </>
   );
