@@ -9,7 +9,7 @@ import FormSubmitHandler from "../FormSubmitHandler";
 import NeedHelpPage from "../NeedHelp";
 import toast from "react-hot-toast";
 import Support from "../Support/Support";
-
+import noImage from "../../images/no-image.png";
 const Campaigns = () => {
   // const handleToggle = (productId) => {
   //   setSwitchStates((prevStates) => ({
@@ -81,7 +81,6 @@ const Campaigns = () => {
           .then((res) => {
             if (res.data) {
               setProductData(res.data);
-              
             }
           })
           .catch((err) => {
@@ -143,8 +142,8 @@ const Campaigns = () => {
             </Link>
           </div>
         </div>
-        <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 ">
-          <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5">
+        <div className="rounded-lg  bg-white shadow-default mt-4 ">
+          <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5 ">
             {[
               "Latest",
               "Status",
@@ -180,17 +179,19 @@ const Campaigns = () => {
 
           {productData?.map((product) => (
             <div
-              className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5"
+              className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5 gap-4"
               key={product.id}
             >
               <div className="col-span-2 flex items-center">
                 <img
-                  src={product.image_path}
+                  src={product.image_path ? product.image_path : noImage}
                   alt="product"
-                  className="w-30 max-h-30"
+                  className="min-w-30 h-30"
                 />
                 <div className="block ml-2 text-graydark">
-                  <Link to={`/campaigns-details/${product.id}?type=${product.type}`}>
+                  <Link
+                    to={`/campaigns-details/${product.id}?type=${product.type}`}
+                  >
                     <span className="block text-blue-600">
                       {product.problem_statement}
                     </span>
@@ -227,7 +228,7 @@ const Campaigns = () => {
               ].map((key, index) => (
                 <div className="col-span-1 flex items-center" key={index}>
                   <p className="text-sm text-graydark">
-                      {product.campaignResult[key]}
+                    {product.campaignResult[key]}
                   </p>
                 </div>
               ))}
