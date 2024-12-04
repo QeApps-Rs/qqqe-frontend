@@ -81,6 +81,7 @@ const Campaigns = () => {
           .then((res) => {
             if (res.data) {
               setProductData(res.data);
+              
             }
           })
           .catch((err) => {
@@ -189,7 +190,7 @@ const Campaigns = () => {
                   className="w-30 max-h-30"
                 />
                 <div className="block ml-2 text-graydark">
-                  <Link to={`/campaigns-details/${product.id}`}>
+                  <Link to={`/campaigns-details/${product.id}?type=${product.type}`}>
                     <span className="block text-blue-600">
                       {product.problem_statement}
                     </span>
