@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import SwitcherThree from "../../Switchers/SwitcherThree";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { defaultBoxClassName } from "../../../pages/forms/masterFormConfig";
 import SalesLineGraph from "../Graphs/SalesLineGraph";
 import SalesPieGraph from "../Graphs/SalesPieGraph";
@@ -20,6 +20,10 @@ import NeedHelpPage from "../../NeedHelp";
 const CampaignsDetailsPage = () => {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("medium");
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const type = searchParams.get("type");
+
   const renderTab = (tab, label, activeColor) => (
     <div
       onClick={() => setActiveTab(tab)}
@@ -100,7 +104,7 @@ const CampaignsDetailsPage = () => {
         setLoading(true);
         await FormSubmitHandler({
           method: "get",
-          url: `applied/suggestion/${id}`,
+          url: `applied/suggestion/${id}?type=${type}`,
         })
           .then((res) => {
             if (res.data) {
@@ -219,98 +223,105 @@ const CampaignsDetailsPage = () => {
           </div>
         </div>
 
-        <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
-          <div className="flex justify-between items-center">
-            <h2 className="font-semibold text-xl text-customGray">
-              A/B Test Center
-            </h2>
-            <div className="flex ">
-              <div className="flex items-center">
-                <span>Conversion</span>
-                <select
-                  onChange={handleChange}
-                  className={`${defaultBoxClassName} h-12 mx-4 w-full`}
-                  defaultValue="Campaign Conversion"
-                >
-                  <option value="Campaign Conversion">
-                    Campaign Conversion
-                  </option>
-                  <option value="Roboto">Roboto</option>
-                </select>
-                <i
-                  className="fa fa-info-circle cursor-pointer"
-                  aria-hidden="true"
-                ></i>
-              </div>
-              <div className="flex items-center">
-                <select
-                  onChange={handleChange}
-                  className={`${defaultBoxClassName} h-12 mx-4 w-full`}
-                  defaultValue="Campaign Conversion"
-                >
-                  <option value="Campaign Conversion">
-                    Campaign Conversion
-                  </option>
-                  <option value="Roboto">Roboto</option>
-                </select>
+        {type === "suggestion" && (
+          <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
+            <div className="flex justify-between items-center">
+              <h2 className="font-semibold text-xl text-customGray">
+                A/B Test Center
+              </h2>
+              <div className="flex ">
+                <div className="flex items-center">
+                  <span>Conversion</span>
+                  <select
+                    onChange={handleChange}
+                    className={`${defaultBoxClassName} h-12 mx-4 w-full`}
+                    defaultValue="Campaign Conversion"
+                  >
+                    <option value="Campaign Conversion">
+                      Campaign Conversion
+                    </option>
+                    <option value="Roboto">Roboto</option>
+                  </select>
+                  <i
+                    className="fa fa-info-circle cursor-pointer"
+                    aria-hidden="true"
+                  ></i>
+                </div>
+                <div className="flex items-center">
+                  <select
+                    onChange={handleChange}
+                    className={`${defaultBoxClassName} h-12 mx-4 w-full`}
+                    defaultValue="Campaign Conversion"
+                  >
+                    <option value="Campaign Conversion">
+                      Campaign Conversion
+                    </option>
+                    <option value="Roboto">Roboto</option>
+                  </select>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="grid grid-cols-6 border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5">
-            {["Variants", "Impressions", "Conversions", "Conversions rate"].map(
-              (header, index1) => (
+            <div className="grid grid-cols-6 border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5">
+              {[
+                "Variants",
+                "Impressions",
+                "Conversions",
+                "Conversions rate",
+              ].map((header, index1) => (
                 <div className="col-span-2" key={index1}>
                   <p className="text-black font-bold">{header}</p>
                 </div>
-              )
-            )}
-          </div>
-
-          {abTest.map((product, index) => (
-            <div
-              className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5"
-              key={index}
-            >
-              <div className="col-span-2 flex items-center">
-                <img
-                  src={
-                    product.variant === "Product" ? product1Img : customerImg
-                  }
-                  alt="product"
-                  className="w-30 max-h-30 object-contain"
-                />
-                <div className="ml-2 text-graydark">
-                  <Link to="/campaigns-details">
-                    <span className="text-blue-600">{product.variant}</span>
-                  </Link>
-                </div>
-              </div>
-              {["impressions", "conversions", "conversions_rate"].map(
-                (field, idx) => (
-                  <div className="col-span-2 flex items-center" key={idx}>
-                    <p className="text-sm text-graydark">{product[field]}</p>
-                  </div>
-                )
-              )}
+              ))}
             </div>
-          ))}
-          {/* <div className="flex items-center cursor-pointer text-blue-600">
+
+            {abTest.map((product, index) => (
+              <div
+                className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5"
+                key={index}
+              >
+                <div className="col-span-2 flex items-center">
+                  <img
+                    src={
+                      product.variant === "Product" ? product1Img : customerImg
+                    }
+                    alt="product"
+                    className="w-30 max-h-30 object-contain"
+                  />
+                  <div className="ml-2 text-graydark">
+                    <Link to="/campaigns-details">
+                      <span className="text-blue-600">{product.variant}</span>
+                    </Link>
+                  </div>
+                </div>
+                {["impressions", "conversions", "conversions_rate"].map(
+                  (field, idx) => (
+                    <div className="col-span-2 flex items-center" key={idx}>
+                      <p className="text-sm text-graydark">{product[field]}</p>
+                    </div>
+                  )
+                )}
+              </div>
+            ))}
+            {/* <div className="flex items-center cursor-pointer text-blue-600">
             <i
               className="fa fa-plus-circle mr-2 text-2xl"
               aria-hidden="true"
             ></i>
             <span className="font-black">Add A/B test experience</span>
           </div> */}
-        </div>
+          </div>
+        )}
 
         <h2 className="text-xl font-bold text-gray-800 my-4">
           Campaigns Statistics
         </h2>
-        <div className="grid grid-cols-3 gap-4">
-          {renderCampaignBox("Impressions", 0, "0%")}
-          {renderCampaignBox("Clicks", "0%", "0%")}
-          {renderCampaignBox("Conversions", 0, "0%")}
-        </div>
+        {type === "suggestion" && (
+          <div className="grid grid-cols-3 gap-4">
+            {renderCampaignBox("Impressions", 0, "0%")}
+            {renderCampaignBox("Clicks", "0%", "0%")}
+            {renderCampaignBox("Conversions", 0, "0%")}
+          </div>
+        )}
         <div className="grid gap-4 mt-4">
           <SalesLineGraph
             salesLineData={salesLineData}
@@ -350,13 +361,15 @@ const CampaignsDetailsPage = () => {
               </button>
             </Link>
           </div>
-          <div className="flex items-center">
-            <Link onClick={handleSendEmail}>
-              <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
-                Send Email
-              </button>
-            </Link>
-          </div>
+          {type === "email_template" && (
+            <div className="flex items-center">
+              <Link onClick={handleSendEmail}>
+                <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
+                  Send Email
+                </button>
+              </Link>
+            </div>
+          )}
         </div>
 
         <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
