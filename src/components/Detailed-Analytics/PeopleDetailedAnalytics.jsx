@@ -43,6 +43,7 @@ import AverageTimeSpentWholeSite from "../Charts/AverageTimeSpentWholeSite";
 import BookSlotModal from "../BookSlot";
 import NeedHelpPage from "../NeedHelp";
 import { BackIcon } from "../custIcon/svgIcon";
+import Support from "../Support/Support";
 
 const PeopleDetailedAnalytics = () => {
   const today = new Date();
@@ -861,7 +862,7 @@ const PeopleDetailedAnalytics = () => {
     <>
       {loading && <Loader />}
 
-      <main className="main-content todo-app w-full px-[var(--margin-x)] pb-15">
+      <main className="main-content todo-app w-full px-[var(--margin-x)] pb-8">
         <ScrollAnimation
           animateIn="animate__fadeInUp"
           animateOut="animate__fadeOut"
@@ -1365,7 +1366,7 @@ const PeopleDetailedAnalytics = () => {
         </ScrollAnimation>
       </main>
 
-      <NeedHelpPage />
+      <Support />
     </>
   );
 };

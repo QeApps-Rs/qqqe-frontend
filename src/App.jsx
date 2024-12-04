@@ -101,7 +101,6 @@ const App = () => {
               </li>
             </ul>
           </nav>
-
           <Routes>
             <Route element={<AuthLayout />}>
               <Route

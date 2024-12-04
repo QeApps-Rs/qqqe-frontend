@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DashboardCard from "./DashboardCard";
 import FormSubmitHandler from "../FormSubmitHandler";
 import NeedHelpPage from "../NeedHelp";
+import Support from "../Support/Support";
 const chart = {
   series: [
     {
@@ -105,7 +106,7 @@ const Dashboard = () => {
           cardTextDesc="2 out of 8 suggestions has been implemented"
           chart={chart}
         /> */}
-      <NeedHelpPage />
+      <Support />
     </React.Fragment>
   );
 };

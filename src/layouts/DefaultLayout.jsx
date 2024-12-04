@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/Header/index";
 import Sidebar from "../components/Sidebar/index";
 import { Outlet, useLocation } from "react-router-dom";
@@ -6,10 +6,7 @@ import Footer from "../components/Footer/Footer";
 
 const DefaultLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isShowBack, setShowBack] = useState(false);
-
   const { pathname } = useLocation();
-
   const noSidebarOrHeaderPaths = [
     "/signin",
     "/auth/signup",
@@ -20,7 +17,6 @@ const DefaultLayout = () => {
 
   useEffect(() => {
     if (pathname === "/master-form") {
-      setShowBack(true);
       setSidebarOpen(false);
     }
   }, [pathname]);
@@ -40,13 +36,7 @@ const DefaultLayout = () => {
         {/* <!-- ===== Content Area Start ===== --> */}
         <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
           {/* <!-- ===== Header Start ===== --> */}
-          {showSidebarAndHeader && (
-            <Header
-              sidebarOpen={sidebarOpen}
-              setSidebarOpen={setSidebarOpen}
-              isShowBack={isShowBack}
-            />
-          )}
+          <Header />
           {/* <!-- ===== Header End ===== --> */}
 
           {/* <!-- ===== Main Content Start ===== --> */}
@@ -55,7 +45,10 @@ const DefaultLayout = () => {
               className={
                 pathname == "/master-form"
                   ? ""
-                  : `xl:pt-8 xl:pb-12  xl:px-18 lg:pt-8 lg:pb-12 lg:pl-8 lg:pr-6 sm:pt-8 sm:pb-12 sm:pl-24 sm:pr-6 py-8 px-4`
+                  : `xl:pt-24 xl:pb-12 
+lg:pt-24 lg:pb-12 lg:pl-28 lg:pr-6 
+sm:pt-24 sm:pb-12 sm:pl-28 sm:pr-6 
+py-24 px-4`
               }
             >
               <Outlet />

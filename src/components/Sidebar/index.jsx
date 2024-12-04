@@ -38,24 +38,24 @@ const Sidebar = () => {
   return (
     <aside
       ref={sidebar}
-      className="hidden sm:block overflow-visible absolute left-0 top-0 z-9 flex h-screen flex-col overflow-y-visible bg-[#161349] shadow-[0_0_11px_#ccc] duration-300 ease-linear lg:static lg:translate-x-0 
-        w-20"
+      className="hidden sm:block overflow-visible absolute z-9 top-0 flex-col  bg-activity_log_bg_gradient duration-300 ease-linear 
+        w-20 h-screen"
     >
       {/* <!-- SIDEBAR HEADER --> */}
-      <div className="flex items-center justify-center gap-2">
+      {/* <div className="flex items-center justify-center gap-2">
         <Link to="/">
           <img src={smallLogo} className="p-2 mt-2 w-25 h-10" alt="Logo" />
         </Link>
-      </div>
+      </div> */}
       {/* <!-- SIDEBAR HEADER --> */}
 
       <div
         className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear "
-        style={{ maxHeight: "calc(100% - 180px)" }}
+        style={{ maxHeight: "calc(100% - 210px)" }}
       >
         {/* <!-- Sidebar Menu --> */}
 
-        <nav className="mt-2">
+        <nav>
           {/* <!-- Menu Group --> */}
           <div>
             {/* <!-- Menu Item Dashboard --> */}
@@ -80,9 +80,9 @@ const Sidebar = () => {
                 ></i>
               </div>
             </Link>
-            <DropdownNotification />
-            <DropdownHelp />
-            <DropdownUser />
+            <DropdownNotification className={"left-15 bottom-30"}/>
+            <DropdownHelp className={"left-15 bottom-20"} />
+            <DropdownUser className={"top-0 left-15"} />
           </div>
         </div>
       </div>

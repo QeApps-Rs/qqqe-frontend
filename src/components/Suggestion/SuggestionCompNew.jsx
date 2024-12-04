@@ -784,7 +784,7 @@ const SuggestionCompNew = () => {
                   })
                 ) : (
                   <tr>
-                    <td colSpan="3" className="text-center p-6">
+                    <td colSpan="4" className="text-center p-6 text-lg font-semibold">
                       No suggestions found
                     </td>
                   </tr>
@@ -834,10 +834,7 @@ const SuggestionCompNew = () => {
             />
           )}
         </div>
-        <div className="my-20">
-          <Support />
-        </div>
-        <NeedHelpPage />
+        <Support />
       </div>
     </>
   );
