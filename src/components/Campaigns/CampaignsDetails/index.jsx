@@ -350,27 +350,29 @@ const CampaignsDetailsPage = () => {
 
         <div className="flex justify-between items-center mt-4">
           <h1 className="text-lg font-bold text-gray-800">Campaigns</h1>
-          <div className="flex items-center">
-            <Link
-              to={`/master-form/${productDetailsData.pid}s${productDetailsData.sid}`}
-              state={{
-                subTemplateId: productDetailsData.sub_template_id,
-              }}
-            >
-              <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
-                Edit Template
-              </button>
-            </Link>
-          </div>
-          {type === "email_template" && (
+          <div className="flex">
             <div className="flex items-center">
-              <Link onClick={handleSendEmail}>
+              <Link
+                to={`/master-form/${productDetailsData.pid}s${productDetailsData.sid}`}
+                state={{
+                  subTemplateId: productDetailsData.sub_template_id,
+                }}
+              >
                 <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
-                  Send Email
+                  Edit Template
                 </button>
               </Link>
             </div>
-          )}
+            {type === "email_template" && (
+              <div className="flex items-center">
+                <Link onClick={handleSendEmail}>
+                  <button className="border border-blue-600 text-blue-600 hover:text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2 bg-transparent">
+                    Send Email
+                  </button>
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
