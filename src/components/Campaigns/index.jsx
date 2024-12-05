@@ -19,7 +19,7 @@ const Campaigns = () => {
   // };
 
   const renderCampaignBox = (title, value, rate) => (
-    <div className="campaigns-boxs p-4 bg-white rounded-lg shadow-md md:col-span-4 col-span-12">
+    <div className="campaigns-boxs p-4 bg-white rounded-lg shadow-md">
       <span className="box-title block text-indigo-600 font-semibold text-lg mb-2">
         {title}
       </span>
@@ -69,6 +69,10 @@ const Campaigns = () => {
   const chartTitle = "Sales by Product Category";
   const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [impressionCount, setImpressionCount] = useState(0);
+  const [conversionCount, setConversionCount] = useState(0);
+  const [clickCount, setClickCount] = useState(0);
+  const [viewCount, setViewCount] = useState(0);
 
   useEffect(() => {
     const fetchSuggestionData = async () => {
@@ -81,6 +85,45 @@ const Campaigns = () => {
           .then((res) => {
             if (res.data) {
               setProductData(res.data);
+              let impCount = 0;
+              let comCount = 0;
+              let clickCount = 0;
+              let viewCount = 0;
+              res.data?.map((item) => {
+                console.log(
+                  "item",
+                  item?.campaignResult,
+                  item?.campaignResult?.impressions
+                );
+                if (
+                  item?.campaignResult?.impressions &&
+                  item?.campaignResult?.impressions != "-"
+                ) {
+                  impCount = impCount + item?.campaignResult?.impressions;
+                }
+                if (
+                  item?.campaignResult?.conversions &&
+                  item?.campaignResult?.conversions != "-"
+                ) {
+                  comCount = comCount + item?.campaignResult?.conversions;
+                }
+                if (
+                  item?.campaignResult?.clicks &&
+                  item?.campaignResult?.clicks != "-"
+                ) {
+                  clickCount = clickCount + item?.campaignResult?.clicks;
+                }
+                if (
+                  item?.campaignResult?.views &&
+                  item?.campaignResult?.views != "-"
+                ) {
+                  viewCount = viewCount + item?.campaignResult?.views;
+                }
+              });
+              setImpressionCount(impCount);
+              setConversionCount(comCount);
+              setClickCount(clickCount);
+              setViewCount(viewCount);
             }
           })
           .catch((err) => {
@@ -101,10 +144,11 @@ const Campaigns = () => {
       {loading && <Loader />}
       <div className="mb-25">
         <h1 className="text-3xl font-bold text-gray-800 mb-4">Campaigns</h1>
-        <div className="grid grid-cols-12 gap-4">
-          {renderCampaignBox("Impressions", 0, "0%")}
-          {renderCampaignBox("Clicks", "0.00%", "0%")}
-          {renderCampaignBox("Conversions", 0, "0%")}
+        <div className="grid grid-cols-4 gap-4">
+          {renderCampaignBox("Impressions", impressionCount, "0%")}
+          {renderCampaignBox("Clicks", clickCount, "0%")}
+          {renderCampaignBox("Conversions", conversionCount, "0%")}
+          {renderCampaignBox("Views", viewCount, "0%")}
         </div>
 
         <div className="grid gap-4 mt-4">

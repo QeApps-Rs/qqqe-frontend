@@ -94,11 +94,25 @@ const CampaignsDetailsPage = () => {
   ];
   const chartTitle = "Sales by Product Category";
 
+  const [countryWiseCustomerChart, setCountryWiseCustomerChart] = useState({
+    seriesData: [],
+    labels: [],
+    title: "Country wise customers",
+  });
   const [productDetailsData, setProductDetailsData] = useState({});
   const [abTest, setAbTest] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [emailList, setEmailList] = useState([]);
+
+  const [impressionCount, setImpressionCount] = useState(0);
+  const [conversionCount, setConversionCount] = useState(0);
+  const [clickCount, setClickCount] = useState(0);
+  const [viewCount, setViewCount] = useState(0);
+
+  const [customers, setCustomers] = useState([]);
+  const [devices, setDevices] = useState([]);
+
   useEffect(() => {
     const fetchSuggestionDetailsData = async () => {
       try {
@@ -108,10 +122,60 @@ const CampaignsDetailsPage = () => {
           url: `applied/suggestion/${id}?type=${type}`,
         })
           .then((res) => {
+            let impCount = 0;
+            let comCount = 0;
+            let clickCount = 0;
+            let viewCount = 0;
+
             if (res.data) {
               setProductDetailsData(res.data);
               if (res.data.campaignResult) {
                 setAbTest(Object.values(res.data.campaignResult));
+              }
+
+              if (res.data.campaignCount) {
+                if (
+                  res?.data?.campaignCount?.impressions &&
+                  res?.data?.campaignCount?.impressions != "-"
+                ) {
+                  impCount = impCount + res?.data?.campaignCount?.impressions;
+                }
+                if (
+                  res?.data?.campaignCount?.conversions &&
+                  res?.data?.campaignCount?.conversions != "-"
+                ) {
+                  comCount = comCount + res?.data?.campaignCount?.conversions;
+                }
+                if (
+                  res?.data?.campaignCount?.clicks &&
+                  res?.data?.campaignCount?.clicks != "-"
+                ) {
+                  clickCount = clickCount + res?.data?.campaignCount?.clicks;
+                }
+                if (
+                  res?.data?.campaignCount?.views &&
+                  res?.data?.campaignCount?.views != "-"
+                ) {
+                  viewCount = viewCount + res?.data?.campaignCount?.views;
+                }
+                setImpressionCount(impCount);
+                setConversionCount(comCount);
+                setClickCount(clickCount);
+                setViewCount(viewCount);
+              }
+              if (res.data.countryWiseChartData.seriesData.length > 0) {
+                setCountryWiseCustomerChart({
+                  ...countryWiseCustomerChart,
+                  ...res.data.countryWiseChartData,
+                });
+              }
+
+              if (res?.data?.customersData?.length > 0) {
+                setCustomers(res?.data?.customersData);
+              }
+
+              if (res?.data?.devices?.length > 0) {
+                setDevices(res?.data?.devices);
               }
             }
           })
@@ -128,6 +192,7 @@ const CampaignsDetailsPage = () => {
 
     fetchSuggestionDetailsData();
   }, [id]);
+
   const handleSendEmail = async () => {
     console.log("product Details Data", productDetailsData);
     if (productDetailsData?.suggestion?.data?.length > 0) {
@@ -157,7 +222,6 @@ const CampaignsDetailsPage = () => {
         };
 
         newEmailList.push(emailDetails); // Add email details to the local list
-        console.log("emailDetails", emailDetails);
       });
 
       // Update the state once with the complete list
@@ -189,7 +253,7 @@ const CampaignsDetailsPage = () => {
       console.error("Error fetching user data:", error);
     }
   };
-  console.log("emailList", emailList);
+
   return (
     <>
       {loading && <Loader />}
@@ -303,13 +367,6 @@ const CampaignsDetailsPage = () => {
                 )}
               </div>
             ))}
-            {/* <div className="flex items-center cursor-pointer text-blue-600">
-            <i
-              className="fa fa-plus-circle mr-2 text-2xl"
-              aria-hidden="true"
-            ></i>
-            <span className="font-black">Add A/B test experience</span>
-          </div> */}
           </div>
         )}
 
@@ -317,10 +374,11 @@ const CampaignsDetailsPage = () => {
           Campaigns Statistics
         </h2>
         {type === "suggestion" && (
-          <div className="grid grid-cols-3 gap-4">
-            {renderCampaignBox("Impressions", 0, "0%")}
-            {renderCampaignBox("Clicks", "0%", "0%")}
-            {renderCampaignBox("Conversions", 0, "0%")}
+          <div className="grid grid-cols-4 gap-4">
+            {renderCampaignBox("Impressions", impressionCount, "0%")}
+            {renderCampaignBox("Clicks", clickCount, "0%")}
+            {renderCampaignBox("Conversions", conversionCount, "0%")}
+            {renderCampaignBox("Views", viewCount, "0%")}
           </div>
         )}
         <div className="grid gap-4 mt-4">
@@ -330,11 +388,13 @@ const CampaignsDetailsPage = () => {
             lineyAxisTitle={lineyAxisTitle}
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <SalesPieGraph
-              seriesData={seriesData}
-              labels={labels}
-              chartTitle={chartTitle}
-            />
+            {countryWiseCustomerChart.seriesData.length > 0 && (
+              <SalesPieGraph
+                seriesData={countryWiseCustomerChart.seriesData}
+                labels={countryWiseCustomerChart.labels}
+                chartTitle={countryWiseCustomerChart.title}
+              />
+            )}
             <SalesBarGraph
               salesBarData={salesBarData}
               barCategories={barCategories}
@@ -347,7 +407,89 @@ const CampaignsDetailsPage = () => {
             />
           </div>
         </div>
+        <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
+          <h2 className="font-semibold text-xl text-black">Customer Data</h2>
+          <div className="grid grid-cols-2 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
+            {["Name", "Email"].map((header, index1) => (
+              <div className="col-span-1" key={index1}>
+                <p className="text-black font-bold">{header}</p>
+              </div>
+            ))}
+          </div>
 
+          {customers?.length > 0 &&
+            customers?.map((customer, index) => (
+              <div
+                className="grid grid-cols-2 border-t border-stroke py-4.5 px-48 md:px-6 2xl:px-7.5"
+                key={index}
+              >
+                <div className="col-span-1 flex items-center">
+                  <div className="text-graydark">
+                    <span className="text-blue-600">{customer.name}</span>
+                  </div>
+                </div>
+                <div className="col-span-1 flex items-center">
+                  <div className="text-graydark">
+                    <span className="text-blue-600">{customer.email}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          {customers?.length == 0 && (
+            <div className="w-full justify-center flex">
+              <span className="text-blue-600 font-semibold text-xl my-10">
+                No data found.
+              </span>
+            </div>
+          )}
+        </div>
+        <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
+          <h2 className="font-semibold text-xl text-black">Device Data</h2>
+          <div className="grid grid-cols-4 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
+            {["Type", "Country", "Ip", "Browser"].map((header, index1) => (
+              <div className="col-span-1" key={index1}>
+                <p className="text-black font-bold">{header}</p>
+              </div>
+            ))}
+          </div>
+          <div className="max-h-80 overflow-y-auto custom-scrollbar">
+            {devices?.length > 0 &&
+              devices?.map((device, index) => (
+                <div
+                  className="grid grid-cols-4 border-t border-stroke py-4.5 px-48 md:px-6 2xl:px-7.5"
+                  key={index}
+                >
+                  <div className="col-span-1 flex items-center">
+                    <div className="text-graydark">
+                      <span className="text-blue-600">{device.type}</span>
+                    </div>
+                  </div>
+                  <div className="col-span-1 flex items-center">
+                    <div className="text-graydark">
+                      <span className="text-blue-600">{device.country}</span>
+                    </div>
+                  </div>
+                  <div className="col-span-1 flex items-center">
+                    <div className="text-graydark">
+                      <span className="text-blue-600">{device.ip}</span>
+                    </div>
+                  </div>
+                  <div className="col-span-1 flex items-center">
+                    <div className="text-graydark">
+                      <span className="text-blue-600">{device.browser}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
+          {devices?.length == 0 && (
+            <div className="w-full justify-center flex">
+              <span className="text-blue-600 font-semibold text-xl my-10">
+                No data found.
+              </span>
+            </div>
+          )}
+        </div>
         <div className="flex justify-between items-center mt-4">
           <h1 className="text-lg font-bold text-gray-800">Campaigns</h1>
           <div className="flex">
