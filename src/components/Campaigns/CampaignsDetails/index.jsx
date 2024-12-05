@@ -189,7 +189,6 @@ const CampaignsDetailsPage = () => {
       console.error("Error fetching user data:", error);
     }
   };
-  console.log("emailList", emailList);
   return (
     <>
       {loading && <Loader />}
