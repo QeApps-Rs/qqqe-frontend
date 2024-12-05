@@ -176,8 +176,10 @@ const ProductBundleTab = ({
 
                   let variantTitle =
                     item.title !== "Default Title"
-                      ? `${product.title} - ${item.title}`
-                      : `${product.title}                       `;
+                      ? `${product.title
+                          .replace(/[()]/g, " ")
+                          .trim()} - ${item.title.replace(/[()]/g, " ").trim()}`
+                      : product.title.replace(/[()]/g, " ").trim();
 
                   let variantHandle = product?.handle;
 
@@ -235,8 +237,12 @@ const ProductBundleTab = ({
                     const imageSrc = image ? image.src : product?.image?.src;
                     let variantTitle =
                       item.title !== "Default Title"
-                        ? `${product.title} - ${item.title}`
-                        : `${product.title}                       `;
+                        ? `${product.title
+                            .replace(/[()]/g, " ")
+                            .trim()} - ${item.title
+                            .replace(/[()]/g, " ")
+                            .trim()}`
+                        : product.title.replace(/[()]/g, " ").trim();
 
                     let variantHandle = product?.handle;
                     return (

@@ -253,7 +253,6 @@ const CampaignsDetailsPage = () => {
       console.error("Error fetching user data:", error);
     }
   };
-
   return (
     <>
       {loading && <Loader />}
