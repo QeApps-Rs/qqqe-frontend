@@ -244,6 +244,7 @@ const EmailTemplateEditorComponent = () => {
           emailTemplateJSON={emailTemplateJSON}
           pid={pid}
           sid={sid}
+          eid={templateId}
         />
         {emailTemplate.isAbandonmentCartFirstDesign && (
           <EmailTemplateDefault emailTemplateJSON={emailTemplateJSON} />

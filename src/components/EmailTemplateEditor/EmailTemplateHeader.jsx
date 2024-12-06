@@ -12,6 +12,7 @@ const EmailTemplateHeader = ({
   emailTemplateJSON,
   pid,
   sid,
+  eid,
 }) => {
   const navigate = useNavigate();
   const onPublish = async () => {
@@ -23,6 +24,7 @@ const EmailTemplateHeader = ({
         data: {
           pid: pid,
           sid: sid,
+          eid: eid,
           json_response: emailTemplateJSON,
         },
       })

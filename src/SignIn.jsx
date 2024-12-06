@@ -15,7 +15,12 @@ const SignIn = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({});
+  } = useForm({
+    defaultValues: {
+      email: "jigarrathod.ecommerce@gmail.com",
+      password: "Admin@123",
+    },
+  });
   const navigate = useNavigate();
 
   const handleLogin = async (data) => {
