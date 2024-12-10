@@ -1,12 +1,18 @@
 import React from "react";
 import Chart from "react-apexcharts";
 
-const SalesLineGraph = ({ salesLineData, lineCategories, lineyAxisTitle }) => {
+const SalesLineGraph = ({
+  salesLineData,
+  lineCategories,
+  lineyAxisTitle,
+  title,
+  tooltipTitle = "Sales",
+}) => {
   // Chart options and series with dynamic data and labels
   const chartData = {
     series: [
       {
-        name: "Sales",
+        name: tooltipTitle,
         data: salesLineData || [], // Use salesData from props
       },
     ],
@@ -53,7 +59,7 @@ const SalesLineGraph = ({ salesLineData, lineCategories, lineyAxisTitle }) => {
         curve: "smooth",
       },
       title: {
-        text: "Product Sales",
+        text: title || "Product Sales",
         align: "left",
       },
       xaxis: {

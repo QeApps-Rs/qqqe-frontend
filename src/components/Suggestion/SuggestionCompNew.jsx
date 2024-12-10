@@ -170,7 +170,7 @@ const SuggestionCompNew = () => {
     setAccordionTab(newAccordionState);
   };
 
-  const handlePlusMinus = (i) => {
+  const handlePlusMinus = (i, dataItem) => {
     const newPlusMinus = plusMinus.map((item, index) => {
       if (i != index) {
         return defaultInnerAccordion;
@@ -190,9 +190,19 @@ const SuggestionCompNew = () => {
         {}
       );
 
-      updatedAccordionTab["Customer_ID"] = activeTabObj;
-      updatedAccordionTab["Customer_IP"] = activeTabObj;
-      updatedAccordionTab["Days_After_Onboarding"] = activeTabObj;
+      if (
+        dataItem["Customer_ID"] === undefined &&
+        dataItem["Customer_IP"] == undefined &&
+        dataItem["Days_After_Onboarding"] == undefined
+      ) {
+        if (dataItem["Products"]?.length > 0) {
+          updatedAccordionTab["Products"] = activeTabObj;
+        }
+      } else {
+        updatedAccordionTab["Customer_ID"] = activeTabObj;
+        updatedAccordionTab["Customer_IP"] = activeTabObj;
+        updatedAccordionTab["Days_After_Onboarding"] = activeTabObj;
+      }
 
       return updatedAccordionTab;
     });
@@ -221,10 +231,24 @@ const SuggestionCompNew = () => {
             className={`${accordionTabClass} ${accordionTab?.[key]?.active_tab}`}
             onClick={() => handleAccordionTab(key)}
           >
-            {key}
+            {mappingRenderTabTitle[key]}
+            {/* {key} */}
           </a>
         );
       });
+  };
+
+  const mappingRenderTabTitle = {
+    Customer_ID: "List of customers",
+    Customer_IP: "List of customers",
+    Orders: "Number of orders",
+    Products: "List of products",
+    Up_Selling_Products: "List of products(Up Selling)",
+    Cross_Selling_Products: "List of products(Cross Selling)",
+    Top_Abandoned_Products: "List of products(Top Abandoned)",
+    Top_Selling_Products: "List of products(Top Selling)",
+    product_recommendations: "List of products(Recommendations)",
+    Best_Selling_Top_3_Product_ID: "List of products(Best Selling Top 3)",
   };
 
   const renderProduct = (product, i) => (
@@ -491,31 +515,33 @@ const SuggestionCompNew = () => {
                   key={i}
                   className={`mt-5 ml-16.5 duration-200 ease-in-out ${manageAccordions?.[index]?.content}`}
                 >
-                  <div className="rounded-md border border-stroke p-4 shadow-9 dark:border-strokedark dark:shadow-none md:p-6 xl:p-7.5">
-                    <button
-                      className="flex w-full items-center justify-between gap-2 "
-                      onClick={() => handlePlusMinus(i)}
-                    >
-                      {/* {renderTabTitle(dataItem)} */}
-                      Open Detail
-                      <div className="flex h-9 w-full max-w-9 items-center justify-center rounded-full bg-blue-700 text-white">
-                        <PlusSvg plusMinus={plusMinus?.[i]} />
-                        <MinusSvg plusMinus={plusMinus?.[i]} />
-                      </div>
-                    </button>
-                    <div
-                      className={`mt-5 duration-200 ease-in-out ${
-                        plusMinus?.[i].minus == "" ? "" : "hidden"
-                      }`}
-                    >
-                      <div className="rounded-sm">
-                        <div className="mb-6 flex flex-wrap gap-5 border-b border-stroke dark:border-strokedark sm:gap-10">
-                          {renderAccordionTabs(dataItem)}
+                  {dataItem.Customer_ID != "all" && (
+                    <div className="rounded-md border border-stroke p-4 shadow-9 dark:border-strokedark dark:shadow-none md:p-6 xl:p-7.5">
+                      <button
+                        className="flex w-full items-center justify-between gap-2 "
+                        onClick={() => handlePlusMinus(i, dataItem)}
+                      >
+                        {/* {renderTabTitle(dataItem)} */}
+                        Open Detail
+                        <div className="flex h-9 w-full max-w-9 items-center justify-center rounded-full bg-blue-700 text-white">
+                          <PlusSvg plusMinus={plusMinus?.[i]} />
+                          <MinusSvg plusMinus={plusMinus?.[i]} />
                         </div>
-                        {renderAccordionContent(dataItem)}
+                      </button>
+                      <div
+                        className={`mt-5 duration-200 ease-in-out ${
+                          plusMinus?.[i].minus == "" ? "" : "hidden"
+                        }`}
+                      >
+                        <div className="rounded-sm">
+                          <div className="mb-6 flex flex-wrap gap-5 border-b border-stroke dark:border-strokedark sm:gap-10">
+                            {renderAccordionTabs(dataItem)}
+                          </div>
+                          {renderAccordionContent(dataItem)}
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               );
             })}
@@ -784,7 +810,10 @@ const SuggestionCompNew = () => {
                   })
                 ) : (
                   <tr>
-                    <td colSpan="4" className="text-center p-6 text-lg font-semibold">
+                    <td
+                      colSpan="4"
+                      className="text-center p-6 text-lg font-semibold"
+                    >
                       No suggestions found
                     </td>
                   </tr>

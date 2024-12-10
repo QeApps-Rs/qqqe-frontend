@@ -1,12 +1,18 @@
 import React from "react";
 import Chart from "react-apexcharts";
 
-const SalesBarGraph = ({ salesBarData, barCategories, baryAxisTitle }) => {
+const SalesBarGraph = ({
+  salesBarData,
+  barCategories,
+  baryAxisTitle,
+  title,
+  tooltipTitle = "Sales",
+}) => {
   // Chart options and series with dynamic data and labels
   const chartData = {
     series: [
       {
-        name: "Sales",
+        name: tooltipTitle,
         data: salesBarData || [], // Use salesData from props
       },
     ],
@@ -70,7 +76,7 @@ const SalesBarGraph = ({ salesBarData, barCategories, baryAxisTitle }) => {
         colors: ["transparent"],
       },
       title: {
-        text: "Product Sales",
+        text: title || "Product Sales",
         align: "left",
       },
       xaxis: {
@@ -85,11 +91,11 @@ const SalesBarGraph = ({ salesBarData, barCategories, baryAxisTitle }) => {
         opacity: 1,
       },
       tooltip: {
-        y: {
-          formatter: function (val) {
-            return `$ ${val}`;
-          },
-        },
+        // y: {
+        //   formatter: function (val) {
+        //     return `$ ${val}`;
+        //   },
+        // },
       },
     },
   };

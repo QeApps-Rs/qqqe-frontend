@@ -11,12 +11,43 @@ import toast from "react-hot-toast";
 import Support from "../Support/Support";
 import noImage from "../../images/no-image.png";
 const Campaigns = () => {
-  // const handleToggle = (productId) => {
-  //   setSwitchStates((prevStates) => ({
-  //     ...prevStates,
-  //     [productId]: !prevStates[productId],
-  //   }));
-  // };
+  const defaultDayCount = [0, 0, 0, 0, 0, 0, 0];
+  const defaultMonthCount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+  const defaultDayName = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const defaultMonthName = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const [productData, setProductData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [impressionCount, setImpressionCount] = useState(0);
+  const [conversionCount, setConversionCount] = useState(0);
+  const [clickCount, setClickCount] = useState(0);
+  const [viewCount, setViewCount] = useState(0);
+
+  const [weeklyImpressionCount, setWeeklyImpressionCount] = useState([
+    ...defaultDayCount,
+  ]);
+  const [monthlyImpressionCount, setMonthlyImpressionCount] = useState([
+    ...defaultMonthCount,
+  ]);
+
+  const [weeklyViewCount, setWeeklyViewCount] = useState([...defaultDayCount]);
+  const [monthlyViewCount, setMonthlyViewCount] = useState([
+    ...defaultMonthCount,
+  ]);
 
   const renderCampaignBox = (title, value, rate) => (
     <div className="campaigns-boxs p-4 bg-white rounded-lg shadow-md">
@@ -30,54 +61,16 @@ const Campaigns = () => {
     </div>
   );
 
-  const salesBarData = [10, 41, 35, 51, 49, 62, 69, 91, 148];
-  const barCategories = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-  ];
-  const baryAxisTitle = "Sales Amount";
-
-  const salesLineData = [10, 41, 35, 51, 49, 62, 69, 91, 148];
-  const lineCategories = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-  ];
-  const lineyAxisTitle = "Sales Amount";
-
-  const seriesData = [44, 55, 13, 43, 22];
-  const labels = [
-    "Product A",
-    "Product B",
-    "Product C",
-    "Product D",
-    "Product E",
-  ];
-  const chartTitle = "Sales by Product Category";
-  const [productData, setProductData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [impressionCount, setImpressionCount] = useState(0);
-  const [conversionCount, setConversionCount] = useState(0);
-  const [clickCount, setClickCount] = useState(0);
-  const [viewCount, setViewCount] = useState(0);
-
   useEffect(() => {
     const fetchSuggestionData = async () => {
       try {
         setLoading(true);
+        let countWeekImpression = [...defaultDayCount];
+        let countMonthImpression = [...defaultMonthCount];
+
+        let countWeekView = [...defaultDayCount];
+        let countMonthView = [...defaultMonthCount];
+
         await FormSubmitHandler({
           method: "get",
           url: "applied/suggestion/list",
@@ -90,11 +83,26 @@ const Campaigns = () => {
               let clickCount = 0;
               let viewCount = 0;
               res.data?.map((item) => {
-                console.log(
-                  "item",
-                  item?.campaignResult,
-                  item?.campaignResult?.impressions
-                );
+                item?.weeklyImpressionValues?.map((iValue, iKey) => {
+                  countWeekImpression[iKey] += iValue;
+                });
+                setWeeklyImpressionCount(countWeekImpression);
+
+                item?.monthlyImpressionValues?.map((iValue, iKey) => {
+                  countMonthImpression[iKey] += iValue;
+                });
+                setMonthlyImpressionCount(countMonthImpression);
+
+                item?.weeklyViewValues?.map((iValue, iKey) => {
+                  countWeekView[iKey] += iValue;
+                });
+                setWeeklyViewCount(countWeekView);
+
+                item?.monthlyViewValues?.map((iValue, iKey) => {
+                  countMonthView[iKey] += iValue;
+                });
+                setMonthlyViewCount(countMonthView);
+
                 if (
                   item?.campaignResult?.impressions &&
                   item?.campaignResult?.impressions != "-"
@@ -105,7 +113,10 @@ const Campaigns = () => {
                   item?.campaignResult?.conversions &&
                   item?.campaignResult?.conversions != "-"
                 ) {
-                  comCount = comCount + item?.campaignResult?.conversions;
+                  const num = parseFloat(
+                    item?.campaignResult?.conversions_rate
+                  );
+                  comCount = parseFloat(comCount) + num;
                 }
                 if (
                   item?.campaignResult?.clicks &&
@@ -147,35 +158,43 @@ const Campaigns = () => {
         <div className="grid grid-cols-4 gap-4">
           {renderCampaignBox("Impressions", impressionCount, "0%")}
           {renderCampaignBox("Clicks", clickCount, "0%")}
-          {renderCampaignBox("Conversions", conversionCount, "0%")}
+          {renderCampaignBox("Conversions Rate", conversionCount, "%")}
           {renderCampaignBox("Views", viewCount, "0%")}
         </div>
 
-        <div className="grid gap-4 mt-4">
+        <div className="grid grid-cols-2 gap-4 mt-4">
           <SalesLineGraph
-            salesLineData={salesLineData}
-            lineCategories={lineCategories}
-            lineyAxisTitle={lineyAxisTitle}
+            salesLineData={weeklyImpressionCount}
+            lineCategories={[...defaultDayName]}
+            lineyAxisTitle="Impression counts"
+            title="Weekly impression charts"
+            tooltipTitle="Impression"
           />
-          <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-            <SalesPieGraph
-              seriesData={seriesData}
-              labels={labels}
-              chartTitle={chartTitle}
-            />
-            <SalesBarGraph
-              salesBarData={salesBarData}
-              barCategories={barCategories}
-              baryAxisTitle={baryAxisTitle}
-            />
-            <SalesPieGraph
-              seriesData={seriesData}
-              labels={labels}
-              chartTitle={chartTitle}
-            />
-          </div>
+          <SalesBarGraph
+            salesBarData={monthlyImpressionCount}
+            barCategories={[...defaultMonthName]}
+            baryAxisTitle="Impression counts"
+            title="Monthly impression charts"
+            tooltipTitle="Impression"
+          />
         </div>
 
+        <div className="grid grid-cols-2 gap-4 mt-4">
+          <SalesLineGraph
+            salesLineData={weeklyViewCount}
+            lineCategories={[...defaultDayName]}
+            lineyAxisTitle="View counts"
+            title="Weekly view charts"
+            tooltipTitle="View"
+          />
+          <SalesBarGraph
+            salesBarData={monthlyViewCount}
+            barCategories={[...defaultMonthName]}
+            baryAxisTitle="View counts"
+            title="Monthly view charts"
+            tooltipTitle="View"
+          />
+        </div>
         <div className="flex justify-between items-center mt-4">
           <h1 className="text-lg font-bold text-gray-800">Campaigns</h1>
           <div className="flex items-center">
@@ -261,7 +280,14 @@ const Campaigns = () => {
               </div>
               <div className="col-span-1 flex items-center">
                 <h1 data-template-handle={product?.template_handle}>
-                  {product?.title}
+                  {product?.title
+                    ?.replace(/-/g, " ")
+                    .replace(
+                      /\w\S*/g,
+                      (word) =>
+                        word.charAt(0).toUpperCase() +
+                        word.slice(1).toLowerCase()
+                    )}
                 </h1>
               </div>
               {[
@@ -272,7 +298,9 @@ const Campaigns = () => {
               ].map((key, index) => (
                 <div className="col-span-1 flex items-center" key={index}>
                   <p className="text-sm text-graydark">
-                    {product.campaignResult[key]}
+                    {key == "conversions_rate"
+                      ? product.campaignResult[key] + "%"
+                      : product.campaignResult[key]}
                   </p>
                 </div>
               ))}

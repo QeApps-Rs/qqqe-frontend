@@ -144,7 +144,10 @@ const CampaignsDetailsPage = () => {
                   res?.data?.campaignCount?.conversions &&
                   res?.data?.campaignCount?.conversions != "-"
                 ) {
-                  comCount = comCount + res?.data?.campaignCount?.conversions;
+                  const num = parseFloat(
+                    res?.data?.campaignCount?.conversions_rate
+                  );
+                  comCount = parseFloat(comCount) + num;
                 }
                 if (
                   res?.data?.campaignCount?.clicks &&
@@ -253,6 +256,7 @@ const CampaignsDetailsPage = () => {
       console.error("Error fetching user data:", error);
     }
   };
+
   return (
     <>
       {loading && <Loader />}
@@ -406,18 +410,17 @@ const CampaignsDetailsPage = () => {
             />
           </div>
         </div>
-        <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
-          <h2 className="font-semibold text-xl text-black">Customer Data</h2>
-          <div className="grid grid-cols-2 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
-            {["Name", "Email"].map((header, index1) => (
-              <div className="col-span-1" key={index1}>
-                <p className="text-black font-bold">{header}</p>
-              </div>
-            ))}
-          </div>
-
-          {customers?.length > 0 &&
-            customers?.map((customer, index) => (
+        {customers?.length > 0 && (
+          <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
+            <h2 className="font-semibold text-xl text-black">Customer Data</h2>
+            <div className="grid grid-cols-2 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
+              {["Name", "Email"].map((header, index1) => (
+                <div className="col-span-1" key={index1}>
+                  <p className="text-black font-bold">{header}</p>
+                </div>
+              ))}
+            </div>
+            {customers?.map((customer, index) => (
               <div
                 className="grid grid-cols-2 border-t border-stroke py-4.5 px-48 md:px-6 2xl:px-7.5"
                 key={index}
@@ -434,33 +437,38 @@ const CampaignsDetailsPage = () => {
                 </div>
               </div>
             ))}
-          {customers?.length == 0 && (
-            <div className="w-full justify-center flex">
-              <span className="text-blue-600 font-semibold text-xl my-10">
-                No data found.
-              </span>
-            </div>
-          )}
-        </div>
-        <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
-          <h2 className="font-semibold text-xl text-black">Device Data</h2>
-          <div className="grid grid-cols-4 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
-            {["Type", "Country", "Ip", "Browser"].map((header, index1) => (
-              <div className="col-span-1" key={index1}>
-                <p className="text-black font-bold">{header}</p>
-              </div>
-            ))}
           </div>
-          <div className="max-h-80 overflow-y-auto custom-scrollbar">
-            {devices?.length > 0 &&
-              devices?.map((device, index) => (
+        )}
+        {devices?.length > 0 && (
+          <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
+            <h2 className="font-semibold text-xl text-black">Device Data</h2>
+            <div className="grid grid-cols-4 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
+              {["Type", "Country", "Customer Ip", "Browser"].map(
+                (header, index1) => (
+                  <div className="col-span-1" key={index1}>
+                    <p className="text-black font-bold">{header}</p>
+                  </div>
+                )
+              )}
+            </div>
+            <div className="max-h-80 overflow-y-auto custom-scrollbar">
+              {devices?.map((device, index) => (
                 <div
                   className="grid grid-cols-4 border-t border-stroke py-4.5 px-48 md:px-6 2xl:px-7.5"
                   key={index}
                 >
                   <div className="col-span-1 flex items-center">
                     <div className="text-graydark">
-                      <span className="text-blue-600">{device.type}</span>
+                      <span className="text-blue-600">
+                        {device.type
+                          ?.replace(/-/g, " ")
+                          .replace(
+                            /\w\S*/g,
+                            (word) =>
+                              word.charAt(0).toUpperCase() +
+                              word.slice(1).toLowerCase()
+                          )}
+                      </span>
                     </div>
                   </div>
                   <div className="col-span-1 flex items-center">
@@ -480,15 +488,9 @@ const CampaignsDetailsPage = () => {
                   </div>
                 </div>
               ))}
-          </div>
-          {devices?.length == 0 && (
-            <div className="w-full justify-center flex">
-              <span className="text-blue-600 font-semibold text-xl my-10">
-                No data found.
-              </span>
             </div>
-          )}
-        </div>
+          </div>
+        )}
         <div className="flex justify-between items-center mt-4">
           <h1 className="text-lg font-bold text-gray-800">Campaigns</h1>
           <div className="flex">
