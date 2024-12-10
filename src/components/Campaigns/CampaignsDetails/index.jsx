@@ -19,6 +19,37 @@ import NeedHelpPage from "../../NeedHelp";
 import Support from "../../Support/Support";
 
 const CampaignsDetailsPage = () => {
+  const defaultDayCount = [0, 0, 0, 0, 0, 0, 0];
+  const defaultMonthCount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+  const defaultDayName = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const defaultMonthName = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const [weeklyImpressionCount, setWeeklyImpressionCount] = useState([
+    ...defaultDayCount,
+  ]);
+  const [monthlyImpressionCount, setMonthlyImpressionCount] = useState([
+    ...defaultMonthCount,
+  ]);
+
+  const [weeklyViewCount, setWeeklyViewCount] = useState([...defaultDayCount]);
+  const [monthlyViewCount, setMonthlyViewCount] = useState([
+    ...defaultMonthCount,
+  ]);
+
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("medium");
   const location = useLocation();
@@ -70,20 +101,6 @@ const CampaignsDetailsPage = () => {
   ];
   const baryAxisTitle = "Sales Amount";
 
-  const salesLineData = [10, 41, 35, 51, 49, 62, 69, 91, 148];
-  const lineCategories = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-  ];
-  const lineyAxisTitle = "Sales Amount";
-
   const seriesData = [44, 55, 13, 43, 22];
   const labels = [
     "Product A",
@@ -117,6 +134,11 @@ const CampaignsDetailsPage = () => {
     const fetchSuggestionDetailsData = async () => {
       try {
         setLoading(true);
+        let countWeekImpression = [...defaultDayCount];
+        let countMonthImpression = [...defaultMonthCount];
+
+        let countWeekView = [...defaultDayCount];
+        let countMonthView = [...defaultMonthCount];
         await FormSubmitHandler({
           method: "get",
           url: `applied/suggestion/${id}?type=${type}`,
@@ -132,6 +154,25 @@ const CampaignsDetailsPage = () => {
               if (res.data.campaignResult) {
                 setAbTest(Object.values(res.data.campaignResult));
               }
+              res.data?.weeklyImpressionValues?.map((iValue, iKey) => {
+                countWeekImpression[iKey] += iValue;
+              });
+              setWeeklyImpressionCount(countWeekImpression);
+
+              res.data?.monthlyImpressionValues?.map((iValue, iKey) => {
+                countMonthImpression[iKey] += iValue;
+              });
+              setMonthlyImpressionCount(countMonthImpression);
+
+              res.data?.weeklyViewValues?.map((iValue, iKey) => {
+                countWeekView[iKey] += iValue;
+              });
+              setWeeklyViewCount(countWeekView);
+
+              res.data?.monthlyViewValues?.map((iValue, iKey) => {
+                countMonthView[iKey] += iValue;
+              });
+              setMonthlyViewCount(countMonthView);
 
               if (res.data.campaignCount) {
                 if (
@@ -144,7 +185,10 @@ const CampaignsDetailsPage = () => {
                   res?.data?.campaignCount?.conversions &&
                   res?.data?.campaignCount?.conversions != "-"
                 ) {
-                  comCount = comCount + res?.data?.campaignCount?.conversions;
+                  const num = parseFloat(
+                    res?.data?.campaignCount?.conversions_rate
+                  );
+                  comCount = parseFloat(comCount) + num;
                 }
                 if (
                   res?.data?.campaignCount?.clicks &&
@@ -220,7 +264,7 @@ const CampaignsDetailsPage = () => {
       }
     }
   };
-  console.log('id', id)
+
   return (
     <>
       {loading && <Loader />}
@@ -348,12 +392,39 @@ const CampaignsDetailsPage = () => {
             {renderCampaignBox("Views", viewCount, "0%")}
           </div>
         )}
-        <div className="grid gap-4 mt-4">
+        <div className="grid grid-cols-2 gap-4 mt-4">
           <SalesLineGraph
-            salesLineData={salesLineData}
-            lineCategories={lineCategories}
-            lineyAxisTitle={lineyAxisTitle}
+            salesLineData={weeklyImpressionCount}
+            lineCategories={[...defaultDayName]}
+            lineyAxisTitle="Impression counts"
+            title="Weekly impression charts"
+            tooltipTitle="Impression"
           />
+          <SalesBarGraph
+            salesBarData={monthlyImpressionCount}
+            barCategories={[...defaultMonthName]}
+            baryAxisTitle="Impression counts"
+            title="Monthly impression charts"
+            tooltipTitle="Impression"
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-4 mt-4">
+          <SalesLineGraph
+            salesLineData={weeklyViewCount}
+            lineCategories={[...defaultDayName]}
+            lineyAxisTitle="View counts"
+            title="Weekly view charts"
+            tooltipTitle="View"
+          />
+          <SalesBarGraph
+            salesBarData={monthlyViewCount}
+            barCategories={[...defaultMonthName]}
+            baryAxisTitle="View counts"
+            title="Monthly view charts"
+            tooltipTitle="View"
+          />
+        </div>
+        <div className="grid gap-4 mt-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {countryWiseCustomerChart.seriesData.length > 0 && (
               <SalesPieGraph
@@ -374,18 +445,17 @@ const CampaignsDetailsPage = () => {
             />
           </div>
         </div>
-        <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
-          <h2 className="font-semibold text-xl text-black">Customer Data</h2>
-          <div className="grid grid-cols-2 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
-            {["Name", "Email"].map((header, index1) => (
-              <div className="col-span-1" key={index1}>
-                <p className="text-black font-bold">{header}</p>
-              </div>
-            ))}
-          </div>
-
-          {customers?.length > 0 &&
-            customers?.map((customer, index) => (
+        {customers?.length > 0 && (
+          <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
+            <h2 className="font-semibold text-xl text-black">Customer Data</h2>
+            <div className="grid grid-cols-2 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
+              {["Name", "Email"].map((header, index1) => (
+                <div className="col-span-1" key={index1}>
+                  <p className="text-black font-bold">{header}</p>
+                </div>
+              ))}
+            </div>
+            {customers?.map((customer, index) => (
               <div
                 className="grid grid-cols-2 border-t border-stroke py-4.5 px-48 md:px-6 2xl:px-7.5"
                 key={index}
@@ -402,33 +472,38 @@ const CampaignsDetailsPage = () => {
                 </div>
               </div>
             ))}
-          {customers?.length == 0 && (
-            <div className="w-full justify-center flex">
-              <span className="text-blue-600 font-semibold text-xl my-10">
-                No data found.
-              </span>
-            </div>
-          )}
-        </div>
-        <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
-          <h2 className="font-semibold text-xl text-black">Device Data</h2>
-          <div className="grid grid-cols-4 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
-            {["Type", "Country", "Ip", "Browser"].map((header, index1) => (
-              <div className="col-span-1" key={index1}>
-                <p className="text-black font-bold">{header}</p>
-              </div>
-            ))}
           </div>
-          <div className="max-h-80 overflow-y-auto custom-scrollbar">
-            {devices?.length > 0 &&
-              devices?.map((device, index) => (
+        )}
+        {devices?.length > 0 && (
+          <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
+            <h2 className="font-semibold text-xl text-black">Device Data</h2>
+            <div className="grid grid-cols-4 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
+              {["Type", "Country", "Customer Ip", "Browser"].map(
+                (header, index1) => (
+                  <div className="col-span-1" key={index1}>
+                    <p className="text-black font-bold">{header}</p>
+                  </div>
+                )
+              )}
+            </div>
+            <div className="max-h-80 overflow-y-auto custom-scrollbar">
+              {devices?.map((device, index) => (
                 <div
                   className="grid grid-cols-4 border-t border-stroke py-4.5 px-48 md:px-6 2xl:px-7.5"
                   key={index}
                 >
                   <div className="col-span-1 flex items-center">
                     <div className="text-graydark">
-                      <span className="text-blue-600">{device.type}</span>
+                      <span className="text-blue-600">
+                        {device.type
+                          ?.replace(/-/g, " ")
+                          .replace(
+                            /\w\S*/g,
+                            (word) =>
+                              word.charAt(0).toUpperCase() +
+                              word.slice(1).toLowerCase()
+                          )}
+                      </span>
                     </div>
                   </div>
                   <div className="col-span-1 flex items-center">
@@ -448,15 +523,9 @@ const CampaignsDetailsPage = () => {
                   </div>
                 </div>
               ))}
-          </div>
-          {devices?.length == 0 && (
-            <div className="w-full justify-center flex">
-              <span className="text-blue-600 font-semibold text-xl my-10">
-                No data found.
-              </span>
             </div>
-          )}
-        </div>
+          </div>
+        )}
         <div className="flex justify-between items-center mt-4">
           <h1 className="text-lg font-bold text-gray-800">Campaigns</h1>
           <div className="flex">
