@@ -19,6 +19,37 @@ import NeedHelpPage from "../../NeedHelp";
 import Support from "../../Support/Support";
 
 const CampaignsDetailsPage = () => {
+  const defaultDayCount = [0, 0, 0, 0, 0, 0, 0];
+  const defaultMonthCount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+  const defaultDayName = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const defaultMonthName = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const [weeklyImpressionCount, setWeeklyImpressionCount] = useState([
+    ...defaultDayCount,
+  ]);
+  const [monthlyImpressionCount, setMonthlyImpressionCount] = useState([
+    ...defaultMonthCount,
+  ]);
+
+  const [weeklyViewCount, setWeeklyViewCount] = useState([...defaultDayCount]);
+  const [monthlyViewCount, setMonthlyViewCount] = useState([
+    ...defaultMonthCount,
+  ]);
+
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("medium");
   const location = useLocation();
@@ -70,20 +101,6 @@ const CampaignsDetailsPage = () => {
   ];
   const baryAxisTitle = "Sales Amount";
 
-  const salesLineData = [10, 41, 35, 51, 49, 62, 69, 91, 148];
-  const lineCategories = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-  ];
-  const lineyAxisTitle = "Sales Amount";
-
   const seriesData = [44, 55, 13, 43, 22];
   const labels = [
     "Product A",
@@ -117,6 +134,11 @@ const CampaignsDetailsPage = () => {
     const fetchSuggestionDetailsData = async () => {
       try {
         setLoading(true);
+        let countWeekImpression = [...defaultDayCount];
+        let countMonthImpression = [...defaultMonthCount];
+
+        let countWeekView = [...defaultDayCount];
+        let countMonthView = [...defaultMonthCount];
         await FormSubmitHandler({
           method: "get",
           url: `applied/suggestion/${id}?type=${type}`,
@@ -132,6 +154,25 @@ const CampaignsDetailsPage = () => {
               if (res.data.campaignResult) {
                 setAbTest(Object.values(res.data.campaignResult));
               }
+              res.data?.weeklyImpressionValues?.map((iValue, iKey) => {
+                countWeekImpression[iKey] += iValue;
+              });
+              setWeeklyImpressionCount(countWeekImpression);
+
+              res.data?.monthlyImpressionValues?.map((iValue, iKey) => {
+                countMonthImpression[iKey] += iValue;
+              });
+              setMonthlyImpressionCount(countMonthImpression);
+
+              res.data?.weeklyViewValues?.map((iValue, iKey) => {
+                countWeekView[iKey] += iValue;
+              });
+              setWeeklyViewCount(countWeekView);
+
+              res.data?.monthlyViewValues?.map((iValue, iKey) => {
+                countMonthView[iKey] += iValue;
+              });
+              setMonthlyViewCount(countMonthView);
 
               if (res.data.campaignCount) {
                 if (
@@ -351,12 +392,39 @@ const CampaignsDetailsPage = () => {
             {renderCampaignBox("Views", viewCount, "0%")}
           </div>
         )}
-        <div className="grid gap-4 mt-4">
+        <div className="grid grid-cols-2 gap-4 mt-4">
           <SalesLineGraph
-            salesLineData={salesLineData}
-            lineCategories={lineCategories}
-            lineyAxisTitle={lineyAxisTitle}
+            salesLineData={weeklyImpressionCount}
+            lineCategories={[...defaultDayName]}
+            lineyAxisTitle="Impression counts"
+            title="Weekly impression charts"
+            tooltipTitle="Impression"
           />
+          <SalesBarGraph
+            salesBarData={monthlyImpressionCount}
+            barCategories={[...defaultMonthName]}
+            baryAxisTitle="Impression counts"
+            title="Monthly impression charts"
+            tooltipTitle="Impression"
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-4 mt-4">
+          <SalesLineGraph
+            salesLineData={weeklyViewCount}
+            lineCategories={[...defaultDayName]}
+            lineyAxisTitle="View counts"
+            title="Weekly view charts"
+            tooltipTitle="View"
+          />
+          <SalesBarGraph
+            salesBarData={monthlyViewCount}
+            barCategories={[...defaultMonthName]}
+            baryAxisTitle="View counts"
+            title="Monthly view charts"
+            tooltipTitle="View"
+          />
+        </div>
+        <div className="grid gap-4 mt-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {countryWiseCustomerChart.seriesData.length > 0 && (
               <SalesPieGraph
