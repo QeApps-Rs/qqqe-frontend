@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import React from "react";
 import defaultProductImg from "../../images/default_product_1.png";
 import { Tooltip } from "react-tippy";
 
@@ -167,12 +166,6 @@ function ExitProductRecommenderPopup({
   ${templateDesign.templatePaddingLeft}
   `;
 
-  const combinedMargin = `
-  ${templateDesign.templateMarginTop} 
-  ${templateDesign.templateMarginRight} 
-  ${templateDesign.templateMarginBottom} 
-  ${templateDesign.templateMarginLeft}
-  `;
 
   return (
     <div
@@ -182,7 +175,6 @@ function ExitProductRecommenderPopup({
     >
       <div
         className="grid grid-cols-12 sm:grid-cols-12 md:grid-cols-12 gap-20 "
-        style={{ margin: combinedMargin }}
       >
         {productData && productData.length > 0 ? (
           productData.map((product, index) => (

@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import React from "react";
 import defaultProductImg from "../../images/default_product.png";
 import { Tooltip } from "react-tippy";
 
@@ -52,14 +51,6 @@ function CartAbandonmentPopUp({
     ${templateDesign.templatePaddingLeft}
   `;
 
-  // Apply default margin if not provided
-  const combinedMargin = `
-    ${templateDesign.templateMarginTop} 
-    ${templateDesign.templateMarginRight} 
-    ${templateDesign.templateMarginBottom} 
-    ${templateDesign.templateMarginLeft}
-  `;
-
   return (
     <div
       id="product-bundle"
@@ -72,7 +63,6 @@ function CartAbandonmentPopUp({
           backgroundColor: templateDesign.templateBgColor || "#c3e7cf",
           borderRadius: templateDesign.borderRadius || "16px",
           padding: combinedPadding,
-          margin: combinedMargin,
         }}
       >
         <div className="flex justify-end mb-2">

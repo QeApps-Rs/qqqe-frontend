@@ -73,12 +73,7 @@ function ProductUpSellPopUp({
   ${templateDesign.templatePaddingBottom} 
   ${templateDesign.templatePaddingLeft}
 `;
-  const combinedMargin = `
-  ${templateDesign.templateMarginTop} 
-  ${templateDesign.templateMarginRight} 
-  ${templateDesign.templateMarginBottom} 
-  ${templateDesign.templateMarginLeft}
-`;
+
 
   return (
     <>
@@ -92,7 +87,6 @@ function ProductUpSellPopUp({
           style={{
             backgroundColor: templateDesign.templateBgColor || "#f43f5b",
             padding: combinedPadding,
-            margin: combinedMargin,
             borderRadius: templateDesign.borderRadius || "12px",
           }}
         >

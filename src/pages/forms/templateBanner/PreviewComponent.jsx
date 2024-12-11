@@ -5,7 +5,6 @@ import TemplateBannerComponent from "../TemplateBannerComponent";
 const PreviewComponent = ({
   isView,
   templateDesign,
-  combinedMargin,
   combinedPadding,
   imageSrc,
   containerClass,
@@ -48,7 +47,6 @@ const PreviewComponent = ({
         style={{
           borderRadius: templateDesign.borderRadius || "16px",
           padding: combinedPadding,
-          margin: combinedMargin,
         }}
       >
         <div className={containerClass}>
@@ -129,7 +127,7 @@ const PreviewComponent = ({
                   className="text-4xl font-bold mb-4"
                   style={getStyle(templateDesign, "templateHeading")}
                 >
-                  {templateDesign.heading}
+                  {templateDesign.heading }
                 </h2>
                 <h2
                   className="text-4xl font-bold mb-4"
