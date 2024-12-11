@@ -374,7 +374,7 @@ const InputControllerComponent = ({
                         </div>
                       </div>
                     )}
-                    <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
+                    {/* <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
                       <label className="mb-2.5 block text-black font-semibold">
                         Template Email
                       </label>
@@ -434,7 +434,7 @@ const InputControllerComponent = ({
                           }
                         />
                       </div>
-                    </div>{" "}
+                    </div>{" "} */}
                   </>
                 )}
 

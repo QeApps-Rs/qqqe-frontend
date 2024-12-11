@@ -391,7 +391,7 @@ export const surveyReviewCount = [
 ];
 
 export const surveyControllerDefaults = {
-  survey_type: "none",
+  survey_type: "rating",
   rating: "5",
   review: "10",
   new_button: [

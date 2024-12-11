@@ -65,7 +65,20 @@ const MasterForm = () => {
     fieldName: "",
     options: "",
   });
-  const [addedFields, setAddedFields] = useState([]);
+  const [addedFields, setAddedFields] = useState([
+    {
+      fieldName: "Email",
+      fieldType: "email",
+      fieldValidation: "required",
+      placeholderText: "Please Enter Email",
+    },
+    {
+      fieldName: "Phone",
+      fieldType: "number",
+      fieldValidation: "required",
+      placeholderText: "Please Enter Your Mobile Number",
+    },
+  ]);
   const [addedQuestion, setAddedQuestion] = useState([]);
   const [success, setSuccess] = useState(false);
   const [addedButton, setAddedButton] = useState(
@@ -1056,10 +1069,10 @@ const MasterForm = () => {
   const inputLineItems = () => {
     return addedFields.map((addedField) => {
       return {
-        field_name: addedField.fieldName,
-        field_placeholder: addedField.placeholderText,
-        field_validation: addedField.fieldValidation,
-        field_type: addedField.fieldType,
+        fieldName: addedField.fieldName,
+        placeholderText: addedField.placeholderText,
+        fieldValidation: addedField.fieldValidation,
+        fieldType: addedField.fieldType,
       };
     });
   };
@@ -1067,10 +1080,10 @@ const MasterForm = () => {
   const reverseInputLineItems = (addedFieldsRecords) => {
     return addedFieldsRecords.map((addedFieldsRecord) => {
       return {
-        fieldName: addedFieldsRecord.field_name,
-        placeholderText: addedFieldsRecord.field_placeholder,
-        fieldValidation: addedFieldsRecord.field_validation,
-        fieldType: addedFieldsRecord.field_type,
+        fieldName: addedFieldsRecord.fieldName,
+        placeholderText: addedFieldsRecord.placeholderText,
+        fieldValidation: addedFieldsRecord.fieldValidation,
+        fieldType: addedFieldsRecord.fieldType,
       };
     });
   };
@@ -1350,15 +1363,15 @@ const MasterForm = () => {
                             <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                               <form action="#">
                                 <div className="p-3">
-                                    <textarea
-                                      className="w-full mt-2 w-25 border border-gray-300 rounded p-1 h-40"
-                                      id="custom-css"
-                                      name="custom-css"
-                                      value={customCssState}
-                                      onChange={(e) =>
-                                        setCustomCssState(e.target.value)
-                                      }
-                                    />
+                                  <textarea
+                                    className="w-full mt-2 w-25 border border-gray-300 rounded p-1 h-40"
+                                    id="custom-css"
+                                    name="custom-css"
+                                    value={customCssState}
+                                    onChange={(e) =>
+                                      setCustomCssState(e.target.value)
+                                    }
+                                  />
                                   {/* <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
                                     Save
                                   </button> */}
@@ -1380,16 +1393,15 @@ const MasterForm = () => {
                             <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                               <form action="#">
                                 <div className="p-3">
-                                
-                                    <textarea
-                                      id="custom-js"
-                                      name="custom-js"
-                                      className="w-full mt-2 w-25 border border-gray-300 rounded p-1 h-40"
-                                      value={customJsState}
-                                      onChange={(e) =>
-                                        setCustomJsState(e.target.value)
-                                      }
-                                    />
+                                  <textarea
+                                    id="custom-js"
+                                    name="custom-js"
+                                    className="w-full mt-2 w-25 border border-gray-300 rounded p-1 h-40"
+                                    value={customJsState}
+                                    onChange={(e) =>
+                                      setCustomJsState(e.target.value)
+                                    }
+                                  />
                                   {/* <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
                                     Save
                                   </button> */}
