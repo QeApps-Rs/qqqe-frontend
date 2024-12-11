@@ -135,14 +135,14 @@ const PreviewComponent = ({
                   className="text-4xl font-bold mb-4"
                   style={getStyle(templateDesign, "templateOffer")}
                 >
-                  {templateDesign.offerAmount || "10% OFF"}
+                  {templateDesign.offerAmount}
                 </h2>
                 <p
                   className="text-lg mb-6"
                   style={getStyle(templateDesign, "templateSubHeading")}
                 >
                   {templateDesign.subHeading ||
-                    "save on your first order and get email only offers when you join"}
+                    "Save on your first order and get email only offers when you join"}
                 </p>
                 <form
                   className="flex flex-col space-y-4"
