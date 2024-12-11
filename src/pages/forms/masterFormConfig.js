@@ -205,7 +205,7 @@ export const formTypeDropdown = {
   label: "Form Type",
   placeholder: "Select form type",
   options: [
-    { value: "full page", label: "Full page" },
+    // { value: "full page", label: "Full page" },
     { value: "embed", label: "Embed" },
   ],
 };

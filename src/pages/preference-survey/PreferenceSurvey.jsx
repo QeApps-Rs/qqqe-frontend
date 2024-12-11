@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import FormSubmitHandler from "../../components/FormSubmitHandler";
 import toast from "react-hot-toast";
 import Loader from "../../common/Loader/index.jsx";
-import welcomeImg from "../../images/welcome.png";
+import welcomeImg from "../../images/questionnaires.gif";
 
 const PreferenceSurvey = ({
   isTitleDisplay = true,

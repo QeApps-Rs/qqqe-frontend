@@ -99,12 +99,12 @@ const MasterForm = () => {
     ${templateDesign.templatePaddingBottom} 
     ${templateDesign.templatePaddingLeft}
   `;
-  const combinedMargin = `
-    ${templateDesign.templateMarginTop} 
-    ${templateDesign.templateMarginRight} 
-    ${templateDesign.templateMarginBottom} 
-    ${templateDesign.templateMarginLeft}
-  `;
+  // const combinedMargin = `
+  //   ${templateDesign.templateMarginTop} 
+  //   ${templateDesign.templateMarginRight} 
+  //   ${templateDesign.templateMarginBottom} 
+  //   ${templateDesign.templateMarginLeft}
+  // `;
   const [inputValues, setInputValues] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [inputSurveyValues, setInputSurveyValues] = useState({});
@@ -845,7 +845,6 @@ const MasterForm = () => {
   const otherProps = {
     isView,
     templateDesign,
-    combinedMargin,
     combinedPadding,
     imageSrc,
     containerClass,
@@ -875,7 +874,6 @@ const MasterForm = () => {
     templateDesign,
     getStyle,
     combinedPadding,
-    combinedMargin,
     formClasses,
     handleSubmit,
     addedFields,
@@ -889,7 +887,6 @@ const MasterForm = () => {
   const socialMediaConnectProps = {
     templateDesign,
     combinedPadding,
-    combinedMargin,
     getStyle,
     socialMediaPopupimageSrc,
     formClasses,
@@ -1483,7 +1480,6 @@ const MasterForm = () => {
                 borderWidth: templateDesign.borderWidth,
                 borderColor: templateDesign.templateBorderColor,
                 borderStyle: templateDesign.formBorderStyle,
-                margin: combinedMargin,
               }}
             >
               <div
@@ -1552,7 +1548,6 @@ const MasterForm = () => {
                 borderWidth: templateDesign.borderWidth,
                 borderColor: templateDesign.templateBorderColor,
                 padding: combinedPadding,
-                margin: combinedMargin,
                 borderStyle: templateDesign.formBorderStyle,
               }}
             >
@@ -1619,7 +1614,6 @@ const MasterForm = () => {
                 borderWidth: templateDesign.borderWidth,
                 borderColor: templateDesign.templateBorderColor,
                 padding: combinedPadding,
-                margin: combinedMargin,
                 borderStyle: templateDesign.formBorderStyle,
                 minHeight: 200,
               }}
@@ -1727,7 +1721,6 @@ const MasterForm = () => {
               <SocialMediaConnectPopUp
                 templateDesign={templateDesign}
                 combinedPadding={combinedPadding}
-                combinedMargin={combinedMargin}
                 getStyle={getStyle}
                 socialMediaPopupimageSrc={socialMediaPopupimageSrc}
                 formClasses={formClasses}

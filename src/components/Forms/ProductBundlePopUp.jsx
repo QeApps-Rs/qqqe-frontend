@@ -20,7 +20,6 @@ function ProductBundlePopUp({
               borderWidth: templateDesign.borderWidth ,
               borderColor: templateDesign.templateBorderColor,
               padding: combinedPadding,
-              margin: combinedMargin,
             }}
           >
             <div className="mb-4">
@@ -60,12 +59,7 @@ function ProductBundlePopUp({
   ${templateDesign.templatePaddingBottom} 
   ${templateDesign.templatePaddingLeft}
 `;
-  const combinedMargin = `
-  ${templateDesign.templateMarginTop} 
-  ${templateDesign.templateMarginRight} 
-  ${templateDesign.templateMarginBottom} 
-  ${templateDesign.templateMarginLeft}
-`;
+
 
   return (
     <>
@@ -79,7 +73,6 @@ function ProductBundlePopUp({
           style={{
             backgroundColor: templateDesign.templateBgColor || "#9f9e9e",
             borderRadius: templateDesign.borderRadius || "14px",
-            margin: combinedMargin,
           }}
         >
           <div className="flex justify-end mb-2">
@@ -118,7 +111,6 @@ function ProductBundlePopUp({
                 ? ""
                 : "max-h-[360px]  overflow-auto"
             }`}
-            style={{ margin: combinedMargin }}
           >
             {productData && productData.length > 0 ? (
               productData.map((product, index) => (

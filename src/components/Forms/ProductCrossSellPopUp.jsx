@@ -62,12 +62,7 @@ function ProductCrossSellPopUp({
   ${templateDesign.templatePaddingLeft}
 `;
 
-  const combinedMargin = `
-  ${templateDesign.templateMarginTop} 
-  ${templateDesign.templateMarginRight} 
-  ${templateDesign.templateMarginBottom} 
-  ${templateDesign.templateMarginLeft}
-`;
+ 
 
   return (
     <div
@@ -80,7 +75,6 @@ function ProductCrossSellPopUp({
         style={{
           backgroundColor: templateDesign.templateBgColor || "#a3a126",
           borderRadius: templateDesign.borderRadius || "16px",
-          margin: combinedMargin,
         }}
       >
         <div className="flex justify-end mb-2">
