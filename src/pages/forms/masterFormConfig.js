@@ -255,7 +255,7 @@ export const timingOptions = [
 ];
 
 export const deviceOptions = [
-  { value: "both_desktop_and_mobile", label: "Both desktop and mobile" },
+  { value: "both", label: "Both desktop and mobile" },
   { value: "desktop", label: "Desktop only" },
   { value: "mobile", label: "Mobile only" },
 ];
