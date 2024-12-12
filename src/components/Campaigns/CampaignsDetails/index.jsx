@@ -38,6 +38,19 @@ const CampaignsDetailsPage = () => {
     "Dec",
   ];
 
+  const { state } = useLocation();
+  const { openInNewTab, switch: initialSwitchState } = state || {};
+  const [switchStates, setSwitchStates] = useState({ openInNewTab });
+
+  const handleToggle = (key) => {
+    setSwitchStates((prevStates) => ({
+      ...prevStates,
+      [key]: !prevStates[key],
+    }));
+  };
+
+  const [toggleState, setToggleState] = useState(false);
+
   const [weeklyImpressionCount, setWeeklyImpressionCount] = useState([
     ...defaultDayCount,
   ]);
@@ -129,7 +142,23 @@ const CampaignsDetailsPage = () => {
 
   const [customers, setCustomers] = useState([]);
   const [devices, setDevices] = useState([]);
-
+  const changeAppliedStatus = async (problemId, statementId, currentStatus) => {
+    try {
+      const result = await FormSubmitHandler({
+        method: "post",
+        url: `suggestion/service-status`,
+        data: {
+          pid: problemId,
+          sid: statementId,
+        },
+      });
+      if (result.success) {
+        setToggleState(!currentStatus);
+      }
+    } catch (error) {
+      console.error("Error in toggling status: ", error);
+    }
+  };
   useEffect(() => {
     const fetchSuggestionDetailsData = async () => {
       try {
@@ -150,6 +179,7 @@ const CampaignsDetailsPage = () => {
             let viewCount = 0;
 
             if (res.data) {
+              setToggleState(res.data?.service_status);
               setProductDetailsData(res.data);
               if (res.data.campaignResult) {
                 setAbTest(Object.values(res.data.campaignResult));
@@ -282,6 +312,18 @@ const CampaignsDetailsPage = () => {
             <h2 className="font-semibold text-xl text-customGray mr-4">
               Status and Schedule
             </h2>
+            <SwitcherThree
+              isLabel={false}
+              label="Open in new tab"
+              enabled={toggleState}
+              onToggle={() =>
+                changeAppliedStatus(
+                  productDetailsData?.pid,
+                  productDetailsData?.sid,
+                  toggleState
+                )
+              }
+            />
           </div>
           <div className="flex justify-between items-center">
             <div className="flex items-center">
