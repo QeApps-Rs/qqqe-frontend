@@ -93,16 +93,16 @@ const MasterForm = () => {
     setTemplateDesign((prev) => ({ ...prev, [colorType]: templateDesign }));
   };
 
-  const combinedPadding = `
-    ${templateDesign.templatePaddingTop} 
-    ${templateDesign.templatePaddingRight} 
-    ${templateDesign.templatePaddingBottom} 
-    ${templateDesign.templatePaddingLeft}
-  `;
+  // const combinedPadding = `
+  //   ${templateDesign.templatePaddingTop}
+  //   ${templateDesign.templatePaddingRight}
+  //   ${templateDesign.templatePaddingBottom}
+  //   ${templateDesign.templatePaddingLeft}
+  // `;
   // const combinedMargin = `
-  //   ${templateDesign.templateMarginTop} 
-  //   ${templateDesign.templateMarginRight} 
-  //   ${templateDesign.templateMarginBottom} 
+  //   ${templateDesign.templateMarginTop}
+  //   ${templateDesign.templateMarginRight}
+  //   ${templateDesign.templateMarginBottom}
   //   ${templateDesign.templateMarginLeft}
   // `;
   const [inputValues, setInputValues] = useState({});
@@ -271,34 +271,11 @@ const MasterForm = () => {
 
   const formClasses = () => {
     const { formWidth, formType } = templateDesign;
-    let classes = "h-[calc(100vh-300px)] ";
+    let classes = "max-h-[calc(100vh-500px)]  ";
 
-    if (isView === "Desktop") {
-      classes += "grid grid-cols-12  shadow-lg  ";
-    } else {
-      classes = "overflow-y-auto h-[500px] w-[380px]";
-    }
-
-    if (formType === "full page") {
+    if (formType === "embed") {
       classes += formWidth === "large" ? "w-full flex" : "w-10/12 flex";
-    } else if (formType === "embed") {
-      classes +=
-        formWidth === "large"
-          ? "h-[calc(100vh-500px)] w-full flex"
-          : "h-[calc(100vh-500px)] w-10/12 flex";
     }
-
-    // if (isView === "Mobile") {
-    //   classes = "overflow-y-auto ";
-    //   classes +=
-    //     formType === "full page" || formWidth === "large"
-    //       ? "h-[600px] w-[380px]"
-    //       : "h-[600px] w-[200px]";
-    //       classes +=
-    //       formType === "full page" || formWidth === "small"
-    //         ? "h-[600px] w-[200px]"
-    //         : "h-[600px] w-[300px]";
-    // }
 
     return classes.trim();
   };
@@ -492,15 +469,273 @@ const MasterForm = () => {
             });
           }
 
-          let jsonObject = response?.data?.params;
-          const sid = id.split("s")[1];
-          const customerTemplate = await FormSubmitHandler({
-            method: "get",
-            url: `customer/template/${sid}?handle_type=${response?.data?.masterTemplate?.template_handle}`,
-          });
-          if (customerTemplate.success && customerTemplate.data) {
-            jsonObject = customerTemplate?.data?.json_response;
-          }
+          let jsonObject = {
+            items: {
+              bundle_attribute: {
+                sku: false,
+                name: false,
+                image: false,
+                price: false,
+                atcButton: false,
+                openInNewTab: false,
+                variantSwatch: false,
+              },
+              discount_details: {
+                discount_amount: 10,
+              },
+              selected_products: [],
+              targeted_products: [],
+              selected_collections: [],
+              targeted_collections: [],
+            },
+            styles: {
+              form_type: {
+                type: "embed",
+                width: "small",
+                margin: {
+                  top: "0px",
+                  left: "400px",
+                  right: "0px",
+                  bottom: "0px",
+                },
+                padding: {
+                  top: "18px",
+                  left: "18px",
+                  right: "18px",
+                  bottom: "18px",
+                },
+                show_on: "both",
+                min_height: "200px",
+                border_style: "dashed",
+                border_width: "2px",
+                corner_radius: "",
+                overlay_color: "",
+                background_color: "",
+                input_fields_style: {
+                  text_color: "#000000",
+                  font_family: "Arial",
+                  font_weight: "normal",
+                  label_color: "#000000",
+                  border_color: "#D1D5DB",
+                  letter_spacing: "1px",
+                  input_font_size: "14px",
+                  background_color: "#FFFFFF",
+                  placeholder_color: "#6B7280",
+                  focus_border_color: "#007BFF",
+                },
+                template_border_color: "#000000",
+              },
+              side_image: {
+                side: "0",
+                show_on: "both",
+              },
+              form_parameters: {
+                image: {
+                  link: "",
+                  alt_text: "banner image",
+                  image_position: "center",
+                  section_background_color: "#ffffff",
+                },
+                input: {
+                  required: true,
+                  placeholder: "Email",
+                  required_text: "This field is required",
+                  section_padding: {
+                    top: "15px",
+                    left: "15px",
+                    right: "15px",
+                    bottom: "15px",
+                  },
+                  section_background_color: "#ffffff",
+                },
+                title: {
+                  text: "Review Popup",
+                  color: "#000000",
+                  font_size: "32px",
+                  section_padding: {
+                    top: "15px",
+                    left: "15px",
+                    right: "15px",
+                    bottom: "15px",
+                  },
+                  section_background_color: "#ffffff",
+                  template_heading_font_family: "Arial",
+                },
+                button: {
+                  text: "Continue",
+                  color: "#000000",
+                  font_size: "12px",
+                  font_weight: "bold",
+                  border_style: "none",
+                  corner_radius: "5px",
+                  letter_spacing: "2px",
+                  section_padding: {
+                    top: "15px",
+                    left: "15px",
+                    right: "15px",
+                    bottom: "15px",
+                  },
+                  background_color: "#000000",
+                  section_background_color: "#ffffff",
+                },
+                sub_title: {
+                  text: "",
+                  color: "#000000",
+                  font_size: "16px",
+                  section_padding: {
+                    top: "15px",
+                    left: "15px",
+                    right: "15px",
+                    bottom: "15px",
+                  },
+                  section_background_color: "#ffffff",
+                  template_sub_heading_font_family: "Arial",
+                },
+                email_title: {
+                  text: "",
+                  color: "#000000",
+                  font_size: "18px",
+                  font_family: "Arial",
+                },
+                offer_title: {
+                  template_offer_color: "#000000",
+                  template_offer_amount: "",
+                  template_offer_font_size: "24px",
+                  template_offer_font_family: "Arial",
+                },
+                close_button: {
+                  color: "#000000",
+                  border_color: "#000000",
+                  section_margin: {
+                    left_right: "15px",
+                    top_bottom: "15px",
+                  },
+                  background_color: "#ffffff",
+                },
+              },
+            },
+            custom_js: "",
+            custom_css: "",
+            suggestion: {},
+            target_behaviors: {
+              display: {
+                timing: {
+                  type: "immediately",
+                  settings: {
+                    existing_page: {
+                      is_selected: false,
+                    },
+                    after_delay_time: {
+                      key: "seconds",
+                      value: 0,
+                      is_selected: false,
+                    },
+                    after_pages_visit: {
+                      key: "pages",
+                      value: 0,
+                      is_selected: false,
+                    },
+                    after_scroll_distance: {
+                      key: "percentage",
+                      value: 0,
+                      is_selected: false,
+                    },
+                  },
+                },
+                devices: {
+                  display_on: "desktop",
+                  click_outside_close: {
+                    on_mobile: false,
+                    on_desktop: true,
+                  },
+                },
+                frequency: {
+                  validation: false,
+                  after_show_days: "1",
+                },
+              },
+              targeting: {
+                visitors: "all",
+                locations: {
+                  show_visitors_certain_locations: {
+                    location: "",
+                    is_selected: false,
+                  },
+                  not_show_visitors_certain_locations: {
+                    location: "",
+                    is_selected: false,
+                  },
+                },
+              },
+            },
+            inputs_controller: {
+              image: {
+                alt: "",
+                src: "",
+                side: "0",
+              },
+              heading: {
+                heading: "",
+                description: "",
+                sub_heading: "",
+                heading_font_size: "",
+                description_font_size: "24px",
+                sub_heading_font_size: "16px",
+              },
+              input_line_items: [],
+            },
+            survey_controller: {
+              quiz: [
+                {
+                  answers: [],
+                  question: "",
+                },
+              ],
+              rating: "5",
+              review: "10",
+              survey: [],
+              new_button: [
+                {
+                  buttonLink: "https://www.google.com",
+                  buttonText: "Google",
+                },
+                {
+                  buttonLink: "https://www.facebook.com",
+                  buttonText: "Facebook",
+                },
+                {
+                  buttonLink: "https://twitter.com",
+                  buttonText: "Twitter",
+                },
+              ],
+              survey_type: "none",
+            },
+            success_controller: {
+              image: "",
+              heading: "Thank You !",
+              position: "center",
+              description: "Click To Copy !",
+              sub_heading: "QQQE_SCG5UP",
+              heading_color: "#000000",
+              description_color: "#000000",
+              heading_font_size: "32px",
+              sub_heading_color: "#000000",
+              heading_font_family: "Arial",
+              description_font_size: "24px",
+              sub_heading_font_size: "16px",
+              description_font_family: "Arial",
+              sub_heading_font_family: "Arial",
+            },
+          };
+
+          // const sid = id.split("s")[1];
+          // const customerTemplate = await FormSubmitHandler({
+          //   method: "get",
+          //   url: `customer/template/${sid}?handle_type=${response?.data?.masterTemplate?.template_handle}`,
+          // });
+          // if (customerTemplate.success && customerTemplate.data) {
+          //   jsonObject = customerTemplate?.data?.json_response;
+          // }
           if (jsonObject) {
             const resData = await revertStyleStateController(
               jsonObject?.styles
@@ -789,8 +1024,8 @@ const MasterForm = () => {
   ${templateDesign.imagePosition === "0" ? "-order-none" : "order-1"}
   ${
     templateDesign.formType === "embed" && templateDesign.formWidth === "large"
-      ? "max-h-[518px] overflow-hidden"
-      : "h-full"
+      ? "overflow-hidden"
+      : ""
   }
 `;
 
@@ -845,7 +1080,6 @@ const MasterForm = () => {
   const otherProps = {
     isView,
     templateDesign,
-    combinedPadding,
     imageSrc,
     containerClass,
     formClasses,
@@ -873,7 +1107,6 @@ const MasterForm = () => {
   const worldWideWelcomeProps = {
     templateDesign,
     getStyle,
-    combinedPadding,
     formClasses,
     handleSubmit,
     addedFields,
@@ -886,7 +1119,6 @@ const MasterForm = () => {
 
   const socialMediaConnectProps = {
     templateDesign,
-    combinedPadding,
     getStyle,
     socialMediaPopupimageSrc,
     formClasses,
@@ -1472,8 +1704,7 @@ const MasterForm = () => {
             }}
           >
             <div
-              className={formClasses()}
-              style={{
+  className={`${formClasses()} grid grid-cols-12`}              style={{
                 backgroundColor:
                   templateDesign.templateOverlayColor || "#ffffff",
                 borderRadius: templateDesign.borderRadius,
@@ -1491,10 +1722,7 @@ const MasterForm = () => {
                   className={`w-full ${formClasses()}`}
                 />
               </div>
-              <div
-                className="flex flex-col justify-start xl:col-span-6"
-                style={{ padding: combinedPadding }}
-              >
+              <div className="flex flex-col justify-start xl:col-span-6">
                 <div className="flex justify-end mb-2">
                   <h4
                     className="leading-none font-bold"
@@ -1547,7 +1775,6 @@ const MasterForm = () => {
                 borderRadius: templateDesign.borderRadius || "16px",
                 borderWidth: templateDesign.borderWidth,
                 borderColor: templateDesign.templateBorderColor,
-                padding: combinedPadding,
                 borderStyle: templateDesign.formBorderStyle,
               }}
             >
@@ -1613,7 +1840,6 @@ const MasterForm = () => {
                 borderRadius: templateDesign.borderRadius || "16px",
                 borderWidth: templateDesign.borderWidth,
                 borderColor: templateDesign.templateBorderColor,
-                padding: combinedPadding,
                 borderStyle: templateDesign.formBorderStyle,
                 minHeight: 200,
               }}
@@ -1699,7 +1925,6 @@ const MasterForm = () => {
             templateDesign={templateDesign}
             templateData={templateData}
             getStyle={getStyle}
-            combinedPadding={combinedPadding}
           />
         )}
         {suggestionTemplateStatus.isExitProductRecommenderPopup && (
@@ -1709,7 +1934,6 @@ const MasterForm = () => {
             templateDesign={templateDesign}
             templateData={templateData}
             getStyle={getStyle}
-            combinedPadding={combinedPadding}
           />
         )}
         {suggestionTemplateStatus.isSocialMediaConnectPopup && (
@@ -1720,7 +1944,6 @@ const MasterForm = () => {
             >
               <SocialMediaConnectPopUp
                 templateDesign={templateDesign}
-                combinedPadding={combinedPadding}
                 getStyle={getStyle}
                 socialMediaPopupimageSrc={socialMediaPopupimageSrc}
                 formClasses={formClasses}
