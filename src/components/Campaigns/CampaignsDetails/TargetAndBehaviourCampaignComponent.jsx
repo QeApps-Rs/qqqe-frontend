@@ -44,7 +44,7 @@ const TargetingAndBehaviorControlComponent = ({ productDetailsData }) => {
             let device =
               productDetailsData?.json_response?.target_behaviors?.display
                 ?.devices?.display_on;
-            if (device == "both_desktop_and_mobile") {
+            if (device == "both") {
               desc = "Both desktop and mobile";
             } else if (device == "desktop") {
               desc = "Desktop only";

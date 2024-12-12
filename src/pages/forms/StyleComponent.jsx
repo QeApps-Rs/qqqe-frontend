@@ -125,7 +125,7 @@ const StyleComponent = ({
                         </>
                       )}
 
-                    <div className="font-semibold text-black">Show On</div>
+                    {/* <div className="font-semibold text-black">Show On</div>
                     <div className="mt-2 flex items-center space-x-2 bg-slate-100 p-2 rounded-md">
                       {tabs.map((tab) => (
                         <button
@@ -141,7 +141,7 @@ const StyleComponent = ({
                           <span>{tab.name}</span>
                         </button>
                       ))}
-                    </div>
+                    </div> */}
                   </div>
                   <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
                     <div className="mb-4.5 border-b border-black pb-4">
