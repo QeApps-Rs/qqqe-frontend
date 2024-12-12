@@ -97,7 +97,7 @@ const StyleComponent = ({
           <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
             <div className="w-full flex flex-col gap-9">
               <form>
-                {!isProductBundle &&
+                {/* {!isProductBundle &&
                   !isCrossSellPopup &&
                   !isAbandonmentPopup &&
                   !isUpSellPopup &&
@@ -114,16 +114,16 @@ const StyleComponent = ({
                           name: "formWidth",
                           defaultValue: templateDesign.formWidth,
                         })}
-                        {/* {renderInputField(
+                        {renderInputField(
                             "Minimum Height(px)",
                             templateDesign.templateMinHeight,
                             onTemplateChange("templateMinHeight"),
                             "minimum-height",
                             "px"
-                          )} */}
+                          )}
                       </>
 
-                      {/* <div className="font-semibold text-black">Show On</div>
+                      <div className="font-semibold text-black">Show On</div>
                     <div className="mt-2 flex items-center space-x-2 bg-slate-100 p-2 rounded-md">
                       {tabs.map((tab) => (
                         <button
@@ -139,9 +139,9 @@ const StyleComponent = ({
                           <span>{tab.name}</span>
                         </button>
                       ))}
-                    </div> */}
                     </div>
-                  )}
+                    </div>
+                  )} */}
                 <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
                   <div className="mb-4.5 border-b border-black pb-4">
                     <label className="mb-2 block text-black dark:text-white font-semibold">
