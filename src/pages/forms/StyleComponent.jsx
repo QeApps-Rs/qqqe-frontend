@@ -96,36 +96,34 @@ const StyleComponent = ({
         <div className="col-span-12 xl:col-span-12">
           <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
             <div className="w-full flex flex-col gap-9">
-              
-                <form>
-                  <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
-                    {!isProductBundle &&
-                      !isCrossSellPopup &&
-                      !isAbandonmentPopup &&
-                      !isUpSellPopup &&
-                      !isExitProductRecommenderPopup && (
-                        <>
-                          {renderDropDown("Form Type", {
-                            ...formTypeDropdown,
-                            name: "formType",
-                            defaultValue: templateDesign.formType,
-                          })}
-                          {renderDropDown("Form Width", {
-                            ...widthDropdown,
-                            name: "formWidth",
-                            defaultValue: templateDesign.formWidth,
-                          })}
-                          {/* {renderInputField(
+              <form>
+                {!isProductBundle &&
+                  !isCrossSellPopup &&
+                  !isAbandonmentPopup &&
+                  !isUpSellPopup &&
+                  !isExitProductRecommenderPopup && (
+                    <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
+                      <>
+                        {renderDropDown("Form Type", {
+                          ...formTypeDropdown,
+                          name: "formType",
+                          defaultValue: templateDesign.formType,
+                        })}
+                        {renderDropDown("Form Width", {
+                          ...widthDropdown,
+                          name: "formWidth",
+                          defaultValue: templateDesign.formWidth,
+                        })}
+                        {/* {renderInputField(
                             "Minimum Height(px)",
                             templateDesign.templateMinHeight,
                             onTemplateChange("templateMinHeight"),
                             "minimum-height",
                             "px"
                           )} */}
-                        </>
-                      )}
+                      </>
 
-                    {/* <div className="font-semibold text-black">Show On</div>
+                      {/* <div className="font-semibold text-black">Show On</div>
                     <div className="mt-2 flex items-center space-x-2 bg-slate-100 p-2 rounded-md">
                       {tabs.map((tab) => (
                         <button
@@ -142,112 +140,115 @@ const StyleComponent = ({
                         </button>
                       ))}
                     </div> */}
-                  </div>
-                  <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
-                    <div className="mb-4.5 border-b border-black pb-4">
-                      <label className="mb-2 block text-black dark:text-white font-semibold">
-                        Form Background
-                      </label>
-                      {/* {templateBgField.map(({ label, colorType }, i) =>
+                    </div>
+                  )}
+                <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
+                  <div className="mb-4.5 border-b border-black pb-4">
+                    <label className="mb-2 block text-black dark:text-white font-semibold">
+                      Form Background
+                    </label>
+                    {/* {templateBgField.map(({ label, colorType }, i) =>
                         renderColorPicker(label, colorType, i)
                       )} */}
-                      {templateBgField
-                        .filter(({ colorType }) => {
-                          return (
-                            colorType !== "templateOverlayColor" ||
-                            (!isAttributionSurvey &&
-                              !isExitProductRecommenderPopup &&
-                              !isSocialMediaConnectPopup &&
-                              !isWorldWideWelcomePopup)
-                          );
-                        })
-                        .map(({ label, colorType }, i) =>
-                          renderColorPicker(label, colorType, i)
-                        )}
-                    </div>
-
-                    <div className="mb-4.5  pb-4">
-                      <label className="mb-2 block text-black dark:text-white font-semibold">
-                        Form Styles
-                      </label>
-                      {renderInputField(
-                        "Corner Radius(px)",
-                        templateDesign.borderRadius,
-                        onTemplateChange("borderRadius"),
-                        "border-radius",
-                        "px"
+                    {templateBgField
+                      .filter(({ colorType }) => {
+                        return (
+                          colorType !== "templateOverlayColor" ||
+                          (!isAttributionSurvey &&
+                            !isExitProductRecommenderPopup &&
+                            !isSocialMediaConnectPopup &&
+                            !isWorldWideWelcomePopup)
+                        );
+                      })
+                      .map(({ label, colorType }, i) =>
+                        renderColorPicker(label, colorType, i)
                       )}
-
-                      {!isPreviewPopup && (
-                        <>
-                          <div className="mt-3 flex justify-between flex-row items-center">
-                            <span>Border style:</span>
-                            <select
-                              onChange={(e) => {
-                                onTemplateChange("formBorderStyle")(
-                                  e.target.value
-                                );
-                                onTemplateChange("borderWidth")("");
-                              }}
-                              value={templateDesign.formBorderStyle}
-                              className={`${defaultBoxClassName} h-12`}
-                            >
-                              {borderStyles.map((style) => (
-                                <option key={style.value} value={style.value}>
-                                  {style.label}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-
-                          {templateDesign.formBorderStyle !== "none" && (
-                            <>
-                              {renderColorPicker(
-                                "Border color",
-                                "templateBorderColor"
-                              )}
-                              {renderInputField(
-                                "Border Thickness",
-                                templateDesign.borderWidth,
-                                onTemplateChange("borderWidth"),
-                                "border-thickness",
-                                "px"
-                              )}
-                            </>
-                          )}
-                        </>
-                      )}
-                      <label className="block mt-4 font-semibold">Padding (px):</label>
-                      <div className="grid grid-cols-2">
-                        {["Top", "Bottom", "Left", "Right"].map((position, i) =>
-                          renderPaddingMarginField(
-                            `${position}`,
-                            templateDesign[`templatePadding${position}`],
-                            onTemplateChange(`templatePadding${position}`),
-                            `templatePadding${position}`,
-                            "px",
-                            i
-                          )
-                        )}
-                      </div>
-                      <label className="block mt-4 font-semibold">Margin (px):</label>
-                      <div className="grid grid-cols-2">
-                        {["Top", "Bottom", "Left", "Right"].map((position, i) =>
-                          renderPaddingMarginField(
-                            `${position}`,
-                            templateDesign[`templateMargin${position}`],
-                            onTemplateChange(`templateMargin${position}`),
-                            `templateMargin${position}`,
-                            "px",
-                            i
-                          )
-                        )}
-                      </div>
-                    </div>
                   </div>
 
-                  
-                </form>
+                  <div className="mb-4.5  pb-4">
+                    <label className="mb-2 block text-black dark:text-white font-semibold">
+                      Form Styles
+                    </label>
+                    {renderInputField(
+                      "Corner Radius(px)",
+                      templateDesign.borderRadius,
+                      onTemplateChange("borderRadius"),
+                      "border-radius",
+                      "px"
+                    )}
+
+                    {!isPreviewPopup && (
+                      <>
+                        <div className="mt-3 flex justify-between flex-row items-center">
+                          <span>Border style:</span>
+                          <select
+                            onChange={(e) => {
+                              onTemplateChange("formBorderStyle")(
+                                e.target.value
+                              );
+                              onTemplateChange("borderWidth")("");
+                            }}
+                            value={templateDesign.formBorderStyle}
+                            className={`${defaultBoxClassName} h-12`}
+                          >
+                            {borderStyles.map((style) => (
+                              <option key={style.value} value={style.value}>
+                                {style.label}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        {templateDesign.formBorderStyle !== "none" && (
+                          <>
+                            {renderColorPicker(
+                              "Border color",
+                              "templateBorderColor"
+                            )}
+                            {renderInputField(
+                              "Border Thickness",
+                              templateDesign.borderWidth,
+                              onTemplateChange("borderWidth"),
+                              "border-thickness",
+                              "px"
+                            )}
+                          </>
+                        )}
+                      </>
+                    )}
+                    <label className="block mt-4 font-semibold">
+                      Padding (px):
+                    </label>
+                    <div className="grid grid-cols-2">
+                      {["Top", "Bottom", "Left", "Right"].map((position, i) =>
+                        renderPaddingMarginField(
+                          `${position}`,
+                          templateDesign[`templatePadding${position}`],
+                          onTemplateChange(`templatePadding${position}`),
+                          `templatePadding${position}`,
+                          "px",
+                          i
+                        )
+                      )}
+                    </div>
+                    <label className="block mt-4 font-semibold">
+                      Margin (px):
+                    </label>
+                    <div className="grid grid-cols-2">
+                      {["Top", "Bottom", "Left", "Right"].map((position, i) =>
+                        renderPaddingMarginField(
+                          `${position}`,
+                          templateDesign[`templateMargin${position}`],
+                          onTemplateChange(`templateMargin${position}`),
+                          `templateMargin${position}`,
+                          "px",
+                          i
+                        )
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
