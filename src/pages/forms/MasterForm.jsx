@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import popup_img from "../../../src/images/newsletter_left_img.png";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import successImg from "../../../src/images/success_fn.png";
+import surveyPopupBannerImg from "../../images/surveypopup-dummy-banner-img.jpg";
 import FormSubmitHandler from "../../components/FormSubmitHandler";
 import {
   templateFieldCss,
@@ -32,10 +33,12 @@ import ExitProductRecommenderPopup from "../../components/Forms/ExitProductRecom
 import TemplateHeader from "../../components/Forms/TemplateHeader";
 import SocialMediaConnectPopUp from "../../components/Forms/SocialMediaConnectPopUp";
 import WorldWideWelcomePopUp from "../../components/Forms/WorldWideWelcomePopUp";
+import TemplateBannerComponent from "./TemplateBannerComponent";
 
 const MasterForm = () => {
   //  shiv code start
   const [loading, setLoading] = useState(false);
+  const [handleType, setHandleType] = useState("");
   const [customCssState, setCustomCssState] = useState("");
   const [customJsState, setCustomJsState] = useState("");
   const [templateDesign, setTemplateDesign] = useState(templateFieldCss);
@@ -65,20 +68,7 @@ const MasterForm = () => {
     fieldName: "",
     options: "",
   });
-  const [addedFields, setAddedFields] = useState([
-    {
-      fieldName: "Email",
-      fieldType: "email",
-      fieldValidation: "required",
-      placeholderText: "Please Enter Email",
-    },
-    {
-      fieldName: "Phone",
-      fieldType: "number",
-      fieldValidation: "required",
-      placeholderText: "Please Enter Your Mobile Number",
-    },
-  ]);
+  const [addedFields, setAddedFields] = useState([]);
   const [addedQuestion, setAddedQuestion] = useState([]);
   const [success, setSuccess] = useState(false);
   const [addedButton, setAddedButton] = useState(
@@ -301,10 +291,11 @@ const MasterForm = () => {
     templateDesign.imagePosition === "0" ? "-order-none" : "order-1"
   }`;
 
-  const imageSrc = !success
+  let imageSrc = !success
     ? templateDesign.image || popup_img
     : templateDesign.successImage || popup_img;
 
+  imageSrc = handleType == "survey_popup" ? surveyPopupBannerImg : imageSrc;
   const socialMediaPopupimageSrc = templateDesign.image;
 
   const surveyImageSrc =
@@ -471,6 +462,7 @@ const MasterForm = () => {
 
           let jsonObject = response?.data?.params;
           const sid = id.split("s")[1];
+          setHandleType(response?.data?.masterTemplate?.template_handle);
           const customerTemplate = await FormSubmitHandler({
             method: "get",
             url: `customer/template/${sid}?handle_type=${response?.data?.masterTemplate?.template_handle}&subTemplateId=${subTemplateId}`,
@@ -1446,7 +1438,8 @@ const MasterForm = () => {
             }}
           >
             <div
-  className={`${formClasses()} grid grid-cols-12`}              style={{
+              className={`${formClasses()} grid grid-cols-12 gap-4`}
+              style={{
                 backgroundColor:
                   templateDesign.templateOverlayColor || "#ffffff",
                 borderRadius: templateDesign.borderRadius,
@@ -1487,16 +1480,34 @@ const MasterForm = () => {
                     {templateDesign.subHeading ||
                       "How would you rate your overall experience with us?"}
                   </p>
+                  {addedFields.map((field, index) => (
+                    <TemplateBannerComponent
+                      key={index}
+                      {...field}
+                      templateDesign={templateDesign}
+                      inputValue={inputValues[field.fieldName] || ""}
+                      onInputChange={handleInputChange}
+                      isSubmitted={isSubmitted}
+                      onDelete={() => handleDeleteField(field.fieldName)}
+                      onEdit={() => handleEdit(field, index)}
+                    />
+                  ))}
+                    <button
+          type="button"
+          className="bg-blue-600  text-white py-2 px-4 mt-3 rounded shadow w-full hover:bg-blue-900"
+        >
+          Add
+        </button>
                   <hr className="w-48 h-1 my-4 bg-[#d0d5d9] border-0 rounded md:my-10 dark:bg-gray-700"></hr>
                   <form
                     className="flex flex-col space-y-4"
                     onSubmit={handleSubmit}
                   >
                     {/* Display Stars Here */}
-                    {templateDesign.reviewType === "review" && (
+                    {surveyController.survey_type === "review" && (
                       <>{renderStars(reviewCount)}</>
                     )}
-                    {templateDesign.reviewType === "rating" && (
+                    {surveyController.survey_type === "rating" && (
                       <>{renderNumbers(ratingCount)}</>
                     )}
                   </form>
