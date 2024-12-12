@@ -93,16 +93,16 @@ const MasterForm = () => {
     setTemplateDesign((prev) => ({ ...prev, [colorType]: templateDesign }));
   };
 
-  const combinedPadding = `
-    ${templateDesign.templatePaddingTop} 
-    ${templateDesign.templatePaddingRight} 
-    ${templateDesign.templatePaddingBottom} 
-    ${templateDesign.templatePaddingLeft}
-  `;
+  // const combinedPadding = `
+  //   ${templateDesign.templatePaddingTop}
+  //   ${templateDesign.templatePaddingRight}
+  //   ${templateDesign.templatePaddingBottom}
+  //   ${templateDesign.templatePaddingLeft}
+  // `;
   // const combinedMargin = `
-  //   ${templateDesign.templateMarginTop} 
-  //   ${templateDesign.templateMarginRight} 
-  //   ${templateDesign.templateMarginBottom} 
+  //   ${templateDesign.templateMarginTop}
+  //   ${templateDesign.templateMarginRight}
+  //   ${templateDesign.templateMarginBottom}
   //   ${templateDesign.templateMarginLeft}
   // `;
   const [inputValues, setInputValues] = useState({});
@@ -271,34 +271,11 @@ const MasterForm = () => {
 
   const formClasses = () => {
     const { formWidth, formType } = templateDesign;
-    let classes = "h-[calc(100vh-300px)] ";
+    let classes = "max-h-[calc(100vh-500px)]  ";
 
-    if (isView === "Desktop") {
-      classes += "grid grid-cols-12  shadow-lg  ";
-    } else {
-      classes = "overflow-y-auto h-[500px] w-[380px]";
-    }
-
-    if (formType === "full page") {
+    if (formType === "embed") {
       classes += formWidth === "large" ? "w-full flex" : "w-10/12 flex";
-    } else if (formType === "embed") {
-      classes +=
-        formWidth === "large"
-          ? "h-[calc(100vh-500px)] w-full flex"
-          : "h-[calc(100vh-500px)] w-10/12 flex";
     }
-
-    // if (isView === "Mobile") {
-    //   classes = "overflow-y-auto ";
-    //   classes +=
-    //     formType === "full page" || formWidth === "large"
-    //       ? "h-[600px] w-[380px]"
-    //       : "h-[600px] w-[200px]";
-    //       classes +=
-    //       formType === "full page" || formWidth === "small"
-    //         ? "h-[600px] w-[200px]"
-    //         : "h-[600px] w-[300px]";
-    // }
 
     return classes.trim();
   };
@@ -789,8 +766,8 @@ const MasterForm = () => {
   ${templateDesign.imagePosition === "0" ? "-order-none" : "order-1"}
   ${
     templateDesign.formType === "embed" && templateDesign.formWidth === "large"
-      ? "max-h-[518px] overflow-hidden"
-      : "h-full"
+      ? "overflow-hidden"
+      : ""
   }
 `;
 
@@ -845,7 +822,6 @@ const MasterForm = () => {
   const otherProps = {
     isView,
     templateDesign,
-    combinedPadding,
     imageSrc,
     containerClass,
     formClasses,
@@ -873,7 +849,6 @@ const MasterForm = () => {
   const worldWideWelcomeProps = {
     templateDesign,
     getStyle,
-    combinedPadding,
     formClasses,
     handleSubmit,
     addedFields,
@@ -886,7 +861,6 @@ const MasterForm = () => {
 
   const socialMediaConnectProps = {
     templateDesign,
-    combinedPadding,
     getStyle,
     socialMediaPopupimageSrc,
     formClasses,
@@ -1472,8 +1446,7 @@ const MasterForm = () => {
             }}
           >
             <div
-              className={formClasses()}
-              style={{
+  className={`${formClasses()} grid grid-cols-12`}              style={{
                 backgroundColor:
                   templateDesign.templateOverlayColor || "#ffffff",
                 borderRadius: templateDesign.borderRadius,
@@ -1491,10 +1464,7 @@ const MasterForm = () => {
                   className={`w-full ${formClasses()}`}
                 />
               </div>
-              <div
-                className="flex flex-col justify-start xl:col-span-6"
-                style={{ padding: combinedPadding }}
-              >
+              <div className="flex flex-col justify-start xl:col-span-6">
                 <div className="flex justify-end mb-2">
                   <h4
                     className="leading-none font-bold"
@@ -1547,7 +1517,6 @@ const MasterForm = () => {
                 borderRadius: templateDesign.borderRadius || "16px",
                 borderWidth: templateDesign.borderWidth,
                 borderColor: templateDesign.templateBorderColor,
-                padding: combinedPadding,
                 borderStyle: templateDesign.formBorderStyle,
               }}
             >
@@ -1613,7 +1582,6 @@ const MasterForm = () => {
                 borderRadius: templateDesign.borderRadius || "16px",
                 borderWidth: templateDesign.borderWidth,
                 borderColor: templateDesign.templateBorderColor,
-                padding: combinedPadding,
                 borderStyle: templateDesign.formBorderStyle,
                 minHeight: 200,
               }}
@@ -1699,7 +1667,6 @@ const MasterForm = () => {
             templateDesign={templateDesign}
             templateData={templateData}
             getStyle={getStyle}
-            combinedPadding={combinedPadding}
           />
         )}
         {suggestionTemplateStatus.isExitProductRecommenderPopup && (
@@ -1709,7 +1676,6 @@ const MasterForm = () => {
             templateDesign={templateDesign}
             templateData={templateData}
             getStyle={getStyle}
-            combinedPadding={combinedPadding}
           />
         )}
         {suggestionTemplateStatus.isSocialMediaConnectPopup && (
@@ -1720,7 +1686,6 @@ const MasterForm = () => {
             >
               <SocialMediaConnectPopUp
                 templateDesign={templateDesign}
-                combinedPadding={combinedPadding}
                 getStyle={getStyle}
                 socialMediaPopupimageSrc={socialMediaPopupimageSrc}
                 formClasses={formClasses}

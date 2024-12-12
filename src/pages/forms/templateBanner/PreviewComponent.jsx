@@ -5,7 +5,6 @@ import TemplateBannerComponent from "../TemplateBannerComponent";
 const PreviewComponent = ({
   isView,
   templateDesign,
-  combinedPadding,
   imageSrc,
   containerClass,
   formClasses,
@@ -39,26 +38,25 @@ const PreviewComponent = ({
             ? "url('https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/src/images/mobile_bg.png')"
             : "",
 
-        height: "calc(100vh - 240px)",
+        minHeight: "calc(100vh - 300px)",
       }}
     >
       <div
-        className={formClasses()}
+        className={`${formClasses()} grid grid-cols-12`}
         style={{
           borderRadius: templateDesign.borderRadius || "16px",
-          padding: combinedPadding,
         }}
       >
         <div className={containerClass}>
           <img
             src={imageSrc}
             alt="Promo"
-            className={`w-full ${formClasses()}`}
+            className="w-full h-[400px] min-h-[200px]"
           />
         </div>
 
         <div
-          className={`p-8 flex flex-col justify-start h-full ${
+          className={`p-8 flex flex-col justify-start min-h-full ${
             isView === "Desktop" ? "xl:col-span-7" : "sm:col-span-12"
           } `}
           style={{
