@@ -496,7 +496,7 @@ const MasterForm = () => {
           const sid = id.split("s")[1];
           const customerTemplate = await FormSubmitHandler({
             method: "get",
-            url: `customer/template/${sid}?handle_type=${response?.data?.masterTemplate?.template_handle}`,
+            url: `customer/template/${sid}?handle_type=${response?.data?.masterTemplate?.template_handle}&subTemplateId=${subTemplateId}`,
           });
           if (customerTemplate.success && customerTemplate.data) {
             jsonObject = customerTemplate?.data?.json_response;
