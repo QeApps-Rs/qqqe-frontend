@@ -6,8 +6,6 @@ const PreviewComponent = ({
   isView,
   templateDesign,
   imageSrc,
-  containerClass,
-  formClasses,
   success,
   successImg,
   getStyle,
@@ -27,51 +25,40 @@ const PreviewComponent = ({
   renderNumbers,
   reviewCount,
   ratingCount,
+  containerClass
 }) => {
   return (
     <div
-      className="flex items-center justify-center bg-white"
+      className="flex items-center justify-center bg-white min-h-screen"
       style={{
         backgroundColor: templateDesign.templateBgColor || "#000000",
         backgroundImage:
           isView !== "Desktop"
             ? "url('https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/src/images/mobile_bg.png')"
             : "",
-
-        minHeight: "calc(100vh - 300px)",
       }}
     >
       <div
-        className={`${formClasses()} grid grid-cols-12`}
+        className="grid grid-cols-1 lg:grid-cols-2 w-full max-w-4xl bg-white shadow-lg rounded-xl overflow-hidden"
         style={{
           borderRadius: templateDesign.borderRadius || "16px",
         }}
       >
-        <div className={containerClass}>
+        <div className={`h-80 lg:h-auto ${containerClass}`} >
           <img
             src={imageSrc}
             alt="Promo"
-            className="w-full h-[400px] min-h-[200px]"
+            className="w-full h-full object-cover"
           />
         </div>
 
         <div
-          className={`p-8 flex flex-col justify-start min-h-full ${
-            isView === "Desktop" ? "xl:col-span-7" : "sm:col-span-12"
-          } `}
+          className="p-6 lg:p-8 flex flex-col justify-center h-full"
           style={{
             backgroundColor: templateDesign.templateOverlayColor || "#FFFFFF",
           }}
         >
-          <div className="flex justify-end mb-2 ">
-            <h4
-              className="leading-none font-bold"
-              style={getStyle(templateDesign, "templateEmail")}
-            >
-              {templateDesign.templateEmailText }
-            </h4>
-          </div>
-          <div className="mt-10">
+          <div>
             {success ? (
               <div
                 className={`${
@@ -94,7 +81,7 @@ const PreviewComponent = ({
                   <img
                     src={successImg}
                     alt="Success"
-                    className="max-w-[130px] w-27 h-27 rounded-full object-cover"
+                    className="max-w-[130px] w-28 h-28 rounded-full object-cover"
                   />
                 </div>
                 <h2
@@ -125,7 +112,7 @@ const PreviewComponent = ({
                   className="text-4xl font-bold mb-4"
                   style={getStyle(templateDesign, "templateHeading")}
                 >
-                  {templateDesign.heading }
+                  {templateDesign.heading}
                 </h2>
                 <h2
                   className="text-4xl font-bold mb-4"

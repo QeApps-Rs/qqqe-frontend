@@ -749,18 +749,7 @@ const MasterForm = () => {
   }, []);
 
   const containerClass = `
-  ${templateDesign.formType === "full page" ? "h-full" : ""}
-  ${
-    isView === "Desktop"
-      ? "xl:col-span-5"
-      : "sm:col-span-12 bg-white shadow-lg flex flex-wrap"
-  }
   ${templateDesign.imagePosition === "0" ? "-order-none" : "order-1"}
-  ${
-    templateDesign.formType === "embed" && templateDesign.formWidth === "large"
-      ? "overflow-hidden"
-      : ""
-  }
 `;
 
   const renderStars = (reviewCount) => {
@@ -815,8 +804,8 @@ const MasterForm = () => {
     isView,
     templateDesign,
     imageSrc,
-    containerClass,
     formClasses,
+    containerClass,
     success,
     successImg,
     getStyle,
@@ -1449,7 +1438,7 @@ const MasterForm = () => {
               }}
             >
               <div
-                className={`flex flex-col justify-center xl:col-span-6 content ${containerClass}`}
+                className={`flex flex-col justify-center xl:col-span-6 content `}
               >
                 <img
                   src={surveyImageSrc}
@@ -1492,12 +1481,12 @@ const MasterForm = () => {
                       onEdit={() => handleEdit(field, index)}
                     />
                   ))}
-                    <button
-          type="button"
-          className="bg-blue-600  text-white py-2 px-4 mt-3 rounded shadow w-full hover:bg-blue-900"
-        >
-          Add
-        </button>
+                  <button
+                    type="button"
+                    className="bg-blue-600  text-white py-2 px-4 mt-3 rounded shadow w-full hover:bg-blue-900"
+                  >
+                    Add
+                  </button>
                   <hr className="w-48 h-1 my-4 bg-[#d0d5d9] border-0 rounded md:my-10 dark:bg-gray-700"></hr>
                   <form
                     className="flex flex-col space-y-4"
