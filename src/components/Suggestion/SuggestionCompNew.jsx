@@ -651,21 +651,25 @@ const SuggestionCompNew = () => {
         <div title="Configuration" className="ml-2 " data-id={id}>
           <SettingIcon
             onClick={() => {
-              toggleModal();
-              setSuggestionId(id);
-              setInputTypeValue(suggestion.discount_percentage);
-              setDiscountObj({
-                description: suggestion.description,
-                discount: suggestion.discount,
-                discount_percentage: suggestion.discount_percentage,
-              });
-              setUpdatedDiscountObj({
-                description: suggestion.description,
-                discount: suggestion.discount,
-                discount_percentage: suggestion.discount_percentage,
-              });
+              if (is_applied) {
+                toast.success("Suggestion is already applied");
+              } else {
+                toggleModal();
+                setSuggestionId(id);
+                setInputTypeValue(suggestion.discount_percentage);
+                setDiscountObj({
+                  description: suggestion.description,
+                  discount: suggestion.discount,
+                  discount_percentage: suggestion.discount_percentage,
+                });
+                setUpdatedDiscountObj({
+                  description: suggestion.description,
+                  discount: suggestion.discount,
+                  discount_percentage: suggestion.discount_percentage,
+                });
+              }
             }}
-            disabled={is_applied}
+            // disabled={is_applied}
           />
         </div>
       </div>
@@ -766,7 +770,7 @@ const SuggestionCompNew = () => {
                   </th>
                   <th className={`text-left ${lblHeaderClass}`}>Status</th>
                   <th className={`text-left ${lblHeaderClass}`}>
-                    Published date
+                    Published Date
                   </th>
                   <th className={`${lblHeaderClass}`}>Actions</th>
                 </tr>

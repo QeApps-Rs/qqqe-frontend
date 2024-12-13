@@ -235,14 +235,14 @@ const Campaigns = () => {
         <div className="rounded-lg  bg-white shadow-default mt-4 ">
           <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5 ">
             {[
-              "Latest",
+              "Latest Applied Date",
+              "",
               "Status",
               "Devices",
               "Template Handle",
               "Impressions",
               "Conversions",
               "Conversions rate",
-              "Applied Date",
             ].map((header, index) => (
               <div
                 className={`${
