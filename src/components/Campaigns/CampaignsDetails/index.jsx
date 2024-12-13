@@ -337,12 +337,11 @@ const CampaignsDetailsPage = () => {
                 title={productDetailsData?.tooltip_text}
                 className="cursor-pointer"
               >
-                <i className="fa fa-info-circle text-[19px] text-blue-500"></i>
+                <i
+                  className="fa fa-info-circle cursor-pointer"
+                  aria-hidden="true"
+                ></i>
               </div>
-              {/* <i
-                className="fa fa-info-circle cursor-pointer"
-                aria-hidden="true"
-              ></i> */}
             </div>
           </div>
         </div>
