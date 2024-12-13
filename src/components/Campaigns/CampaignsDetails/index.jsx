@@ -333,10 +333,16 @@ const CampaignsDetailsPage = () => {
                 {renderTab("medium", "Medium", "bg-blue-500 text-white")}
                 {renderTab("high", "High", "bg-red-500 text-white")}
               </div>
-              <i
+              <div
+                title={productDetailsData?.tooltip_text}
+                className="cursor-pointer"
+              >
+                <i className="fa fa-info-circle text-[19px] text-blue-500"></i>
+              </div>
+              {/* <i
                 className="fa fa-info-circle cursor-pointer"
                 aria-hidden="true"
-              ></i>
+              ></i> */}
             </div>
           </div>
         </div>
@@ -360,10 +366,10 @@ const CampaignsDetailsPage = () => {
                     </option>
                     <option value="Roboto">Roboto</option>
                   </select>
-                  <i
+                  {/* <i
                     className="fa fa-info-circle cursor-pointer"
                     aria-hidden="true"
-                  ></i>
+                  ></i> */}
                 </div>
                 <div className="flex items-center">
                   <select
@@ -414,7 +420,7 @@ const CampaignsDetailsPage = () => {
                 {["impressions", "conversions", "conversions_rate"].map(
                   (field, idx) => (
                     <div className="col-span-2 flex items-center" key={idx}>
-                      <p className="text-sm text-graydark">{product[field]}</p>
+                      <p className="text-md font-bold">{product[field]}</p>
                     </div>
                   )
                 )}
@@ -428,10 +434,10 @@ const CampaignsDetailsPage = () => {
         </h2>
         {type === "suggestion" && (
           <div className="grid grid-cols-4 gap-4">
-            {renderCampaignBox("Impressions", impressionCount, "0%")}
-            {renderCampaignBox("Clicks", clickCount, "0%")}
-            {renderCampaignBox("Conversions", conversionCount, "0%")}
-            {renderCampaignBox("Views", viewCount, "0%")}
+            {renderCampaignBox("Impressions", impressionCount)}
+            {renderCampaignBox("Clicks", clickCount)}
+            {renderCampaignBox("Conversions", conversionCount)}
+            {renderCampaignBox("Views", viewCount)}
           </div>
         )}
         <div className="grid grid-cols-2 gap-4 mt-4">
