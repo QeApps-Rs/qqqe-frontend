@@ -765,11 +765,11 @@ const SuggestionCompNew = () => {
             <table className="w-full table-auto">
               <thead>
                 <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                  <th className={`min-w-[120px] ${lblHeaderClass}`}>
+                  <th className={`min-w-[120px]  ${lblHeaderClass}`}>
                     Suggestions
                   </th>
                   <th className={`text-left ${lblHeaderClass}`}>Status</th>
-                  <th className={`text-left ${lblHeaderClass}`}>
+                  <th className={`text-left whitespace-nowrap  ${lblHeaderClass}`}>
                     Published Date
                   </th>
                   <th className={`${lblHeaderClass}`}>Actions</th>
