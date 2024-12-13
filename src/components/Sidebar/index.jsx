@@ -15,11 +15,11 @@ const Sidebar = () => {
       iconType: "dashboard",
       label: "Dashboard",
     },
-    {
-      href: "/analytics",
-      iconType: "analytics",
-      label: "Overview",
-    },
+    // {
+    //   href: "/analytics",
+    //   iconType: "analytics",
+    //   label: "Overview",
+    // },
     { href: "/people-dashboard", iconType: "people", label: "People" },
     { href: "/product-dashboard", iconType: "product", label: "Product" },
     { href: "/price-dashboard", iconType: "price", label: "Price(Sales)" },

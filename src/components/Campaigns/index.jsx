@@ -48,8 +48,8 @@ const Campaigns = () => {
   const [monthlyViewCount, setMonthlyViewCount] = useState([
     ...defaultMonthCount,
   ]);
-  const [toggleState, setToggleState] = useState({}); 
-  
+  const [toggleState, setToggleState] = useState({});
+
   const handleToggle = (productId) => {
     setSwitchStates((prevStates) => ({
       ...prevStates,
@@ -57,14 +57,14 @@ const Campaigns = () => {
     }));
   };
 
-  const renderCampaignBox = (title, value, rate) => (
+  const renderCampaignBox = (title, value, rate = null) => (
     <div className="campaigns-boxs p-4 bg-white rounded-lg shadow-md">
       <span className="box-title block text-indigo-600 font-semibold text-lg mb-2">
         {title}
       </span>
       <div className="flex items-end">
         <h2 className="text-3xl font-bold text-gray-800 mr-2">{value}</h2>
-        <span className="text-green-500 font-semibold">{rate}</span>
+        {rate && <span className="text-green-500 font-semibold">{rate}</span>}
       </div>
     </div>
   );
@@ -183,10 +183,10 @@ const Campaigns = () => {
       <div className="mb-25">
         <h1 className="text-3xl font-bold text-gray-800 mb-4">Campaigns</h1>
         <div className="grid grid-cols-4 gap-4">
-          {renderCampaignBox("Impressions", impressionCount, "0%")}
-          {renderCampaignBox("Clicks", clickCount, "0%")}
-          {renderCampaignBox("Conversions Rate", conversionCount, "%")}
-          {renderCampaignBox("Views", viewCount, "0%")}
+          {renderCampaignBox("Impressions", impressionCount)}
+          {renderCampaignBox("Clicks", clickCount)}
+          {renderCampaignBox("Conversions Rate", conversionCount)}
+          {renderCampaignBox("Views", viewCount)}
         </div>
 
         <div className="grid grid-cols-2 gap-4 mt-4">
@@ -301,7 +301,11 @@ const Campaigns = () => {
                     label={`${product?.pid}-${product?.sid}`}
                     cursorStyle="default"
                     onToggle={() =>
-                      changeAppliedStatus(product?.pid, product?.sid, currentStatus)
+                      changeAppliedStatus(
+                        product?.pid,
+                        product?.sid,
+                        currentStatus
+                      )
                     }
                   />
                 </div>
@@ -334,7 +338,7 @@ const Campaigns = () => {
                   // "date_created",
                 ].map((key, index) => (
                   <div className="col-span-1 flex items-center" key={index}>
-                    <p className="text-sm text-graydark">
+                    <p className="text-md font-bold">
                       {key == "conversions_rate"
                         ? product.campaignResult[key] + "%"
                         : product.campaignResult[key]}
