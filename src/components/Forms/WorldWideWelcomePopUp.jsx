@@ -40,7 +40,7 @@ const WorldWideWelcomePopUp = ({
             {templateDesign.templateEmailText}
           </h4>
         </div>
-        <div className="w-full flex justify-center h-full items-center">
+        <div className="w-full flex justify-center h-full items-center p-3">
           {" "}
           <div className="w-1/2">
             <div className="text-center mb-8">

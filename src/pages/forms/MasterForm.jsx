@@ -261,7 +261,8 @@ const MasterForm = () => {
 
   const formClasses = () => {
     const { formWidth, formType } = templateDesign;
-    let classes = "max-h-[calc(100vh-500px)]  ";
+    let classes = "  ";
+    // let classes = "max-h-[calc(100vh-500px)]  ";
 
     if (formType === "embed") {
       classes += formWidth === "large" ? "w-full flex" : "w-10/12 flex";
