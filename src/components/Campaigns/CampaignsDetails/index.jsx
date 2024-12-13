@@ -1,6 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import SwitcherThree from "../../Switchers/SwitcherThree";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { defaultBoxClassName } from "../../../pages/forms/masterFormConfig";
@@ -66,6 +66,10 @@ const CampaignsDetailsPage = () => {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("medium");
   const location = useLocation();
+  const refToTop = useRef();
+  useEffect(() => {
+    refToTop.current.scrollIntoView({ behavior: "auto" });
+  }, []);
   const searchParams = new URLSearchParams(location.search);
   const type = searchParams.get("type");
 
@@ -299,7 +303,7 @@ const CampaignsDetailsPage = () => {
     <>
       {loading && <Loader />}
 
-      <div className="mb-25">
+      <div ref={refToTop} className="mb-25">
         <h1 className="text-3xl font-bold text-gray-800 mb-4">
           {productDetailsData?.problem_statement}
         </h1>
