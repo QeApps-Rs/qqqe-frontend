@@ -461,7 +461,8 @@ const MasterForm = () => {
             });
           }
 
-          let jsonObject = response?.data?.params;
+          let jsonObject = {};
+          // let jsonObject = response?.data?.params;
           const sid = id.split("s")[1];
           setHandleType(response?.data?.masterTemplate?.template_handle);
           const customerTemplate = await FormSubmitHandler({
