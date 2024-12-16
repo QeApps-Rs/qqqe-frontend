@@ -15,7 +15,7 @@ function ProductCrossSellPopUp({
         {Array.from({ length: noOfProducts }, (_, index) => (
           <div
             key={index}
-            className="flex items-center  rounded-lg"
+            className="flex flex-col md:flex-row items-center rounded-lg gap-4 w-full"
             style={{
               padding: combinedPadding,
               backgroundColor: templateDesign.templateOverlayColor || "#889885",
@@ -23,16 +23,16 @@ function ProductCrossSellPopUp({
               borderRadius: templateDesign.borderRadius || "16px",
             }}
           >
-            <div className="block">
-              <a href="#" className="mb-4">
+            <div className="w-full md:w-1/2">
+              <a href="#" className="mb-4 block">
                 <img
                   src={defaultProductImg}
                   alt={`product- ${index + 1}`}
-                  className="w-32 h-32 rounded-lg mr-2"
+                  className="w-full h-40 rounded-lg object-cover"
                 />
               </a>
             </div>
-            <div className="block">
+            <div className="w-full md:w-1/2">
               <p className="text-lg font-small mb-2">{`Product ${
                 index + 1
               }`}</p>
@@ -40,7 +40,7 @@ function ProductCrossSellPopUp({
                 ${Math.floor(Math.random() * 1000)}
               </p>
               <a
-                className="block w-full bg-[#2db775] text-white p-2 rounded hover:bg-gray-800"
+                className="block w-full bg-[#2db775] text-white p-2 rounded-lg hover:bg-gray-800 text-center"
                 href="#"
                 style={{
                   backgroundColor: templateDesign.templateButtonBgColor,
@@ -62,29 +62,21 @@ function ProductCrossSellPopUp({
   ${templateDesign.templatePaddingLeft}
 `;
 
- 
-
   return (
     <div
       id="product-bundle"
-      className="flex justify-center items-center w-full bg-white"
-      style={{ height: "calc(100vh - 240px)" }}
+      className="flex justify-center items-center w-full bg-white px-4 py-6"
+      style={{ minHeight: "calc(100vh - 300px)" }}
     >
       <div
-        className="p-6 w-full  shadow-xl "
+        className="p-6 w-full max-w-5xl rounded-lg"
         style={{
-          backgroundColor: templateDesign.templateBgColor || "#a3a126",
-          borderRadius: templateDesign.borderRadius || "16px",
+          backgroundColor: templateDesign.templateBgColor,
+          borderRadius: templateDesign.borderRadius,
+          boxShadow:
+            "rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) -2px -4px 3px",
         }}
       >
-        <div className="flex justify-end mb-2">
-          <h4
-            className="leading-none font-bold"
-            style={getStyle(templateDesign, "templateEmail")}
-          >
-            {templateDesign.templateEmailText}
-          </h4>
-        </div>
         <div className="text-center mb-4">
           <h4
             className="text-lg font-semibold leading-none"
@@ -99,32 +91,31 @@ function ProductCrossSellPopUp({
         <div
           className="rounded-lg p-4 "
           style={{
-            borderWidth: templateDesign.borderWidth || "2px",
+            borderWidth: templateDesign.borderWidth,
             borderColor: templateDesign.templateBorderColor,
             borderStyle: templateDesign.formBorderStyle,
           }}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6  ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {productData && productData.length > 0 ? (
               productData.map((product, index) => (
                 <div
                   key={index}
-                  className="flex flex-row items-center rounded-lg p-4 gap-4"
+                  className="flex flex-col md:flex-row items-center rounded-lg p-4 gap-4 w-full"
                   style={{
-                    backgroundColor:
-                      templateDesign.templateOverlayColor || "#889885",
+                    backgroundColor: templateDesign.templateOverlayColor,
                   }}
                 >
-                  <div className="block">
+                  <div className="w-full md:w-1/2">
                     <a href="#">
                       <img
                         src={product.image}
                         alt={product.variantHandle}
-                        className="w-32 h-32 rounded-lg"
+                        className="w-full h-40 rounded-lg object-cover"
                       />
                     </a>
                   </div>
-                  <div className="block">
+                  <div className="w-full md:w-1/2">
                     <Tooltip
                       title={product.title}
                       position="bottom"
@@ -136,7 +127,7 @@ function ProductCrossSellPopUp({
                     </Tooltip>
                     <p className="text-xl font-bold mb-4">${product.price}</p>
                     <a
-                      className="block w-max bg-black text-white py-2 px-6 rounded hover:bg-gray-800"
+                      className="block w-max bg-black text-white py-2 px-6 rounded-lg hover:bg-gray-800 text-center"
                       href="#"
                       style={{
                         backgroundColor: templateDesign.templateButtonBgColor,

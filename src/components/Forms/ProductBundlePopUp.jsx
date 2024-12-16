@@ -16,18 +16,16 @@ function ProductBundlePopUp({
             key={index}
             style={{
               backgroundColor: templateDesign.templateOverlayColor || "#ffffff",
-              borderStyle: templateDesign.formBorderStyle ,
-              borderWidth: templateDesign.borderWidth ,
-              borderColor: templateDesign.templateBorderColor,
               padding: combinedPadding,
             }}
+            className="flex flex-col items-start rounded-lg"
           >
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <a href="#">
                 <img
                   src={defaultProductImg}
                   alt={`product- ${index + 1}`}
-                  className="w-32 h-32 mx-auto rounded-lg"
+                  className="w-full h-40 rounded-lg object-cover"
                 />
               </a>
             </div>
@@ -40,7 +38,7 @@ function ProductBundlePopUp({
               ${Math.floor(Math.random() * 1000)}
             </div>
             <a
-              className="block w-full text-center bg-black text-white py-2 rounded hover:bg-gray-800"
+              className="block w-full text-center   py-2 rounded hover:bg-gray-800"
               href="#"
               style={{
                 backgroundColor: templateDesign.templateButtonBgColor,
@@ -60,19 +58,19 @@ function ProductBundlePopUp({
   ${templateDesign.templatePaddingLeft}
 `;
 
-
   return (
     <>
       <div
         id="product-bundle"
-        className="justify-center items-center flex w-full"
-        style={{ height: "calc(100vh - 240px)" }}
+        className="justify-center items-center flex w-full bg-white py-5 "
+
+        style={{minHeight:"calc(100vh - 300px)"}}
       >
         <div
-          className="p-6 w-full relative  shadow-[7px_-7px_57px_#ccc]"
+          className="p-6 w-full lg:w-3/5 sm:p-4 relative  shadow-[7px_-7px_57px_#ccc]"
           style={{
-            backgroundColor: templateDesign.templateBgColor || "#9f9e9e",
-            borderRadius: templateDesign.borderRadius || "14px",
+            backgroundColor: templateDesign.templateBgColor,
+            borderRadius: templateDesign.borderRadius ,
           }}
         >
           <div className="flex justify-end mb-2">
@@ -86,7 +84,7 @@ function ProductBundlePopUp({
           <div className="text-center mb-4">
             <h5
               style={getStyle(templateDesign, "templateHeading")}
-              className="leading-none"
+              className="leading-none font-bold"
             >
               {templateDesign.heading}
             </h5>
@@ -106,33 +104,34 @@ function ProductBundlePopUp({
           </div>
 
           <div
-            className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 ${
+            className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6 sm:p-4 rounded-lg ${
               productData && productData.length > 0
                 ? ""
-                : "max-h-[360px]  overflow-auto"
+                : "max-h-[calc(100vh-300px)] overflow-y-auto"
             }`}
+            style={{
+              borderWidth: templateDesign.borderWidth,
+              borderColor: templateDesign.templateBorderColor,
+              border: templateDesign.formBorderStyle,
+              borderStyle: templateDesign.formBorderStyle,
+            }}
           >
             {productData && productData.length > 0 ? (
               productData.map((product, index) => (
                 <div
                   key={index}
-                  className="p-4 "
+                  className="flex flex-col items-start rounded-lg"
                   style={{
-                    borderStyle: templateDesign.formBorderStyle,
-                    backgroundColor:
-                      templateDesign.templateOverlayColor || "#ffffff",
-                    borderWidth: templateDesign.borderWidth,
-                    borderColor: templateDesign.templateBorderColor,
-                    border: templateDesign.formBorderStyle,
-                    borderRadius: templateDesign.borderRadius || "14px",
+                    backgroundColor: templateDesign.templateOverlayColor,
+                    padding: combinedPadding,
                   }}
                 >
-                  <div className="mb-4">
+                  <div className="mb-4 w-full">
                     <a href="#">
                       <img
                         src={product.image}
                         alt={product.variantHandle}
-                        className="w-32 h-32 mx-auto rounded-lg"
+                        className="w-full h-40 rounded-lg object-cover"
                       />
                     </a>
                   </div>
@@ -142,7 +141,7 @@ function ProductBundlePopUp({
                       position="bottom"
                       trigger="mouseenter"
                     >
-                      <p className="text-lg font-semibold max-w-[350px] truncate">
+                      <p className="text-lg font-semibold max-w-[180px] truncate">
                         <a href="#">{product.title}</a>
                       </p>
                     </Tooltip>
@@ -152,7 +151,7 @@ function ProductBundlePopUp({
                     ${product.price}
                   </div>
                   <a
-                    className="block w-full text-center bg-black text-white py-2 rounded hover:bg-gray-800"
+                    className="block w-full text-center py-2 rounded hover:bg-gray-800"
                     href="#"
                     style={{
                       backgroundColor: templateDesign.templateButtonBgColor,

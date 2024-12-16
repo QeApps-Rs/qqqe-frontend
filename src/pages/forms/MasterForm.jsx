@@ -1418,37 +1418,33 @@ const MasterForm = () => {
         )}
         {suggestionTemplateStatus.isFeedbackSurvey && (
           <div
-            className="flex items-center justify-center bg-white"
+            className="flex items-center justify-center py-5"
             style={{
-              backgroundColor: templateDesign.templateBgColor || "#000000",
-              backgroundImage:
-                isView !== "Desktop"
-                  ? "url('https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/src/images/mobile_bg.png')"
-                  : "",
-              height: "calc(100vh - 240px)",
+              backgroundColor: templateDesign.templateBgColor,
+              minHeight: "calc(100vh - 300px)",
             }}
           >
             <div
-              className={`${formClasses()} grid grid-cols-12 gap-4`}
+              className="grid grid-cols-1 xl:grid-cols-12 gap-4 w-full lg:w-7/12 "
               style={{
-                backgroundColor:
-                  templateDesign.templateOverlayColor || "#ffffff",
+                backgroundColor: templateDesign.templateOverlayColor,
                 borderRadius: templateDesign.borderRadius,
                 borderWidth: templateDesign.borderWidth,
                 borderColor: templateDesign.templateBorderColor,
                 borderStyle: templateDesign.formBorderStyle,
+                minHeight: "500px",
               }}
             >
               <div
-                className={`flex flex-col justify-center xl:col-span-6 content `}
+                className={`flex flex-col justify-center xl:col-span-6 ${containerClass} h-full `}
               >
                 <img
                   src={surveyImageSrc}
                   alt="Promo"
-                  className={`w-full ${formClasses()}`}
+                  className={`w-full h-64 sm:h-96 md:h-full  object-cover`}
                 />
               </div>
-              <div className="flex flex-col justify-start xl:col-span-6">
+              <div className="flex flex-col justify-start xl:col-span-6 p-4">
                 <div className="flex justify-end mb-2">
                   <h4
                     className="leading-none font-bold"
@@ -1459,7 +1455,7 @@ const MasterForm = () => {
                 </div>
                 <div className="m-auto">
                   <h1
-                    className="text-8xl font-bold mb-4 relative leading-none"
+                    className="text-8xl font-bold mb-4 relative leading-none "
                     style={getStyle(templateDesign, "templateHeading")}
                   >
                     {templateDesign.heading || "HI, THANKS FOR STOPPING BY!"}
@@ -1510,13 +1506,13 @@ const MasterForm = () => {
         {suggestionTemplateStatus.isPurchaseSatisfactionSurvey && (
           <div
             className="flex items-center justify-center bg-white"
-            style={{ height: "calc(100vh - 250px)" }}
+            style={{ minHeight: "calc(100vh - 300px)" }}
           >
             <div
               className={`relative shadow-[7px_-7px_57px_#ccc] flex items-center justify-between ${feedbackSurveyClasses()}`}
               style={{
-                backgroundColor: templateDesign.templateBgColor || "#FFFFFF",
-                borderRadius: templateDesign.borderRadius || "16px",
+                backgroundColor: templateDesign.templateBgColor,
+                borderRadius: templateDesign.borderRadius,
                 borderWidth: templateDesign.borderWidth,
                 borderColor: templateDesign.templateBorderColor,
                 borderStyle: templateDesign.formBorderStyle,
@@ -1525,8 +1521,7 @@ const MasterForm = () => {
               <div
                 className={`flex justify-center py-[30px] px-6 rounded-l-none rounded-r-[90px] w-[150px] h-full  ${imagePositionContainer}`}
                 style={{
-                  backgroundColor:
-                    templateDesign.templateOverlayColor || "#fcf1e9",
+                  backgroundColor: templateDesign.templateOverlayColor,
                 }}
               >
                 <img
@@ -1536,7 +1531,7 @@ const MasterForm = () => {
                 />
               </div>
 
-              <div className="flex flex-wrap justify-center w-full">
+              <div className="flex flex-wrap justify-center w-full p-4">
                 <div className="flex justify-end w-full mb-2">
                   <h4
                     className="leading-none font-bold"
@@ -1599,7 +1594,7 @@ const MasterForm = () => {
                   {templateDesign.templateEmailText}
                 </h4>
               </div>
-              <div className="w-1/2 m-auto">
+              <div className="w-1/2 m-auto ">
                 <h2
                   className="block text-center  font-bold mb-2"
                   style={getStyle(templateDesign, "templateHeading")}

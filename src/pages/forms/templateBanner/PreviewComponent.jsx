@@ -25,37 +25,32 @@ const PreviewComponent = ({
   renderNumbers,
   reviewCount,
   ratingCount,
-  containerClass
+  containerClass,
 }) => {
   return (
     <div
-      className="flex items-center justify-center bg-white min-h-screen"
+      className="flex items-center justify-center py-5"
       style={{
-        backgroundColor: templateDesign.templateBgColor || "#000000",
-        backgroundImage:
-          isView !== "Desktop"
-            ? "url('https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/src/images/mobile_bg.png')"
-            : "",
+        backgroundColor: templateDesign.templateBgColor,
+
+        minHeight: "calc(100vh - 300px)",
       }}
     >
       <div
-        className="grid grid-cols-1 lg:grid-cols-2 w-full max-w-4xl bg-white shadow-lg rounded-xl overflow-hidden"
+        className="grid grid-cols-1 lg:grid-cols-2 w-full max-w-4xl  shadow-lg  overflow-hidden "
         style={{
-          borderRadius: templateDesign.borderRadius || "16px",
+          borderRadius: templateDesign.borderRadius,
+          minHeight: "500px",
         }}
       >
-        <div className={`h-80 lg:h-auto ${containerClass}`} >
-          <img
-            src={imageSrc}
-            alt="Promo"
-            className="w-full h-full object-cover"
-          />
+        <div className={`h-full ${containerClass}`}>
+          <img src={imageSrc} alt="Promo" className="w-full h-full" />
         </div>
 
         <div
           className="p-6 lg:p-8 flex flex-col justify-center h-full"
           style={{
-            backgroundColor: templateDesign.templateOverlayColor || "#FFFFFF",
+            backgroundColor: templateDesign.templateOverlayColor,
           }}
         >
           <div>
