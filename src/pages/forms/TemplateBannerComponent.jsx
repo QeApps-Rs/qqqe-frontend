@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/prop-types */
 
 const TemplateBannerComponent = ({
   templateDesign,
@@ -15,12 +15,12 @@ const TemplateBannerComponent = ({
   return (
     <>
       <label
-        className="block text-black dark:text-white"
+        className="block text-black dark:text-white mt-4"
         style={{ color: templateDesign.formHeadingColor }}
       >
         {fieldName}
       </label>
-      <div className="flex w-full">
+      <div className="flex w-full mt-2">
         <input
           type={fieldType}
           placeholder={placeholderText}
