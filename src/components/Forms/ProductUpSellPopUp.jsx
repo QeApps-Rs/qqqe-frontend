@@ -11,14 +11,14 @@ function ProductUpSellPopUp({
   getStyle,
   setTemplateDesign,
 }) {
-  useEffect(() => {
-    setTemplateDesign({
-      ...templateDesign,
-      templateBgColor: "#f13956",
-      templateHeadingColor: "#ffffff",
-      templateOfferColor: "#ffffff",
-    });
-  }, []);
+  // useEffect(() => {
+  //   setTemplateDesign({
+  //     ...templateDesign,
+  //     templateBgColor: "#f13956",
+  //     templateHeadingColor: "#ffffff",
+  //     templateOfferColor: "#ffffff",
+  //   });
+  // }, []);
   const DefaultProductDiv = ({ noOfProducts, defaultProductImg }) => {
     return (
       <>
@@ -34,7 +34,7 @@ function ProductUpSellPopUp({
             <div
               className="mb-4 h-40 flex rounded-lg items-center justify-center"
               style={{
-                background: templateDesign.templateOverlayColor || "#FFFFFF",
+                background: templateDesign.templateOverlayColor ,
               }}
             >
               <a href="#">
@@ -54,7 +54,7 @@ function ProductUpSellPopUp({
               ${Math.floor(Math.random() * 1000)}
             </div>
             <a
-              className="block w-full text-center text-white py-2 rounded"
+              className="block w-full text-center border border-white text-white py-2 rounded"
               href="#"
               style={{
                 backgroundColor: templateDesign.templateButtonBgColor,
@@ -79,25 +79,17 @@ function ProductUpSellPopUp({
     <>
       <div
         id="product-upSell-popup"
-        className="justify-center items-center flex  border-l border-[#eaedef] w-full bg-white shadow-[6px_0px_7px_#ccc]"
-        style={{ height: "calc(100vh - 240px)" }}
+        className="justify-center items-center flex  w-full bg-white shadow-[6px_0px_7px_#ccc]"
+        style={{ height: "calc(100vh - 300px)" }}
       >
         <div
           className=" w-full max-w-3xl relative  shadow-[7px_-7px_57px_#ccc]"
           style={{
-            backgroundColor: templateDesign.templateBgColor || "#f43f5b",
+            backgroundColor: templateDesign.templateBgColor ,
             padding: combinedPadding,
-            borderRadius: templateDesign.borderRadius || "12px",
+            borderRadius: templateDesign.borderRadius ,
           }}
         >
-          <div className="flex justify-end mb-2">
-            <h4
-              className="leading-none font-bold"
-              style={getStyle(templateDesign, "templateEmail")}
-            >
-              {templateDesign.templateEmailText}
-            </h4>
-          </div>
           <div className="text-center mb-4">
             <h5
               style={getStyle(templateDesign, "templateHeading")}
@@ -105,25 +97,15 @@ function ProductUpSellPopUp({
             >
               {templateDesign.heading}
             </h5>
-            <h4
-              className="leading-none mt-4"
-              style={getStyle(templateDesign, "templateSubHeading")}
-            >
-              {templateDesign.subHeading || "HOTTEST PICKS YOU'LL LOVE"}
-            </h4>
           </div>
 
-          <div
-            className="border-2 border-white border-dotted"
-            style={{
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-h-[360px] overflow-auto"  style={{
               borderWidth: templateDesign.borderWidth,
-              borderColor: templateDesign.templateBorderColor,
               border: templateDesign.formBorderStyle,
               borderStyle: templateDesign.formBorderStyle,
-              borderRadius: templateDesign.borderRadius || "12px",
-            }}
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-h-[360px] overflow-auto">
+              borderColor: templateDesign.templateBorderColor,
+              borderRadius: templateDesign.borderRadius ,
+            }}>
               {productData && productData.length > 0 ? (
                 productData.map((product, index) => (
                   <div key={index} className="rounded-lg p-4 ">
@@ -131,7 +113,7 @@ function ProductUpSellPopUp({
                       className="mb-4 h-40 flex  rounded-lg items-center justify-center"
                       style={{
                         background:
-                          templateDesign.templateOverlayColor || "#FFFFFF",
+                          templateDesign.templateOverlayColor ,
                       }}
                     >
                       <a href="#">
@@ -158,13 +140,13 @@ function ProductUpSellPopUp({
                       ${product.price}
                     </div>
                     <a
-                      className="block w-full text-center  text-white py-2 rounded hover:bg-gray-800"
+                      className="block w-full text-center  text-black border border-white py-2 rounded hover:bg-gray-800"
                       href="#"
                       style={{
                         backgroundColor: templateDesign.templateButtonBgColor,
                       }}
                     >
-                      {templateDesign.button || "See Details"}
+                      {templateDesign.button}
                     </a>
                   </div>
                 ))
@@ -175,7 +157,6 @@ function ProductUpSellPopUp({
                 />
               )}
             </div>
-          </div>
         </div>
       </div>
     </>

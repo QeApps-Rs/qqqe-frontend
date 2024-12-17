@@ -28,7 +28,7 @@ function ProductCrossSellPopUp({
                 <img
                   src={defaultProductImg}
                   alt={`product- ${index + 1}`}
-                  className="w-full h-40 rounded-lg object-cover"
+                  className="w-full h-40 rounded-lg object-fill"
                 />
               </a>
             </div>
@@ -111,7 +111,7 @@ function ProductCrossSellPopUp({
                       <img
                         src={product.image}
                         alt={product.variantHandle}
-                        className="w-full h-40 rounded-lg object-cover"
+                        className="w-full h-40 rounded-lg object-fill"
                       />
                     </a>
                   </div>

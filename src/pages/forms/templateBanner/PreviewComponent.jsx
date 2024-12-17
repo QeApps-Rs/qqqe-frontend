@@ -83,22 +83,19 @@ const PreviewComponent = ({
                   className="text-4xl font-bold mt-4"
                   style={getStyle(templateDesign, "successHeading")}
                 >
-                  {templateDesign.successHeading ||
-                    "Thanks for sharing. Please check your email for confirmation message"}
+                  {templateDesign.successHeading }
                 </h2>
                 <span
                   className="text-xl font-bold mt-4"
                   style={getStyle(templateDesign, "successSubHeading")}
                 >
-                  {templateDesign.successSubHeading ||
-                    "Thanks for sharing. Please check your email for confirmation message"}
+                  {templateDesign.successSubHeading }
                 </span>
                 <p
                   className="text-lg mt-4"
                   style={getStyle(templateDesign, "successDescription")}
                 >
-                  {templateDesign.successDescription ||
-                    "Thanks for sharing. Please check your email for confirmation message"}
+                  {templateDesign.successDescription }
                 </p>
               </div>
             ) : (
@@ -109,18 +106,12 @@ const PreviewComponent = ({
                 >
                   {templateDesign.heading}
                 </h2>
-                <h2
-                  className="text-4xl font-bold mb-4"
-                  style={getStyle(templateDesign, "templateOffer")}
-                >
-                  {templateDesign.offerAmount}
-                </h2>
+                
                 <p
                   className="text-lg mb-6"
                   style={getStyle(templateDesign, "templateSubHeading")}
                 >
-                  {templateDesign.subHeading ||
-                    "Save on your first order and get email only offers when you join"}
+                  {templateDesign.subHeading}
                 </p>
                 <form
                   className="flex flex-col space-y-4"

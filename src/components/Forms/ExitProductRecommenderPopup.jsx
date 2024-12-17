@@ -69,10 +69,10 @@ function ExitProductRecommenderPopup({
             <div
               className="flex items-center text-center relative shadow-xl "
               style={{
-                backgroundColor: templateDesign.templateBgColor || "#959595",
+                backgroundColor: templateDesign.templateBgColor ,
                 padding: combinedPadding,
                 border: templateDesign.formBorderStyle,
-                borderRadius: templateDesign.borderRadius || "16px",
+                borderRadius: templateDesign.borderRadius ,
                 borderWidth: templateDesign.borderWidth,
                 borderColor: templateDesign.templateBorderColor,
                 borderStyle: templateDesign.formBorderStyle,
@@ -81,7 +81,7 @@ function ExitProductRecommenderPopup({
               <div className="w-10/12 block z-10">
                 <p className="text-base font-medium max-w-xs mx-auto truncate text-white mt-4">
                   <a href="#">
-                    {templateDesign.heading || "HI, THANKS FOR STOPPING BY!"}
+                    {templateDesign.heading }
                   </a>
                 </p>
                 <p className="text-xl text-white  font-bold mt-3">$ 220 USD</p>
@@ -127,7 +127,7 @@ function ExitProductRecommenderPopup({
              <div className="w-10/12 block z-10">
                <p className="text-base font-medium max-w-xs mx-auto truncate text-white mt-4">
                  <a href="#">
-                   {templateDesign.heading || "HI, THANKS FOR STOPPING BY!"}
+                   {templateDesign.heading }
                  </a>
                </p>
                <p className="text-xl text-white  font-bold mt-3">$ 220 USD</p>
@@ -171,7 +171,7 @@ function ExitProductRecommenderPopup({
     <div
       id="product-bundle"
       className="p-8 bg-white"
-      style={{ height: "calc(100vh - 240px)" }}
+      style={{ height: "calc(100vh - 300px)" }}
     >
       <div
         className="grid grid-cols-12 sm:grid-cols-12 md:grid-cols-12 gap-20 "
@@ -182,10 +182,10 @@ function ExitProductRecommenderPopup({
               <div
                 className="w-full flex items-center text-center relative shadow-xl "
                 style={{
-                  backgroundColor: templateDesign.templateBgColor || "#959595",
+                  backgroundColor: templateDesign.templateBgColor ,
                   padding: combinedPadding,
                   border: templateDesign.formBorderStyle,
-                  borderRadius: templateDesign.borderRadius || "16px",
+                  borderRadius: templateDesign.borderRadius,
                   borderWidth: templateDesign.borderWidth,
                   borderColor: templateDesign.templateBorderColor,
                   borderStyle: templateDesign.formBorderStyle,

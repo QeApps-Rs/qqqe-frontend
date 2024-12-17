@@ -29,6 +29,7 @@ const InputControllerComponent = ({
   isSocialMediaConnectPopup,
   isExitProductRecommenderPopup,
   isWorldWideWelcomePopup,
+  isPreviewPopup
 }) => {
   const [fieldState, setFieldState] = useState({
     fieldType: "",
@@ -232,7 +233,7 @@ const InputControllerComponent = ({
                         {!isPurchaseSatisfactionSurvey &&
                           !isAttributionSurvey &&
                           !isAbandonmentPopup &&
-                          !isUpSellPopup &&  (
+                          !isUpSellPopup && !isPreviewPopup && (
                             <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
                               <>
                                 <label className="mb-2.5 block text-black font-semibold">
@@ -308,7 +309,7 @@ const InputControllerComponent = ({
                           )}{" "}
                       </>
                     )}
-                    {!isPurchaseSatisfactionSurvey && !isCrossSellPopup && (
+                    {!isPurchaseSatisfactionSurvey && !isCrossSellPopup && !isUpSellPopup &&(
                       <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
                         <label className="mb-2.5 block text-black font-semibold">
                           Template Sub-Heading

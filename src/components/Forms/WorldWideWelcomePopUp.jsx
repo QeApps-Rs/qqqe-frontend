@@ -18,62 +18,50 @@ const WorldWideWelcomePopUp = ({
 }) => {
   return (
     <div
-      className={` relative justify-start shadow-lg w-1/3 ${formClasses()}`}
+      className="relative flex justify-center shadow-lg w-3/5"
       style={{
-        backgroundColor: templateDesign.templateBgColor || "#1fbdcb",
-        borderRadius: templateDesign.borderRadius || "12px",
+        backgroundColor: templateDesign.templateBgColor,
+        borderRadius: templateDesign.borderRadius,
         borderWidth: templateDesign.borderWidth,
         borderColor: templateDesign.templateBorderColor,
         border: templateDesign.formBorderStyle,
         borderStyle: templateDesign.formBorderStyle,
         padding: combinedPadding,
         margin: combinedMargin,
-        display: "block",
       }}
     >
-      <div className="w-full block  h-full">
-        <div className="flex justify-end mb-2">
-          <h4
-            className="leading-none font-bold"
-            style={getStyle(templateDesign, "templateEmail")}
-          >
-            {templateDesign.templateEmailText}
-          </h4>
-        </div>
-        <div className="w-full flex justify-center h-full items-center p-3">
-          {" "}
-          <div className="w-1/2">
-            <div className="text-center mb-8">
-              <div className="relative bg-white p-4 rounded-lg shadow-lg">
-                <div className="text-lg italic text-gray-900">
-                  {templateDesign.heading ||
-                    "Excellent customer service and a great product! 5 stars!"}
-                </div>
-
-                <div>
-                  <div
-                    className="w-8 h-[23px] absolute bottom-[-23px] left-3 m-0"
-                    style={{
-                      background:
-                        "url(https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/src/images/arrow_qts.png) left top no-repeat",
-                    }}
-                  ></div>
-                </div>
-              </div>
+      <div className="w-1/2 flex justify-center h-full items-center py-10 px-4 flex-col">
+        {" "}
+        <div className="text-center mb-8">
+          <div className="relative bg-white p-4 rounded-lg shadow-lg">
+            <div className="text-lg italic text-gray-900">
+              {templateDesign.heading}
             </div>
-            <h3
-              className="text-center text-gray-900 font-bold mb-4"
-              style={getStyle(templateDesign, "templateSubHeading")}
-            >
-              {templateDesign.subHeading || "We are shipping to Denmark"}
-            </h3>
-            <h2
-              className="text-center  font-bold mb-4"
-              style={getStyle(templateDesign, "templateOffer")}
-            >
-              {templateDesign.offerAmount || "Join us and get 10% OFF"}
-            </h2>
-            {/* <form className="space-y-4">
+
+            <div>
+              <div
+                className="w-8 h-[23px] absolute bottom-[-23px] left-3 m-0"
+                style={{
+                  background:
+                    "url(https://apps.qeapps.com/ecom_apps_n/production/qqqe-frontend/src/images/arrow_qts.png) left top no-repeat",
+                }}
+              ></div>
+            </div>
+          </div>
+        </div>
+        <h3
+          className="text-center text-gray-900 font-bold mb-4"
+          style={getStyle(templateDesign, "templateSubHeading")}
+        >
+          {templateDesign.subHeading}
+        </h3>
+        <h2
+          className="text-center  font-bold mb-4"
+          style={getStyle(templateDesign, "templateOffer")}
+        >
+          {templateDesign.offerAmount }
+        </h2>
+        {/* <form className="space-y-4">
               <input
                 type="email"
                 placeholder="Email address"
@@ -106,33 +94,33 @@ const WorldWideWelcomePopUp = ({
                 {templateDesign.button}
               </button>
             </form> */}
+        <form
+          className="flex flex-col space-y-4 w-full"
+          onSubmit={handleSubmit}
+        >
+          {addedFields.map((field, index) => (
+            <TemplateBannerComponent
+              key={index}
+              {...field}
+              templateDesign={templateDesign}
+              inputValue={inputValues[field.fieldName] || ""}
+              onInputChange={handleInputChange}
+              isSubmitted={isSubmitted}
+              onDelete={() => handleDeleteField(field.fieldName)}
+              onEdit={() => handleEdit(field, index)}
+            />
+          ))}
 
-            <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
-              {addedFields.map((field, index) => (
-                <TemplateBannerComponent
-                  key={index}
-                  {...field}
-                  templateDesign={templateDesign}
-                  inputValue={inputValues[field.fieldName] || ""}
-                  onInputChange={handleInputChange}
-                  isSubmitted={isSubmitted}
-                  onDelete={() => handleDeleteField(field.fieldName)}
-                  onEdit={() => handleEdit(field, index)}
-                />
-              ))}
-
-              <button
-                type="submit"
-                className="bg-black text-white py-3 rounded-md text-lg mt-3"
-                style={{
-                  backgroundColor: templateDesign.templateButtonBgColor,
-                }}
-              >
-                {templateDesign.button}
-              </button>
-            </form>
-          </div>
-        </div>
+          <button
+            type="submit"
+            className="bg-black text-white py-3 rounded-md text-lg mt-3"
+            style={{
+              backgroundColor: templateDesign.templateButtonBgColor,
+            }}
+          >
+            {templateDesign.button}
+          </button>
+        </form>
       </div>
     </div>
   );
