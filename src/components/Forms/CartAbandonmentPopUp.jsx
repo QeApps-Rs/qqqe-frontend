@@ -24,7 +24,7 @@ function CartAbandonmentPopUp({
               <img
                 src={defaultProductImg}
                 alt={`product- ${index + 1}`}
-                className="w-32 h-32 object-contain mx-auto"
+                className="w-32 h-32 object-fill mx-auto rounded-lg"
               />
             </div>
             <p className="text-base font-medium">{`Product ${index + 1}`}</p>
@@ -54,25 +54,19 @@ function CartAbandonmentPopUp({
   return (
     <div
       id="product-bundle"
-      className="flex justify-center items-center w-full h-full bg-white"
-      style={{ height: "calc(100vh - 240px)" }}
+      className="flex justify-center items-center w-full bg-white px-4 py-6"
+      style={{ minHeight: "calc(100vh - 300px)" }}
     >
       <div
-        className="w-full shadow-xl "
+        className="p-6 w-full max-w-5xl rounded-xl"
         style={{
-          backgroundColor: templateDesign.templateBgColor || "#c3e7cf",
-          borderRadius: templateDesign.borderRadius || "16px",
+          backgroundColor: templateDesign.templateBgColor,
+          borderRadius: templateDesign.borderRadius,
           padding: combinedPadding,
+          boxShadow:
+            "rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) -2px -4px 3px",
         }}
       >
-        <div className="flex justify-end mb-2">
-          <h4
-            className="leading-none font-bold"
-            style={getStyle(templateDesign, "templateEmail")}
-          >
-            {templateDesign.templateEmailText}
-          </h4>
-        </div>
         <div className="text-center mb-6">
           <h5
             style={getStyle(templateDesign, "templateHeading")}
@@ -80,23 +74,16 @@ function CartAbandonmentPopUp({
           >
             {templateDesign.heading}
           </h5>
-          <h4
-            className="leading-none mt-3"
-            style={getStyle(templateDesign, "templateSubHeading")}
-          >
-            {templateDesign.subHeading ||
-              "Check out these products we picked just for you!"}
-          </h4>
         </div>
 
         {/* Red dotted border around products */}
         <div
           className=" p-4"
           style={{
-            borderStyle: templateDesign.formBorderStyle || "solid",
-            borderWidth: templateDesign.borderWidth || "2px",
-            borderColor: templateDesign.templateBorderColor || "#E5E7EB",
-            borderRadius: templateDesign.borderRadius || "16px",
+            borderStyle: templateDesign.formBorderStyle,
+            borderWidth: templateDesign.borderWidth,
+            borderColor: templateDesign.templateBorderColor,
+            borderRadius: templateDesign.borderRadius,
           }}
         >
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 overflow-auto max-h-[300px]">
@@ -106,16 +93,15 @@ function CartAbandonmentPopUp({
                   key={index}
                   className="text-center p-4"
                   style={{
-                    backgroundColor:
-                      templateDesign.templateOverlayColor || "#959595",
-                    borderRadius: templateDesign.borderRadius || "16px",
+                    backgroundColor: templateDesign.templateOverlayColor,
+                    borderRadius: templateDesign.borderRadius,
                   }}
                 >
-                  <a href="#" className="mb-4">
+                  <a href="#" className="mb-4 lg">
                     <img
                       src={product.image}
                       alt={product.variantHandle}
-                      className="w-32 h-32 object-contain mx-auto"
+                      className="w-32 h-32 object-fill mx-auto rounded-xl"
                     />
                   </a>
                   <Tooltip
@@ -123,11 +109,11 @@ function CartAbandonmentPopUp({
                     position="bottom"
                     trigger="mouseenter"
                   >
-                    <p className="text-base font-medium max-w-xs mx-auto truncate text-white mt-4">
+                    <p className="text-base font-medium max-w-xs mx-auto truncate text-black mt-4">
                       <a href="#">{product.title}</a>
                     </p>
                   </Tooltip>
-                  <p className="text-xl text-white  font-bold mt-2">
+                  <p className="text-xl text-black  font-bold mt-2">
                     ${product.price}
                   </p>
                   <a

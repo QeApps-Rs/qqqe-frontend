@@ -19,8 +19,11 @@ const SocialMediaConnectPopUp = ({
 }) => {
   return (
     <div
-      className={`relative p-8 shadow-lg ${formClasses()}`}
-      style={{
+    className="flex justify-center items-center w-full bg-white px-4 py-6"
+  >
+    <div
+        className="p-6 w-full max-w-2xl rounded-xl flex justify-center"
+        style={{
         background: templateDesign.templateBgColor || "#949494",
         borderRadius: templateDesign.borderRadius || "12px",
         borderWidth: templateDesign.borderWidth,
@@ -29,22 +32,14 @@ const SocialMediaConnectPopUp = ({
         borderStyle: templateDesign.formBorderStyle,
         padding: combinedPadding,
         margin: combinedMargin,
-        display: "block",
+        boxShadow:
+        "rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) -2px -4px 3px",
       }}
     >
-      <div className="flex justify-end mb-2">
-        <h4
-          className="leading-none font-bold"
-          style={getStyle(templateDesign, "templateEmail")}
-        >
-          {templateDesign.templateEmailText }
-        </h4>
-      </div>
       <div
-        className="w-full flex justify-center items-center"
-        style={{ height: "calc(100% - 40px)" }}
+        className="flex justify-center items-center flex-col w-10/12 "
       >
-        <div className="w-1/2">
+      
           <div className="flex justify-center mb-4">
             {socialMediaPopupimageSrc ? (
               <img
@@ -71,8 +66,7 @@ const SocialMediaConnectPopUp = ({
             className="text-center text-gray-600 mb-6"
             style={getStyle(templateDesign, "templateSubHeading")}
           >
-            {templateDesign.subHeading ||
-              "We are sure we can pump up your next Facebook story with a cool new blender! Get your secret discount now!"}
+            {templateDesign.subHeading }
           </p>
 
           {/* <form className="space-y-4">
@@ -112,7 +106,7 @@ const SocialMediaConnectPopUp = ({
             </button>
           </form> */}
 
-          <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
+          <form className="flex flex-col space-y-4 w-full" onSubmit={handleSubmit}>
             {addedFields.map((field, index) => (
               <TemplateBannerComponent
                 key={index}
@@ -128,7 +122,7 @@ const SocialMediaConnectPopUp = ({
 
             <button
               type="submit"
-              className="bg-black text-white py-3 rounded-md text-lg mt-3"
+              className="bg-black text-white py-3 rounded-full text-lg mt-3"
               style={{
                 backgroundColor: templateDesign.templateButtonBgColor,
               }}
@@ -138,7 +132,7 @@ const SocialMediaConnectPopUp = ({
           </form>
         </div>
       </div>
-    </div>
+      </div>
   );
 };
 export default SocialMediaConnectPopUp;

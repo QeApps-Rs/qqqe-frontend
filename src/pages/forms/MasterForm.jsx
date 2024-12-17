@@ -461,8 +461,8 @@ const MasterForm = () => {
             });
           }
 
-          let jsonObject = {};
-          // let jsonObject = response?.data?.params;
+          // let jsonObject = {};
+          let jsonObject = response?.data?.params;
           const sid = id.split("s")[1];
           setHandleType(response?.data?.masterTemplate?.template_handle);
           const customerTemplate = await FormSubmitHandler({
@@ -562,6 +562,8 @@ const MasterForm = () => {
   }, [keywords, subTemplateId]);
 
   const revertStyleStateController = (styles) => {
+    console.log(['borderColor', styles.form_type.template_border_color]);
+    
     return {
       bgColor: styles.form_type.input_fields_style.background_color,
       borderColor: styles.form_type.input_fields_style.border_color,
@@ -1217,6 +1219,7 @@ const MasterForm = () => {
                       isWorldWideWelcomePopup={
                         suggestionTemplateStatus?.isWorldWideWelcomePopup
                       }
+                      isPreviewPopup={suggestionTemplateStatus?.isPreviewPopup}
                     />
                   </>
                 )}
@@ -1458,14 +1461,13 @@ const MasterForm = () => {
                     className="text-8xl font-bold mb-4 relative leading-none "
                     style={getStyle(templateDesign, "templateHeading")}
                   >
-                    {templateDesign.heading || "HI, THANKS FOR STOPPING BY!"}
+                    {templateDesign.heading }
                   </h1>
                   <p
                     className="text-lg mb-6 leading-none"
                     style={getStyle(templateDesign, "templateSubHeading")}
                   >
-                    {templateDesign.subHeading ||
-                      "How would you rate your overall experience with us?"}
+                    {templateDesign.subHeading}
                   </p>
                   {addedFields.map((field, index) => (
                     <TemplateBannerComponent
@@ -1532,14 +1534,6 @@ const MasterForm = () => {
               </div>
 
               <div className="flex flex-wrap justify-center w-full p-4">
-                <div className="flex justify-end w-full mb-2">
-                  <h4
-                    className="leading-none font-bold"
-                    style={getStyle(templateDesign, "templateEmail")}
-                  >
-                    {templateDesign.templateEmailText}
-                  </h4>
-                </div>
                 <div className="mb-4">
                   <span
                     className="inline-block font-semibold leading-normal"
@@ -1645,7 +1639,6 @@ const MasterForm = () => {
             templateDesign={templateDesign}
             templateData={templateData}
             getStyle={getStyle}
-            setTemplateDesign={setTemplateDesign}
           />
         )}
         {suggestionTemplateStatus.isCrossSellPopup && (
@@ -1678,8 +1671,9 @@ const MasterForm = () => {
         {suggestionTemplateStatus.isSocialMediaConnectPopup && (
           <>
             <div
-              className="w-full flex justify-center items-center space-x-6 p-10 bg-white"
-              style={{ height: "calc(100vh - 240px)" }}
+              className="w-full flex justify-center items-center bg-white"
+              style={{ minHeight: "calc(100vh - 300px)" }}
+
             >
               <SocialMediaConnectPopUp
                 templateDesign={templateDesign}
@@ -1694,8 +1688,8 @@ const MasterForm = () => {
         {suggestionTemplateStatus.isWorldWideWelcomePopup && (
           <>
             <div
-              className="w-full flex justify-center items-center h-full space-x-6 p-10 bg-white"
-              style={{ height: "calc(100vh - 240px)" }}
+              className="w-full flex justify-center items-center bg-white"
+              style={{ minHeight: "calc(100vh - 300px)" }}
             >
               {/* <WorldWideWelcomePopUp
                 worldWideWelcomeTitle="Join us and get 10% OFF"
