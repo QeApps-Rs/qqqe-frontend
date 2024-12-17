@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import FormSubmitHandler from "../../components/FormSubmitHandler";
 import toast from "react-hot-toast";
 import Loader from "../../common/Loader/index.jsx";
-import welcomeImg from "../../images/questionnaires.gif";
+import welcomeImg from "../../images/questionnaires-2.png";
 
 const PreferenceSurvey = ({
   isTitleDisplay = true,
@@ -15,13 +15,13 @@ const PreferenceSurvey = ({
     textColor: "text-white",
     buttonColor: "bg-green-700",
     buttonTextColor: "text-white",
-    checkBoxBgColor:"bg-white",
-    checkTextColor:"text-black",
-    buttonPosition:"fixed"
+    checkBoxBgColor: "bg-white",
+    checkTextColor: "text-black",
+    buttonPosition: "fixed",
   },
 }) => {
   const navigate = useNavigate();
-  const isFromSetting = "?create="+isTitleDisplay
+  const isFromSetting = "?create=" + isTitleDisplay;
   const [loading, setLoading] = useState(false);
   const [checkedItems, setCheckedItems] = useState([]);
   const [answers, setAnswers] = useState([]);
@@ -144,8 +144,12 @@ const PreferenceSurvey = ({
       )}
       <div className="p-10 h-full">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 ">
-          <div className="col-span-1 inline-flex justify-end">
-            <img src={welcomeImg} alt="welcome-img" className="w-80 h-70" />
+          <div className="col-span-1 inline-flex justify-center perspective-1000">
+            <img
+              src={welcomeImg}
+              alt="welcome-img"
+              className="w-80 h-70 animate-float rounded-lg shadow-2xl transform transition-transform duration-700 ease-out hover:scale-105 hover:rotate-3 hover:shadow-3xl"
+            />
           </div>
 
           <div className="col-span-3 ">
@@ -184,7 +188,9 @@ const PreferenceSurvey = ({
                 </div>
 
                 {/* Next and Previous Buttons */}
-                <div className={`flex justify-between mt-6 lg:${theme.buttonPosition} bottom-8 left-18  right-18`}>
+                <div
+                  className={`flex justify-between mt-6 lg:${theme.buttonPosition} bottom-8 left-18  right-18`}
+                >
                   <button
                     type="button"
                     className={`${

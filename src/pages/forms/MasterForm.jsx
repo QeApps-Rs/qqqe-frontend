@@ -34,6 +34,7 @@ import TemplateHeader from "../../components/Forms/TemplateHeader";
 import SocialMediaConnectPopUp from "../../components/Forms/SocialMediaConnectPopUp";
 import WorldWideWelcomePopUp from "../../components/Forms/WorldWideWelcomePopUp";
 import TemplateBannerComponent from "./TemplateBannerComponent";
+import SurveyPopUp from "../../components/Forms/SurveyPopUp";
 
 const MasterForm = () => {
   //  shiv code start
@@ -114,6 +115,7 @@ const MasterForm = () => {
     isAttributionSurvey: false,
     isUpSellPopup: false,
     isCrossSellPopup: false,
+    isSurveyPopup: false,
     isAbandonmentPopup: false,
     isExitProductRecommenderPopup: false,
     isSocialMediaConnectPopup: false,
@@ -292,11 +294,11 @@ const MasterForm = () => {
     templateDesign.imagePosition === "0" ? "-order-none" : "order-1"
   }`;
 
-  let imageSrc = !success
+  const imageSrc = !success
     ? templateDesign.image || popup_img
     : templateDesign.successImage || popup_img;
 
-  imageSrc = handleType == "survey_popup" ? surveyPopupBannerImg : imageSrc;
+  const surveyBannerImgSrc = templateDesign.image  || surveyPopupBannerImg;
   const socialMediaPopupimageSrc = templateDesign.image;
 
   const surveyImageSrc =
@@ -335,6 +337,8 @@ const MasterForm = () => {
 
         if (response.success) {
           const responseKeywords = response?.data?.keywords.split(",");
+          console.log(['responseKeywords', responseKeywords]);
+          
           if (responseKeywords?.includes("Bundle")) {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
@@ -371,10 +375,25 @@ const MasterForm = () => {
               desktop: false,
               mobile: false,
             });
-          } else if (responseKeywords?.includes("Survey Popup")) {
+          }
+          //   else if (responseKeywords?.includes("Survey Popup")) {
+          //     setSuggestionTemplateStatus({
+          //       ...suggestionTemplateStatus,
+          //       isAttributionSurvey: true,
+          //     });
+          //     setTemplateHeaderState({
+          //       ...templateHeaderState,
+          //       success: false,
+          //       desktop: false,
+          //       mobile: false,
+          //     });
+
+          // }
+          else if (responseKeywords?.includes("Survey Popup")) {
+            console.log(['check1'])
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
-              isAttributionSurvey: true,
+              isSurveyPopup: true,
             });
             setTemplateHeaderState({
               ...templateHeaderState,
@@ -547,6 +566,7 @@ const MasterForm = () => {
                   options: sitem.answers,
                 };
               });
+              console.log("updatedSurveyState" , updatedSurveyState)
             setAddedQuestion(updatedSurveyState || []);
           }
         }
@@ -562,8 +582,8 @@ const MasterForm = () => {
   }, [keywords, subTemplateId]);
 
   const revertStyleStateController = (styles) => {
-    console.log(['borderColor', styles.form_type.template_border_color]);
-    
+    console.log(["borderColor", styles.form_type.template_border_color]);
+
     return {
       bgColor: styles.form_type.input_fields_style.background_color,
       borderColor: styles.form_type.input_fields_style.border_color,
@@ -830,7 +850,33 @@ const MasterForm = () => {
     reviewCount,
     ratingCount,
   };
-
+const surveyProps ={
+  isView,
+  templateDesign,
+  surveyBannerImgSrc,
+  formClasses,
+  containerClass,
+  success,
+  successImg,
+  getStyle,
+  handleDeleteField,
+  handleInputChange,
+  inputValues,
+  handleEdit,
+  isSubmitted,
+  addedFields,
+  handleSubmit,
+  addedQuestion,
+  handleSurveyInputChange,
+  inputSurveyValues,
+  handleSurveyDeleteField,
+  handleSurveyEdit,
+  renderStars,
+  renderNumbers,
+  reviewCount,
+  ratingCount,
+}
+console.log("addedQuestion" , addedQuestion)
   const worldWideWelcomeProps = {
     templateDesign,
     getStyle,
@@ -1180,6 +1226,7 @@ const MasterForm = () => {
                     isWorldWideWelcomePopup={
                       suggestionTemplateStatus?.isWorldWideWelcomePopup
                     }
+                    isSurveyPopup={suggestionTemplateStatus?.isSurveyPopup}
                   />
                 )}
                 {activeIndex === index && item.tag === "inputController" && (
@@ -1220,6 +1267,7 @@ const MasterForm = () => {
                         suggestionTemplateStatus?.isWorldWideWelcomePopup
                       }
                       isPreviewPopup={suggestionTemplateStatus?.isPreviewPopup}
+                      isSurveyPopup={suggestionTemplateStatus?.isSurveyPopup}
                     />
                   </>
                 )}
@@ -1461,14 +1509,26 @@ const MasterForm = () => {
                     className="text-8xl font-bold mb-4 relative leading-none "
                     style={getStyle(templateDesign, "templateHeading")}
                   >
-                    {templateDesign.heading }
+                    {templateDesign.heading}
                   </h1>
                   <p
-                    className="text-lg mb-6 leading-none"
+                    className="text-lg mb-2 mt-1leading-none"
                     style={getStyle(templateDesign, "templateSubHeading")}
                   >
                     {templateDesign.subHeading}
                   </p>
+                  <form
+                    className="flex flex-col space-y-4"
+                    onSubmit={handleSubmit}
+                  >
+                    {/* Display Stars Here */}
+                    {surveyController.survey_type === "review" && (
+                      <>{renderStars(reviewCount)}</>
+                    )}
+                    {surveyController.survey_type === "rating" && (
+                      <>{renderNumbers(ratingCount)}</>
+                    )}
+                  </form>
                   {addedFields.map((field, index) => (
                     <TemplateBannerComponent
                       key={index}
@@ -1487,19 +1547,6 @@ const MasterForm = () => {
                   >
                     Add
                   </button>
-                  <hr className="w-48 h-1 my-4 bg-[#d0d5d9] border-0 rounded md:my-10 dark:bg-gray-700"></hr>
-                  <form
-                    className="flex flex-col space-y-4"
-                    onSubmit={handleSubmit}
-                  >
-                    {/* Display Stars Here */}
-                    {surveyController.survey_type === "review" && (
-                      <>{renderStars(reviewCount)}</>
-                    )}
-                    {surveyController.survey_type === "rating" && (
-                      <>{renderNumbers(ratingCount)}</>
-                    )}
-                  </form>
                 </div>
               </div>
             </div>
@@ -1561,7 +1608,7 @@ const MasterForm = () => {
             </div>
           </div>
         )}
-        {suggestionTemplateStatus.isAttributionSurvey && (
+        {/* {suggestionTemplateStatus.isAttributionSurvey && (
           <div
             className="flex items-center justify-center bg-white"
             style={{ height: "calc(100vh - 250px)" }}
@@ -1577,9 +1624,9 @@ const MasterForm = () => {
                 minHeight: 200,
               }}
             >
-              {/* <button className="absolute top-4 right-4 text-white text-lg font-semibold">
+              <button className="absolute top-4 right-4 text-white text-lg font-semibold">
                 &times;
-              </button> */}
+              </button>
               <div className="flex justify-end mb-2 w-full">
                 <h4
                   className="leading-none font-bold"
@@ -1603,10 +1650,10 @@ const MasterForm = () => {
                   {templateDesign.subHeading ||
                     "Before you go we would like to hear your feedback"}
                 </p>
-                {/* 
+                
               <h1 className="text-2xl text-white font-bold text-center mb-6">
                 {surveyControllerEditState.fieldName}
-              </h1> */}
+              </h1>
                 <div className="grid grid-cols-12 gap-4">
                   {addedButton.map((field, index) => (
                     <div className="col-span-4">
@@ -1631,7 +1678,9 @@ const MasterForm = () => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
+
+     
         {suggestionTemplateStatus.isUpSellPopup && (
           <ProductUpSellPopUp
             productData={productListForPopUp}
@@ -1653,7 +1702,6 @@ const MasterForm = () => {
         {suggestionTemplateStatus.isAbandonmentPopup && (
           <CartAbandonmentPopUp
             productData={productListForPopUp}
-            noOfProducts={noOfProducts}
             templateDesign={templateDesign}
             templateData={templateData}
             getStyle={getStyle}
@@ -1673,7 +1721,6 @@ const MasterForm = () => {
             <div
               className="w-full flex justify-center items-center bg-white"
               style={{ minHeight: "calc(100vh - 300px)" }}
-
             >
               <SocialMediaConnectPopUp
                 templateDesign={templateDesign}
@@ -1703,6 +1750,9 @@ const MasterForm = () => {
               <WorldWideWelcomePopUp {...worldWideWelcomeProps} />
             </div>
           </>
+        )}
+           {suggestionTemplateStatus.isSurveyPopup && (
+          <SurveyPopUp {...surveyProps} />
         )}
         {suggestionTemplateStatus.isPreviewPopup && (
           <PreviewComponent {...otherProps} />

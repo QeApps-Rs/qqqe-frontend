@@ -29,7 +29,8 @@ const InputControllerComponent = ({
   isSocialMediaConnectPopup,
   isExitProductRecommenderPopup,
   isWorldWideWelcomePopup,
-  isPreviewPopup
+  isPreviewPopup,
+  isSurveyPopup
 }) => {
   const [fieldState, setFieldState] = useState({
     fieldType: "",
@@ -228,7 +229,7 @@ const InputControllerComponent = ({
                         />
                       </div>
                     </div>
-                    {!isCrossSellPopup && !isFeedbackSurvey && (
+                    {!isCrossSellPopup && !isFeedbackSurvey && !isSurveyPopup &&(
                       <>
                         {!isPurchaseSatisfactionSurvey &&
                           !isAttributionSurvey &&
@@ -309,7 +310,7 @@ const InputControllerComponent = ({
                           )}{" "}
                       </>
                     )}
-                    {!isPurchaseSatisfactionSurvey && !isCrossSellPopup && !isUpSellPopup &&(
+                    {!isPurchaseSatisfactionSurvey && !isCrossSellPopup && !isUpSellPopup && !isSurveyPopup &&(
                       <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
                         <label className="mb-2.5 block text-black font-semibold">
                           Template Sub-Heading
@@ -439,7 +440,7 @@ const InputControllerComponent = ({
                   </>
                 )}
 
-                {!isPurchaseSatisfactionSurvey && !isFeedbackSurvey && (
+                {!isPurchaseSatisfactionSurvey && !isFeedbackSurvey && !isSurveyPopup &&(
                   <div className="mb-6">
                     <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
                       <label className="mb-2.5 block text-black font-semibold">
@@ -475,7 +476,7 @@ const InputControllerComponent = ({
                   !isAttributionSurvey &&
                   !isAbandonmentPopup &&
                   !isUpSellPopup &&
-                  !isExitProductRecommenderPopup && (
+                  !isExitProductRecommenderPopup && !isSurveyPopup &&(
                     <>
                       <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
                         <div className="mb-6">

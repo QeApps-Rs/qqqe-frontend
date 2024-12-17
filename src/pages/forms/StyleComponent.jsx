@@ -28,6 +28,7 @@ const StyleComponent = ({
   isExitProductRecommenderPopup,
   isSocialMediaConnectPopup,
   isWorldWideWelcomePopup,
+  isSurveyPopup
 }) => {
   const [activeTab, setActiveTab] = useState("Desktop");
 
@@ -177,7 +178,7 @@ const StyleComponent = ({
                       "px"
                     )}
 
-                    {!isPreviewPopup && (
+                    {!isPreviewPopup && !isSurveyPopup &&(
                       <>
                         <div className="mt-3 flex justify-between flex-row items-center">
                           <span>Border style:</span>

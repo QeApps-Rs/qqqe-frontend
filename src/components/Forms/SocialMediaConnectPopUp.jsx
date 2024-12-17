@@ -37,7 +37,7 @@ const SocialMediaConnectPopUp = ({
       }}
     >
       <div
-        className="flex justify-center items-center flex-col w-10/12 "
+        className="flex justify-center items-center flex-col w-9/12 "
       >
       
           <div className="flex justify-center mb-4">
@@ -119,16 +119,18 @@ const SocialMediaConnectPopUp = ({
                 onEdit={() => handleEdit(field, index)}
               />
             ))}
-
-            <button
+<div className="w-full flex justify-center">
+<button
               type="submit"
-              className="bg-black text-white py-3 rounded-full text-lg mt-3"
+              className="bg-black text-white py-3 rounded-full text-lg mt-3 w-[75%]"
               style={{
                 backgroundColor: templateDesign.templateButtonBgColor,
               }}
             >
               {templateDesign.button}
             </button>
+</div>
+           
           </form>
         </div>
       </div>
