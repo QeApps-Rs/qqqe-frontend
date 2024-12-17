@@ -4,7 +4,7 @@ import { Tooltip } from "react-tippy";
 
 function CartAbandonmentPopUp({
   productData,
-  noOfProducts,
+  noOfProducts = 4,
   templateDesign,
   getStyle,
 }) {
@@ -24,7 +24,8 @@ function CartAbandonmentPopUp({
               <img
                 src={defaultProductImg}
                 alt={`product- ${index + 1}`}
-                className="w-32 h-32 object-fill mx-auto rounded-lg"
+                className="object-fill mx-auto rounded-lg"
+                style={{ width: "180px", height: "180px" }}
               />
             </div>
             <p className="text-base font-medium">{`Product ${index + 1}`}</p>
@@ -86,9 +87,15 @@ function CartAbandonmentPopUp({
             borderRadius: templateDesign.borderRadius,
           }}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 overflow-auto max-h-[300px]">
-            {productData && productData.length > 0 ? (
-              productData.map((product, index) => (
+          {productData && productData.length > 0 ? (
+            <div
+              className={`grid grid-cols-1 gap-6 overflow-auto max-h-[350px] ${
+                productData && productData.length <= 3
+                  ? "sm:grid-cols-3"
+                  : "sm:grid-cols-4"
+              }`}
+            >
+              {productData.map((product, index) => (
                 <div
                   key={index}
                   className="text-center p-4"
@@ -101,9 +108,11 @@ function CartAbandonmentPopUp({
                     <img
                       src={product.image}
                       alt={product.variantHandle}
-                      className="w-32 h-32 object-fill mx-auto rounded-xl"
+                      className="object-fill mx-auto rounded-xl"
+                      style={{ width: "180px", height: "180px" }}
                     />
                   </a>
+
                   <Tooltip
                     title={product.title}
                     position="bottom"
@@ -127,14 +136,16 @@ function CartAbandonmentPopUp({
                     {templateDesign.button}
                   </a>
                 </div>
-              ))
-            ) : (
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-6 overflow-auto max-h-[350px] sm:grid-cols-4">
               <DefaultProductDiv
                 noOfProducts={noOfProducts}
                 defaultProductImg={defaultProductImg}
               />
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Shop Now buttons below red border */}

@@ -8,15 +8,16 @@ import FormSubmitHandler from "../FormSubmitHandler";
 import toast from "react-hot-toast";
 import Loader from "../../common/Loader";
 import Checkbox from "../higherOrderComponent/Checkboxes/Checkbox";
-import emailTemplateImg from "../../images/email-template.jpg";
+import emailTemplateImg1 from "../../images/email-template-1.png";
+import emailTemplateImg2 from "../../images/email-template-2.jpg";
 const TemplateList = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const [templateList, setTemplateList] = useState([]);
   const emailTemplateList = [
-    { id: 1, name: "Template 1" },
-    { id: 2, name: "Template 2" },
+    { id: 1, name: "Template 1",imageUrl: emailTemplateImg1 },
+    { id: 2, name: "Template 2", imageUrl: emailTemplateImg2 },
   ];
   const [keywords, setKeywords] = useState([]);
   const [filterKeyword, setFilterKeyword] = useState("");
@@ -248,8 +249,8 @@ const TemplateList = () => {
                     <Link to={`email-template/${template.id}`}>
                       <div className="px-10 py-6 h-[350px] bg-[url('/src/images/template-background.svg')] bg-no-repeat bg-cover shadow-md shadow-black/28 rounded-lg">
                         <img
-                          src={emailTemplateImg}
-                          alt={`Template ${template.id}`}
+              src={template.imageUrl} // Dynamically assign the image URL
+              alt={`Template ${template.id}`}
                           className="mb-3 w-full h-full object-contain"
                         />
                       </div>

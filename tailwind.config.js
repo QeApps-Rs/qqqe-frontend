@@ -229,6 +229,8 @@ export default {
         default: "0px 8px 13px -3px rgba(0, 0, 0, 0.07)",
         card: "0px 1px 3px rgba(0, 0, 0, 0.12)",
         "card-2": "0px 1px 2px rgba(0, 0, 0, 0.05)",
+        "3xl": "0 10px 20px rgba(0, 0, 0, 0.3)", // Custom shadow for 3D effect
+
         switcher:
           "0px 2px 4px rgba(0, 0, 0, 0.2), inset 0px 2px 2px #FFFFFF, inset 0px -1px 1px rgba(0, 0, 0, 0.1)",
         "switch-1": "0px 0px 5px rgba(0, 0, 0, 0.15)",
@@ -254,6 +256,15 @@ export default {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
         },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        'rotate-y': {
+          '0%': { transform: 'rotateY(0deg)' },
+          '50%': { transform: 'rotateY(180deg)' },
+          '100%': { transform: 'rotateY(360deg)' },
+        },
       },
       animation: {
         "ping-once": "ping 5s cubic-bezier(0, 0, 0.2, 1)",
@@ -262,7 +273,14 @@ export default {
         "spin-2": "spin 2s linear infinite",
         "spin-3": "spin 3s linear infinite",
         fadeIn: "fadeIn 1s ease-out",
-        
+        'spin-slow': 'spin 8s linear infinite',
+        'rotate-y': 'rotate-y 6s infinite linear',
+        float: "float 2s ease-in-out infinite", 
+
+      },
+     
+      perspective: {
+        1000: "1000px", 
       },
     },
   },
