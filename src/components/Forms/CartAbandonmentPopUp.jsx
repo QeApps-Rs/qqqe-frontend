@@ -14,9 +14,8 @@ function CartAbandonmentPopUp({
         {Array.from({ length: noOfProducts }, (_, index) => (
           <div
             key={index}
-            className="text-center p-4"
+            className="text-center p-4 bg-white"
             style={{
-              backgroundColor: templateDesign.templateOverlayColor || "#959595",
               borderRadius: templateDesign.borderRadius || "16px",
             }}
           >
@@ -77,6 +76,13 @@ function CartAbandonmentPopUp({
           </h5>
         </div>
 
+        <p
+          className="text-center text-gray-600 mb-6"
+          style={getStyle(templateDesign, "templateSubHeading")}
+        >
+          {templateDesign.subHeading ||
+            "Check out now & receive 10% off your first order"}{" "}
+        </p>
         {/* Red dotted border around products */}
         <div
           className=" p-4"
@@ -98,9 +104,8 @@ function CartAbandonmentPopUp({
               {productData.map((product, index) => (
                 <div
                   key={index}
-                  className="text-center p-4"
+                  className="text-center p-4 bg-white"
                   style={{
-                    backgroundColor: templateDesign.templateOverlayColor,
                     borderRadius: templateDesign.borderRadius,
                   }}
                 >

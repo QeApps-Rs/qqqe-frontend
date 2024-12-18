@@ -32,10 +32,8 @@ function ProductUpSellPopUp({
             }}
           >
             <div
-              className="mb-4 h-40 flex rounded-lg items-center justify-center"
-              style={{
-                background: templateDesign.templateOverlayColor ,
-              }}
+              className="mb-4 h-40 flex rounded-lg items-center justify-center bg-white"
+         
             >
               <a href="#">
                 <img
@@ -110,11 +108,8 @@ function ProductUpSellPopUp({
                 productData.map((product, index) => (
                   <div key={index} className="rounded-lg p-4 ">
                     <div
-                      className="mb-4 h-40 flex  rounded-lg items-center justify-center"
-                      style={{
-                        background:
-                          templateDesign.templateOverlayColor ,
-                      }}
+                      className="mb-4 h-40 flex  rounded-lg items-center justify-center bg-white"
+                     
                     >
                       <a href="#">
                         <img

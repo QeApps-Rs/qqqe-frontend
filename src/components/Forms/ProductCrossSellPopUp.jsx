@@ -15,10 +15,9 @@ function ProductCrossSellPopUp({
         {Array.from({ length: noOfProducts }, (_, index) => (
           <div
             key={index}
-            className="flex flex-col md:flex-row items-center rounded-lg gap-4 w-full"
+            className="flex flex-col md:flex-row items-center rounded-lg gap-4 w-full bg-white"
             style={{
               padding: combinedPadding,
-              backgroundColor: templateDesign.templateOverlayColor || "#889885",
               order: templateDesign.imagePosition,
               borderRadius: templateDesign.borderRadius || "16px",
             }}
@@ -101,9 +100,8 @@ function ProductCrossSellPopUp({
               productData.map((product, index) => (
                 <div
                   key={index}
-                  className="flex flex-col md:flex-row items-center rounded-lg p-4 gap-4 w-full"
+                  className="flex flex-col md:flex-row items-center rounded-lg p-4 gap-4 w-full bg-white" 
                   style={{
-                    backgroundColor: templateDesign.templateOverlayColor,
                   }}
                 >
                   <div className="w-full md:w-1/2">

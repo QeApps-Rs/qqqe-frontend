@@ -46,15 +46,16 @@ const SurveyPopUp = ({
   };
   return (
     <div
-      className="flex items-center justify-center py-5"
+      className="flex items-center justify-center py-5 bg-white"
       style={{
-        backgroundColor: templateDesign.templateBgColor,
         minHeight: "calc(100vh - 300px)",
       }}
     >
       <div
         className="grid grid-cols-1 lg:grid-cols-2 w-full max-w-4xl  shadow-lg  overflow-hidden "
         style={{
+          boxShadow:
+            "rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) -2px -4px 3px",
           borderRadius: templateDesign.borderRadius,
           minHeight: "500px",
         }}
@@ -66,7 +67,7 @@ const SurveyPopUp = ({
         <div
           className="p-6 lg:p-8 flex flex-col justify-start h-full"
           style={{
-            backgroundColor: templateDesign.templateOverlayColor,
+            backgroundColor: templateDesign.templateBgColor,
           }}
         >
           <div>
