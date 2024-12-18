@@ -148,7 +148,7 @@ const PreferenceSurvey = ({
             <img
               src={welcomeImg}
               alt="welcome-img"
-              className="w-80 h-70 animate-float rounded-lg shadow-2xl transform transition-transform duration-700 ease-out hover:scale-105 hover:rotate-3 hover:shadow-3xl"
+              className="w-80 h-70 animate-float rounded-lg transform transition-transform duration-700 ease-out hover:scale-105 hover:rotate-3"
             />
           </div>
 

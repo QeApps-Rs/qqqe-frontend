@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 
 import TemplateBannerComponent from "../../pages/forms/TemplateBannerComponent";
-
 const SocialMediaConnectPopUp = ({
   getStyle,
   templateDesign,
@@ -41,18 +40,12 @@ const SocialMediaConnectPopUp = ({
       >
       
           <div className="flex justify-center mb-4">
-            {socialMediaPopupimageSrc ? (
+          
               <img
                 src={socialMediaPopupimageSrc}
                 alt="Facebook Icon"
                 className="w-8 h-8"
               />
-            ) : (
-              <i
-                className="fa fa-facebook-square text-2xl"
-                aria-hidden="true"
-              ></i>
-            )}
           </div>
 
           <h2
