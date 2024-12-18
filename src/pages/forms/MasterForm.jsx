@@ -1470,16 +1470,16 @@ console.log("addedQuestion" , addedQuestion)
         )}
         {suggestionTemplateStatus.isFeedbackSurvey && (
           <div
-            className="flex items-center justify-center py-5"
+            className="flex items-center justify-center py-5 bg-white"
             style={{
-              backgroundColor: templateDesign.templateBgColor,
+              
               minHeight: "calc(100vh - 300px)",
             }}
           >
             <div
               className="grid grid-cols-1 xl:grid-cols-12 gap-4 w-full lg:w-7/12 "
               style={{
-                backgroundColor: templateDesign.templateOverlayColor,
+                backgroundColor: templateDesign.templateBgColor,
                 borderRadius: templateDesign.borderRadius,
                 borderWidth: templateDesign.borderWidth,
                 borderColor: templateDesign.templateBorderColor,

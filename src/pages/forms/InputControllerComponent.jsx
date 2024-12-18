@@ -30,7 +30,7 @@ const InputControllerComponent = ({
   isExitProductRecommenderPopup,
   isWorldWideWelcomePopup,
   isPreviewPopup,
-  isSurveyPopup
+  isSurveyPopup,
 }) => {
   const [fieldState, setFieldState] = useState({
     fieldType: "",
@@ -229,153 +229,170 @@ const InputControllerComponent = ({
                         />
                       </div>
                     </div>
-                    {!isCrossSellPopup && !isFeedbackSurvey && !isSurveyPopup &&(
-                      <>
-                        {!isPurchaseSatisfactionSurvey &&
-                          !isAttributionSurvey &&
-                          !isAbandonmentPopup &&
-                          !isUpSellPopup && !isPreviewPopup && (
-                            <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
-                              <>
-                                <label className="mb-2.5 block text-black font-semibold">
-                                  Template Offer Number
-                                </label>
-                                <input
-                                  type="text"
-                                  value={templateDesign.offerAmount}
-                                  onChange={(e) =>
-                                    setTemplateDesign((prev) => ({
-                                      ...prev,
-                                      offerAmount: e.target.value,
-                                    }))
-                                  }
-                                  placeholder="pleaser enter template offer number"
-                                  className="w-full p-2 border rounded-md focus:outline-none"
-                                />
-                              </>
+                    {!isCrossSellPopup &&
+                      !isFeedbackSurvey &&
+                      !isSurveyPopup && (
+                        <>
+                          {!isPurchaseSatisfactionSurvey &&
+                            !isAttributionSurvey &&
+                            !isAbandonmentPopup &&
+                            !isUpSellPopup &&
+                            !isPreviewPopup &&
+                            !isProductBundle &&
+                            !isSocialMediaConnectPopup && (
+                              <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
+                                <>
+                                  <label className="mb-2.5 block text-black font-semibold">
+                                    Template Offer Number
+                                  </label>
+                                  <input
+                                    type="text"
+                                    value={templateDesign.offerAmount}
+                                    onChange={(e) =>
+                                      setTemplateDesign((prev) => ({
+                                        ...prev,
+                                        offerAmount: e.target.value,
+                                      }))
+                                    }
+                                    placeholder="pleaser enter template offer number"
+                                    className="w-full p-2 border rounded-md focus:outline-none"
+                                  />
+                                </>
 
-                              <div className="mt-3 flex justify-between flex-row items-center">
-                                <span className="mr-2 font-semibold">
-                                  Font:
-                                </span>
-                                <select
-                                  onChange={(e) =>
-                                    onTemplateChange("templateOfferFontFamily")(
-                                      e.target.value
-                                    )
-                                  }
-                                  value={templateDesign.templateOfferFontFamily}
-                                  className={`${defaultBoxClassName} h-12 mr-2`}
-                                >
-                                  {fontFamilyList.map((item) => (
-                                    <option key={item.label} value={item.label}>
-                                      {item.label}
-                                    </option>
-                                  ))}
-                                </select>
-                                <input
-                                  id="border-thickness"
-                                  type="number"
-                                  placeholder="px"
-                                  className={`${defaultBoxClassName} h-12`}
-                                  value={
-                                    templateDesign.templateOfferFontSize.replace(
-                                      "px",
-                                      ""
-                                    ) || ""
-                                  }
-                                  onChange={(e) =>
-                                    onTemplateChange("templateOfferFontSize")(
-                                      e.target.value + "px"
-                                    )
-                                  }
-                                />
+                                <div className="mt-3 flex justify-between flex-row items-center">
+                                  <span className="mr-2 font-semibold">
+                                    Font:
+                                  </span>
+                                  <select
+                                    onChange={(e) =>
+                                      onTemplateChange(
+                                        "templateOfferFontFamily"
+                                      )(e.target.value)
+                                    }
+                                    value={
+                                      templateDesign.templateOfferFontFamily
+                                    }
+                                    className={`${defaultBoxClassName} h-12 mr-2`}
+                                  >
+                                    {fontFamilyList.map((item) => (
+                                      <option
+                                        key={item.label}
+                                        value={item.label}
+                                      >
+                                        {item.label}
+                                      </option>
+                                    ))}
+                                  </select>
+                                  <input
+                                    id="border-thickness"
+                                    type="number"
+                                    placeholder="px"
+                                    className={`${defaultBoxClassName} h-12`}
+                                    value={
+                                      templateDesign.templateOfferFontSize.replace(
+                                        "px",
+                                        ""
+                                      ) || ""
+                                    }
+                                    onChange={(e) =>
+                                      onTemplateChange("templateOfferFontSize")(
+                                        e.target.value + "px"
+                                      )
+                                    }
+                                  />
+                                </div>
+                                <div className="flex items-center mt-3 justify-between">
+                                  <span className="mr-2 font-semibold">
+                                    Color:
+                                  </span>
+                                  <ColorPicker
+                                    defaultColor={
+                                      templateDesign.templateOfferColor
+                                    }
+                                    onChange={(color) =>
+                                      onTemplateChange("templateOfferColor")(
+                                        color
+                                      )
+                                    }
+                                  />
+                                </div>
                               </div>
-                              <div className="flex items-center mt-3 justify-between">
-                                <span className="mr-2 font-semibold">
-                                  Color:
-                                </span>
-                                <ColorPicker
-                                  defaultColor={
-                                    templateDesign.templateOfferColor
-                                  }
-                                  onChange={(color) =>
-                                    onTemplateChange("templateOfferColor")(
-                                      color
-                                    )
-                                  }
-                                />
-                              </div>
-                            </div>
-                          )}{" "}
-                      </>
-                    )}
-                    {!isPurchaseSatisfactionSurvey && !isCrossSellPopup && !isUpSellPopup && !isSurveyPopup &&(
-                      <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
-                        <label className="mb-2.5 block text-black font-semibold">
-                          Template Sub-Heading
-                        </label>
+                            )}{" "}
+                        </>
+                      )}
+                    {!isPurchaseSatisfactionSurvey &&
+                      !isCrossSellPopup &&
+                      !isUpSellPopup &&
+                      !isSurveyPopup && (
+                        <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
+                          <label className="mb-2.5 block text-black font-semibold">
+                            Template Sub-Heading
+                          </label>
 
-                        <input
-                          type="text"
-                          value={templateDesign.subHeading}
-                          onChange={(e) =>
-                            setTemplateDesign((prev) => ({
-                              ...prev,
-                              subHeading: e.target.value,
-                            }))
-                          }
-                          placeholder="pleaser enter template sub-heading"
-                          className="w-full p-2 border rounded-md focus:outline-none"
-                        />
-                        <div className="mt-3 flex justify-between flex-row items-center">
-                          <span className="mr-2 font-semibold">Font:</span>
-                          <select
-                            onChange={(e) =>
-                              onTemplateChange("templateSubHeadingFontFamily")(
-                                e.target.value
-                              )
-                            }
-                            value={templateDesign.templateSubHeadingFontFamily}
-                            className={`${defaultBoxClassName} h-12 mr-2`}
-                          >
-                            {fontFamilyList.map((item) => (
-                              <option key={item.label} value={item.label}>
-                                {item.label}
-                              </option>
-                            ))}
-                          </select>
                           <input
-                            id="border-thickness"
-                            type="number"
-                            placeholder="px"
-                            className={`${defaultBoxClassName} h-12`}
-                            value={
-                              templateDesign.templateSubHeadingFontSize.replace(
-                                "px",
-                                ""
-                              ) || ""
-                            }
+                            type="text"
+                            value={templateDesign.subHeading}
                             onChange={(e) =>
-                              onTemplateChange("templateSubHeadingFontSize")(
-                                e.target.value + "px"
-                              )
+                              setTemplateDesign((prev) => ({
+                                ...prev,
+                                subHeading: e.target.value,
+                              }))
                             }
+                            placeholder="pleaser enter template sub-heading"
+                            className="w-full p-2 border rounded-md focus:outline-none"
                           />
+                          <div className="mt-3 flex justify-between flex-row items-center">
+                            <span className="mr-2 font-semibold">Font:</span>
+                            <select
+                              onChange={(e) =>
+                                onTemplateChange(
+                                  "templateSubHeadingFontFamily"
+                                )(e.target.value)
+                              }
+                              value={
+                                templateDesign.templateSubHeadingFontFamily
+                              }
+                              className={`${defaultBoxClassName} h-12 mr-2`}
+                            >
+                              {fontFamilyList.map((item) => (
+                                <option key={item.label} value={item.label}>
+                                  {item.label}
+                                </option>
+                              ))}
+                            </select>
+                            <input
+                              id="border-thickness"
+                              type="number"
+                              placeholder="px"
+                              className={`${defaultBoxClassName} h-12`}
+                              value={
+                                templateDesign.templateSubHeadingFontSize.replace(
+                                  "px",
+                                  ""
+                                ) || ""
+                              }
+                              onChange={(e) =>
+                                onTemplateChange("templateSubHeadingFontSize")(
+                                  e.target.value + "px"
+                                )
+                              }
+                            />
+                          </div>
+                          <div className="flex items-center mt-3 justify-between">
+                            <span className="mr-2 font-semibold">Color:</span>
+                            <ColorPicker
+                              defaultColor={
+                                templateDesign.templateSubHeadingColor
+                              }
+                              onChange={(color) =>
+                                onTemplateChange("templateSubHeadingColor")(
+                                  color
+                                )
+                              }
+                            />
+                          </div>
                         </div>
-                        <div className="flex items-center mt-3 justify-between">
-                          <span className="mr-2 font-semibold">Color:</span>
-                          <ColorPicker
-                            defaultColor={
-                              templateDesign.templateSubHeadingColor
-                            }
-                            onChange={(color) =>
-                              onTemplateChange("templateSubHeadingColor")(color)
-                            }
-                          />
-                        </div>
-                      </div>
-                    )}
+                      )}
                     {/* <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
                       <label className="mb-2.5 block text-black font-semibold">
                         Template Email
@@ -440,43 +457,46 @@ const InputControllerComponent = ({
                   </>
                 )}
 
-                {!isPurchaseSatisfactionSurvey && !isFeedbackSurvey && !isSurveyPopup &&(
-                  <div className="mb-6">
-                    <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
-                      <label className="mb-2.5 block text-black font-semibold">
-                        Button Name
-                      </label>
-                      <input
-                        type="text"
-                        value={templateDesign.button}
-                        onChange={(e) =>
-                          setTemplateDesign((prev) => ({
-                            ...prev,
-                            button: e.target.value,
-                          }))
-                        }
-                        placeholder="pleaser enter button name"
-                        className="w-full p-2 border rounded-md focus:outline-none"
-                      />
-                      <div className="flex items-center mt-3 justify-between">
-                        <span className="block font-semibold">Color:</span>
-                        <ColorPicker
-                          defaultColor={templateDesign.templateButtonBgColor}
-                          onChange={(color) =>
-                            onTemplateChange("templateButtonBgColor")(color)
+                {!isPurchaseSatisfactionSurvey &&
+                  !isFeedbackSurvey &&
+                  !isSurveyPopup && (
+                    <div className="mb-6">
+                      <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
+                        <label className="mb-2.5 block text-black font-semibold">
+                          Button Name
+                        </label>
+                        <input
+                          type="text"
+                          value={templateDesign.button}
+                          onChange={(e) =>
+                            setTemplateDesign((prev) => ({
+                              ...prev,
+                              button: e.target.value,
+                            }))
                           }
+                          placeholder="pleaser enter button name"
+                          className="w-full p-2 border rounded-md focus:outline-none"
                         />
+                        <div className="flex items-center mt-3 justify-between">
+                          <span className="block font-semibold">Color:</span>
+                          <ColorPicker
+                            defaultColor={templateDesign.templateButtonBgColor}
+                            onChange={(color) =>
+                              onTemplateChange("templateButtonBgColor")(color)
+                            }
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
                 {!isProductBundle &&
                   !isCrossSellPopup &&
                   !isPurchaseSatisfactionSurvey &&
                   !isAttributionSurvey &&
                   !isAbandonmentPopup &&
                   !isUpSellPopup &&
-                  !isExitProductRecommenderPopup && !isSurveyPopup &&(
+                  !isExitProductRecommenderPopup &&
+                  !isSurveyPopup && (
                     <>
                       <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
                         <div className="mb-6">

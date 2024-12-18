@@ -136,7 +136,7 @@ export const inputTextColorFields = [
 
 export const templateBgField = [
   { label: "Background color", colorType: "templateBgColor" },
-  { label: "Overlay color", colorType: "templateOverlayColor" },
+  // { label: "Overlay color", colorType: "templateOverlayColor" },
 ];
 
 export const fontFamilyList = [

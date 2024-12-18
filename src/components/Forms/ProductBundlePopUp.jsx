@@ -15,10 +15,9 @@ function ProductBundlePopUp({
           <div
             key={index}
             style={{
-              backgroundColor: templateDesign.templateOverlayColor || "#ffffff",
               padding: combinedPadding,
             }}
-            className="flex flex-col items-start rounded-lg"
+            className="flex flex-col items-start rounded-lg bg-white"
           >
             <div className="mb-4 w-full">
               <a href="#">
@@ -88,18 +87,17 @@ function ProductBundlePopUp({
             >
               {templateDesign.heading}
             </h5>
-            <h4
+            {/* <h4
               className="leading-none mt-4"
               style={getStyle(templateDesign, "templateOffer")}
             >
               {templateDesign.offerAmount || "Pick up where you left off"}
-            </h4>
+            </h4> */}
             <p
               className="mt-4 leading-none"
               style={getStyle(templateDesign, "templateSubHeading")}
             >
-              {templateDesign.subHeading ||
-                "Save on your first order and get email-only offers when you join."}
+              {templateDesign.subHeading}
             </p>
           </div>
 
@@ -120,9 +118,8 @@ function ProductBundlePopUp({
               productData.map((product, index) => (
                 <div
                   key={index}
-                  className="flex flex-col items-start rounded-lg"
+                  className="flex flex-col items-start rounded-lg bg-white"
                   style={{
-                    backgroundColor: templateDesign.templateOverlayColor,
                     padding: combinedPadding,
                   }}
                 >
