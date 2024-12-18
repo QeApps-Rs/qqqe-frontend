@@ -353,6 +353,7 @@ const MasterForm = () => {
           } else if (
             responseKeywords?.includes("Purchase Satisfaction Survey")
           ) {
+            purchaseSatisfactionSurveyDefaultImage
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isPurchaseSatisfactionSurvey: true,
@@ -1568,15 +1569,15 @@ console.log("addedQuestion" , addedQuestion)
               }}
             >
               <div
-                className={`flex justify-center py-[30px] px-6 rounded-l-none rounded-r-[90px] w-[150px] h-full  ${imagePositionContainer}`}
-                style={{
-                  backgroundColor: templateDesign.templateOverlayColor,
-                }}
+                className={` rounded-l-none rounded-r-[90px] w-[150px] h-[150px]  ${imagePositionContainer}`}
+                // style={{
+                //   backgroundColor: templateDesign.templateOverlayColor,
+                // }}
               >
                 <img
                   src={surveyImageSrc}
                   alt="Round Image"
-                  className="object-cover "
+                  className="w-full h-full object-fill"
                 />
               </div>
 
