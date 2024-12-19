@@ -712,6 +712,7 @@ const SuggestionCompNew = () => {
               <span key={index}>
                 <input
                   type="number"
+                  min="0"
                   className="border border-gray-300 p-1 w-15"
                   value={inputTypeValue}
                   onChange={(e) => handleApplyDiscount(e.target.value)}
@@ -769,7 +770,9 @@ const SuggestionCompNew = () => {
                     Suggestions
                   </th>
                   <th className={`text-left ${lblHeaderClass}`}>Status</th>
-                  <th className={`text-left whitespace-nowrap  ${lblHeaderClass}`}>
+                  <th
+                    className={`text-left whitespace-nowrap  ${lblHeaderClass}`}
+                  >
                     Published Date
                   </th>
                   <th className={`${lblHeaderClass}`}>Actions</th>

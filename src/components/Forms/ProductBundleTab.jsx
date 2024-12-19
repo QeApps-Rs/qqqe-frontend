@@ -509,6 +509,7 @@ const ProductBundleTab = ({
                         <input
                           className="border-[1.5px] border-stroke p-2 w-full"
                           type="number"
+                          min="0"
                           name="dis_amount"
                           id="dis_amount"
                           value={productDiscountAmountDetails}

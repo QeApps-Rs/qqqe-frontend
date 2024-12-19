@@ -114,6 +114,7 @@ const EmailTemplateControllerComponent = ({
       <input
         id={id}
         type="number"
+        min="0"
         placeholder={placeholder}
         value={value.replace("px", "") || ""}
         onChange={(e) => onChange(e.target.value + "px")}
@@ -366,6 +367,7 @@ const EmailTemplateControllerComponent = ({
                   <input
                     id="border-thickness"
                     type="number"
+                    min="0"
                     className={`${defaultBoxClassName} h-12`}
                     placeholder="px"
                     value={
@@ -388,6 +390,7 @@ const EmailTemplateControllerComponent = ({
               <input
                 id="border-thickness"
                 type="number"
+                min="0"
                 className={`${defaultBoxClassName} h-12`}
                 placeholder="px"
                 value={
@@ -427,6 +430,7 @@ const EmailTemplateControllerComponent = ({
               <input
                 id="border-thickness"
                 type="number"
+                min="0"
                 className={`${defaultBoxClassName} h-12`}
                 placeholder="px"
                 value={

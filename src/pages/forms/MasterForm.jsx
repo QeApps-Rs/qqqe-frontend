@@ -291,7 +291,7 @@ const MasterForm = () => {
     return classes.trim();
   };
   const imagePositionContainer = `${
-    templateDesign.imagePosition === "0" ? "-order-none" : "order-1"
+    templateDesign.imagePosition === "0" ? "-order-none rounded-r-[90px]" : "order-1 rounded-l-[90px]"
   }`;
 
   const imageSrc = !success
@@ -1569,7 +1569,7 @@ console.log("addedQuestion" , addedQuestion)
               }}
             >
               <div
-                className={` rounded-l-none rounded-r-[90px] w-[150px] h-[150px]  ${imagePositionContainer}`}
+                className={` rounded-l-none  w-[150px] h-[150px] overflow-hidden  ${imagePositionContainer }`}
                 // style={{
                 //   backgroundColor: templateDesign.templateOverlayColor,
                 // }}

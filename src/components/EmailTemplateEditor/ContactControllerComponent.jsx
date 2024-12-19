@@ -79,6 +79,7 @@ const ContactControllerComponent = ({
           <input
             id="border-thickness"
             type="number"
+            min="0"
             className={`${defaultBoxClassName} h-12`}
             placeholder="px"
             value={
@@ -167,6 +168,7 @@ const ContactControllerComponent = ({
                           <input
                             type="number"
                             value={parseInt(component.font_size) || "16"}
+                            min="0"
                             onChange={(e) =>
                               handleEditTextComponent(index, {
                                 font_size: e.target.value + "px",

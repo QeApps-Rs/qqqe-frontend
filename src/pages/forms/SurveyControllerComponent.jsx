@@ -190,6 +190,8 @@ const SurveyControllerComponent = ({
                           <input
                             id="rating-count"
                             type="number"
+        min="0"
+
                             placeholder="count"
                             className={`${defaultBoxClassName} h-10`}
                             value={

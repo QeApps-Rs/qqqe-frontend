@@ -232,6 +232,7 @@ const FooterControllerComponent = ({
                 <input
                   id="border-thickness"
                   type="number"
+                  min="0"
                   className={`${defaultBoxClassName} h-12`}
                   placeholder="px"
                   value={
@@ -522,6 +523,7 @@ const FooterControllerComponent = ({
                               </span>
                               <input
                                 type="number"
+                                min="0"
                                 value={parseInt(component.font_size) || "16"}
                                 onChange={(e) =>
                                   handleEditTextComponent(index, {

@@ -55,6 +55,7 @@ const StyleComponent = ({
         id={id}
         type="number"
         placeholder={placeholder}
+        min="0" 
         value={value.replace("px", "") || ""}
         onChange={(e) => onChange(e.target.value + "px")}
         className={`${defaultBoxClassName} h-10`}
@@ -76,6 +77,7 @@ const StyleComponent = ({
         type="number"
         placeholder={placeholder}
         value={value.replace("px", "") || ""}
+        min="0"
         onChange={(e) => onChange(e.target.value + "px")}
         className={`${defaultBoxClassName} h-10`}
       />

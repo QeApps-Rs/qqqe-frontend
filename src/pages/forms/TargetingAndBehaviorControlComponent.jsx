@@ -93,6 +93,7 @@ const TargetingAndBehaviorControlComponent = ({
                         <div>Show again after</div>
                         <input
                           type="number"
+                          min="0"
                           value={
                             targetingAndBehavior?.display?.timing?.settings
                               ?.after_delay_time?.value
@@ -138,6 +139,7 @@ const TargetingAndBehaviorControlComponent = ({
                         <div>Scroll distance</div>
                         <input
                           type="number"
+                          min="0"
                           value={
                             targetingAndBehavior?.display?.timing?.settings
                               ?.after_scroll_distance?.value
@@ -180,6 +182,7 @@ const TargetingAndBehaviorControlComponent = ({
                         <div>After</div>
                         <input
                           type="number"
+                          min="0"
                           value={
                             targetingAndBehavior?.display?.timing?.settings
                               ?.after_pages_visit?.value
@@ -209,6 +212,7 @@ const TargetingAndBehaviorControlComponent = ({
               </div>
               <input
                 type="number"
+                min="0"
                 value={
                   targetingAndBehavior?.display?.frequency?.after_show_days
                 }
