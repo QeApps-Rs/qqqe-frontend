@@ -204,6 +204,7 @@ const InputControllerComponent = ({
                         <input
                           id="border-thickness"
                           type="number"
+                          min="0"
                           className={`${defaultBoxClassName} h-12`}
                           placeholder="px"
                           value={
@@ -286,6 +287,7 @@ const InputControllerComponent = ({
                                   <input
                                     id="border-thickness"
                                     type="number"
+                                    min="0"
                                     placeholder="px"
                                     className={`${defaultBoxClassName} h-12`}
                                     value={
@@ -363,6 +365,7 @@ const InputControllerComponent = ({
                             <input
                               id="border-thickness"
                               type="number"
+                              min="0"
                               placeholder="px"
                               className={`${defaultBoxClassName} h-12`}
                               value={
@@ -585,6 +588,7 @@ const InputControllerComponent = ({
                             <input
                               id="font-size"
                               type="number"
+                              min="0"
                               className={`${defaultBoxClassName} h-10`}
                               placeholder="px"
                               value={

@@ -22,6 +22,7 @@ const GlobalStyleControllerComponent = ({
       <input
         id={id}
         type="number"
+        min="0"
         placeholder={placeholder}
         value={value.replace("px", "") || ""}
         onChange={(e) => onChange(e.target.value + "px")}

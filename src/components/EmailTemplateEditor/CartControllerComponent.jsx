@@ -221,6 +221,7 @@ const EmailTemplateCartControllerComponent = ({
                           <span className="mr-2 font-semibold">Font Size:</span>
                           <input
                             type="number"
+                            min="0"
                             value={parseInt(component.font_size) || "16"}
                             onChange={(e) =>
                               handleEditTextComponent(index, {
