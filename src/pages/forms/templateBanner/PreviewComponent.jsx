@@ -131,7 +131,7 @@ const PreviewComponent = ({
                       onEdit={() => handleEdit(field, index)}
                     />
                   ))}
-                  {addedQuestion.map((field, index) => (
+                  {/* {addedQuestion.map((field, index) => (
                     <SurveyFormComponent
                       key={index}
                       templateDesign={templateDesign}
@@ -145,7 +145,7 @@ const PreviewComponent = ({
                       }
                       onEdit={() => handleSurveyEdit(field, index)}
                     />
-                  ))}
+                  ))} */}
                   <button
                     type="submit"
                     className="bg-black text-white py-3 rounded-md text-lg mt-3"
@@ -156,13 +156,12 @@ const PreviewComponent = ({
                     {templateDesign.button}
                   </button>
 
-                  {/* Display Stars Here */}
-                  {templateDesign.formBorderStyle === "review" && (
+                  {/* {templateDesign.formBorderStyle === "review" && (
                     <>{renderStars(reviewCount)}</>
                   )}
                   {templateDesign.formBorderStyle === "rating" && (
                     <>{renderNumbers(ratingCount)}</>
-                  )}
+                  )} */}
                 </form>
               </>
             )}
