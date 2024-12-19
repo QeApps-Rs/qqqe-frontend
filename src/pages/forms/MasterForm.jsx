@@ -1153,13 +1153,13 @@ console.log("addedQuestion" , addedQuestion)
               }
               if (
                 suggestionTemplateStatus?.isFeedbackSurvey ||
-                suggestionTemplateStatus?.isAttributionSurvey
+                suggestionTemplateStatus?.isAttributionSurvey || suggestionTemplateStatus?.isSurveyPopup
               ) {
                 return (
                   item.tag !== "bundle" && item.tag !== "successController"
                 );
               }
-              if (suggestionTemplateStatus?.isPurchaseSatisfactionSurvey) {
+              if (suggestionTemplateStatus?.isPurchaseSatisfactionSurvey ) {
                 return (
                   item.tag !== "successController" && item.tag !== "bundle"
                 );
