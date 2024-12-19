@@ -70,7 +70,6 @@ function ExitProductRecommenderPopup({
               className="flex items-center text-center relative shadow-xl "
               style={{
                 backgroundColor: templateDesign.templateBgColor ,
-                padding: combinedPadding,
                 border: templateDesign.formBorderStyle,
                 borderRadius: templateDesign.borderRadius ,
                 borderWidth: templateDesign.borderWidth,
@@ -116,7 +115,6 @@ function ExitProductRecommenderPopup({
              className="flex items-center text-center relative shadow-xl "
              style={{
                backgroundColor: templateDesign.templateBgColor || "#959595",
-               padding: combinedPadding,
                border: templateDesign.formBorderStyle,
                borderRadius: templateDesign.borderRadius || "16px",
                borderWidth: templateDesign.borderWidth,
@@ -180,10 +178,9 @@ function ExitProductRecommenderPopup({
           productData.map((product, index) => (
             <div key={index} className=" col-span-6">
               <div
-                className="w-full flex items-center text-center relative shadow-xl "
+                className="w-full flex items-center text-center relative shadow-xl p-4"
                 style={{
                   backgroundColor: templateDesign.templateBgColor ,
-                  padding: combinedPadding,
                   border: templateDesign.formBorderStyle,
                   borderRadius: templateDesign.borderRadius,
                   borderWidth: templateDesign.borderWidth,
@@ -225,10 +222,10 @@ function ExitProductRecommenderPopup({
                     ${product.price}
                   </p>
                   <a
-                    className="block w-full bg-[#ed5a29] text-white py-2 rounded hover:bg-gray-800 mt-4"
+                    className="block w-full] text-white py-2 rounded hover:bg-gray-800 mt-4"
                     href="#"
                     style={{
-                      backgroundColor: "bg-[#ed5a29]",
+                      backgroundColor: templateDesign.templateButtonBgColor,
                     }}
                   >
                     {templateDesign.button}
