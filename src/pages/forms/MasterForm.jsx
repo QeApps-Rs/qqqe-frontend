@@ -291,14 +291,16 @@ const MasterForm = () => {
     return classes.trim();
   };
   const imagePositionContainer = `${
-    templateDesign.imagePosition === "0" ? "-order-none rounded-r-[90px]" : "order-1 rounded-l-[90px]"
+    templateDesign.imagePosition === "0"
+      ? "-order-none rounded-r-[90px]"
+      : "order-1 rounded-l-[90px]"
   }`;
 
   const imageSrc = !success
     ? templateDesign.image || popup_img
     : templateDesign.successImage || popup_img;
 
-  const surveyBannerImgSrc = templateDesign.image  || surveyPopupBannerImg;
+  const surveyBannerImgSrc = templateDesign.image || surveyPopupBannerImg;
   const socialMediaPopupimageSrc = templateDesign.image;
 
   const surveyImageSrc =
@@ -337,8 +339,8 @@ const MasterForm = () => {
 
         if (response.success) {
           const responseKeywords = response?.data?.keywords.split(",");
-          console.log(['responseKeywords', responseKeywords]);
-          
+          console.log(["responseKeywords", responseKeywords]);
+
           if (responseKeywords?.includes("Bundle")) {
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
@@ -353,7 +355,7 @@ const MasterForm = () => {
           } else if (
             responseKeywords?.includes("Purchase Satisfaction Survey")
           ) {
-            purchaseSatisfactionSurveyDefaultImage
+            purchaseSatisfactionSurveyDefaultImage;
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isPurchaseSatisfactionSurvey: true,
@@ -391,7 +393,7 @@ const MasterForm = () => {
 
           // }
           else if (responseKeywords?.includes("Survey Popup")) {
-            console.log(['check1'])
+            console.log(["check1"]);
             setSuggestionTemplateStatus({
               ...suggestionTemplateStatus,
               isSurveyPopup: true,
@@ -567,7 +569,7 @@ const MasterForm = () => {
                   options: sitem.answers,
                 };
               });
-              console.log("updatedSurveyState" , updatedSurveyState)
+            console.log("updatedSurveyState", updatedSurveyState);
             setAddedQuestion(updatedSurveyState || []);
           }
         }
@@ -851,33 +853,33 @@ const MasterForm = () => {
     reviewCount,
     ratingCount,
   };
-const surveyProps ={
-  isView,
-  templateDesign,
-  surveyBannerImgSrc,
-  formClasses,
-  containerClass,
-  success,
-  successImg,
-  getStyle,
-  handleDeleteField,
-  handleInputChange,
-  inputValues,
-  handleEdit,
-  isSubmitted,
-  addedFields,
-  handleSubmit,
-  addedQuestion,
-  handleSurveyInputChange,
-  inputSurveyValues,
-  handleSurveyDeleteField,
-  handleSurveyEdit,
-  renderStars,
-  renderNumbers,
-  reviewCount,
-  ratingCount,
-}
-console.log("addedQuestion" , addedQuestion)
+  const surveyProps = {
+    isView,
+    templateDesign,
+    surveyBannerImgSrc,
+    formClasses,
+    containerClass,
+    success,
+    successImg,
+    getStyle,
+    handleDeleteField,
+    handleInputChange,
+    inputValues,
+    handleEdit,
+    isSubmitted,
+    addedFields,
+    handleSubmit,
+    addedQuestion,
+    handleSurveyInputChange,
+    inputSurveyValues,
+    handleSurveyDeleteField,
+    handleSurveyEdit,
+    renderStars,
+    renderNumbers,
+    reviewCount,
+    ratingCount,
+  };
+  console.log("addedQuestion", addedQuestion);
   const worldWideWelcomeProps = {
     templateDesign,
     getStyle,
@@ -1153,13 +1155,14 @@ console.log("addedQuestion" , addedQuestion)
               }
               if (
                 suggestionTemplateStatus?.isFeedbackSurvey ||
-                suggestionTemplateStatus?.isAttributionSurvey || suggestionTemplateStatus?.isSurveyPopup
+                suggestionTemplateStatus?.isAttributionSurvey ||
+                suggestionTemplateStatus?.isSurveyPopup
               ) {
                 return (
                   item.tag !== "bundle" && item.tag !== "successController"
                 );
               }
-              if (suggestionTemplateStatus?.isPurchaseSatisfactionSurvey ) {
+              if (suggestionTemplateStatus?.isPurchaseSatisfactionSurvey) {
                 return (
                   item.tag !== "successController" && item.tag !== "bundle"
                 );
@@ -1174,6 +1177,10 @@ console.log("addedQuestion" , addedQuestion)
                   item.tag !== "bundle"
                 );
               }
+              if (suggestionTemplateStatus?.isPreviewPopup) {
+                return item.tag !== "surveyController" && item.tag !== "bundle";
+              }
+
               return item.tag !== "bundle";
             })
             .map((item, index) => (
@@ -1472,7 +1479,6 @@ console.log("addedQuestion" , addedQuestion)
           <div
             className="flex items-center justify-center py-5 bg-white"
             style={{
-              
               minHeight: "calc(100vh - 300px)",
             }}
           >
@@ -1569,7 +1575,7 @@ console.log("addedQuestion" , addedQuestion)
               }}
             >
               <div
-                className={` w-[150px] h-[150px] overflow-hidden  ${imagePositionContainer }`}
+                className={` w-[150px] h-[150px] overflow-hidden  ${imagePositionContainer}`}
                 // style={{
                 //   backgroundColor: templateDesign.templateOverlayColor,
                 // }}
@@ -1681,7 +1687,6 @@ console.log("addedQuestion" , addedQuestion)
           </div>
         )} */}
 
-     
         {suggestionTemplateStatus.isUpSellPopup && (
           <ProductUpSellPopUp
             productData={productListForPopUp}
@@ -1752,7 +1757,7 @@ console.log("addedQuestion" , addedQuestion)
             </div>
           </>
         )}
-           {suggestionTemplateStatus.isSurveyPopup && (
+        {suggestionTemplateStatus.isSurveyPopup && (
           <SurveyPopUp {...surveyProps} />
         )}
         {suggestionTemplateStatus.isPreviewPopup && (
