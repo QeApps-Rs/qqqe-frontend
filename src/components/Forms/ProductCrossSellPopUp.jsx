@@ -17,7 +17,6 @@ function ProductCrossSellPopUp({
             key={index}
             className="flex flex-col md:flex-row items-center rounded-lg gap-4 w-full bg-white"
             style={{
-              padding: combinedPadding,
               order: templateDesign.imagePosition,
               borderRadius: templateDesign.borderRadius || "16px",
             }}

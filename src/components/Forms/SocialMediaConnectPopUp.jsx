@@ -29,8 +29,6 @@ const SocialMediaConnectPopUp = ({
         borderColor: templateDesign.templateBorderColor,
         border: templateDesign.formBorderStyle,
         borderStyle: templateDesign.formBorderStyle,
-        padding: combinedPadding,
-        margin: combinedMargin,
         boxShadow:
         "rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) -2px -4px 3px",
       }}

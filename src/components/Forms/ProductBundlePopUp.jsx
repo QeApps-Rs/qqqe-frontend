@@ -14,10 +14,8 @@ function ProductBundlePopUp({
         {Array.from({ length: noOfProducts }, (_, index) => (
           <div
             key={index}
-            style={{
-              padding: combinedPadding,
-            }}
-            className="flex flex-col items-start rounded-lg bg-white"
+   
+            className="flex flex-col items-start rounded-lg bg-white p-4"
           >
             <div className="mb-4 w-full">
               <a href="#">
@@ -118,10 +116,8 @@ function ProductBundlePopUp({
               productData.map((product, index) => (
                 <div
                   key={index}
-                  className="flex flex-col items-start rounded-lg bg-white"
-                  style={{
-                    padding: combinedPadding,
-                  }}
+                  className="flex flex-col items-start rounded-lg bg-white p-4"
+              
                 >
                   <div className="mb-4 w-full">
                     <a href="#">

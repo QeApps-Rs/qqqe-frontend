@@ -26,15 +26,14 @@ const WorldWideWelcomePopUp = ({
         borderColor: templateDesign.templateBorderColor,
         border: templateDesign.formBorderStyle,
         borderStyle: templateDesign.formBorderStyle,
-        padding: combinedPadding,
-        margin: combinedMargin,
       }}
     >
       <div className="w-1/2 flex justify-center h-full items-center py-10 px-4 flex-col">
         {" "}
         <div className="text-center mb-8">
           <div className="relative bg-white p-4 rounded-lg shadow-lg">
-            <div className="text-lg italic text-gray-900">
+            <div className="text-lg italic text-gray-900"          style={getStyle(templateDesign, "templateHeading")}>
+
               {templateDesign.heading}
             </div>
 

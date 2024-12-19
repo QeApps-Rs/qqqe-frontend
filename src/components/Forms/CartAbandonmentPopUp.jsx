@@ -44,12 +44,12 @@ function CartAbandonmentPopUp({
     );
   };
 
-  const combinedPadding = `
-    ${templateDesign.templatePaddingTop} 
-    ${templateDesign.templatePaddingRight} 
-    ${templateDesign.templatePaddingBottom} 
-    ${templateDesign.templatePaddingLeft}
-  `;
+  // const combinedPadding = `
+  //   ${templateDesign.templatePaddingTop} 
+  //   ${templateDesign.templatePaddingRight} 
+  //   ${templateDesign.templatePaddingBottom} 
+  //   ${templateDesign.templatePaddingLeft}
+  // `;
 
   return (
     <div
@@ -62,7 +62,6 @@ function CartAbandonmentPopUp({
         style={{
           backgroundColor: templateDesign.templateBgColor,
           borderRadius: templateDesign.borderRadius,
-          padding: combinedPadding,
           boxShadow:
             "rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) -2px -4px 3px",
         }}

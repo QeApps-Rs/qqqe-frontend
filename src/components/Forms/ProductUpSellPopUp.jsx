@@ -27,7 +27,6 @@ function ProductUpSellPopUp({
             key={index}
             className="rounded-lg "
             style={{
-              padding: combinedPadding,
               backgroundColor: "transparent",
             }}
           >
@@ -77,14 +76,13 @@ function ProductUpSellPopUp({
     <>
       <div
         id="product-upSell-popup"
-        className="justify-center items-center flex  w-full bg-white shadow-[6px_0px_7px_#ccc]"
-        style={{ height: "calc(100vh - 300px)" }}
-      >
+        className="justify-center items-center flex  w-full bg-white shadow-[6px_0px_7px_#ccc] px-4 py-6"
+        style={{ minHeight: "calc(100vh - 300px)" }}
+>
         <div
-          className=" w-full max-w-3xl relative  shadow-[7px_-7px_57px_#ccc]"
+          className=" w-full max-w-3xl relative  shadow-[7px_-7px_57px_#ccc] px-4 py-6"
           style={{
             backgroundColor: templateDesign.templateBgColor ,
-            padding: combinedPadding,
             borderRadius: templateDesign.borderRadius ,
           }}
         >
@@ -97,7 +95,7 @@ function ProductUpSellPopUp({
             </h5>
           </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-h-[360px] overflow-auto"  style={{
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"  style={{
               borderWidth: templateDesign.borderWidth,
               border: templateDesign.formBorderStyle,
               borderStyle: templateDesign.formBorderStyle,
@@ -135,7 +133,7 @@ function ProductUpSellPopUp({
                       ${product.price}
                     </div>
                     <a
-                      className="block w-full text-center  text-black border border-white py-2 rounded hover:bg-gray-800"
+                      className="block w-full text-center  text-white border border-white py-2 rounded hover:bg-gray-800"
                       href="#"
                       style={{
                         backgroundColor: templateDesign.templateButtonBgColor,
