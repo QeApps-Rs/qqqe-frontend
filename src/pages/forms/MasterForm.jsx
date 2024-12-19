@@ -35,6 +35,7 @@ import SocialMediaConnectPopUp from "../../components/Forms/SocialMediaConnectPo
 import WorldWideWelcomePopUp from "../../components/Forms/WorldWideWelcomePopUp";
 import TemplateBannerComponent from "./TemplateBannerComponent";
 import SurveyPopUp from "../../components/Forms/SurveyPopUp";
+import socialMediaPopupImg from "../../images/facebook_logo.png";
 
 const MasterForm = () => {
   //  shiv code start
@@ -301,7 +302,7 @@ const MasterForm = () => {
     : templateDesign.successImage || popup_img;
 
   const surveyBannerImgSrc = templateDesign.image || surveyPopupBannerImg;
-  const socialMediaPopupimageSrc = templateDesign.image;
+  const socialMediaPopupimageSrc = templateDesign.image || socialMediaPopupImg;
 
   const surveyImageSrc =
     templateDesign.image || purchaseSatisfactionSurveyDefaultImage;
