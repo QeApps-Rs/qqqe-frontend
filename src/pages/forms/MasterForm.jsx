@@ -1569,7 +1569,7 @@ console.log("addedQuestion" , addedQuestion)
               }}
             >
               <div
-                className={` rounded-l-none  w-[150px] h-[150px] overflow-hidden  ${imagePositionContainer }`}
+                className={` w-[150px] h-[150px] overflow-hidden  ${imagePositionContainer }`}
                 // style={{
                 //   backgroundColor: templateDesign.templateOverlayColor,
                 // }}
