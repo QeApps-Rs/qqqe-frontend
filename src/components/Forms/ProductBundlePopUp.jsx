@@ -14,7 +14,6 @@ function ProductBundlePopUp({
         {Array.from({ length: noOfProducts }, (_, index) => (
           <div
             key={index}
-   
             className="flex flex-col items-start rounded-lg bg-white p-4"
           >
             <div className="mb-4 w-full">
@@ -60,14 +59,13 @@ function ProductBundlePopUp({
       <div
         id="product-bundle"
         className="justify-center items-center flex w-full bg-white py-5 "
-
-        style={{minHeight:"calc(100vh - 300px)"}}
+        style={{ minHeight: "calc(100vh - 300px)" }}
       >
         <div
           className="p-6 w-full lg:w-3/5 sm:p-4 relative  shadow-[7px_-7px_57px_#ccc]"
           style={{
             backgroundColor: templateDesign.templateBgColor,
-            borderRadius: templateDesign.borderRadius ,
+            borderRadius: templateDesign.borderRadius,
           }}
         >
           <div className="flex justify-end mb-2">
@@ -107,9 +105,8 @@ function ProductBundlePopUp({
             }`}
             style={{
               borderWidth: templateDesign.borderWidth,
-              borderColor: templateDesign.templateBorderColor,
-              border: templateDesign.formBorderStyle,
               borderStyle: templateDesign.formBorderStyle,
+              borderColor: templateDesign.templateBorderColor,
             }}
           >
             {productData && productData.length > 0 ? (
@@ -117,7 +114,6 @@ function ProductBundlePopUp({
                 <div
                   key={index}
                   className="flex flex-col items-start rounded-lg bg-white p-4"
-              
                 >
                   <div className="mb-4 w-full">
                     <a href="#">
