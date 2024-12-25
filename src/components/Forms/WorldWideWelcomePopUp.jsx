@@ -20,13 +20,13 @@ const WorldWideWelcomePopUp = ({
     <div
       className="relative flex justify-center shadow-lg w-3/5"
       style={{
-        backgroundColor: templateDesign.templateBgColor,
-        borderRadius: templateDesign.borderRadius,
         borderWidth: templateDesign.borderWidth,
-        borderColor: templateDesign.templateBorderColor,
-        border: templateDesign.formBorderStyle,
         borderStyle: templateDesign.formBorderStyle,
+        borderColor: templateDesign.templateBorderColor,
+        borderRadius: templateDesign.borderRadius,
+        backgroundColor: templateDesign.templateBgColor,
       }}
+      
     >
       <div className="w-1/2 flex justify-center h-full items-center py-10 px-4 flex-col">
         {" "}
