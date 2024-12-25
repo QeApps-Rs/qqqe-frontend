@@ -146,6 +146,9 @@ const CampaignsDetailsPage = () => {
 
   const [customers, setCustomers] = useState([]);
   const [devices, setDevices] = useState([]);
+  const [addedEmails, setAddedEmails] = useState([]);
+  const [emailTemplateDetail, setEmailTemplateDetail] = useState([]);
+
   const changeAppliedStatus = async (problemId, statementId, currentStatus) => {
     try {
       const result = await FormSubmitHandler({
@@ -163,6 +166,7 @@ const CampaignsDetailsPage = () => {
       console.error("Error in toggling status: ", error);
     }
   };
+
   useEffect(() => {
     const fetchSuggestionDetailsData = async () => {
       try {
@@ -241,7 +245,7 @@ const CampaignsDetailsPage = () => {
                 setClickCount(clickCount);
                 setViewCount(viewCount);
               }
-              if (res.data.countryWiseChartData.seriesData.length > 0) {
+              if (res.data?.countryWiseChartData?.seriesData?.length > 0) {
                 setCountryWiseCustomerChart({
                   ...countryWiseCustomerChart,
                   ...res.data.countryWiseChartData,
@@ -255,6 +259,10 @@ const CampaignsDetailsPage = () => {
               if (res?.data?.devices?.length > 0) {
                 setDevices(res?.data?.devices);
               }
+
+              setAddedEmails(res?.data?.addedEmails);
+
+              setEmailTemplateDetail(res?.data?.emailTemplateTracking);
             }
           })
           .catch((err) => {
@@ -432,49 +440,51 @@ const CampaignsDetailsPage = () => {
           </div>
         )}
 
-        <h2 className="text-xl font-bold text-gray-800 my-4">
-          Campaigns Statistics
-        </h2>
         {type === "suggestion" && (
-          <div className="grid grid-cols-4 gap-4">
-            {renderCampaignBox("Impressions", impressionCount)}
-            {renderCampaignBox("Clicks", clickCount)}
-            {renderCampaignBox("Conversions", conversionCount)}
-            {renderCampaignBox("Views", viewCount)}
-          </div>
+          <>
+            <h2 className="text-xl font-bold text-gray-800 my-4">
+              Campaigns Statistics
+            </h2>
+            <div className="grid grid-cols-4 gap-4">
+              {renderCampaignBox("Impressions", impressionCount)}
+              {renderCampaignBox("Clicks", clickCount)}
+              {renderCampaignBox("Conversions", conversionCount)}
+              {renderCampaignBox("Views", viewCount)}
+            </div>
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <SalesLineGraph
+                salesLineData={weeklyImpressionCount}
+                lineCategories={[...defaultDayName]}
+                lineyAxisTitle="Impression counts"
+                title="Weekly impression charts"
+                tooltipTitle="Impression"
+              />
+              <SalesBarGraph
+                salesBarData={monthlyImpressionCount}
+                barCategories={[...defaultMonthName]}
+                baryAxisTitle="Impression counts"
+                title="Monthly impression charts"
+                tooltipTitle="Impression"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <SalesLineGraph
+                salesLineData={weeklyViewCount}
+                lineCategories={[...defaultDayName]}
+                lineyAxisTitle="View counts"
+                title="Weekly view charts"
+                tooltipTitle="View"
+              />
+              <SalesBarGraph
+                salesBarData={monthlyViewCount}
+                barCategories={[...defaultMonthName]}
+                baryAxisTitle="View counts"
+                title="Monthly view charts"
+                tooltipTitle="View"
+              />
+            </div>
+          </>
         )}
-        <div className="grid grid-cols-2 gap-4 mt-4">
-          <SalesLineGraph
-            salesLineData={weeklyImpressionCount}
-            lineCategories={[...defaultDayName]}
-            lineyAxisTitle="Impression counts"
-            title="Weekly impression charts"
-            tooltipTitle="Impression"
-          />
-          <SalesBarGraph
-            salesBarData={monthlyImpressionCount}
-            barCategories={[...defaultMonthName]}
-            baryAxisTitle="Impression counts"
-            title="Monthly impression charts"
-            tooltipTitle="Impression"
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-4 mt-4">
-          <SalesLineGraph
-            salesLineData={weeklyViewCount}
-            lineCategories={[...defaultDayName]}
-            lineyAxisTitle="View counts"
-            title="Weekly view charts"
-            tooltipTitle="View"
-          />
-          <SalesBarGraph
-            salesBarData={monthlyViewCount}
-            barCategories={[...defaultMonthName]}
-            baryAxisTitle="View counts"
-            title="Monthly view charts"
-            tooltipTitle="View"
-          />
-        </div>
         <div className="grid gap-4 mt-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {countryWiseCustomerChart.seriesData.length > 0 && (
@@ -537,8 +547,8 @@ const CampaignsDetailsPage = () => {
                 )
               )}
             </div>
-            <div className="max-h-80 overflow-y-auto custom-scrollbar">
-              {devices?.map((device, index) => (
+            <div className="max-h-80 overflow-y-auto custom-scrollbar" >
+            {devices?.map((device, index) => (
                 <div
                   className="grid grid-cols-4 border-t border-stroke py-4.5 px-48 md:px-6 2xl:px-7.5"
                   key={index}
@@ -577,6 +587,85 @@ const CampaignsDetailsPage = () => {
             </div>
           </div>
         )}
+        {addedEmails?.length > 0 && (
+          <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
+            <h2 className="font-semibold text-xl text-black">
+              Subscription Email Data
+            </h2>
+            <div className="grid grid-cols-4 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
+              {["Email"].map((header, index1) => (
+                <div className="col-span-1" key={index1}>
+                  <p className="text-black font-bold">{header}</p>
+                </div>
+              ))}
+            </div>
+            <div className="max-h-80 overflow-y-auto custom-scrollbar">
+              {addedEmails?.map((addedEmail, index) => (
+                <div
+                  className="grid grid-cols-4 border-t border-stroke py-4.5 px-48 md:px-6 2xl:px-7.5"
+                  key={index}
+                >
+                  <div className="col-span-1 flex items-center">
+                    <div className="text-graydark">
+                      <span className="text-blue-600">{addedEmail}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {emailTemplateDetail?.length > 0 && (
+          <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
+            <h2 className="font-semibold text-xl text-black">
+              Email List Details
+            </h2>
+            <div className="grid grid-cols-4 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
+              {["Email", "Sent At", "Read", "Click"].map((header, index1) => (
+                <div className="col-span-1" key={index1}>
+                  <p className="text-black font-bold">{header}</p>
+                </div>
+              ))}
+            </div>
+            <div className="max-h-80 overflow-y-auto custom-scrollbar" style={{width : "calc(100% + 13px)"}}>
+              {emailTemplateDetail?.map((etdRecord, index) => (
+                <div
+                  className="grid grid-cols-4 border-t border-stroke py-4.5 px-48 md:px-6 2xl:px-7.5"
+                  key={index}
+                >
+                  <div className="col-span-1 flex items-center">
+                    <div className="text-graydark">
+                      <span className="text-blue-600">{etdRecord.email}</span>
+                    </div>
+                  </div>
+                  <div className="col-span-1 flex items-center">
+                    <div className="text-graydark">
+                      <span className="text-blue-600">
+                        {etdRecord.created_at}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="col-span-1 flex items-center">
+                    <div className="text-graydark">
+                      <span className="text-blue-600">
+                        {etdRecord.read_at ? "Yes" : "No"}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="col-span-1 flex items-center">
+                    <div className="text-graydark">
+                      <span className="text-blue-600">
+                        {etdRecord.read_at ? "Yes" : "No"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="flex justify-between items-center mt-4">
           <h1 className="text-lg font-bold text-gray-800">Campaigns</h1>
           <div className="flex">
