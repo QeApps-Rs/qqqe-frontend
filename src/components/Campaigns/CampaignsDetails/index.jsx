@@ -621,8 +621,8 @@ const CampaignsDetailsPage = () => {
             <h2 className="font-semibold text-xl text-black">
               Email List Details
             </h2>
-            <div className="grid grid-cols-4 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
-              {["Email", "Sent At", "Read", "Click"].map((header, index1) => (
+            <div className="grid grid-cols-5 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
+              {["Email", "Sent At", "Read", "Open Rate", "Click"].map((header, index1) => (
                 <div className="col-span-1" key={index1}>
                   <p className="text-black font-bold">{header}</p>
                 </div>
@@ -631,7 +631,7 @@ const CampaignsDetailsPage = () => {
             <div className="max-h-80 overflow-y-auto custom-scrollbar" style={{width : "calc(100% + 13px)"}}>
               {emailTemplateDetail?.map((etdRecord, index) => (
                 <div
-                  className="grid grid-cols-4 border-t border-stroke py-4.5 px-48 md:px-6 2xl:px-7.5"
+                  className="grid grid-cols-5 border-t border-stroke py-4.5 px-48 md:px-6 2xl:px-7.5"
                   key={index}
                 >
                   <div className="col-span-1 flex items-center">
@@ -643,6 +643,13 @@ const CampaignsDetailsPage = () => {
                     <div className="text-graydark">
                       <span className="text-blue-600">
                         {etdRecord.created_at}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="col-span-1 flex items-center">
+                    <div className="text-graydark">
+                      <span className="text-blue-600">
+                        {etdRecord.read_at ? "Yes" : "No"}
                       </span>
                     </div>
                   </div>
