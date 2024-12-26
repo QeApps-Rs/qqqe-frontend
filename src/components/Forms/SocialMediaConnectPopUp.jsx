@@ -4,10 +4,9 @@ import TemplateBannerComponent from "../../pages/forms/TemplateBannerComponent";
 const SocialMediaConnectPopUp = ({
   getStyle,
   templateDesign,
-  combinedPadding,
-  combinedMargin,
+  successImg,
   socialMediaPopupimageSrc,
-  formClasses,
+  success,
   handleSubmit,
   addedFields,
   handleInputChange,
@@ -17,33 +16,70 @@ const SocialMediaConnectPopUp = ({
   inputValues,
 }) => {
   return (
-    <div
-    className="flex justify-center items-center w-full bg-white px-4 py-6"
-  >
-    <div
+    <div className="flex justify-center items-center w-full bg-white px-4 py-6">
+      <div
         className="p-6 w-full max-w-2xl rounded-xl flex justify-center"
         style={{
-        background: templateDesign.templateBgColor || "#949494",
-        borderRadius: templateDesign.borderRadius || "12px",
-        borderWidth: templateDesign.borderWidth,
-        borderColor: templateDesign.templateBorderColor,
-        border: templateDesign.formBorderStyle,
-        borderStyle: templateDesign.formBorderStyle,
-        boxShadow:
-        "rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) -2px -4px 3px",
-      }}
-    >
-      <div
-        className="flex justify-center items-center flex-col w-9/12 "
+          background: templateDesign.templateBgColor || "#949494",
+          borderRadius: templateDesign.borderRadius || "12px",
+          borderWidth: templateDesign.borderWidth,
+          borderColor: templateDesign.templateBorderColor,
+          border: templateDesign.formBorderStyle,
+          borderStyle: templateDesign.formBorderStyle,
+          boxShadow:
+            "rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) -2px -4px 3px",
+        }}
       >
-      
-          <div className="flex justify-center mb-4">
-          
+      { success ? 
+          <div
+            className={`${
+              templateDesign.containPosition === "center"
+                ? "text-center"
+                : templateDesign.containPosition === "right"
+                ? "text-right"
+                : "text-left"
+            } flex flex-col justify-center w-full p-4`}
+          >
+            <div
+              className={`${
+                templateDesign.containPosition === "center"
+                  ? "justify-center"
+                  : templateDesign.containPosition === "left"
+                  ? "justify-start"
+                  : "justify-end"
+              } flex w-full`}
+            >
               <img
-                src={socialMediaPopupimageSrc}
-                alt="Facebook Icon"
-                className="w-8 h-8"
+                src={successImg}
+                alt="Success"
+                className="max-w-[130px] w-12 h-12 rounded-full object-cover"
               />
+            </div>
+            <h2
+              className="text-4xl font-bold mt-4"
+              style={getStyle(templateDesign, "successHeading")}
+            >
+              {templateDesign.successHeading}
+            </h2>
+            <span
+              className="text-xl font-bold mt-4"
+              style={getStyle(templateDesign, "successSubHeading")}
+            >
+              {templateDesign.successSubHeading}
+            </span>
+            <p
+              className="text-lg mt-4"
+              style={getStyle(templateDesign, "successDescription")}
+            >
+              {templateDesign.successDescription}
+            </p>
+          </div> :  <div className="flex justify-center items-center flex-col w-9/12 ">
+          <div className="flex justify-center mb-4">
+            <img
+              src={socialMediaPopupimageSrc}
+              alt="Facebook Icon"
+              className="w-8 h-8"
+            />
           </div>
 
           <h2
@@ -57,7 +93,7 @@ const SocialMediaConnectPopUp = ({
             className="text-center text-gray-600 mb-6"
             style={getStyle(templateDesign, "templateSubHeading")}
           >
-            {templateDesign.subHeading }
+            {templateDesign.subHeading}
           </p>
 
           {/* <form className="space-y-4">
@@ -97,7 +133,10 @@ const SocialMediaConnectPopUp = ({
             </button>
           </form> */}
 
-          <form className="flex flex-col space-y-4 w-full" onSubmit={handleSubmit}>
+          <form
+            className="flex flex-col space-y-4 w-full"
+            onSubmit={handleSubmit}
+          >
             {addedFields.map((field, index) => (
               <TemplateBannerComponent
                 key={index}
@@ -110,22 +149,21 @@ const SocialMediaConnectPopUp = ({
                 onEdit={() => handleEdit(field, index)}
               />
             ))}
-<div className="w-full flex justify-center">
-<button
-              type="submit"
-              className="bg-black text-white py-3 rounded-full text-lg mt-3 w-[75%]"
-              style={{
-                backgroundColor: templateDesign.templateButtonBgColor,
-              }}
-            >
-              {templateDesign.button}
-            </button>
-</div>
-           
+            <div className="w-full flex justify-center">
+              <button
+                type="submit"
+                className="bg-black text-white py-3 rounded-full text-lg mt-3 w-[75%]"
+                style={{
+                  backgroundColor: templateDesign.templateButtonBgColor,
+                }}
+              >
+                {templateDesign.button}
+              </button>
+            </div>
           </form>
-        </div>
+        </div>}
       </div>
-      </div>
+    </div>
   );
 };
 export default SocialMediaConnectPopUp;

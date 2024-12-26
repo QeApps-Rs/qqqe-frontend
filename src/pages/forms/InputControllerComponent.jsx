@@ -461,7 +461,6 @@ const InputControllerComponent = ({
                 )}
 
                 {!isPurchaseSatisfactionSurvey &&
-                  !isFeedbackSurvey &&
                   !isSurveyPopup && (
                     <div className="mb-6">
                       <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
@@ -481,7 +480,7 @@ const InputControllerComponent = ({
                           className="w-full p-2 border rounded-md focus:outline-none"
                         />
                         <div className="flex items-center mt-3 justify-between">
-                          <span className="block font-semibold">Color:</span>
+                          <span className="block font-semibold">Background Color:</span>
                           <ColorPicker
                             defaultColor={templateDesign.templateButtonBgColor}
                             onChange={(color) =>

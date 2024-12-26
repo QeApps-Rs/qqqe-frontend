@@ -7,6 +7,8 @@ function ProductBundlePopUp({
   noOfProducts,
   templateDesign,
   getStyle,
+  success,
+  successImg
 }) {
   const DefaultProductDiv = ({ noOfProducts, defaultProductImg }) => {
     return (
@@ -68,95 +70,143 @@ function ProductBundlePopUp({
             borderRadius: templateDesign.borderRadius,
           }}
         >
-          <div className="flex justify-end mb-2">
-            <h4
-              className="leading-none font-bold"
-              style={getStyle(templateDesign, "templateEmail")}
+          {success ? (
+            <div
+              className={`${
+                templateDesign.containPosition === "center"
+                  ? "text-center"
+                  : templateDesign.containPosition === "right"
+                  ? "text-right"
+                  : "text-left"
+              } flex flex-col justify-center w-full p-4`}
             >
-              {templateDesign.templateEmailText}
-            </h4>
-          </div>
-          <div className="text-center mb-4">
-            <h5
-              style={getStyle(templateDesign, "templateHeading")}
-              className="leading-none font-bold"
-            >
-              {templateDesign.heading}
-            </h5>
-            {/* <h4
+              <div
+                className={`${
+                  templateDesign.containPosition === "center"
+                    ? "justify-center"
+                    : templateDesign.containPosition === "left"
+                    ? "justify-start"
+                    : "justify-end"
+                } flex w-full`}
+              >
+                <img
+                  src={successImg}
+                  alt="Success"
+                  className="max-w-[130px] w-12 h-12 rounded-full object-cover"
+                />
+              </div>
+              <h2
+                className="text-4xl font-bold mt-4"
+                style={getStyle(templateDesign, "successHeading")}
+              >
+                {templateDesign.successHeading}
+              </h2>
+              <span
+                className="text-xl font-bold mt-4"
+                style={getStyle(templateDesign, "successSubHeading")}
+              >
+                {templateDesign.successSubHeading}
+              </span>
+              <p
+                className="text-lg mt-4"
+                style={getStyle(templateDesign, "successDescription")}
+              >
+                {templateDesign.successDescription}
+              </p>
+            </div>
+          ) : (
+            <>
+              {" "}
+              <div className="flex justify-end mb-2">
+                <h4
+                  className="leading-none font-bold"
+                  style={getStyle(templateDesign, "templateEmail")}
+                >
+                  {templateDesign.templateEmailText}
+                </h4>
+              </div>
+              <div className="text-center mb-4">
+                <h5
+                  style={getStyle(templateDesign, "templateHeading")}
+                  className="leading-none font-bold"
+                >
+                  {templateDesign.heading}
+                </h5>
+                {/* <h4
               className="leading-none mt-4"
               style={getStyle(templateDesign, "templateOffer")}
             >
               {templateDesign.offerAmount || "Pick up where you left off"}
             </h4> */}
-            <p
-              className="mt-4 leading-none"
-              style={getStyle(templateDesign, "templateSubHeading")}
-            >
-              {templateDesign.subHeading}
-            </p>
-          </div>
-
-          <div
-            className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6 sm:p-4 rounded-lg ${
-              productData && productData.length > 0
-                ? ""
-                : "max-h-[calc(100vh-300px)] overflow-y-auto"
-            }`}
-            style={{
-              borderWidth: templateDesign.borderWidth,
-              borderStyle: templateDesign.formBorderStyle,
-              borderColor: templateDesign.templateBorderColor,
-            }}
-          >
-            {productData && productData.length > 0 ? (
-              productData.map((product, index) => (
-                <div
-                  key={index}
-                  className="flex flex-col items-start rounded-lg bg-white p-4"
+                <p
+                  className="mt-4 leading-none"
+                  style={getStyle(templateDesign, "templateSubHeading")}
                 >
-                  <div className="mb-4 w-full">
-                    <a href="#">
-                      <img
-                        src={product.image}
-                        alt={product.variantHandle}
-                        className="w-full h-40 rounded-lg object-cover"
-                      />
-                    </a>
-                  </div>
-                  <div className="text-center mb-2 ">
-                    <Tooltip
-                      title={product.title}
-                      position="bottom"
-                      trigger="mouseenter"
+                  {templateDesign.subHeading}
+                </p>
+              </div>
+              <div
+                className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6 sm:p-4 rounded-lg ${
+                  productData && productData.length > 0
+                    ? ""
+                    : "max-h-[calc(100vh-300px)] overflow-y-auto"
+                }`}
+                style={{
+                  borderWidth: templateDesign.borderWidth,
+                  borderStyle: templateDesign.formBorderStyle,
+                  borderColor: templateDesign.templateBorderColor,
+                }}
+              >
+                {productData && productData.length > 0 ? (
+                  productData.map((product, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col items-start rounded-lg bg-white p-4"
                     >
-                      <p className="text-lg font-semibold max-w-[180px] truncate">
-                        <a href="#">{product.title}</a>
-                      </p>
-                    </Tooltip>
-                  </div>
+                      <div className="mb-4 w-full">
+                        <a href="#">
+                          <img
+                            src={product.image}
+                            alt={product.variantHandle}
+                            className="w-full h-40 rounded-lg object-cover"
+                          />
+                        </a>
+                      </div>
+                      <div className="text-center mb-2 ">
+                        <Tooltip
+                          title={product.title}
+                          position="bottom"
+                          trigger="mouseenter"
+                        >
+                          <p className="text-lg font-semibold max-w-[180px] truncate">
+                            <a href="#">{product.title}</a>
+                          </p>
+                        </Tooltip>
+                      </div>
 
-                  <div className="text-center text-xl font-bold mb-4">
-                    ${product.price}
-                  </div>
-                  <a
-                    className="block w-full text-center py-2 rounded hover:bg-gray-800"
-                    href="#"
-                    style={{
-                      backgroundColor: templateDesign.templateButtonBgColor,
-                    }}
-                  >
-                    {templateDesign.button}
-                  </a>
-                </div>
-              ))
-            ) : (
-              <DefaultProductDiv
-                noOfProducts={noOfProducts}
-                defaultProductImg={defaultProductImg}
-              />
-            )}
-          </div>
+                      <div className="text-center text-xl font-bold mb-4">
+                        ${product.price}
+                      </div>
+                      <a
+                        className="block w-full text-center py-2 rounded hover:bg-gray-800"
+                        href="#"
+                        style={{
+                          backgroundColor: templateDesign.templateButtonBgColor,
+                        }}
+                      >
+                        {templateDesign.button}
+                      </a>
+                    </div>
+                  ))
+                ) : (
+                  <DefaultProductDiv
+                    noOfProducts={noOfProducts}
+                    defaultProductImg={defaultProductImg}
+                  />
+                )}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>

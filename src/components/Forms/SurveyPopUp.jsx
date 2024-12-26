@@ -65,7 +65,7 @@ const SurveyPopUp = ({
         </div>
 
         <div
-          className="p-6 lg:p-8 flex flex-col justify-start h-full"
+          className="p-6 lg:p-8 flex flex-col justify-center h-full"
           style={{
             backgroundColor: templateDesign.templateBgColor,
           }}
