@@ -5,9 +5,8 @@ import TemplateBannerComponent from "../../pages/forms/TemplateBannerComponent";
 const WorldWideWelcomePopUp = ({
   templateDesign,
   getStyle,
-  combinedPadding,
-  combinedMargin,
-  formClasses,
+  success,
+  successImg,
   handleSubmit,
   addedFields,
   handleInputChange,
@@ -28,7 +27,50 @@ const WorldWideWelcomePopUp = ({
       }}
       
     >
-      <div className="w-1/2 flex justify-center h-full items-center py-10 px-4 flex-col">
+      {success ? 
+          <div
+            className={`${
+              templateDesign.containPosition === "center"
+                ? "text-center"
+                : templateDesign.containPosition === "right"
+                ? "text-right"
+                : "text-left"
+            } flex flex-col justify-center w-full p-4`}
+          >
+            <div
+              className={`${
+                templateDesign.containPosition === "center"
+                  ? "justify-center"
+                  : templateDesign.containPosition === "left"
+                  ? "justify-start"
+                  : "justify-end"
+              } flex w-full`}
+            >
+              <img
+                src={successImg}
+                alt="Success"
+                className="max-w-[130px] w-12 h-12 rounded-full object-cover"
+              />
+            </div>
+            <h2
+              className="text-4xl font-bold mt-4"
+              style={getStyle(templateDesign, "successHeading")}
+            >
+              {templateDesign.successHeading}
+            </h2>
+            <span
+              className="text-xl font-bold mt-4"
+              style={getStyle(templateDesign, "successSubHeading")}
+            >
+              {templateDesign.successSubHeading}
+            </span>
+            <p
+              className="text-lg mt-4"
+              style={getStyle(templateDesign, "successDescription")}
+            >
+              {templateDesign.successDescription}
+            </p>
+          </div> :  <div className="w-1/2 flex justify-center h-full items-center py-10 px-4 flex-col">
         {" "}
         <div className="text-center mb-8">
           <div className="relative bg-white p-4 rounded-lg shadow-lg">
@@ -120,7 +162,7 @@ const WorldWideWelcomePopUp = ({
             {templateDesign.button}
           </button>
         </form>
-      </div>
+      </div>}
     </div>
   );
 };

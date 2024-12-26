@@ -349,7 +349,7 @@ const MasterForm = () => {
             });
             setTemplateHeaderState({
               ...templateHeaderState,
-              success: false,
+              success: true,
               desktop: false,
               mobile: false,
             });
@@ -363,7 +363,7 @@ const MasterForm = () => {
             });
             setTemplateHeaderState({
               ...templateHeaderState,
-              success: false,
+              success: true,
               desktop: false,
               mobile: false,
             });
@@ -375,7 +375,7 @@ const MasterForm = () => {
 
             setTemplateHeaderState({
               ...templateHeaderState,
-              success: false,
+              success: true,
               desktop: false,
               mobile: false,
             });
@@ -387,7 +387,7 @@ const MasterForm = () => {
           //     });
           //     setTemplateHeaderState({
           //       ...templateHeaderState,
-          //       success: false,
+          //       success: true,
           //       desktop: false,
           //       mobile: false,
           //     });
@@ -401,7 +401,7 @@ const MasterForm = () => {
             });
             setTemplateHeaderState({
               ...templateHeaderState,
-              success: false,
+              success: true,
               desktop: false,
               mobile: false,
             });
@@ -412,7 +412,7 @@ const MasterForm = () => {
             });
             setTemplateHeaderState({
               ...templateHeaderState,
-              success: false,
+              success: true,
               desktop: false,
               mobile: false,
             });
@@ -423,7 +423,7 @@ const MasterForm = () => {
             });
             setTemplateHeaderState({
               ...templateHeaderState,
-              success: false,
+              success: true,
               desktop: false,
               mobile: false,
             });
@@ -434,7 +434,7 @@ const MasterForm = () => {
             });
             setTemplateHeaderState({
               ...templateHeaderState,
-              success: false,
+              success: true,
               desktop: false,
               mobile: false,
             });
@@ -445,7 +445,7 @@ const MasterForm = () => {
             });
             setTemplateHeaderState({
               ...templateHeaderState,
-              success: false,
+              success: true,
               desktop: false,
               mobile: false,
             });
@@ -456,7 +456,7 @@ const MasterForm = () => {
             });
             setTemplateHeaderState({
               ...templateHeaderState,
-              success: false,
+              success: true,
               desktop: false,
               mobile: false,
             });
@@ -467,7 +467,7 @@ const MasterForm = () => {
             });
             setTemplateHeaderState({
               ...templateHeaderState,
-              success: false,
+              success: true,
               desktop: false,
               mobile: false,
             });
@@ -892,6 +892,8 @@ const MasterForm = () => {
     handleDeleteField,
     handleEdit,
     inputValues,
+    success,
+    successImg,
   };
 
   const socialMediaConnectProps = {
@@ -906,6 +908,8 @@ const MasterForm = () => {
     handleDeleteField,
     handleEdit,
     inputValues,
+    success,
+    successImg,
   };
 
   const convertStateToNestedObject = (state) => {
@@ -1150,33 +1154,14 @@ const MasterForm = () => {
               ) {
                 return (
                   // item.tag !== "inputController" &&
-                  item.tag !== "surveyController" &&
-                  item.tag !== "successController"
-                );
-              }
-              if (
-                suggestionTemplateStatus?.isFeedbackSurvey ||
-                suggestionTemplateStatus?.isAttributionSurvey ||
-                suggestionTemplateStatus?.isSurveyPopup
-              ) {
-                return (
-                  item.tag !== "bundle" && item.tag !== "successController"
-                );
-              }
-              if (suggestionTemplateStatus?.isPurchaseSatisfactionSurvey) {
-                return (
-                  item.tag !== "successController" && item.tag !== "bundle"
+                  item.tag !== "surveyController"
                 );
               }
               if (
                 suggestionTemplateStatus?.isWorldWideWelcomePopup ||
                 suggestionTemplateStatus?.isSocialMediaConnectPopup
               ) {
-                return (
-                  item.tag !== "surveyController" &&
-                  item.tag !== "successController" &&
-                  item.tag !== "bundle"
-                );
+                return item.tag !== "surveyController" && item.tag !== "bundle";
               }
               if (suggestionTemplateStatus?.isPreviewPopup) {
                 return item.tag !== "surveyController" && item.tag !== "bundle";
@@ -1474,6 +1459,8 @@ const MasterForm = () => {
             noOfProducts={noOfProducts}
             templateDesign={templateDesign}
             getStyle={getStyle}
+            successImg={successImg}
+            success={success}
           />
         )}
         {suggestionTemplateStatus.isFeedbackSurvey && (
@@ -1503,60 +1490,109 @@ const MasterForm = () => {
                   className={`w-full h-64 sm:h-96 md:h-full  object-cover`}
                 />
               </div>
-              <div className="flex flex-col justify-start xl:col-span-6 p-4">
-                <div className="flex justify-end mb-2">
-                  <h4
-                    className="leading-none font-bold"
-                    style={getStyle(templateDesign, "templateEmail")}
+              {success ? (
+                <div
+                  className={`${
+                    templateDesign.containPosition === "center"
+                      ? "text-center"
+                      : templateDesign.containPosition === "right"
+                      ? "text-right"
+                      : "text-left"
+                  } flex flex-col justify-center w-full xl:col-span-6 p-4`}
+                >
+                  <div
+                    className={`${
+                      templateDesign.containPosition === "center"
+                        ? "justify-center"
+                        : templateDesign.containPosition === "left"
+                        ? "justify-start"
+                        : "justify-end"
+                    } flex w-full`}
                   >
-                    {templateDesign.templateEmailText}
-                  </h4>
-                </div>
-                <div className="m-auto">
-                  <h1
-                    className="text-8xl font-bold mb-4 relative leading-none "
-                    style={getStyle(templateDesign, "templateHeading")}
-                  >
-                    {templateDesign.heading}
-                  </h1>
-                  <p
-                    className="text-lg mb-2 mt-1leading-none"
-                    style={getStyle(templateDesign, "templateSubHeading")}
-                  >
-                    {templateDesign.subHeading}
-                  </p>
-                  <form
-                    className="flex flex-col space-y-4"
-                    onSubmit={handleSubmit}
-                  >
-                    {/* Display Stars Here */}
-                    {surveyController.survey_type === "review" && (
-                      <>{renderStars(reviewCount)}</>
-                    )}
-                    {surveyController.survey_type === "rating" && (
-                      <>{renderNumbers(ratingCount)}</>
-                    )}
-                  </form>
-                  {addedFields.map((field, index) => (
-                    <TemplateBannerComponent
-                      key={index}
-                      {...field}
-                      templateDesign={templateDesign}
-                      inputValue={inputValues[field.fieldName] || ""}
-                      onInputChange={handleInputChange}
-                      isSubmitted={isSubmitted}
-                      onDelete={() => handleDeleteField(field.fieldName)}
-                      onEdit={() => handleEdit(field, index)}
+                    <img
+                      src={successImg}
+                      alt="Success"
+                      className="max-w-[130px] w-28 h-28 rounded-full object-cover"
                     />
-                  ))}
-                  <button
-                    type="button"
-                    className="bg-blue-600  text-white py-2 px-4 mt-3 rounded shadow w-full hover:bg-blue-900"
+                  </div>
+                  <h2
+                    className="text-4xl font-bold mt-4"
+                    style={getStyle(templateDesign, "successHeading")}
                   >
-                    Add
-                  </button>
+                    {templateDesign.successHeading}
+                  </h2>
+                  <span
+                    className="text-xl font-bold mt-4"
+                    style={getStyle(templateDesign, "successSubHeading")}
+                  >
+                    {templateDesign.successSubHeading}
+                  </span>
+                  <p
+                    className="text-lg mt-4"
+                    style={getStyle(templateDesign, "successDescription")}
+                  >
+                    {templateDesign.successDescription}
+                  </p>
                 </div>
-              </div>
+              ) : (
+                <div className="flex flex-col justify-start xl:col-span-6 p-4">
+                  <div className="flex justify-end mb-2">
+                    <h4
+                      className="leading-none font-bold"
+                      style={getStyle(templateDesign, "templateEmail")}
+                    >
+                      {templateDesign.templateEmailText}
+                    </h4>
+                  </div>
+                  <div className="m-auto">
+                    <h1
+                      className="text-8xl font-bold mb-4 relative leading-none "
+                      style={getStyle(templateDesign, "templateHeading")}
+                    >
+                      {templateDesign.heading}
+                    </h1>
+                    <p
+                      className="text-lg mb-2 mt-1leading-none"
+                      style={getStyle(templateDesign, "templateSubHeading")}
+                    >
+                      {templateDesign.subHeading}
+                    </p>
+                    <form
+                      className="flex flex-col space-y-4"
+                      onSubmit={handleSubmit}
+                    >
+                      {/* Display Stars Here */}
+                      {surveyController.survey_type === "review" && (
+                        <>{renderStars(reviewCount)}</>
+                      )}
+                      {surveyController.survey_type === "rating" && (
+                        <>{renderNumbers(ratingCount)}</>
+                      )}
+                    </form>
+                    {addedFields.map((field, index) => (
+                      <TemplateBannerComponent
+                        key={index}
+                        {...field}
+                        templateDesign={templateDesign}
+                        inputValue={inputValues[field.fieldName] || ""}
+                        onInputChange={handleInputChange}
+                        isSubmitted={isSubmitted}
+                        onDelete={() => handleDeleteField(field.fieldName)}
+                        onEdit={() => handleEdit(field, index)}
+                      />
+                    ))}
+                    <button
+                      type="button"
+                      style={{
+                        backgroundColor: templateDesign.templateButtonBgColor,
+                      }}
+                      className="  text-white py-2 px-4 mt-3 rounded shadow w-full hover:bg-blue-900"
+                    >
+                      {templateDesign.button}
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -1576,43 +1612,86 @@ const MasterForm = () => {
               }}
             >
               <div
-                className={` w-[150px] h-[150px] overflow-hidden  ${imagePositionContainer}`}
-                // style={{
-                //   backgroundColor: templateDesign.templateOverlayColor,
-                // }}
+                className={`max-w-[130px] min-h-[130px] overflow-hidden flex items-stretch ${imagePositionContainer}`}
               >
                 <img
                   src={surveyImageSrc}
                   alt="Round Image"
-                  className="w-full h-full object-fill"
+                  className="w-full h-auto object-cover flex-grow"
                 />
               </div>
 
-              <div className="flex flex-wrap justify-center w-full p-4">
-                <div className="mb-4">
-                  <span
-                    className="inline-block font-semibold leading-normal"
-                    style={getStyle(templateDesign, "templateHeading")}
-                  >
-                    {templateDesign.heading}
-                  </span>
-                </div>
-
-                {/* Text is already centered within the div */}
-                <form
-                  className="w-full flex flex-col items-center space-y-4"
-                  onSubmit={handleSubmit}
+              {success ? (
+                <div
+                  className={`${
+                    templateDesign.containPosition === "center"
+                      ? "text-center"
+                      : templateDesign.containPosition === "right"
+                      ? "text-right"
+                      : "text-left"
+                  } flex flex-col justify-center w-full p-4`}
                 >
-                  {(templateDesign.reviewType === "review" ||
-                    surveyController.survey_type === "review") && (
-                    <>{renderStars(reviewCount)}</>
-                  )}
-                  {(templateDesign.reviewType === "rating" ||
-                    surveyController.survey_type === "rating") && (
-                    <>{renderNumbers(ratingCount, 5, "border-[#f1e7df]")}</>
-                  )}
-                </form>
-              </div>
+                  <div
+                    className={`${
+                      templateDesign.containPosition === "center"
+                        ? "justify-center"
+                        : templateDesign.containPosition === "left"
+                        ? "justify-start"
+                        : "justify-end"
+                    } flex w-full`}
+                  >
+                    <img
+                      src={successImg}
+                      alt="Success"
+                      className="max-w-[130px] w-12 h-12 rounded-full object-cover"
+                    />
+                  </div>
+                  <h2
+                    className="text-4xl font-bold mt-4"
+                    style={getStyle(templateDesign, "successHeading")}
+                  >
+                    {templateDesign.successHeading}
+                  </h2>
+                  <span
+                    className="text-xl font-bold mt-4"
+                    style={getStyle(templateDesign, "successSubHeading")}
+                  >
+                    {templateDesign.successSubHeading}
+                  </span>
+                  <p
+                    className="text-lg mt-4"
+                    style={getStyle(templateDesign, "successDescription")}
+                  >
+                    {templateDesign.successDescription}
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-wrap justify-center w-full p-4">
+                  <div className="mb-4">
+                    <span
+                      className="inline-block font-semibold leading-normal"
+                      style={getStyle(templateDesign, "templateHeading")}
+                    >
+                      {templateDesign.heading}
+                    </span>
+                  </div>
+
+                  {/* Text is already centered within the div */}
+                  <form
+                    className="w-full flex flex-col items-center space-y-4"
+                    onSubmit={handleSubmit}
+                  >
+                    {(templateDesign.reviewType === "review" ||
+                      surveyController.survey_type === "review") && (
+                      <>{renderStars(reviewCount)}</>
+                    )}
+                    {(templateDesign.reviewType === "rating" ||
+                      surveyController.survey_type === "rating") && (
+                      <>{renderNumbers(ratingCount, 5, "border-[#f1e7df]")}</>
+                    )}
+                  </form>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -1695,6 +1774,8 @@ const MasterForm = () => {
             templateDesign={templateDesign}
             templateData={templateData}
             getStyle={getStyle}
+            success={success}
+            successImg={successImg}
           />
         )}
         {suggestionTemplateStatus.isCrossSellPopup && (
@@ -1704,6 +1785,8 @@ const MasterForm = () => {
             templateDesign={templateDesign}
             templateData={templateData}
             getStyle={getStyle}
+            success={success}
+            successImg={successImg}
           />
         )}
         {suggestionTemplateStatus.isAbandonmentPopup && (
@@ -1712,6 +1795,8 @@ const MasterForm = () => {
             templateDesign={templateDesign}
             templateData={templateData}
             getStyle={getStyle}
+            success={success}
+            successImg={successImg}
           />
         )}
         {suggestionTemplateStatus.isExitProductRecommenderPopup && (
@@ -1721,6 +1806,8 @@ const MasterForm = () => {
             templateDesign={templateDesign}
             templateData={templateData}
             getStyle={getStyle}
+            success={success}
+            successImg={successImg}
           />
         )}
         {suggestionTemplateStatus.isSocialMediaConnectPopup && (
