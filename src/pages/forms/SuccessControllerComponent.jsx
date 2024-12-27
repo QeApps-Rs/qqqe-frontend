@@ -98,7 +98,7 @@ const SuccessControllerComponent = ({
                     <input
                       id="border-thickness"
                       type="number"
-        min="0"
+                      min="0"
                       className={`${defaultBoxClassName} h-12`}
                       placeholder="px"
                       value={
@@ -126,7 +126,7 @@ const SuccessControllerComponent = ({
                 </div>
                 <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
                   <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                    Coupon Code 
+                    Template Sub-heading
                   </label>
 
                   <input
@@ -139,7 +139,8 @@ const SuccessControllerComponent = ({
                       }))
                     }
                     placeholder="pleaser enter template sub-heading"
-                    className="w-full p-2 border rounded-md focus:outline-none"
+                    className="w-full p-2 border rounded-md focus:outline-none cursor-not-allowed"
+                    disabled
                   />
                   <div className="mt-3 flex justify-between flex-row items-center">
                     <span className="block font-semibold">Font:</span>
@@ -161,8 +162,7 @@ const SuccessControllerComponent = ({
                     <input
                       id="border-thickness"
                       type="number"
-        min="0"
-                      
+                      min="0"
                       placeholder="px"
                       className={`${defaultBoxClassName} h-12`}
                       value={
@@ -190,7 +190,7 @@ const SuccessControllerComponent = ({
                 </div>
                 <div className="p-4 rounded-lg border border-stroke bg-white shadow-default mb-4">
                   <label className="mb-2.5 block text-black dark:text-white font-semibold">
-                    Button
+                    Description
                   </label>
                   <input
                     type="text"
@@ -224,8 +224,7 @@ const SuccessControllerComponent = ({
                     <input
                       id="border-thickness"
                       type="number"
-        min="0"
-
+                      min="0"
                       placeholder="px"
                       className={`${defaultBoxClassName} h-12`}
                       value={
