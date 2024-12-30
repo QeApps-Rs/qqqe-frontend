@@ -26,16 +26,12 @@ const SalesPieGraph = ({ seriesData, labels, chartTitle }) => {
           },
         },
       ],
-      title: {
-        text: chartTitle || "Product Sales Distribution", // Use chartTitle from props
-        align: "left",
-      },
+   
     },
   };
 
   return (
-    <div className="flex justify-center items-center p-4 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-      <div className="w-full h-full">
+      <div className="w-full h-full mt-5">
         <Chart
           options={chartData.options}
           series={chartData.series}
@@ -44,7 +40,6 @@ const SalesPieGraph = ({ seriesData, labels, chartTitle }) => {
           width="100%"
         />
       </div>
-    </div>
   );
 };
 

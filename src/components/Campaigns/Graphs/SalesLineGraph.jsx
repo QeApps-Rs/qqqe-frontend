@@ -7,6 +7,7 @@ const SalesLineGraph = ({
   lineyAxisTitle,
   title,
   tooltipTitle = "Sales",
+  bgColorClass
 }) => {
   // Chart options and series with dynamic data and labels
   const chartData = {
@@ -59,7 +60,7 @@ const SalesLineGraph = ({
         curve: "smooth",
       },
       title: {
-        text: title || "Product Sales",
+        text: title ,
         align: "left",
       },
       xaxis: {
@@ -74,8 +75,7 @@ const SalesLineGraph = ({
   };
 
   return (
-    <div className="flex justify-center items-center p-4 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-      <div className="w-full h-full">
+      <div className={`w-full h-full mt-5 ${bgColorClass}`}>
         <Chart
           options={chartData.options}
           series={chartData.series}
@@ -83,7 +83,6 @@ const SalesLineGraph = ({
           height={350}
         />
       </div>
-    </div>
   );
 };
 
