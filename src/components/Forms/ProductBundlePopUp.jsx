@@ -8,7 +8,7 @@ function ProductBundlePopUp({
   templateDesign,
   getStyle,
   success,
-  successImg
+  successImg,
 }) {
   const DefaultProductDiv = ({ noOfProducts, defaultProductImg }) => {
     return (
@@ -63,14 +63,16 @@ function ProductBundlePopUp({
         className="justify-center items-center flex w-full bg-white py-5 "
         style={{ minHeight: "calc(100vh - 300px)" }}
       >
-        <div
-          className="p-6 w-full lg:w-3/5 sm:p-4 relative  shadow-[7px_-7px_57px_#ccc]"
-          style={{
-            backgroundColor: templateDesign.templateBgColor,
-            borderRadius: templateDesign.borderRadius,
-          }}
-        >
-          {success ? (
+        {success ? (
+            <div
+            className="p-6 w-full max-w-3xl rounded-xl"
+            style={{
+              backgroundColor: templateDesign.templateBgColor,
+              borderRadius: templateDesign.borderRadius,
+              boxShadow:
+                "rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) -2px -4px 3px",
+            }}
+          >
             <div
               className={`${
                 templateDesign.containPosition === "center"
@@ -78,7 +80,7 @@ function ProductBundlePopUp({
                   : templateDesign.containPosition === "right"
                   ? "text-right"
                   : "text-left"
-              } flex flex-col justify-center w-full p-4`}
+              } flex flex-col justify-center m-auto w-10/12`}
             >
               <div
                 className={`${
@@ -96,27 +98,34 @@ function ProductBundlePopUp({
                 />
               </div>
               <h2
-                className="text-4xl font-bold mt-4"
+                className="font-bold mt-2"
                 style={getStyle(templateDesign, "successHeading")}
               >
                 {templateDesign.successHeading}
               </h2>
-              <span
-                className="text-xl font-bold mt-4"
-                style={getStyle(templateDesign, "successSubHeading")}
-              >
-                {templateDesign.successSubHeading}
-              </span>
               <p
-                className="text-lg mt-4"
+                className="font-normal mt-2"
                 style={getStyle(templateDesign, "successDescription")}
               >
                 {templateDesign.successDescription}
               </p>
+              <span
+                className="font-bold mt-2 cursor-pointer "
+                style={getStyle(templateDesign, "successSubHeading")}
+              >
+                {templateDesign.successSubHeading}
+              </span>
             </div>
-          ) : (
-            <>
-              {" "}
+          </div>
+        ) : (
+          <>
+            <div
+              className="p-6 w-full  max-w-3xl sm:p-4 relative  shadow-[7px_-7px_57px_#ccc]"
+              style={{
+                backgroundColor: templateDesign.templateBgColor,
+                borderRadius: templateDesign.borderRadius,
+              }}
+            >
               <div className="flex justify-end mb-2">
                 <h4
                   className="leading-none font-bold"
@@ -205,9 +214,9 @@ function ProductBundlePopUp({
                   />
                 )}
               </div>
-            </>
-          )}
-        </div>
+            </div>
+          </>
+        )}
       </div>
     </>
   );
