@@ -35,7 +35,7 @@ const AllPageStartOverviewPage = ({ category, priorityCount }) => {
             <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
               <div className="sm:col-span-12 md:col-span-12">
                 <div className="flex flex-wrap items-center gap-2">
-                  <Link to={"/problem-statement"}>
+                  <Link to={category.url}>
                     <h1 className="flex items-center text-3xl sm:text-4xl font-bold text-white hover:text-blue-400 transition-colors duration-300 transform hover:scale-105">
                       <i className="mr-2 fa fa-home bg-[#4680ff] hover:bg-[#60a5fa] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center text-lg"></i>
                       {category.title}

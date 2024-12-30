@@ -137,7 +137,7 @@ const ProblemStatements = () => {
                           </div>
                         )}
                         <Link
-                          to={`/suggestion/list/${data.id}`}
+                          to={`/suggestion/list/${data.id}?category=${categoryParam}`}
                           className="lg:flex items-baseline block"
                         >
                           <div className={classObject.state_div}>

@@ -5,7 +5,7 @@ import "react-tippy/dist/tippy.css";
 import Modal from "../higherOrderComponent/Model/model";
 import SuggestedAnalytics from "./SuggestedAnalytics";
 import FormSubmitHandler from "../FormSubmitHandler";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { BackIcon } from "../custIcon/svgIcon";
 import Support from "../Support/Support";
 import AccordionIconSvg from "../../images/svg-icons/AccordionIcon";
@@ -19,6 +19,10 @@ import NeedHelpPage from "../NeedHelp";
 
 const SuggestionCompNew = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const categoryParam = searchParams.get("category");
+  
   const defaultAccordionState = {
     icon: "",
     content: "block",
@@ -127,7 +131,7 @@ const SuggestionCompNew = () => {
   const confirmClickEvent = () => {
     // if (JSON.stringify(discountObj) === JSON.stringify(updatedDiscountObj)) {
     if (true) {
-      navigate(`/template/list/${id}s${suggestionId}`);
+      navigate(`/template/list/${id}s${suggestionId}?category=${categoryParam}`);
     } else {
       setAnalyticsModal(true);
       setIsModalOpen(false);
