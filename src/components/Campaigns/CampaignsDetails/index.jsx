@@ -126,12 +126,10 @@ const CampaignsDetailsPage = () => {
     "Product D",
     "Product E",
   ];
-  const chartTitle = "Sales by Product Category";
 
   const [countryWiseCustomerChart, setCountryWiseCustomerChart] = useState({
     seriesData: [],
     labels: [],
-    title: "Country wise customers",
   });
   const [productDetailsData, setProductDetailsData] = useState({});
   const [abTest, setAbTest] = useState([]);
@@ -306,7 +304,20 @@ const CampaignsDetailsPage = () => {
       }
     }
   };
-
+  const DashboardTitle = ({ title }) => {
+    return (
+      <div className="h-16 bg-dashboard_gradient rounded-t-lg flex justify-between items-center px-4">
+        <p className="text-white font-bold flex items-center h-full ">
+          {title}
+        </p>
+        <div className="text-white text-xl hover:bg-white hover:text-black w-10 h-10 rounded-full flex items-center justify-center cursor-pointer">
+          <i className="fa fa-exclamation" aria-hidden="true"></i>
+        </div>
+      </div>
+    );
+  };
+  const colFullWidthGraph =
+    "col-span-12 rounded-lg border border-stroke bg-white shadow-md dark:border-strokedark dark:bg-boxdark p-4 hover:shadow-xl transition-shadow duration-300 xl:col-span-6 min-h-[450px]";
   return (
     <>
       {loading && <Loader />}
@@ -451,59 +462,73 @@ const CampaignsDetailsPage = () => {
               {renderCampaignBox("Conversions", conversionCount)}
               {renderCampaignBox("Views", viewCount)}
             </div>
-            <div className="grid grid-cols-2 gap-4 mt-4">
-              <SalesLineGraph
-                salesLineData={weeklyImpressionCount}
-                lineCategories={[...defaultDayName]}
-                lineyAxisTitle="Impression counts"
-                title="Weekly impression charts"
-                tooltipTitle="Impression"
-              />
-              <SalesBarGraph
-                salesBarData={monthlyImpressionCount}
-                barCategories={[...defaultMonthName]}
-                baryAxisTitle="Impression counts"
-                title="Monthly impression charts"
-                tooltipTitle="Impression"
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4 mt-4">
-              <SalesLineGraph
-                salesLineData={weeklyViewCount}
-                lineCategories={[...defaultDayName]}
-                lineyAxisTitle="View counts"
-                title="Weekly view charts"
-                tooltipTitle="View"
-              />
-              <SalesBarGraph
-                salesBarData={monthlyViewCount}
-                barCategories={[...defaultMonthName]}
-                baryAxisTitle="View counts"
-                title="Monthly view charts"
-                tooltipTitle="View"
-              />
+            <div className="grid grid-cols-12 gap-4 mt-4">
+              <div className={colFullWidthGraph}>
+                <DashboardTitle title={"Weekly impression charts"} />
+                <SalesLineGraph
+                  salesLineData={weeklyImpressionCount}
+                  lineCategories={[...defaultDayName]}
+                  lineyAxisTitle="Impression counts"
+                  tooltipTitle="Impression"
+                />
+              </div>
+              <div className={colFullWidthGraph}>
+                <DashboardTitle title={"Monthly impression charts"} />
+
+                <SalesBarGraph
+                  salesBarData={monthlyImpressionCount}
+                  barCategories={[...defaultMonthName]}
+                  baryAxisTitle="Impression counts"
+                  tooltipTitle="Impression"
+                />
+              </div>
+
+              <div className={colFullWidthGraph}>
+                <DashboardTitle title={"Weekly view charts"} />
+
+                <SalesLineGraph
+                  salesLineData={weeklyViewCount}
+                  lineCategories={[...defaultDayName]}
+                  lineyAxisTitle="View counts"
+                  tooltipTitle="View"
+                />
+              </div>
+              <div className={colFullWidthGraph}>
+                <DashboardTitle title={"Monthly view charts"} />
+
+                <SalesBarGraph
+                  salesBarData={monthlyViewCount}
+                  barCategories={[...defaultMonthName]}
+                  baryAxisTitle="View counts"
+                  tooltipTitle="View"
+                />
+              </div>
             </div>
           </>
         )}
-        <div className="grid gap-4 mt-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {countryWiseCustomerChart.seriesData.length > 0 && (
+
+        <div className="grid grid-cols-12 gap-4 mt-5">
+          {countryWiseCustomerChart.seriesData.length > 0 && (
+            <div className={colFullWidthGraph}>
+              <DashboardTitle title={"Country wise customers"} />
               <SalesPieGraph
                 seriesData={countryWiseCustomerChart.seriesData}
                 labels={countryWiseCustomerChart.labels}
-                chartTitle={countryWiseCustomerChart.title}
               />
-            )}
+            </div>
+          )}
+
+          <div className={colFullWidthGraph}>
+            <DashboardTitle title={"Product Sales"} />
             <SalesBarGraph
               salesBarData={salesBarData}
               barCategories={barCategories}
               baryAxisTitle={baryAxisTitle}
             />{" "}
-            <SalesPieGraph
-              seriesData={seriesData}
-              labels={labels}
-              chartTitle={chartTitle}
-            />
+          </div>
+          <div className={colFullWidthGraph}>
+            <DashboardTitle title={"Sales by Product Category"} />
+            <SalesPieGraph seriesData={seriesData} labels={labels} />
           </div>
         </div>
         {customers?.length > 0 && (
@@ -547,8 +572,8 @@ const CampaignsDetailsPage = () => {
                 )
               )}
             </div>
-            <div className="max-h-80 overflow-y-auto custom-scrollbar" >
-            {devices?.map((device, index) => (
+            <div className="max-h-80 overflow-y-auto custom-scrollbar">
+              {devices?.map((device, index) => (
                 <div
                   className="grid grid-cols-4 border-t border-stroke py-4.5 px-48 md:px-6 2xl:px-7.5"
                   key={index}
@@ -622,13 +647,18 @@ const CampaignsDetailsPage = () => {
               Email List Details
             </h2>
             <div className="grid grid-cols-5 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
-              {["Email", "Sent At", "Read", "Open Rate", "Click"].map((header, index1) => (
-                <div className="col-span-1" key={index1}>
-                  <p className="text-black font-bold">{header}</p>
-                </div>
-              ))}
+              {["Email", "Sent At", "Read", "Open Rate", "Click"].map(
+                (header, index1) => (
+                  <div className="col-span-1" key={index1}>
+                    <p className="text-black font-bold">{header}</p>
+                  </div>
+                )
+              )}
             </div>
-            <div className="max-h-80 overflow-y-auto custom-scrollbar" style={{width : "calc(100% + 13px)"}}>
+            <div
+              className="max-h-80 overflow-y-auto custom-scrollbar"
+              style={{ width: "calc(100% + 13px)" }}
+            >
               {emailTemplateDetail?.map((etdRecord, index) => (
                 <div
                   className="grid grid-cols-5 border-t border-stroke py-4.5 px-48 md:px-6 2xl:px-7.5"

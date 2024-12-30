@@ -75,10 +75,6 @@ const SalesBarGraph = ({
         width: 2,
         colors: ["transparent"],
       },
-      title: {
-        text: title || "Product Sales",
-        align: "left",
-      },
       xaxis: {
         categories: barCategories || [], // Use categories from props
       },
@@ -101,15 +97,13 @@ const SalesBarGraph = ({
   };
 
   return (
-    <div className="flex justify-center items-center p-4 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-      <div className="w-full h-full">
+      <div className="w-full h-full mt-5">
         <Chart
           options={chartData.options}
           series={chartData.series}
           type="bar"
           height={350} // Adjust to fill the parent container height
         />
-      </div>
     </div>
   );
 };
