@@ -31,84 +31,92 @@ const PreviewComponent = ({
     <div
       className="flex items-center justify-center py-5 bg-white"
       style={{
-      
         minHeight: "calc(100vh - 300px)",
       }}
     >
-      <div
-        className="grid grid-cols-1 lg:grid-cols-2 w-full max-w-4xl    overflow-hidden "
-        style={{
-          borderRadius: templateDesign.borderRadius,
-          minHeight: "500px",
-          boxShadow:
-          "rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) -2px -4px 3px",
-        }}
-      >
-        <div className={`h-full ${containerClass}`}>
-          <img src={imageSrc} alt="Promo" className="w-full h-full" />
-        </div>
-
-        <div
-          className="p-6 lg:p-8 flex flex-col justify-center h-full"
-          style={{
-            backgroundColor: templateDesign.templateBgColor,
-
-          }}
-        >
-          <div>
-            {success ? (
-              <div
-                className={`${
-                  templateDesign.containPosition === "center"
-                    ? "text-center"
-                    : templateDesign.containPosition === "right"
-                    ? "text-right"
-                    : "text-left"
-                } flex flex-col justify-center`}
-              >
-                <div
-                  className={`${
-                    templateDesign.containPosition === "center"
-                      ? "justify-center"
-                      : templateDesign.containPosition === "left"
-                      ? "justify-start"
-                      : "justify-end"
-                  } flex w-full`}
-                >
-                  <img
-                    src={successImg}
-                    alt="Success"
-                    className="max-w-[130px] w-28 h-28 rounded-full object-cover"
-                  />
-                </div>
-                <h2
-                  className="text-4xl font-bold mt-4"
-                  style={getStyle(templateDesign, "successHeading")}
-                >
-                  {templateDesign.successHeading }
-                </h2>
-                <span
-                  className="text-xl font-bold mt-4"
-                  style={getStyle(templateDesign, "successSubHeading")}
-                >
-                  {templateDesign.successSubHeading }
-                </span>
-                <p
-                  className="text-lg mt-4"
-                  style={getStyle(templateDesign, "successDescription")}
-                >
-                  {templateDesign.successDescription }
-                </p>
+      <div>
+        {success ? (
+           <div
+           className="p-6 w-full max-w-3xl rounded-xl"
+           style={{
+             backgroundColor: templateDesign.templateBgColor,
+             borderRadius: templateDesign.borderRadius,
+             boxShadow:
+               "rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) -2px -4px 3px",
+           }}
+         >
+           <div
+             className={`${
+               templateDesign.containPosition === "center"
+                 ? "text-center"
+                 : templateDesign.containPosition === "right"
+                 ? "text-right"
+                 : "text-left"
+             } flex flex-col justify-center m-auto w-10/12`}
+           >
+             <div
+               className={`${
+                 templateDesign.containPosition === "center"
+                   ? "justify-center"
+                   : templateDesign.containPosition === "left"
+                   ? "justify-start"
+                   : "justify-end"
+               } flex w-full`}
+             >
+               <img
+                 src={successImg}
+                 alt="Success"
+                 className="max-w-[130px] w-12 h-12 rounded-full object-cover"
+               />
+             </div>
+             <h2
+               className="font-bold mt-2"
+               style={getStyle(templateDesign, "successHeading")}
+             >
+               {templateDesign.successHeading}
+             </h2>
+             <p
+               className="font-normal mt-2"
+               style={getStyle(templateDesign, "successDescription")}
+             >
+               {templateDesign.successDescription}
+             </p>
+             <span
+               className="font-bold mt-2 cursor-pointer "
+               style={getStyle(templateDesign, "successSubHeading")}
+             >
+               {templateDesign.successSubHeading}
+             </span>
+           </div>
+         </div>
+        ) : (
+          <>
+            <div
+              className="grid grid-cols-1 lg:grid-cols-2 w-full max-w-4xl    overflow-hidden "
+              style={{
+                borderRadius: templateDesign.borderRadius,
+                minHeight: "500px",
+                boxShadow:
+                  "rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) -2px -4px 3px",
+              }}
+            >
+              <div className={`h-full ${containerClass}`}>
+                <img src={imageSrc} alt="Promo" className="w-full h-full" />
               </div>
-            ) : (
-              <>
+
+              <div
+                className="p-6 lg:p-8 flex flex-col justify-center h-full"
+                style={{
+                  backgroundColor: templateDesign.templateBgColor,
+                }}
+              >
                 <h2
                   className="text-4xl font-bold mb-4"
                   style={getStyle(templateDesign, "templateHeading")}
                 >
                   {templateDesign.heading}
                 </h2>
-                
+
                 <p
                   className="text-lg mb-6"
                   style={getStyle(templateDesign, "templateSubHeading")}
@@ -163,10 +171,10 @@ const PreviewComponent = ({
                     <>{renderNumbers(ratingCount)}</>
                   )} */}
                 </form>
-              </>
-            )}
-          </div>
-        </div>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

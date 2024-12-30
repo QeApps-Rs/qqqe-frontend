@@ -17,20 +17,16 @@ const SocialMediaConnectPopUp = ({
 }) => {
   return (
     <div className="flex justify-center items-center w-full bg-white px-4 py-6">
-      <div
-        className="p-6 w-full max-w-2xl rounded-xl flex justify-center"
-        style={{
-          background: templateDesign.templateBgColor || "#949494",
-          borderRadius: templateDesign.borderRadius || "12px",
-          borderWidth: templateDesign.borderWidth,
-          borderColor: templateDesign.templateBorderColor,
-          border: templateDesign.formBorderStyle,
-          borderStyle: templateDesign.formBorderStyle,
-          boxShadow:
-            "rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) -2px -4px 3px",
-        }}
-      >
-      { success ? 
+      {success ? (
+        <div
+          className="p-6 w-full max-w-3xl rounded-xl"
+          style={{
+            backgroundColor: templateDesign.templateBgColor,
+            borderRadius: templateDesign.borderRadius,
+            boxShadow:
+              "rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) -2px -4px 3px",
+          }}
+        >
           <div
             className={`${
               templateDesign.containPosition === "center"
@@ -38,7 +34,7 @@ const SocialMediaConnectPopUp = ({
                 : templateDesign.containPosition === "right"
                 ? "text-right"
                 : "text-left"
-            } flex flex-col justify-center w-full p-4`}
+            } flex flex-col justify-center m-auto w-10/12`}
           >
             <div
               className={`${
@@ -56,47 +52,63 @@ const SocialMediaConnectPopUp = ({
               />
             </div>
             <h2
-              className="text-4xl font-bold mt-4"
+              className="font-bold mt-2"
               style={getStyle(templateDesign, "successHeading")}
             >
               {templateDesign.successHeading}
             </h2>
-            <span
-              className="text-xl font-bold mt-4"
-              style={getStyle(templateDesign, "successSubHeading")}
-            >
-              {templateDesign.successSubHeading}
-            </span>
             <p
-              className="text-lg mt-4"
+              className="font-normal mt-2"
               style={getStyle(templateDesign, "successDescription")}
             >
               {templateDesign.successDescription}
             </p>
-          </div> :  <div className="flex justify-center items-center flex-col w-9/12 ">
-          <div className="flex justify-center mb-4">
-            <img
-              src={socialMediaPopupimageSrc}
-              alt="Facebook Icon"
-              className="w-8 h-8"
-            />
+            <span
+              className="font-bold mt-2 cursor-pointer "
+              style={getStyle(templateDesign, "successSubHeading")}
+            >
+              {templateDesign.successSubHeading}
+            </span>
           </div>
+        </div>
+      ) : (
+        <div
+          className="p-6 w-full max-w-2xl rounded-xl flex justify-center"
+          style={{
+            background: templateDesign.templateBgColor || "#949494",
+            borderRadius: templateDesign.borderRadius || "12px",
+            borderWidth: templateDesign.borderWidth,
+            borderColor: templateDesign.templateBorderColor,
+            border: templateDesign.formBorderStyle,
+            borderStyle: templateDesign.formBorderStyle,
+            boxShadow:
+              "rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) -2px -4px 3px",
+          }}
+        >
+          <div className="flex justify-center items-center flex-col w-9/12 ">
+            <div className="flex justify-center mb-4">
+              <img
+                src={socialMediaPopupimageSrc}
+                alt="Facebook Icon"
+                className="w-8 h-8"
+              />
+            </div>
 
-          <h2
-            className="text-center leading-none font-bold mb-2"
-            style={getStyle(templateDesign, "templateHeading")}
-          >
-            {templateDesign.heading}
-          </h2>
+            <h2
+              className="text-center leading-none font-bold mb-2"
+              style={getStyle(templateDesign, "templateHeading")}
+            >
+              {templateDesign.heading}
+            </h2>
 
-          <p
-            className="text-center text-gray-600 mb-6"
-            style={getStyle(templateDesign, "templateSubHeading")}
-          >
-            {templateDesign.subHeading}
-          </p>
+            <p
+              className="text-center text-gray-600 mb-6"
+              style={getStyle(templateDesign, "templateSubHeading")}
+            >
+              {templateDesign.subHeading}
+            </p>
 
-          {/* <form className="space-y-4">
+            {/* <form className="space-y-4">
             {["email", "text"].map((type, index) => (
               <input
                 key={type}
@@ -133,36 +145,37 @@ const SocialMediaConnectPopUp = ({
             </button>
           </form> */}
 
-          <form
-            className="flex flex-col space-y-4 w-full"
-            onSubmit={handleSubmit}
-          >
-            {addedFields.map((field, index) => (
-              <TemplateBannerComponent
-                key={index}
-                {...field}
-                templateDesign={templateDesign}
-                inputValue={inputValues[field.fieldName] || ""}
-                onInputChange={handleInputChange}
-                isSubmitted={isSubmitted}
-                onDelete={() => handleDeleteField(field.fieldName)}
-                onEdit={() => handleEdit(field, index)}
-              />
-            ))}
-            <div className="w-full flex justify-center">
-              <button
-                type="submit"
-                className="bg-black text-white py-3 rounded-full text-lg mt-3 w-[75%]"
-                style={{
-                  backgroundColor: templateDesign.templateButtonBgColor,
-                }}
-              >
-                {templateDesign.button}
-              </button>
-            </div>
-          </form>
-        </div>}
-      </div>
+            <form
+              className="flex flex-col space-y-4 w-full"
+              onSubmit={handleSubmit}
+            >
+              {addedFields.map((field, index) => (
+                <TemplateBannerComponent
+                  key={index}
+                  {...field}
+                  templateDesign={templateDesign}
+                  inputValue={inputValues[field.fieldName] || ""}
+                  onInputChange={handleInputChange}
+                  isSubmitted={isSubmitted}
+                  onDelete={() => handleDeleteField(field.fieldName)}
+                  onEdit={() => handleEdit(field, index)}
+                />
+              ))}
+              <div className="w-full flex justify-center">
+                <button
+                  type="submit"
+                  className="bg-black text-white py-3 rounded-full text-lg mt-3 w-[75%]"
+                  style={{
+                    backgroundColor: templateDesign.templateButtonBgColor,
+                  }}
+                >
+                  {templateDesign.button}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
