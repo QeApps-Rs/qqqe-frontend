@@ -176,182 +176,199 @@ const Campaigns = () => {
       console.error("Error in toggling status: ", error);
     }
   };
-
+  const DashboardTitle = ({ title }) => {
+    return (
+      <div className="h-16 bg-dashboard_gradient rounded-t-lg flex justify-between items-center px-4">
+        <p className="text-white font-bold flex items-center h-full ">
+          {title}
+        </p>
+        <div className="text-white text-xl hover:bg-white hover:text-black w-10 h-10 rounded-full flex items-center justify-center cursor-pointer">
+          <i className="fa fa-exclamation" aria-hidden="true"></i>
+        </div>
+      </div>
+    );
+  };
+  const colFullWidthGraph =
+    "col-span-12 rounded-lg border border-stroke bg-white shadow-md dark:border-strokedark dark:bg-boxdark p-4 hover:shadow-xl transition-shadow duration-300 xl:col-span-6 min-h-[450px]";
   return (
     <>
       {loading && <Loader />}
-      <div className="mb-25">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">Campaigns</h1>
-        <div className="grid grid-cols-4 gap-4">
-          {renderCampaignBox("Impressions", impressionCount)}
-          {renderCampaignBox("Clicks", clickCount)}
-          {renderCampaignBox("Conversions Rate", conversionCount)}
-          {renderCampaignBox("Views", viewCount)}
-        </div>
 
-        <div className="grid grid-cols-2 gap-4 mt-4">
+      <h1 className="text-3xl font-bold text-gray-800 mb-4">Campaigns</h1>
+      <div className="grid grid-cols-4 gap-4">
+        {renderCampaignBox("Impressions", impressionCount)}
+        {renderCampaignBox("Clicks", clickCount)}
+        {renderCampaignBox("Conversions Rate", conversionCount)}
+        {renderCampaignBox("Views", viewCount)}
+      </div>
+
+      <div className="grid grid-cols-12 gap-4 mt-5">
+        <div className={colFullWidthGraph}>
+          <DashboardTitle title={"Weekly impression charts"} />
           <SalesLineGraph
             salesLineData={weeklyImpressionCount}
             lineCategories={[...defaultDayName]}
             lineyAxisTitle="Impression counts"
-            title="Weekly impression charts"
             tooltipTitle="Impression"
           />
+        </div>
+        <div className={colFullWidthGraph}>
+          <DashboardTitle title={"Monthly impression charts"} />
           <SalesBarGraph
             salesBarData={monthlyImpressionCount}
             barCategories={[...defaultMonthName]}
             baryAxisTitle="Impression counts"
-            title="Monthly impression charts"
             tooltipTitle="Impression"
           />
         </div>
-
-        <div className="grid grid-cols-2 gap-4 mt-4">
+        <div className={colFullWidthGraph}>
+          <DashboardTitle title={"Weekly view charts"} />
           <SalesLineGraph
             salesLineData={weeklyViewCount}
             lineCategories={[...defaultDayName]}
             lineyAxisTitle="View counts"
-            title="Weekly view charts"
             tooltipTitle="View"
           />
+        </div>
+        <div className={colFullWidthGraph}>
+          <DashboardTitle title={"Monthly view charts"} />
           <SalesBarGraph
             salesBarData={monthlyViewCount}
             barCategories={[...defaultMonthName]}
             baryAxisTitle="View counts"
-            title="Monthly view charts"
             tooltipTitle="View"
           />
         </div>
-        <div className="flex justify-between items-center mt-4">
-          <h1 className="text-lg font-bold text-gray-800">Campaigns</h1>
-          <div className="flex items-center">
-            <Link to="/app-dashboard">
-              <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
-                New Campaigns
-              </button>
-            </Link>
-          </div>
-        </div>
-        <div className="rounded-lg  bg-white shadow-default mt-4 ">
-          <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5 ">
-            {[
-              "Latest Applied Date",
-              "",
-              "Status",
-              "Devices",
-              "Template Handle",
-              "Impressions",
-              "Conversions",
-              "Conversions rate",
-            ].map((header, index) => (
-              <div
-                className={`${
-                  header === "Latest" ? "col-span-2" : "col-span-1"
-                } flex items-center`}
-                key={index}
-              >
-                <p
-                  className={`text-black font-bold ${
-                    header === "Latest" ? "col-span-2" : ""
-                  }`}
-                >
-                  {header}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {productData.length == 0 && (
-            <div className="w-full text-center my-4">
-              <p className="text-gray-400 font-bold text-lg">Not Found</p>
-            </div>
-          )}
-
-          {productData?.map((product) => {
-            const currentStatus =
-              toggleState[`${product?.pid}-${product?.sid}`] ??
-              product?.service_status;
-
-            return (
-              <div
-                className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5 gap-4"
-                key={product.id}
-              >
-                <div className="col-span-2 flex items-center">
-                  <img
-                    src={product.image_path ? product.image_path : noImage}
-                    alt="product"
-                    className="min-w-30 h-30"
-                  />
-                  <div className="block ml-2 text-graydark">
-                    <Link
-                      to={`/campaigns-details/${product.id}?type=${product.type}`}
-                    >
-                      <span className="block text-blue-600">
-                        {product.problem_statement}
-                      </span>
-                    </Link>
-                    <span> {product.suggestion.description}</span>
-                  </div>
-                </div>
-                <div className="col-span-1 hidden items-center sm:flex">
-                  <SwitcherThree
-                    enabled={currentStatus}
-                    isLabel={false}
-                    label={`${product?.pid}-${product?.sid}`}
-                    cursorStyle="default"
-                    onToggle={() =>
-                      changeAppliedStatus(
-                        product?.pid,
-                        product?.sid,
-                        currentStatus
-                      )
-                    }
-                  />
-                </div>
-                <div className="col-span-1 flex items-center">
-                  <i
-                    className="fa fa-desktop mr-3 text-red-500 text-2xl"
-                    aria-hidden="true"
-                  ></i>
-                  <i
-                    className="fa fa-mobile text-red-500 text-4xl"
-                    aria-hidden="true"
-                  ></i>
-                </div>
-                <div className="col-span-1 flex items-center">
-                  <h1 data-template-handle={product?.template_handle}>
-                    {product?.title
-                      ?.replace(/-/g, " ")
-                      .replace(
-                        /\w\S*/g,
-                        (word) =>
-                          word.charAt(0).toUpperCase() +
-                          word.slice(1).toLowerCase()
-                      )}
-                  </h1>
-                </div>
-                {[
-                  "impressions",
-                  "conversions",
-                  "conversions_rate",
-                  // "date_created",
-                ].map((key, index) => (
-                  <div className="col-span-1 flex items-center" key={index}>
-                    <p className="text-md font-bold">
-                      {key == "conversions_rate"
-                        ? product.campaignResult[key] + "%"
-                        : product.campaignResult[key]}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            );
-          })}
-        </div>
-
-        <Support />
       </div>
+      <div className="flex justify-between items-center mt-4">
+        <h1 className="text-lg font-bold text-gray-800">Campaigns</h1>
+        <div className="flex items-center">
+          <Link to="/app-dashboard">
+            <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
+              New Campaigns
+            </button>
+          </Link>
+        </div>
+      </div>
+      <div className="rounded-lg  bg-white shadow-default mt-4 ">
+        <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5 ">
+          {[
+            "Latest Applied Date",
+            "",
+            "Status",
+            "Devices",
+            "Template Handle",
+            "Impressions",
+            "Conversions",
+            "Conversions rate",
+          ].map((header, index) => (
+            <div
+              className={`${
+                header === "Latest" ? "col-span-2" : "col-span-1"
+              } flex items-center`}
+              key={index}
+            >
+              <p
+                className={`text-black font-bold ${
+                  header === "Latest" ? "col-span-2" : ""
+                }`}
+              >
+                {header}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {productData.length == 0 && (
+          <div className="w-full text-center my-4">
+            <p className="text-gray-400 font-bold text-lg">Not Found</p>
+          </div>
+        )}
+
+        {productData?.map((product) => {
+          const currentStatus =
+            toggleState[`${product?.pid}-${product?.sid}`] ??
+            product?.service_status;
+
+          return (
+            <div
+              className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5 gap-4"
+              key={product.id}
+            >
+              <div className="col-span-2 flex items-center">
+                <img
+                  src={product.image_path ? product.image_path : noImage}
+                  alt="product"
+                  className="min-w-30 h-30"
+                />
+                <div className="block ml-2 text-graydark">
+                  <Link
+                    to={`/campaigns-details/${product.id}?type=${product.type}`}
+                  >
+                    <span className="block text-blue-600">
+                      {product.problem_statement}
+                    </span>
+                  </Link>
+                  <span> {product.suggestion.description}</span>
+                </div>
+              </div>
+              <div className="col-span-1 hidden items-center sm:flex">
+                <SwitcherThree
+                  enabled={currentStatus}
+                  isLabel={false}
+                  label={`${product?.pid}-${product?.sid}`}
+                  cursorStyle="default"
+                  onToggle={() =>
+                    changeAppliedStatus(
+                      product?.pid,
+                      product?.sid,
+                      currentStatus
+                    )
+                  }
+                />
+              </div>
+              <div className="col-span-1 flex items-center">
+                <i
+                  className="fa fa-desktop mr-3 text-red-500 text-2xl"
+                  aria-hidden="true"
+                ></i>
+                <i
+                  className="fa fa-mobile text-red-500 text-4xl"
+                  aria-hidden="true"
+                ></i>
+              </div>
+              <div className="col-span-1 flex items-center">
+                <h1 data-template-handle={product?.template_handle}>
+                  {product?.title
+                    ?.replace(/-/g, " ")
+                    .replace(
+                      /\w\S*/g,
+                      (word) =>
+                        word.charAt(0).toUpperCase() +
+                        word.slice(1).toLowerCase()
+                    )}
+                </h1>
+              </div>
+              {[
+                "impressions",
+                "conversions",
+                "conversions_rate",
+                // "date_created",
+              ].map((key, index) => (
+                <div className="col-span-1 flex items-center" key={index}>
+                  <p className="text-md font-bold">
+                    {key == "conversions_rate"
+                      ? product.campaignResult[key] + "%"
+                      : product.campaignResult[key]}
+                  </p>
+                </div>
+              ))}
+            </div>
+          );
+        })}
+      </div>
+
+      <Support />
     </>
   );
 };

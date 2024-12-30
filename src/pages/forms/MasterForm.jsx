@@ -1470,7 +1470,64 @@ const MasterForm = () => {
               minHeight: "calc(100vh - 300px)",
             }}
           >
-            <div
+          
+            
+              {success ? (
+               <div
+               className="p-6 w-full max-w-3xl rounded-xl"
+               style={{
+                 backgroundColor: templateDesign.templateBgColor,
+                 borderRadius: templateDesign.borderRadius,
+                 boxShadow:
+                   "rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) -2px -4px 3px",
+               }}
+             >
+               <div
+                 className={`${
+                   templateDesign.containPosition === "center"
+                     ? "text-center"
+                     : templateDesign.containPosition === "right"
+                     ? "text-right"
+                     : "text-left"
+                 } flex flex-col justify-center m-auto w-10/12`}
+               >
+                 <div
+                   className={`${
+                     templateDesign.containPosition === "center"
+                       ? "justify-center"
+                       : templateDesign.containPosition === "left"
+                       ? "justify-start"
+                       : "justify-end"
+                   } flex w-full`}
+                 >
+                   <img
+                     src={successImg}
+                     alt="Success"
+                     className="max-w-[130px] w-12 h-12 rounded-full object-cover"
+                   />
+                 </div>
+                 <h2
+                   className="font-bold mt-2"
+                   style={getStyle(templateDesign, "successHeading")}
+                 >
+                   {templateDesign.successHeading}
+                 </h2>
+                 <p
+                   className="font-normal mt-2"
+                   style={getStyle(templateDesign, "successDescription")}
+                 >
+                   {templateDesign.successDescription}
+                 </p>
+                 <span
+                   className="font-bold mt-2 cursor-pointer "
+                   style={getStyle(templateDesign, "successSubHeading")}
+                 >
+                   {templateDesign.successSubHeading}
+                 </span>
+               </div>
+             </div>
+              ) : (
+                  <div
               className="grid grid-cols-1 xl:grid-cols-12 gap-4 w-full lg:w-7/12 "
               style={{
                 backgroundColor: templateDesign.templateBgColor,
@@ -1481,7 +1538,7 @@ const MasterForm = () => {
                 minHeight: "500px",
               }}
             >
-              <div
+                <div
                 className={`flex flex-col justify-center xl:col-span-6 ${containerClass} h-full `}
               >
                 <img
@@ -1490,51 +1547,6 @@ const MasterForm = () => {
                   className={`w-full h-64 sm:h-96 md:h-full  object-cover`}
                 />
               </div>
-              {success ? (
-                <div
-                  className={`${
-                    templateDesign.containPosition === "center"
-                      ? "text-center"
-                      : templateDesign.containPosition === "right"
-                      ? "text-right"
-                      : "text-left"
-                  } flex flex-col justify-center w-full xl:col-span-6 p-4`}
-                >
-                  <div
-                    className={`${
-                      templateDesign.containPosition === "center"
-                        ? "justify-center"
-                        : templateDesign.containPosition === "left"
-                        ? "justify-start"
-                        : "justify-end"
-                    } flex w-full`}
-                  >
-                    <img
-                      src={successImg}
-                      alt="Success"
-                      className="max-w-[130px] w-28 h-28 rounded-full object-cover"
-                    />
-                  </div>
-                  <h2
-                    className="text-4xl font-bold mt-4"
-                    style={getStyle(templateDesign, "successHeading")}
-                  >
-                    {templateDesign.successHeading}
-                  </h2>
-                  <span
-                    className="text-xl font-bold mt-4"
-                    style={getStyle(templateDesign, "successSubHeading")}
-                  >
-                    {templateDesign.successSubHeading}
-                  </span>
-                  <p
-                    className="text-lg mt-4"
-                    style={getStyle(templateDesign, "successDescription")}
-                  >
-                    {templateDesign.successDescription}
-                  </p>
-                </div>
-              ) : (
                 <div className="flex flex-col justify-start xl:col-span-6 p-4">
                   <div className="flex justify-end mb-2">
                     <h4
@@ -1592,9 +1604,9 @@ const MasterForm = () => {
                     </button>
                   </div>
                 </div>
+                </div>
               )}
             </div>
-          </div>
         )}
         {suggestionTemplateStatus.isPurchaseSatisfactionSurvey && (
           <div
@@ -1611,15 +1623,7 @@ const MasterForm = () => {
                 borderStyle: templateDesign.formBorderStyle,
               }}
             >
-              <div
-                className={`max-w-[130px] min-h-[130px] overflow-hidden flex items-stretch ${imagePositionContainer}`}
-              >
-                <img
-                  src={surveyImageSrc}
-                  alt="Round Image"
-                  className="w-full h-auto object-cover flex-grow"
-                />
-              </div>
+         
 
               {success ? (
                 <div
@@ -1652,20 +1656,30 @@ const MasterForm = () => {
                   >
                     {templateDesign.successHeading}
                   </h2>
-                  <span
-                    className="text-xl font-bold mt-4"
-                    style={getStyle(templateDesign, "successSubHeading")}
-                  >
-                    {templateDesign.successSubHeading}
-                  </span>
                   <p
                     className="text-lg mt-4"
                     style={getStyle(templateDesign, "successDescription")}
                   >
                     {templateDesign.successDescription}
                   </p>
+                  <span
+                    className="text-xl font-bold mt-4"
+                    style={getStyle(templateDesign, "successSubHeading")}
+                  >
+                    {templateDesign.successSubHeading}
+                  </span>
                 </div>
               ) : (
+                <>
+                <div
+                className={`max-w-[130px] min-h-[130px] overflow-hidden flex items-stretch ${imagePositionContainer}`}
+              >
+                <img
+                  src={surveyImageSrc}
+                  alt="Round Image"
+                  className="w-full h-auto object-cover flex-grow"
+                />
+              </div>
                 <div className="flex flex-wrap justify-center w-full p-4">
                   <div className="mb-4">
                     <span
@@ -1691,6 +1705,7 @@ const MasterForm = () => {
                     )}
                   </form>
                 </div>
+                </>
               )}
             </div>
           </div>

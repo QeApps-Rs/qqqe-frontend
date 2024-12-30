@@ -94,11 +94,13 @@ const AllPageStartOverviewPage = ({ category, priorityCount }) => {
             </div>
           </div>
 
-          <div className="md:col-span-4 col-span-12 mt-6 md:mt-0">
+          <div className="md:col-span-4 col-span-12 mt-6 md:mt-0" >
             <SalesLineGraph
               salesLineData={salesLineData}
               lineCategories={lineCategories}
               lineyAxisTitle={lineyAxisTitle}
+              bgColorClass={"bg-white p-4"}
+              title={"Product Sales"}
             />
           </div>
         </div>
