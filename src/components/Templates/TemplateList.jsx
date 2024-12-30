@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import FilterBar from "./Filters";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { BackIcon } from "../custIcon/svgIcon";
 import { useNavigate } from "react-router-dom";
 import FormSubmitHandler from "../FormSubmitHandler";
@@ -12,6 +12,9 @@ import emailTemplateImg1 from "../../images/email-template-1.png";
 import emailTemplateImg2 from "../../images/email-template-2.jpg";
 const TemplateList = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const categoryParam = searchParams.get("category");
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const [templateList, setTemplateList] = useState([]);
@@ -228,7 +231,7 @@ const TemplateList = () => {
           <div className="md:col-span-4 w-full ">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full">
               <RenderTemplates templateListProp={templateList} />
-              {templateList.length == 0 && (
+              {(templateList.length == 0 && categoryParam != "promotion") && (
                 <div className="text-center text-black font-semibold">
                   No Template Found
                 </div>
