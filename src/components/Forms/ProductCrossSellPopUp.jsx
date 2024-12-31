@@ -142,7 +142,7 @@ function ProductCrossSellPopUp({
             </div>
 
             <div
-              className="rounded-lg p-4 "
+              className="rounded-lg p-4"
               style={{
                 borderWidth: templateDesign.borderWidth,
                 borderColor: templateDesign.templateBorderColor,
