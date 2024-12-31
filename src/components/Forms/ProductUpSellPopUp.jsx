@@ -25,7 +25,7 @@ function ProductUpSellPopUp({
         {Array.from({ length: noOfProducts }, (_, index) => (
           <div
             key={index}
-            className="rounded-lg "
+            className="rounded-lg p-4"
             style={{
               backgroundColor: "transparent",
             }}
@@ -158,7 +158,7 @@ function ProductUpSellPopUp({
             >
               {productData && productData.length > 0 ? (
                 productData.map((product, index) => (
-                  <div key={index} className="rounded-lg p-4 ">
+                  <div key={index} className="rounded-lg p-4">
                     <div className="mb-4 h-40 flex  rounded-lg items-center justify-center bg-white">
                       <a href="#">
                         <img
