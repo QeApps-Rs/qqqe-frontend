@@ -142,82 +142,85 @@ const PreferenceSurvey = ({
       {isTitleDisplay && (
         <Breadcrumb pageName={"Preference Survey"} breadcrumb={false} />
       )}
-      <div className="p-10 h-full">
+      <div className="lg:px-10 lg:pt-10 p-4 h-full">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 ">
-          <div className="col-span-1 inline-flex justify-center perspective-1000">
+          <div className="col-span-1 inline-flex lg:justify-center justify-start perspective-1000">
             <img
               src={welcomeImg}
               alt="welcome-img"
-              className="w-80 h-70 animate-float rounded-lg transform transition-transform duration-700 ease-out hover:scale-105 hover:rotate-3"
+              className="lg:w-80 lg:h-70 w-40 h-40 animate-float rounded-lg transform transition-transform duration-700 ease-out hover:scale-105 hover:rotate-3"
             />
           </div>
 
-          <div className="col-span-3 ">
+          <div className="col-span-3 lg:max-h-[calc(100vh-250px)] max-h-[calc(100vh-400px)] overflow-auto custom-scrollbar pr-3">
             {currentStep === 0 && (
               <div className={`mb-8 ${theme.textColor} font-bold text-2xl`}>
                 Great, let's get started!
               </div>
             )}
             {checkedItems && checkedItems.length > 0 && (
-              <form onSubmit={handleSubmit} className="relative">
-                {/* Render only the current question */}
+              <form onSubmit={handleSubmit} >
+                <div className="relative">
+                  {/* Render only the current question */}
 
-                <h3 className={`text-3xl ${theme.textColor} font-bold`}>
-                  {checkedItems[currentStep].question}
-                </h3>
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mt-15">
-                  {checkedItems[currentStep].answers.map((answer) => (
-                    <div
-                      className={`col-span-2 ${theme.checkBoxBgColor} ${theme.checkTextColor} p-7 rounded-lg`}
-                      key={answer.id}
-                    >
-                      <Checkbox
+                  <h3 className={`text-3xl ${theme.textColor} font-bold`}>
+                    {checkedItems[currentStep].question}
+                  </h3>
+                  <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mt-15">
+                    {checkedItems[currentStep].answers.map((answer) => (
+                      <div
+                        className={`col-span-2 ${theme.checkBoxBgColor} ${theme.checkTextColor} p-7 rounded-lg`}
                         key={answer.id}
-                        id={answer.id}
-                        label={answer.answer.replace(/_/g, " ")}
-                        checked={isChecked(
-                          checkedItems[currentStep].id,
-                          answer.id
-                        )}
-                        onChange={() =>
-                          handleChange(checkedItems[currentStep].id, answer.id)
-                        }
-                      />
-                    </div>
-                  ))}
-                </div>
-
-                {/* Next and Previous Buttons */}
-                <div
-                  className={`flex justify-between mt-6 lg:${theme.buttonPosition} bottom-8 left-18  right-18`}
-                >
-                  <button
-                    type="button"
-                    className={`${
-                      currentStep === 0 ? "opacity-50" : theme.buttonColor
-                    } ${theme.buttonTextColor} px-4 py-2 rounded`}
-                    onClick={handlePrevious}
-                    disabled={currentStep === 0}
+                      >
+                        <Checkbox
+                          key={answer.id}
+                          id={answer.id}
+                          label={answer.answer.replace(/_/g, " ")}
+                          checked={isChecked(
+                            checkedItems[currentStep].id,
+                            answer.id
+                          )}
+                          onChange={() =>
+                            handleChange(
+                              checkedItems[currentStep].id,
+                              answer.id
+                            )
+                          }
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div
+                    className={`flex justify-between mt-6 ${theme.buttonPosition} left-18  right-18 bottom-5`}
                   >
-                    Previous
-                  </button>
-
-                  {currentStep === checkedItems.length - 1 ? (
-                    <button
-                      type="submit"
-                      className={`${theme.buttonColor} ${theme.buttonTextColor} px-4 py-2 rounded font-semibold`}
-                    >
-                      Submit
-                    </button>
-                  ) : (
                     <button
                       type="button"
-                      className={`${theme.backgroundColor} ${theme.buttonTextColor} px-4 py-2 rounded font-semibold`}
-                      onClick={handleNext}
+                      className={`${
+                        currentStep === 0 ? "opacity-50" : theme.buttonColor
+                      } ${theme.buttonTextColor} px-4 py-2 rounded`}
+                      onClick={handlePrevious}
+                      disabled={currentStep === 0}
                     >
-                      Next
+                      Previous
                     </button>
-                  )}
+
+                    {currentStep === checkedItems.length - 1 ? (
+                      <button
+                        type="submit"
+                        className={`${theme.buttonColor} ${theme.buttonTextColor} px-4 py-2 rounded font-semibold`}
+                      >
+                        Submit
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className={`${theme.backgroundColor} ${theme.buttonTextColor} px-4 py-2 rounded font-semibold`}
+                        onClick={handleNext}
+                      >
+                        Next
+                      </button>
+                    )}
+                  </div>
                 </div>
               </form>
             )}

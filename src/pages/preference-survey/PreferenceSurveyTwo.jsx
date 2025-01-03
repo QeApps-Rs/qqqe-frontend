@@ -178,7 +178,7 @@ const PreferenceSurveyTwo = ({ isTitleDisplay = true }) => {
                     </div>
                   ))}
                 </div>
-                <div className="flex justify-between mt-6 lg:fixed bottom-8 left-18  right-18">
+                <div className="flex justify-between mt-6 lg:sticky bottom-8 left-18  right-18 top-0">
                   <button
                     type="button"
                     className="bg-gray-300 px-4 py-2 rounded"
