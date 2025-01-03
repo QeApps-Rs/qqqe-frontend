@@ -497,7 +497,7 @@ const SuggestionCompNew = () => {
   const renderProblemStmtTd = (index, suggestion) => {
     return (
       <>
-        <div className="rounded-md border border-stroke p-4 shadow-9 dark:border-strokedark dark:shadow-none w-full  hover:shadow-lg   hover:-translate-y-2  hover:-translate-y-1 transition duration-300">
+        <div className="rounded-md border border-stroke p-3 shadow-9 dark:border-strokedark dark:shadow-none w-full  hover:shadow-lg   hover:-translate-y-2 transition duration-300">
           <button
             className="flex w-full items-center gap-1.5 sm:gap-3 xl:gap-6 active"
             onClick={() => handleAccordionClick(index)}
@@ -511,7 +511,7 @@ const SuggestionCompNew = () => {
               </h4>
             </div>
           </button>
-
+<div className="max-h-[180px] custom-scrollbar overflow-auto pr-2">
           {suggestion?.data?.length > 0 &&
             suggestion?.data?.map((dataItem, i) => {
               return (
@@ -520,7 +520,7 @@ const SuggestionCompNew = () => {
                   className={`mt-5 ml-16.5 duration-200 ease-in-out ${manageAccordions?.[index]?.content}`}
                 >
                   {dataItem.Customer_ID != "all" && (
-                    <div className="rounded-md border border-stroke p-4 shadow-9 dark:border-strokedark dark:shadow-none md:p-6 xl:p-7.5">
+                    <div className="rounded-md border border-stroke shadow-9 dark:border-strokedark dark:shadow-none p-4">
                       <button
                         className="flex w-full items-center justify-between gap-2 "
                         onClick={() => handlePlusMinus(i, dataItem)}
@@ -549,6 +549,7 @@ const SuggestionCompNew = () => {
                 </div>
               );
             })}
+            </div>
         </div>
       </>
     );
@@ -788,7 +789,7 @@ const SuggestionCompNew = () => {
                     const rowId = `${suggestion.id}-${index}`;
                     return (
                       <tr key={rowId + 1}>
-                        <td className={`flex px-4 py-5 ${comTdClass}`}>
+                        <td className={`flex py-4 pl-2 pr-4 ${comTdClass}`}>
                           {renderProblemStmtTd(index, suggestion.suggestion)}
                         </td>
                         <td
