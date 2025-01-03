@@ -65,6 +65,8 @@ const CampaignsDetailsPage = () => {
 
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("medium");
+
+  const [chartClassNameSize, setChartClassNameSize] = useState(null);
   const location = useLocation();
   const refToTop = useRef();
   useEffect(() => {
@@ -244,10 +246,13 @@ const CampaignsDetailsPage = () => {
                 setViewCount(viewCount);
               }
               if (res.data?.countryWiseChartData?.seriesData?.length > 0) {
+                setChartClassNameSize(3);
                 setCountryWiseCustomerChart({
                   ...countryWiseCustomerChart,
                   ...res.data.countryWiseChartData,
                 });
+              } else {
+                setChartClassNameSize(2);
               }
 
               if (res?.data?.customersData?.length > 0) {
@@ -316,20 +321,51 @@ const CampaignsDetailsPage = () => {
       </div>
     );
   };
+
   const colFullWidthGraph =
-    "col-span-12 rounded-lg border border-stroke bg-white shadow-md dark:border-strokedark dark:bg-boxdark p-4 hover:shadow-xl transition-shadow duration-300 xl:col-span-6 min-h-[450px]";
+    "rounded-lg border border-stroke bg-white shadow-md p-4 hover:shadow-xl transition-shadow duration-300 min-h-[450px] ";
+
+
   return (
     <>
       {loading && <Loader />}
 
       <div ref={refToTop} className="mb-25">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          {productDetailsData?.problem_statement}
-        </h1>
-        <span className="block">
-          {productDetailsData?.suggestion?.description}
-        </span>
-
+        <div className="flex w-full items-center">
+          <div className="w-9/12">
+            <h1 className="text-3xl font-bold text-gray-800 mb-4">
+              {productDetailsData?.problem_statement}
+            </h1>
+            <span className="block">
+              {productDetailsData?.suggestion?.description}
+            </span>
+          </div>
+          <div className="w-3/12 justify-end flex">
+            <div className="flex">
+              <div className="flex items-center">
+                <Link
+                  to={`/master-form/${productDetailsData.pid}s${productDetailsData.sid}`}
+                  state={{
+                    subTemplateId: productDetailsData.sub_template_id,
+                  }}
+                >
+                  <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
+                    Edit Template
+                  </button>
+                </Link>
+              </div>
+              {type === "email_template" && (
+                <div className="flex items-center">
+                  <Link onClick={handleSendEmail}>
+                    <button className="border border-blue-600 text-blue-600 hover:text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2 bg-transparent">
+                      Send Email
+                    </button>
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
         <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4 flex justify-between">
           <div className="flex items-center">
             <h2 className="font-semibold text-xl text-customGray mr-4">
@@ -368,6 +404,62 @@ const CampaignsDetailsPage = () => {
             </div>
           </div>
         </div>
+
+        {type === "suggestion" && (
+          <>
+            <h2 className="text-xl font-bold text-gray-800 my-4">
+              Campaigns Statistics
+            </h2>
+            <div className="grid grid-cols-4 gap-4">
+              {renderCampaignBox("Impressions", impressionCount)}
+              {renderCampaignBox("Clicks", clickCount)}
+              {renderCampaignBox("Conversions", conversionCount)}
+              {renderCampaignBox("Views", viewCount)}
+            </div>
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-5">
+              <div className={colFullWidthGraph}>
+                <DashboardTitle title={"Weekly impression charts"} />
+                <SalesLineGraph
+                  salesLineData={weeklyImpressionCount}
+                  lineCategories={[...defaultDayName]}
+                  lineyAxisTitle="Impression counts"
+                  tooltipTitle="Impression"
+                />
+              </div>
+              <div className={colFullWidthGraph}>
+                <DashboardTitle title={"Monthly impression charts"} />
+
+                <SalesBarGraph
+                  salesBarData={monthlyImpressionCount}
+                  barCategories={[...defaultMonthName]}
+                  baryAxisTitle="Impression counts"
+                  tooltipTitle="Impression"
+                />
+              </div>
+
+              <div className={colFullWidthGraph}>
+                <DashboardTitle title={"Weekly view charts"} />
+
+                <SalesLineGraph
+                  salesLineData={weeklyViewCount}
+                  lineCategories={[...defaultDayName]}
+                  lineyAxisTitle="View counts"
+                  tooltipTitle="View"
+                />
+              </div>
+              <div className={colFullWidthGraph}>
+                <DashboardTitle title={"Monthly view charts"} />
+
+                <SalesBarGraph
+                  salesBarData={monthlyViewCount}
+                  barCategories={[...defaultMonthName]}
+                  baryAxisTitle="View counts"
+                  tooltipTitle="View"
+                />
+              </div>
+            </div>
+          </>
+        )}
 
         {type === "suggestion" && (
           <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
@@ -451,86 +543,35 @@ const CampaignsDetailsPage = () => {
           </div>
         )}
 
-        {type === "suggestion" && (
-          <>
-            <h2 className="text-xl font-bold text-gray-800 my-4">
-              Campaigns Statistics
-            </h2>
-            <div className="grid grid-cols-4 gap-4">
-              {renderCampaignBox("Impressions", impressionCount)}
-              {renderCampaignBox("Clicks", clickCount)}
-              {renderCampaignBox("Conversions", conversionCount)}
-              {renderCampaignBox("Views", viewCount)}
-            </div>
-            <div className="grid grid-cols-12 gap-4 mt-4">
+        {chartClassNameSize && (
+          <div
+            className={`grid grid-cols-1 xl:grid-cols-${chartClassNameSize} gap-4 mt-5`}
+          >
+            {countryWiseCustomerChart.seriesData.length > 0 && (
               <div className={colFullWidthGraph}>
-                <DashboardTitle title={"Weekly impression charts"} />
-                <SalesLineGraph
-                  salesLineData={weeklyImpressionCount}
-                  lineCategories={[...defaultDayName]}
-                  lineyAxisTitle="Impression counts"
-                  tooltipTitle="Impression"
+                <DashboardTitle title={"Country wise customers"} />
+                <SalesPieGraph
+                  seriesData={countryWiseCustomerChart.seriesData}
+                  labels={countryWiseCustomerChart.labels}
                 />
               </div>
-              <div className={colFullWidthGraph}>
-                <DashboardTitle title={"Monthly impression charts"} />
+            )}
 
-                <SalesBarGraph
-                  salesBarData={monthlyImpressionCount}
-                  barCategories={[...defaultMonthName]}
-                  baryAxisTitle="Impression counts"
-                  tooltipTitle="Impression"
-                />
-              </div>
-
-              <div className={colFullWidthGraph}>
-                <DashboardTitle title={"Weekly view charts"} />
-
-                <SalesLineGraph
-                  salesLineData={weeklyViewCount}
-                  lineCategories={[...defaultDayName]}
-                  lineyAxisTitle="View counts"
-                  tooltipTitle="View"
-                />
-              </div>
-              <div className={colFullWidthGraph}>
-                <DashboardTitle title={"Monthly view charts"} />
-
-                <SalesBarGraph
-                  salesBarData={monthlyViewCount}
-                  barCategories={[...defaultMonthName]}
-                  baryAxisTitle="View counts"
-                  tooltipTitle="View"
-                />
-              </div>
-            </div>
-          </>
-        )}
-
-        <div className="grid grid-cols-12 gap-4 mt-5">
-          {countryWiseCustomerChart.seriesData.length > 0 && (
             <div className={colFullWidthGraph}>
-              <DashboardTitle title={"Country wise customers"} />
-              <SalesPieGraph
-                seriesData={countryWiseCustomerChart.seriesData}
-                labels={countryWiseCustomerChart.labels}
+              <DashboardTitle title={"Product Sales"} />
+              <SalesBarGraph
+                salesBarData={salesBarData}
+                barCategories={barCategories}
+                baryAxisTitle={baryAxisTitle}
               />
             </div>
-          )}
+            <div className={colFullWidthGraph}>
+              <DashboardTitle title={"Sales by Product Category"} />
+              <SalesPieGraph seriesData={seriesData} labels={labels} />
+            </div>
+          </div>
+        )}
 
-          <div className={colFullWidthGraph}>
-            <DashboardTitle title={"Product Sales"} />
-            <SalesBarGraph
-              salesBarData={salesBarData}
-              barCategories={barCategories}
-              baryAxisTitle={baryAxisTitle}
-            />{" "}
-          </div>
-          <div className={colFullWidthGraph}>
-            <DashboardTitle title={"Sales by Product Category"} />
-            <SalesPieGraph seriesData={seriesData} labels={labels} />
-          </div>
-        </div>
         {customers?.length > 0 && (
           <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
             <h2 className="font-semibold text-xl text-black">Customer Data</h2>
@@ -561,56 +602,60 @@ const CampaignsDetailsPage = () => {
           </div>
         )}
         {devices?.length > 0 && (
-          <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
-            <h2 className="font-semibold text-xl text-black">Device Data</h2>
-            <div className="grid grid-cols-4 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
-              {["Type", "Country", "Customer Ip", "Browser"].map(
-                (header, index1) => (
-                  <div className="col-span-1" key={index1}>
-                    <p className="text-black font-bold">{header}</p>
+          <>
+            <h1 className="text-lg font-bold text-gray-800 my-5">
+              Device Data
+            </h1>
+            <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
+              <div className="grid grid-cols-4 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
+                {["Type", "Country", "Customer Ip", "Browser"].map(
+                  (header, index1) => (
+                    <div className="col-span-1" key={index1}>
+                      <p className="text-black font-bold">{header}</p>
+                    </div>
+                  )
+                )}
+              </div>
+              <div className="max-h-80 overflow-y-auto custom-scrollbar">
+                {devices?.map((device, index) => (
+                  <div
+                    className="grid grid-cols-4 border-t border-stroke py-4.5 px-48 md:px-6 2xl:px-7.5"
+                    key={index}
+                  >
+                    <div className="col-span-1 flex items-center">
+                      <div className="text-graydark">
+                        <span className="text-blue-600">
+                          {device.type
+                            ?.replace(/-/g, " ")
+                            .replace(
+                              /\w\S*/g,
+                              (word) =>
+                                word.charAt(0).toUpperCase() +
+                                word.slice(1).toLowerCase()
+                            )}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-span-1 flex items-center">
+                      <div className="text-graydark">
+                        <span className="text-blue-600">{device.country}</span>
+                      </div>
+                    </div>
+                    <div className="col-span-1 flex items-center">
+                      <div className="text-graydark">
+                        <span className="text-blue-600">{device.ip}</span>
+                      </div>
+                    </div>
+                    <div className="col-span-1 flex items-center">
+                      <div className="text-graydark">
+                        <span className="text-blue-600">{device.browser}</span>
+                      </div>
+                    </div>
                   </div>
-                )
-              )}
+                ))}
+              </div>
             </div>
-            <div className="max-h-80 overflow-y-auto custom-scrollbar">
-              {devices?.map((device, index) => (
-                <div
-                  className="grid grid-cols-4 border-t border-stroke py-4.5 px-48 md:px-6 2xl:px-7.5"
-                  key={index}
-                >
-                  <div className="col-span-1 flex items-center">
-                    <div className="text-graydark">
-                      <span className="text-blue-600">
-                        {device.type
-                          ?.replace(/-/g, " ")
-                          .replace(
-                            /\w\S*/g,
-                            (word) =>
-                              word.charAt(0).toUpperCase() +
-                              word.slice(1).toLowerCase()
-                          )}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="col-span-1 flex items-center">
-                    <div className="text-graydark">
-                      <span className="text-blue-600">{device.country}</span>
-                    </div>
-                  </div>
-                  <div className="col-span-1 flex items-center">
-                    <div className="text-graydark">
-                      <span className="text-blue-600">{device.ip}</span>
-                    </div>
-                  </div>
-                  <div className="col-span-1 flex items-center">
-                    <div className="text-graydark">
-                      <span className="text-blue-600">{device.browser}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          </>
         )}
         {addedEmails?.length > 0 && (
           <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
@@ -705,29 +750,6 @@ const CampaignsDetailsPage = () => {
 
         <div className="flex justify-between items-center mt-4">
           <h1 className="text-lg font-bold text-gray-800">Campaigns</h1>
-          <div className="flex">
-            <div className="flex items-center">
-              <Link
-                to={`/master-form/${productDetailsData.pid}s${productDetailsData.sid}`}
-                state={{
-                  subTemplateId: productDetailsData.sub_template_id,
-                }}
-              >
-                <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2">
-                  Edit Template
-                </button>
-              </Link>
-            </div>
-            {type === "email_template" && (
-              <div className="flex items-center">
-                <Link onClick={handleSendEmail}>
-                  <button className="border border-blue-600 text-blue-600 hover:text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mr-2 bg-transparent">
-                    Send Email
-                  </button>
-                </Link>
-              </div>
-            )}
-          </div>
         </div>
 
         <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">

@@ -191,12 +191,17 @@ const MasterForm = () => {
     }
   };
 
-  const handleDeleteField = (fieldName) => {
+  // const handleDeleteField = (fieldName) => {
+  //   setAddedFields((prevFields) =>
+  //     prevFields.filter((field) => field.fieldName !== fieldName)
+  //   );
+  // };
+  
+  const handleDeleteField = (indexToDelete) => {
     setAddedFields((prevFields) =>
-      prevFields.filter((field) => field.fieldName !== fieldName)
+      prevFields.filter((_, index) => index !== indexToDelete)
     );
   };
-
   const handleEdit = (field, index) => {
     setInputControllerEditState({
       index,
@@ -1587,7 +1592,8 @@ const MasterForm = () => {
                         inputValue={inputValues[field.fieldName] || ""}
                         onInputChange={handleInputChange}
                         isSubmitted={isSubmitted}
-                        onDelete={() => handleDeleteField(field.fieldName)}
+                        onDelete={() => handleDeleteField(index)} // Pass index for deletion
+                        // onDelete={() => handleDeleteField(field.fieldName)}
                         onEdit={() => handleEdit(field, index)}
                       />
                     ))}
