@@ -17,6 +17,7 @@ import TargetingAndBehaviorControlComponent from "./TargetAndBehaviourCampaignCo
 import SurveyCampaignCompon from "./SurveyCampaignComponent";
 import NeedHelpPage from "../../NeedHelp";
 import Support from "../../Support/Support";
+import EmailDetailsModal from "./EmailDetailsModal";
 
 const CampaignsDetailsPage = () => {
   const defaultDayCount = [0, 0, 0, 0, 0, 0, 0];
@@ -67,6 +68,7 @@ const CampaignsDetailsPage = () => {
   const [activeTab, setActiveTab] = useState("medium");
   const location = useLocation();
   const refToTop = useRef();
+
   useEffect(() => {
     refToTop.current.scrollIntoView({ behavior: "auto" });
   }, []);
@@ -142,10 +144,21 @@ const CampaignsDetailsPage = () => {
   const [clickCount, setClickCount] = useState(0);
   const [viewCount, setViewCount] = useState(0);
 
+  const [readCount, setReadCount] = useState(0);
+  const [openRateCount, setOpenRateCount] = useState(0);
+  const [eClickCount, setEClickCount] = useState(0);
+  const [readClickConversionCount, setReadClickConversionCount] = useState(0);
+
   const [customers, setCustomers] = useState([]);
   const [devices, setDevices] = useState([]);
   const [addedEmails, setAddedEmails] = useState([]);
+  const [selectedEmail, setSelectedEmail] = useState("");
+  const [emailDetail, setEmailDetail] = useState("");
   const [emailTemplateDetail, setEmailTemplateDetail] = useState([]);
+  const [emailDetailsModal, setEmailDetailsModal] = useState(false);
+  const onEmailModalOpenClose = () => {
+    setEmailDetailsModal(!emailDetailsModal);
+  };
 
   const changeAppliedStatus = async (problemId, statementId, currentStatus) => {
     try {
@@ -261,6 +274,25 @@ const CampaignsDetailsPage = () => {
               setAddedEmails(res?.data?.addedEmails);
 
               setEmailTemplateDetail(res?.data?.emailTemplateTracking);
+              let readAtCount = 0;
+              let openRateCount = 0;
+              let clickCount = 0;
+              res?.data?.emailTemplateTracking?.map(
+                (emailTemplateTrackingItem) => {
+                  if (emailTemplateTrackingItem?.read_at) {
+                    readAtCount += 1;
+                    openRateCount += 1;
+                  }
+                  if (emailTemplateTrackingItem?.click_at) {
+                    clickCount += 1;
+                  }
+                }
+              );
+
+              setReadCount(readAtCount);
+              setOpenRateCount(openRateCount);
+              setEClickCount(clickCount);
+              setReadClickConversionCount((clickCount / readAtCount) * 100);
             }
           })
           .catch((err) => {
@@ -276,6 +308,36 @@ const CampaignsDetailsPage = () => {
 
     fetchSuggestionDetailsData();
   }, [id]);
+
+  useEffect(() => {
+    if (selectedEmail) {
+      getEmailDetailFromStore(selectedEmail);
+    }
+  }, [selectedEmail]);
+
+  const getEmailDetailFromStore = async (email) => {
+    try {
+      setLoading(true);
+      await FormSubmitHandler({
+        method: "get",
+        url: `customer?email=${email}`,
+      })
+        .then((res) => {
+          if (res.data) {
+            setEmailDetail(res.data);
+            toast.success(res.message);
+          }
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } catch (error) {
+      console.error("Error fetching email data:", error);
+    }
+  };
 
   const handleSendEmail = async () => {
     if (productDetailsData?.suggestion?.data?.length > 0) {
@@ -640,7 +702,12 @@ const CampaignsDetailsPage = () => {
             </div>
           </div>
         )}
-
+        <div className="grid grid-cols-4 gap-4 my-5">
+          {renderCampaignBox("Read", readCount)}
+          {renderCampaignBox("Open Rate", openRateCount)}
+          {renderCampaignBox("Click", eClickCount)}
+          {renderCampaignBox("Conversions Rate", readClickConversionCount)}
+        </div>
         {emailTemplateDetail?.length > 0 && (
           <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
             <h2 className="font-semibold text-xl text-black">
@@ -665,7 +732,13 @@ const CampaignsDetailsPage = () => {
                   key={index}
                 >
                   <div className="col-span-1 flex items-center">
-                    <div className="text-graydark">
+                    <div
+                      className="text-graydark cursor-pointer"
+                      onClick={() => {
+                        setEmailDetailsModal(true);
+                        setSelectedEmail(etdRecord.email);
+                      }}
+                    >
                       <span className="text-blue-600">{etdRecord.email}</span>
                     </div>
                   </div>
@@ -693,7 +766,7 @@ const CampaignsDetailsPage = () => {
                   <div className="col-span-1 flex items-center">
                     <div className="text-graydark">
                       <span className="text-blue-600">
-                        {etdRecord.read_at ? "Yes" : "No"}
+                        {etdRecord.click_at ? "Yes" : "No"}
                       </span>
                     </div>
                   </div>
@@ -877,6 +950,11 @@ const CampaignsDetailsPage = () => {
         <BundleCampaignComponent productDetailsData={productDetailsData} />
         <Support />
       </div>
+      <EmailDetailsModal
+        isOpen={emailDetailsModal}
+        onClose={onEmailModalOpenClose}
+        emailDetail={emailDetail}
+      />
     </>
   );
 };
