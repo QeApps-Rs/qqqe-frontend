@@ -1,85 +1,61 @@
-/* eslint-disable react/prop-types */
-
 const EmailDetailsModal = ({ isOpen, onClose, emailDetail }) => {
   if (!isOpen) return null;
+
   return (
-    <div className="w-full fixed z-10 inset-0">
-      <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div className="absolute inset-0 bg-slate-500 opacity-75" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm">
+      <div
+        className="w-full max-w-3xl bg-white rounded-lg shadow-lg transform transition-transform scale-100 sm:mx-4 md:mx-0  mx-4" 
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-headline"
+      >
+        {/* Modal Header */}
+        <div className="bg-dashboard_gradient text-white px-6 py-4 flex items-center justify-between rounded-t-lg">
+          <h2 className="text-lg font-semibold">
+            <i className="fa fa-envelope mr-2" aria-hidden="true"></i>Email Details
+          </h2>
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-white hover:text-gray-200 focus:outline-none"
+          >
+            <i className="fa fa-times text-xl" aria-hidden="true"></i>
+          </button>
         </div>
-        <div
-          className={`w-2/4 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:align-middle relative top-25`}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="modal-headline"
-        >
-          <div className="bg-slate-500 w-full flex justify-between p-4">
-            <h2>Email Details</h2>
-          </div>
-          <div className="bg-white px-4 pt-5 pb-4 max-h-[500px] overflow-x-hidden overflow-y-auto">
-            <div className="flex items-center">
-              <label className="mr-2">Name:</label>
-              <p className="m-0">
-                {emailDetail?.first_name + " " + emailDetail?.last_name}
-              </p>
-            </div>
-            <div className="flex items-center">
-              <label className="mr-2">Email:</label>
-              <p className="m-0">{emailDetail?.email}</p>
-            </div>
-            <div className="flex items-center">
-              <label className="mr-2">Phone:</label>
-              <p className="m-0">
-                {emailDetail?.phone ? emailDetail?.phone : "-"}
-              </p>
-            </div>
-            <div className="flex items-center">
-              <label className="mr-2">Address Line 1: </label>
-              <p className="m-0">{emailDetail?.default_address?.address1}</p>
-            </div>
-            <div className="flex items-center">
-              <label className="mr-2">Address Line 2: </label>
-              <p className="m-0">
-                {emailDetail?.default_address?.address2
-                  ? emailDetail?.default_address?.address2
-                  : "-"}
-              </p>
-            </div>
-            <div className="flex items-center">
-              <label className="mr-2">City: </label>
-              <p className="m-0">{emailDetail?.default_address?.city}</p>
-            </div>
-            <div className="flex items-center">
-              <label className="mr-2">Province: </label>
-              <p className="m-0">
-                {emailDetail?.default_address?.province} (Code:
-                {emailDetail?.default_address?.province_code})
-              </p>
-            </div>
-            <div className="flex items-center">
-              <label className="mr-2">Country: </label>
-              <p className="m-0">
-                {emailDetail?.default_address?.country} (Code:
-                {emailDetail?.default_address?.country_code})
-              </p>
-            </div>
-            <div className="flex items-center">
-              <label className="mr-2">Zip Code: </label>
-              <p className="m-0">
-                {emailDetail?.default_address?.zip} (Code:
-                {emailDetail?.default_address?.zip})
-              </p>
-            </div>
-          </div>
-          <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <button
-              type="button"
-              onClick={onClose}
-              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-            >
-              Close
-            </button>
+
+        {/* Modal Content */}
+        <div className="p-6 space-y-6 max-h-[600px] overflow-y-auto sm:px-6 custom-scrollbar">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              { label: "Name", value: `${emailDetail?.first_name || ""} ${emailDetail?.last_name || ""}`, icon: "fa-user" },
+              { label: "Email", value: emailDetail?.email || "-", icon: "fa-envelope" },
+              { label: "Phone", value: emailDetail?.phone || "-", icon: "fa-phone" },
+              { label: "Address Line 1", value: emailDetail?.default_address?.address1 || "-", icon: "fa-map-marker" },
+              { label: "Address Line 2", value: emailDetail?.default_address?.address2 || "-", icon: "fa-map-marker" },
+              { label: "City", value: emailDetail?.default_address?.city || "-", icon: "fa-building" },
+              {
+                label: "Province",
+                value: `${emailDetail?.default_address?.province || "-"} (Code: ${emailDetail?.default_address?.province_code || "-"})`,
+                icon: "fa-globe",
+              },
+              {
+                label: "Country",
+                value: `${emailDetail?.default_address?.country || "-"} (Code: ${emailDetail?.default_address?.country_code || "-"})`,
+                icon: "fa-flag",
+              },
+              { label: "Zip Code", value: emailDetail?.default_address?.zip || "-", icon: "fa-location-arrow" },
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="flex items-center space-x-3 border-b pb-3"
+              >
+                <i className={`fa ${item.icon} text-blue-500`} aria-hidden="true"></i>
+                <div className="flex-1">
+                  <div className="text-sm font-medium text-gray-600">{item.label}:</div>
+                  <div className="text-gray-800">{item.value}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

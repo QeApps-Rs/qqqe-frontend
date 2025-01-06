@@ -297,7 +297,11 @@ const CampaignsDetailsPage = () => {
               setReadCount(readAtCount);
               setOpenRateCount(openRateCount);
               setEClickCount(clickCountForE);
-              setReadClickConversionCount((clickCountForE / readAtCount) * 100);
+              if (readAtCount) {
+                setReadClickConversionCount(
+                  (clickCountForE / readAtCount) * 100
+                );
+              }
             }
           })
           .catch((err) => {
@@ -386,7 +390,6 @@ const CampaignsDetailsPage = () => {
 
   const colFullWidthGraph =
     "rounded-lg border border-stroke bg-white shadow-md p-4 hover:shadow-xl transition-shadow duration-300 min-h-[450px] ";
-
 
   return (
     <>
@@ -588,9 +591,7 @@ const CampaignsDetailsPage = () => {
                     className="w-30 max-h-30 object-contain"
                   />
                   <div className="ml-2 text-graydark">
-                    <Link to="/campaigns-details">
-                      <span className="text-blue-600">{product.variant}</span>
-                    </Link>
+                    <span className="text-blue-600">{product.variant}</span>
                   </div>
                 </div>
                 {["impressions", "conversions", "conversions_rate"].map(
@@ -606,9 +607,7 @@ const CampaignsDetailsPage = () => {
         )}
 
         {chartClassNameSize && (
-          <div
-            className={`grid grid-cols-1 xl:grid-cols-${chartClassNameSize} gap-4 mt-5`}
-          >
+          <div className={`grid grid-cols-${chartClassNameSize} gap-4 mt-5`}>
             {countryWiseCustomerChart.seriesData.length > 0 && (
               <div className={colFullWidthGraph}>
                 <DashboardTitle title={"Country wise customers"} />
@@ -751,225 +750,243 @@ const CampaignsDetailsPage = () => {
           {renderCampaignBox("Read", readCount)}
           {renderCampaignBox("Open Rate", openRateCount)}
           {renderCampaignBox("Click", eClickCount)}
-          {renderCampaignBox("Conversions Rate", readClickConversionCount)}
-        </div>
-        {emailTemplateDetail?.length > 0 && (
-          <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
-            <h2 className="font-semibold text-xl text-black">
-              Email List Details
-            </h2>
-            <div className="grid grid-cols-5 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5">
-              {["Email", "Sent At", "Read", "Open Rate", "Click"].map(
-                (header, index1) => (
-                  <div className="col-span-1" key={index1}>
-                    <p className="text-black font-bold">{header}</p>
-                  </div>
-                )
-              )}
-            </div>
-            <div
-              className="max-h-80 overflow-y-auto custom-scrollbar"
-              style={{ width: "calc(100% + 13px)" }}
-            >
-              {emailTemplateDetail?.map((etdRecord, index) => (
-                <div
-                  className="grid grid-cols-5 border-t border-stroke py-4.5 px-48 md:px-6 2xl:px-7.5"
-                  key={index}
-                >
-                  <div className="col-span-1 flex items-center">
-                    <div
-                      className="text-graydark cursor-pointer"
-                      onClick={() => {
-                        setEmailDetailsModal(true);
-                        setSelectedEmail(etdRecord.email);
-                      }}
-                    >
-                      <span className="text-blue-600">{etdRecord.email}</span>
-                    </div>
-                  </div>
-                  <div className="col-span-1 flex items-center">
-                    <div className="text-graydark">
-                      <span className="text-blue-600">
-                        {etdRecord.created_at}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="col-span-1 flex items-center">
-                    <div className="text-graydark">
-                      <span className="text-blue-600">
-                        {etdRecord.read_at ? "Yes" : "No"}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="col-span-1 flex items-center">
-                    <div className="text-graydark">
-                      <span className="text-blue-600">
-                        {etdRecord.read_at ? "Yes" : "No"}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="col-span-1 flex items-center">
-                    <div className="text-graydark">
-                      <span className="text-blue-600">
-                        {etdRecord.click_at ? "Yes" : "No"}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className="flex justify-between items-center mt-4">
-          <h1 className="text-lg font-bold text-gray-800">Campaigns</h1>
-        </div>
-
-        <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="font-semibold text-xl text-customGray uppercase	">
-              When will the popup show up
-            </h2>
-          </div>
-          <div className="flex relative justify-between items-center">
-            <div className="flex items-center">
-              <div className="w-10 h-10 bg-orange-200 rounded-md flex items-center justify-center mr-3">
-                <i
-                  className={`fa fa-clock-o text-red-500 text-2xl`}
-                  aria-hidden="true"
-                ></i>
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-black">Timing</h3>
-                {productDetailsData?.json_response?.target_behaviors?.display
-                  ?.timing?.type === "immediately" && (
-                  <span className="text-customGray"> Immediately </span>
-                )}
-                {productDetailsData?.json_response?.target_behaviors?.display
-                  ?.timing?.type === "only_on_a_custom_trigger" && (
-                  <span className="text-customGray">
-                    Only on a custom trigger
-                  </span>
-                )}
-                {productDetailsData?.json_response?.target_behaviors?.display
-                  ?.timing?.type === "on_rules" && (
-                  <ul className="list-decimal pl-5">
-                    {productDetailsData?.json_response?.target_behaviors
-                      ?.display?.timing?.settings?.existing_page
-                      ?.is_selected && (
-                      <li>
-                        <span className="text-customGray">
-                          When visitor is exiting the page
-                        </span>
-                      </li>
-                    )}
-                    {productDetailsData?.json_response?.target_behaviors
-                      ?.display?.timing?.settings?.after_delay_time
-                      ?.is_selected && (
-                      <li>
-                        <span className="text-customGray">
-                          After time delay{" "}
-                          {productDetailsData?.json_response?.target_behaviors
-                            ?.display?.timing?.settings?.after_delay_time
-                            ?.value != "" && (
-                            <strong className="text-black font-bold text-md">
-                              Show again after:{" "}
-                              {
-                                productDetailsData?.json_response
-                                  ?.target_behaviors?.display?.timing?.settings
-                                  ?.after_delay_time?.value
-                              }
-                            </strong>
-                          )}
-                        </span>
-                      </li>
-                    )}
-                    {productDetailsData?.json_response?.target_behaviors
-                      ?.display?.timing?.settings?.after_scroll_distance
-                      ?.is_selected && (
-                      <li>
-                        <span className="text-customGray">
-                          After visitor has scrolled a certain amount{" "}
-                          {productDetailsData?.json_response?.target_behaviors
-                            ?.display?.timing?.settings?.after_scroll_distance
-                            ?.value != "" && (
-                            <strong className="text-black font-bold text-md">
-                              Scroll distance:{" "}
-                              {
-                                productDetailsData?.json_response
-                                  ?.target_behaviors?.display?.timing?.settings
-                                  ?.after_scroll_distance?.value
-                              }
-                            </strong>
-                          )}
-                        </span>
-                      </li>
-                    )}
-                    {productDetailsData?.json_response?.target_behaviors
-                      ?.display?.timing?.settings?.after_pages_visit
-                      ?.is_selected && (
-                      <li>
-                        <span className="text-customGray">
-                          After visitor sees a certain number of pages{" "}
-                          {productDetailsData?.json_response?.target_behaviors
-                            ?.display?.timing?.settings?.after_pages_visit
-                            ?.value != "" && (
-                            <strong className="text-black font-bold text-md">
-                              After:{" "}
-                              {
-                                productDetailsData?.json_response
-                                  ?.target_behaviors?.display?.timing?.settings
-                                  ?.after_pages_visit?.value
-                              }
-                            </strong>
-                          )}
-                        </span>
-                      </li>
-                    )}
-                  </ul>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {productDetailsData?.json_response?.target_behaviors?.display
-            ?.frequency?.after_show_days > 0 && (
-            <div className="flex relative justify-between items-center">
-              <div className="flex items-center">
-                <div className="w-10 h-10 bg-orange-200 rounded-md flex items-center justify-center mr-3">
-                  <i
-                    className={`fa fa-signal text-red-500 text-2xl`}
-                    aria-hidden="true"
-                  ></i>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-bold text-black">Frequency</h3>
-                  <ul className="list-decimal pl-5">
-                    <li>
-                      <span className="text-customGray">
-                        After a visitor closes this form, show again after{" "}
-                        {
-                          productDetailsData?.json_response?.target_behaviors
-                            ?.display?.frequency?.after_show_days
-                        }{" "}
-                        days
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+          {renderCampaignBox(
+            "Conversions Rate",
+            readClickConversionCount + "%"
           )}
         </div>
+        {emailTemplateDetail?.length > 0 && (
+          <>
+            <h1 className="text-lg font-bold text-gray-800 my-5">
+              Email List Details
+            </h1>
+            <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
+              <div className="grid grid-cols-5 border-stroke pb-4.5 px-4 md:px-6 2xl:px-7.5">
+                {["Email", "Sent At", "Read", "Open Rate", "Click"].map(
+                  (header, index1) => (
+                    <div className="col-span-1" key={index1}>
+                      <p className="text-black font-bold">{header}</p>
+                    </div>
+                  )
+                )}
+              </div>
+              <div
+                className="max-h-80 overflow-y-auto custom-scrollbar"
+                style={{ width: "calc(100% + 13px)" }}
+              >
+                {emailTemplateDetail?.map((etdRecord, index) => (
+                  <div
+                    className="grid grid-cols-5 border-t border-stroke py-4.5 px-48 md:px-6 2xl:px-7.5"
+                    key={index}
+                  >
+                    <div className="col-span-1 flex items-center">
+                      <div
+                        className="text-graydark cursor-pointer items-center"
+                        onClick={() => {
+                          setEmailDetailsModal(true);
+                          setSelectedEmail(etdRecord.email);
+                        }}
+                      >
+                        <i
+                          class="fa fa-external-link text-blue-600 text-lg"
+                          aria-hidden="true"
+                        ></i>{" "}
+                        <span className="text-blue-600 decoration-slice">
+                          {etdRecord.email}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-span-1 flex items-center">
+                      <div className="text-graydark">
+                        <span className="text-blue-600">
+                          {etdRecord.created_at}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-span-1 flex items-center">
+                      <div className="text-graydark">
+                        <span className="text-blue-600">
+                          {etdRecord.read_at ? "Yes" : "No"}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-span-1 flex items-center">
+                      <div className="text-graydark">
+                        <span className="text-blue-600">
+                          {etdRecord.read_at ? "Yes" : "No"}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-span-1 flex items-center">
+                      <div className="text-graydark">
+                        <span className="text-blue-600">
+                          {etdRecord.click_at ? "Yes" : "No"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+        {type === "suggestion" && (
+          <>
+            <div className="flex justify-between items-center mt-4">
+              <h1 className="text-lg font-bold text-gray-800">Campaigns</h1>
+            </div>
 
-        <TargetingAndBehaviorControlComponent
-          productDetailsData={productDetailsData}
-        />
+            <div className="rounded-sm border border-stroke bg-white shadow-default mt-4 p-4">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="font-semibold text-xl text-customGray uppercase	">
+                  When will the popup show up
+                </h2>
+              </div>
+              <div className="flex relative justify-between items-center">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 bg-orange-200 rounded-md flex items-center justify-center mr-3">
+                    <i
+                      className={`fa fa-clock-o text-red-500 text-2xl`}
+                      aria-hidden="true"
+                    ></i>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-black">Timing</h3>
+                    {productDetailsData?.json_response?.target_behaviors
+                      ?.display?.timing?.type === "immediately" && (
+                      <span className="text-customGray"> Immediately </span>
+                    )}
+                    {productDetailsData?.json_response?.target_behaviors
+                      ?.display?.timing?.type ===
+                      "only_on_a_custom_trigger" && (
+                      <span className="text-customGray">
+                        Only on a custom trigger
+                      </span>
+                    )}
+                    {productDetailsData?.json_response?.target_behaviors
+                      ?.display?.timing?.type === "on_rules" && (
+                      <ul className="list-decimal pl-5">
+                        {productDetailsData?.json_response?.target_behaviors
+                          ?.display?.timing?.settings?.existing_page
+                          ?.is_selected && (
+                          <li>
+                            <span className="text-customGray">
+                              When visitor is exiting the page
+                            </span>
+                          </li>
+                        )}
+                        {productDetailsData?.json_response?.target_behaviors
+                          ?.display?.timing?.settings?.after_delay_time
+                          ?.is_selected && (
+                          <li>
+                            <span className="text-customGray">
+                              After time delay{" "}
+                              {productDetailsData?.json_response
+                                ?.target_behaviors?.display?.timing?.settings
+                                ?.after_delay_time?.value != "" && (
+                                <strong className="text-black font-bold text-md">
+                                  Show again after:{" "}
+                                  {
+                                    productDetailsData?.json_response
+                                      ?.target_behaviors?.display?.timing
+                                      ?.settings?.after_delay_time?.value
+                                  }
+                                </strong>
+                              )}
+                            </span>
+                          </li>
+                        )}
+                        {productDetailsData?.json_response?.target_behaviors
+                          ?.display?.timing?.settings?.after_scroll_distance
+                          ?.is_selected && (
+                          <li>
+                            <span className="text-customGray">
+                              After visitor has scrolled a certain amount{" "}
+                              {productDetailsData?.json_response
+                                ?.target_behaviors?.display?.timing?.settings
+                                ?.after_scroll_distance?.value != "" && (
+                                <strong className="text-black font-bold text-md">
+                                  Scroll distance:{" "}
+                                  {
+                                    productDetailsData?.json_response
+                                      ?.target_behaviors?.display?.timing
+                                      ?.settings?.after_scroll_distance?.value
+                                  }
+                                </strong>
+                              )}
+                            </span>
+                          </li>
+                        )}
+                        {productDetailsData?.json_response?.target_behaviors
+                          ?.display?.timing?.settings?.after_pages_visit
+                          ?.is_selected && (
+                          <li>
+                            <span className="text-customGray">
+                              After visitor sees a certain number of pages{" "}
+                              {productDetailsData?.json_response
+                                ?.target_behaviors?.display?.timing?.settings
+                                ?.after_pages_visit?.value != "" && (
+                                <strong className="text-black font-bold text-md">
+                                  After:{" "}
+                                  {
+                                    productDetailsData?.json_response
+                                      ?.target_behaviors?.display?.timing
+                                      ?.settings?.after_pages_visit?.value
+                                  }
+                                </strong>
+                              )}
+                            </span>
+                          </li>
+                        )}
+                      </ul>
+                    )}
+                  </div>
+                </div>
+              </div>
 
-        <SurveyCampaignCompon productDetailsData={productDetailsData} />
+              {productDetailsData?.json_response?.target_behaviors?.display
+                ?.frequency?.after_show_days > 0 && (
+                <div className="flex relative justify-between items-center">
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 bg-orange-200 rounded-md flex items-center justify-center mr-3">
+                      <i
+                        className={`fa fa-signal text-red-500 text-2xl`}
+                        aria-hidden="true"
+                      ></i>
+                    </div>
 
-        <BundleCampaignComponent productDetailsData={productDetailsData} />
+                    <div>
+                      <h3 className="text-lg font-bold text-black">
+                        Frequency
+                      </h3>
+                      <ul className="list-decimal pl-5">
+                        <li>
+                          <span className="text-customGray">
+                            After a visitor closes this form, show again after{" "}
+                            {
+                              productDetailsData?.json_response
+                                ?.target_behaviors?.display?.frequency
+                                ?.after_show_days
+                            }{" "}
+                            days
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <TargetingAndBehaviorControlComponent
+              productDetailsData={productDetailsData}
+            />
+
+            <SurveyCampaignCompon productDetailsData={productDetailsData} />
+
+            <BundleCampaignComponent productDetailsData={productDetailsData} />
+          </>
+        )}
         <Support />
       </div>
       <EmailDetailsModal
