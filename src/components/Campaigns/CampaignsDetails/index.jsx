@@ -281,7 +281,7 @@ const CampaignsDetailsPage = () => {
               setEmailTemplateDetail(res?.data?.emailTemplateTracking);
               let readAtCount = 0;
               let openRateCount = 0;
-              let clickCount = 0;
+              let clickCountForE = 0;
               res?.data?.emailTemplateTracking?.map(
                 (emailTemplateTrackingItem) => {
                   if (emailTemplateTrackingItem?.read_at) {
@@ -289,15 +289,15 @@ const CampaignsDetailsPage = () => {
                     openRateCount += 1;
                   }
                   if (emailTemplateTrackingItem?.click_at) {
-                    clickCount += 1;
+                    clickCountForE += 1;
                   }
                 }
               );
 
               setReadCount(readAtCount);
               setOpenRateCount(openRateCount);
-              setEClickCount(clickCount);
-              setReadClickConversionCount((clickCount / readAtCount) * 100);
+              setEClickCount(clickCountForE);
+              setReadClickConversionCount((clickCountForE / readAtCount) * 100);
             }
           })
           .catch((err) => {
