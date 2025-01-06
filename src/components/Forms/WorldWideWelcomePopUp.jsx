@@ -160,7 +160,8 @@ const WorldWideWelcomePopUp = ({
                 inputValue={inputValues[field.fieldName] || ""}
                 onInputChange={handleInputChange}
                 isSubmitted={isSubmitted}
-                onDelete={() => handleDeleteField(field.fieldName)}
+                // onDelete={() => handleDeleteField(field.fieldName)}
+                onDelete={() => handleDeleteField(index)}
                 onEdit={() => handleEdit(field, index)}
               />
             ))}

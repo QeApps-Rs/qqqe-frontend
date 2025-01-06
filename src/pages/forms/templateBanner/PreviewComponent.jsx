@@ -135,7 +135,8 @@ const PreviewComponent = ({
                       inputValue={inputValues[field.fieldName] || ""}
                       onInputChange={handleInputChange}
                       isSubmitted={isSubmitted}
-                      onDelete={() => handleDeleteField(field.fieldName)}
+                      onDelete={() => handleDeleteField(index)}
+                      // onDelete={() => handleDeleteField(field.fieldName)}
                       onEdit={() => handleEdit(field, index)}
                     />
                   ))}
