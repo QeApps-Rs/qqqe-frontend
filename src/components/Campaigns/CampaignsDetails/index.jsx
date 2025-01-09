@@ -66,8 +66,6 @@ const CampaignsDetailsPage = () => {
 
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("medium");
-
-  const [chartClassNameSize, setChartClassNameSize] = useState(null);
   const location = useLocation();
   const refToTop = useRef();
 
@@ -158,6 +156,18 @@ const CampaignsDetailsPage = () => {
   const [emailDetail, setEmailDetail] = useState("");
   const [emailTemplateDetail, setEmailTemplateDetail] = useState([]);
   const [emailDetailsModal, setEmailDetailsModal] = useState(false);
+  const emailLabels = ["Read", "Open Rate", "Click", "Conversions Rate"];
+  const emailSeriesData = [
+    readCount,
+    openRateCount,
+    eClickCount,
+    readClickConversionCount,
+  ];
+
+  const emailSalesBarData = emailSeriesData;
+  const EmailBarCategories = ["Read", "Open Rate", "Click", "Conversions Rate"];
+  const emailBaryAxisTitle = "Count";
+
   const onEmailModalOpenClose = () => {
     setEmailDetailsModal(!emailDetailsModal);
   };
@@ -259,13 +269,10 @@ const CampaignsDetailsPage = () => {
                 setViewCount(viewCount);
               }
               if (res.data?.countryWiseChartData?.seriesData?.length > 0) {
-                setChartClassNameSize(3);
                 setCountryWiseCustomerChart({
                   ...countryWiseCustomerChart,
                   ...res.data.countryWiseChartData,
                 });
-              } else {
-                setChartClassNameSize(2);
               }
 
               if (res?.data?.customersData?.length > 0) {
@@ -606,8 +613,8 @@ const CampaignsDetailsPage = () => {
           </div>
         )}
 
-        {chartClassNameSize && (
-          <div className={`grid grid-cols-${chartClassNameSize} gap-4 mt-5`}>
+        {type === "suggestion" && (
+          <div className={`grid grid-cols-3 gap-4 mt-5`}>
             {countryWiseCustomerChart.seriesData.length > 0 && (
               <div className={colFullWidthGraph}>
                 <DashboardTitle title={"Country wise customers"} />
@@ -629,6 +636,27 @@ const CampaignsDetailsPage = () => {
             <div className={colFullWidthGraph}>
               <DashboardTitle title={"Sales by Product Category"} />
               <SalesPieGraph seriesData={seriesData} labels={labels} />
+            </div>
+          </div>
+        )}
+        {type === "email_template" && (
+          <div className={`grid grid-cols-2 gap-4 mt-5`}>
+            <div className={colFullWidthGraph}>
+              <DashboardTitle title={"Email bar Chart"} />
+              <SalesBarGraph
+                salesBarData={emailSalesBarData}
+                barCategories={EmailBarCategories}
+                baryAxisTitle={emailBaryAxisTitle}
+                title=""
+                tooltipTitle="Count"
+              />
+            </div>
+            <div className={colFullWidthGraph}>
+              <DashboardTitle title={"Email Pia Chart"} />
+              <SalesPieGraph
+                seriesData={emailSeriesData}
+                labels={emailLabels}
+              />
             </div>
           </div>
         )}
