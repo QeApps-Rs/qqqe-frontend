@@ -36,6 +36,7 @@ const Campaigns = () => {
   const [conversionCount, setConversionCount] = useState(0);
   const [clickCount, setClickCount] = useState(0);
   const [viewCount, setViewCount] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [weeklyImpressionCount, setWeeklyImpressionCount] = useState([
     ...defaultDayCount,
@@ -49,6 +50,15 @@ const Campaigns = () => {
     ...defaultMonthCount,
   ]);
   const [toggleState, setToggleState] = useState({});
+  const [selectedDeleteId, setSelectedDeleteId] = useState(null);
+  const openModal = (id) => {
+    setSelectedDeleteId(id);
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setSelectedDeleteId(null);
+    setIsModalOpen(false);
+  };
 
   const handleToggle = (productId) => {
     setSwitchStates((prevStates) => ({
@@ -152,6 +162,32 @@ const Campaigns = () => {
     }
   };
 
+  const deleteCustomerTemplate = async () => {
+    setLoading(true);
+    await FormSubmitHandler({
+      method: "delete",
+      url: `customer/template/${selectedDeleteId}`,
+    })
+      .then((res) => {
+        toast.success(res.message);
+        fetchSuggestionData();
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+        closeModal();
+      });
+  };
+
+  const handleDelete = () => {
+    console.log("Item deleted!");
+    console.log(["selectedDeleteId", selectedDeleteId]);
+
+    closeModal();
+  };
+
   useEffect(() => {
     fetchSuggestionData();
   }, []);
@@ -251,16 +287,16 @@ const Campaigns = () => {
         </div>
       </div>
       <div className="rounded-lg  bg-white shadow-default mt-4 ">
-        <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5 ">
+        <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5 ">
           {[
-            "Latest Applied Date",
-            "",
+            "Latest",
             "Status",
             "Devices",
             "Template Handle",
             "Impressions",
             "Conversions",
             "Conversions rate",
+            "Action",
           ].map((header, index) => (
             <div
               className={`${
@@ -285,15 +321,15 @@ const Campaigns = () => {
           </div>
         )}
 
-        {productData?.map((product) => {
+        {productData?.map((product, index) => {
           const currentStatus =
             toggleState[`${product?.pid}-${product?.sid}`] ??
             product?.service_status;
 
           return (
             <div
-              className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-8 md:px-6 2xl:px-7.5 gap-4"
-              key={product.id}
+              className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5 gap-4"
+              key={index}
             >
               <div className="col-span-2 flex items-center">
                 <img
@@ -363,12 +399,53 @@ const Campaigns = () => {
                   </p>
                 </div>
               ))}
+              <div className="col-span-1 flex items-center">
+                <button
+                  className="px-4 py-2 rounded-full hover:bg-red-100 focus:outline-none transition duration-300"
+                  aria-label="Delete"
+                  onClick={() => openModal(product.id)}
+                >
+                  <i
+                    className="fa fa-trash text-red-500 text-2xl cursor-pointer"
+                    aria-hidden="true"
+                  ></i>
+                </button>
+              </div>
             </div>
           );
         })}
       </div>
 
       <Support />
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-lg w-1/3">
+            <div className="bg-dashboard_gradient text-white px-6 py-4 flex items-center justify-between rounded-t-lg">
+              <h2 className="text-lg font-semibold">Confirmation</h2>
+              <button
+                type="button"
+                onClick={() => closeModal()}
+                className="w-10 h-10 rounded-full hover:bg-white hover:text-black focus:outline-none transition duration-300"
+              >
+                <i className="fa fa-times text-xl" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div className=" p-6">
+              <p className="text-gray-600 mt-2">
+                Are you sure you want to <b>DELETE</b> this <b>CAMPAIGN</b>?
+              </p>
+              <div className="mt-4 flex justify-end space-x-3">
+                <button
+                  className="px-4 py-2 bg-red-500 text-white rounded-md  hover:bg-red-600 font-semibold"
+                  onClick={() => deleteCustomerTemplate()}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
