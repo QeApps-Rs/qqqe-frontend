@@ -153,6 +153,10 @@ const MasterForm = () => {
   const [selectedCollections, setSelectedCollections] = useState({});
   const location = useLocation();
   const { keywords, subTemplateId } = location.state || {}; // Safely access state
+
+  const searchParams = new URLSearchParams(location.search);
+  const categoryParam = searchParams.get("category");
+
   // TARGETING AND BEHAVIOR START
   const [targetingAndBehavior, setTargetingAndBehavior] = useState(
     targetAndBehaviorDefaultState
@@ -196,7 +200,7 @@ const MasterForm = () => {
   //     prevFields.filter((field) => field.fieldName !== fieldName)
   //   );
   // };
-  
+
   const handleDeleteField = (indexToDelete) => {
     setAddedFields((prevFields) =>
       prevFields.filter((_, index) => index !== indexToDelete)
@@ -726,7 +730,7 @@ const MasterForm = () => {
     })
       .then((response) => {
         if (response.success) {
-          navigate(`/suggestion/list/${pid}`);
+          navigate(`/suggestion/list/${pid}?category=${categoryParam}`);
         }
       })
       .catch((error) => {

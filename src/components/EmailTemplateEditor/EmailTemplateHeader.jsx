@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import FormSubmitHandler from "../FormSubmitHandler";
 import toast from "react-hot-toast";
 
@@ -15,6 +15,10 @@ const EmailTemplateHeader = ({
   eid,
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const categoryParam = searchParams.get("category");
+
   const onPublish = async () => {
     try {
       setLoading(true);
@@ -32,7 +36,7 @@ const EmailTemplateHeader = ({
           if (res) {
             toast.success(res.message);
             if (res.success) {
-              navigate(`/suggestion/list/${pid}`);
+              navigate(`/suggestion/list/${pid}?category=${categoryParam}`);
             }
           }
         })
