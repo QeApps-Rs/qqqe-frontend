@@ -165,8 +165,8 @@ const Campaigns = () => {
   const deleteCustomerTemplate = async () => {
     setLoading(true);
     await FormSubmitHandler({
-      method: "delete",
-      url: `customer/template/${selectedDeleteId}`,
+      method: "get",
+      url: `customer/template/delete/${selectedDeleteId}`,
     })
       .then((res) => {
         toast.success(res.message);

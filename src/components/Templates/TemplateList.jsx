@@ -18,8 +18,10 @@ const TemplateList = () => {
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const [templateList, setTemplateList] = useState([]);
+  const [templateListCopy, setTemplateListCopy] = useState([]);
+  const [tags, setTags] = useState([]);
   const emailTemplateList = [
-    { id: 1, name: "Template 1",imageUrl: emailTemplateImg1 },
+    { id: 1, name: "Template 1", imageUrl: emailTemplateImg1 },
     { id: 2, name: "Template 2", imageUrl: emailTemplateImg2 },
   ];
   const [keywords, setKeywords] = useState([]);
@@ -33,7 +35,17 @@ const TemplateList = () => {
     })
       .then((res) => {
         if (res.data) {
+          let tagItems = [];
           setTemplateList(res.data);
+          setTemplateListCopy(res.data);
+          res.data.map((item) => {
+            if (item?.subTemplates?.length > 0) {
+              item?.subTemplates?.map((subTemplate) => {
+                tagItems = [...tagItems, ...subTemplate?.tags?.split(",")];
+              });
+            }
+          });
+          setTags(tagItems);
         }
       })
       .catch((err) => {
@@ -88,7 +100,7 @@ const TemplateList = () => {
                   key={subTemplate.id}
                 >
                   <Link
-                    to={`/master-form/${id}`}
+                    to={`/master-form/${id}?category=${categoryParam}`}
                     state={{
                       subTemplateId: subTemplate.id,
                     }}
@@ -111,6 +123,7 @@ const TemplateList = () => {
     });
   };
   const [templateFilterCheckBox, setTemplateFilterCheckBox] = useState({
+    tags: {},
     checkedGoals: {},
     checkedMessageTypes: {},
     showMoreGoal: false,
@@ -140,15 +153,32 @@ const TemplateList = () => {
     "Survey",
   ];
 
+  // const handleCheckboxChange = (type, label, isChecked) => {
+  //   setTemplateFilterCheckBox((prev) => ({
+  //     ...prev,
+  //     [type]: {
+  //       ...prev[type],
+  //       [label]: isChecked,
+  //     },
+  //   }));
+  // };
   const handleCheckboxChange = (type, label, isChecked) => {
-    setTemplateFilterCheckBox((prev) => ({
-      ...prev,
-      [type]: {
-        ...prev[type],
-        [label]: isChecked,
-      },
-    }));
+    setTemplateFilterCheckBox((prev) => {
+      const updatedType = { ...prev[type] };
+      if (isChecked) {
+        updatedType[label] = isChecked;
+      } else {
+        delete updatedType[label];
+      }
+
+      return {
+        ...prev,
+        [type]: updatedType,
+      };
+    });
   };
+
+  const formatTag = (tag) => tag.toLowerCase().replace(/ /g, "_");
 
   const toggleShowMore = (key) => {
     setTemplateFilterCheckBox((prev) => ({
@@ -156,6 +186,26 @@ const TemplateList = () => {
       [key]: !prev[key],
     }));
   };
+
+  useEffect(() => {
+    setTemplateFilterData();
+  }, [templateFilterCheckBox.tags]);
+
+  const setTemplateFilterData = () => {
+    if (Object.keys(templateFilterCheckBox.tags).length > 0) {
+      const res = templateListCopy.filter((template) => {
+        return template?.subTemplates?.some((subTemplate) => {
+          return subTemplate?.tags?.split(",").some((tag) => {
+            return templateFilterCheckBox.tags[formatTag(tag)];
+          });
+        });
+      });
+      setTemplateList(res);
+    } else {
+      setTemplateList(templateListCopy);
+    }
+  };
+
   const RenderCheckboxes = ({ items, type, showMoreKey }) => (
     <>
       {items
@@ -164,10 +214,10 @@ const TemplateList = () => {
           <div className="mt-2 pb-2" key={index}>
             <Checkbox
               label={label}
-              checked={!!templateFilterCheckBox[type][label]}
-              onChange={(e) =>
-                handleCheckboxChange(type, label, e.target.checked)
-              }
+              checked={!!templateFilterCheckBox[type][formatTag(label)]}
+              onChange={(e) => {
+                handleCheckboxChange(type, formatTag(label), e.target.checked);
+              }}
             />
           </div>
         ))}
@@ -213,6 +263,12 @@ const TemplateList = () => {
           {/* Left side content occupying 2/3 of the space */}
           <div className="md:col-span-1 bg-white p-6 rounded-lg sticky top-0 h-[calc(100vh-2.5rem)] overflow-y-auto">
             {" "}
+            <h2 className="text-lg font-bold text-graydark my-4">Tags</h2>
+            <RenderCheckboxes
+              items={tags}
+              type="tags"
+              showMoreKey="showMoreGoal"
+            />
             <h2 className="text-lg font-bold text-graydark my-4">Goal</h2>
             <RenderCheckboxes
               items={goalCheckboxes}
@@ -231,7 +287,7 @@ const TemplateList = () => {
           <div className="md:col-span-4 w-full ">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full">
               <RenderTemplates templateListProp={templateList} />
-              {(templateList.length == 0 && categoryParam != "promotion") && (
+              {templateList.length == 0 && categoryParam != "promotion" && (
                 <div className="text-center text-black font-semibold">
                   No Template Found
                 </div>
@@ -249,11 +305,13 @@ const TemplateList = () => {
                     key={index}
                     className="transition-transform transform hover:scale-105 hover:shadow-lg md:col-span-1"
                   >
-                    <Link to={`email-template/${template.id}`}>
+                    <Link
+                      to={`email-template/${template.id}?category=${categoryParam}`}
+                    >
                       <div className="px-10 py-6 h-[350px] bg-[url('/src/images/template-background.svg')] bg-no-repeat bg-cover shadow-md shadow-black/28 rounded-lg">
                         <img
-              src={template.imageUrl} // Dynamically assign the image URL
-              alt={`Template ${template.id}`}
+                          src={template.imageUrl} // Dynamically assign the image URL
+                          alt={`Template ${template.id}`}
                           className="mb-3 w-full h-full object-contain"
                         />
                       </div>
