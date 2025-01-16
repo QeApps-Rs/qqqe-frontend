@@ -20,12 +20,22 @@ const TemplateList = () => {
   const [templateList, setTemplateList] = useState([]);
   const [templateListCopy, setTemplateListCopy] = useState([]);
   const [tags, setTags] = useState([]);
+  const [goals, setGoals] = useState([]);
   const emailTemplateList = [
     { id: 1, name: "Template 1", imageUrl: emailTemplateImg1 },
     { id: 2, name: "Template 2", imageUrl: emailTemplateImg2 },
   ];
   const [keywords, setKeywords] = useState([]);
   const [filterKeyword, setFilterKeyword] = useState("");
+
+  const [templateFilterCheckBox, setTemplateFilterCheckBox] = useState({
+    tags: {},
+    showMoreTags: false,
+    goals: {},
+    showMoreGoal: false,
+  });
+  const [selectedGoals, setSelectedGoals] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
 
   const getTemplateList = async () => {
     setLoading(true);
@@ -36,16 +46,28 @@ const TemplateList = () => {
       .then((res) => {
         if (res.data) {
           let tagItems = [];
+          let goalItems = [];
           setTemplateList(res.data);
           setTemplateListCopy(res.data);
           res.data.map((item) => {
             if (item?.subTemplates?.length > 0) {
               item?.subTemplates?.map((subTemplate) => {
-                tagItems = [...tagItems, ...subTemplate?.tags?.split(",")];
+                if (subTemplate.is_active == "active") {
+                  if (subTemplate?.tags) {
+                    tagItems = [...tagItems, ...subTemplate?.tags?.split(",")];
+                  }
+                  if (subTemplate?.goals) {
+                    goalItems = [
+                      ...goalItems,
+                      ...subTemplate?.goals?.split(","),
+                    ];
+                  }
+                }
               });
             }
           });
           setTags(tagItems);
+          setGoals(goalItems);
         }
       })
       .catch((err) => {
@@ -122,53 +144,24 @@ const TemplateList = () => {
       return null;
     });
   };
-  const [templateFilterCheckBox, setTemplateFilterCheckBox] = useState({
-    tags: {},
-    checkedGoals: {},
-    checkedMessageTypes: {},
-    showMoreGoal: false,
-    showMoreMessageType: false,
-  });
 
-  const goalCheckboxes = [
-    "Collect email addresses",
-    "Collect feedback",
-    "Collect phone numbers",
-    "Increase social engagement",
-    "Gamify your messages",
-    "Increase cart value",
-    "Make announcement",
-    "Promote special offers",
-    "Guide your visitors",
-    "Recommend products",
-    "Stop cart abandonment",
-  ];
-  const messageTypeCheckboxes = [
-    "Embedded",
-    "Fullscreen",
-    "Sticky bar",
-    "Popup",
-    "Sidemessage",
-    "Gamification",
-    "Survey",
-  ];
-
-  // const handleCheckboxChange = (type, label, isChecked) => {
-  //   setTemplateFilterCheckBox((prev) => ({
-  //     ...prev,
-  //     [type]: {
-  //       ...prev[type],
-  //       [label]: isChecked,
-  //     },
-  //   }));
-  // };
   const handleCheckboxChange = (type, label, isChecked) => {
     setTemplateFilterCheckBox((prev) => {
       const updatedType = { ...prev[type] };
       if (isChecked) {
         updatedType[label] = isChecked;
+        if (type == "goals") {
+          setSelectedGoals([...selectedGoals, label]);
+        } else if (type == "tags") {
+          setSelectedTags([...selectedTags, label]);
+        }
       } else {
         delete updatedType[label];
+        if (type == "goals") {
+          setSelectedGoals(selectedGoals.filter((goal) => goal !== label));
+        } else if (type == "tags") {
+          setSelectedTags(selectedTags.filter((tag) => tag !== label));
+        }
       }
 
       return {
@@ -189,21 +182,51 @@ const TemplateList = () => {
 
   useEffect(() => {
     setTemplateFilterData();
-  }, [templateFilterCheckBox.tags]);
+  }, [templateFilterCheckBox.tags, templateFilterCheckBox.goals]);
+
+  // const setTemplateFilterData = () => {
+  //   const hasTagsFilter = Object.keys(templateFilterCheckBox?.tags).length > 0;
+  //   const hasGoalsFilter =
+  //     Object.keys(templateFilterCheckBox?.goals).length > 0;
+  //   console.log(["chekcing", hasTagsFilter, hasGoalsFilter]);
+  //   if (Object.keys(templateFilterCheckBox.tags).length > 0) {
+  //     const res = templateListCopy.filter((template) => {
+  //       return template?.subTemplates?.some((subTemplate) => {
+  //         return subTemplate?.tags?.split(",").some((tag) => {
+  //           return templateFilterCheckBox.tags[formatTag(tag)];
+  //         });
+  //       });
+  //     });
+  //     setTemplateList(res);
+  //   } else {
+  //     setTemplateList(templateListCopy);
+  //   }
+  // };
 
   const setTemplateFilterData = () => {
-    if (Object.keys(templateFilterCheckBox.tags).length > 0) {
-      const res = templateListCopy.filter((template) => {
-        return template?.subTemplates?.some((subTemplate) => {
-          return subTemplate?.tags?.split(",").some((tag) => {
-            return templateFilterCheckBox.tags[formatTag(tag)];
-          });
-        });
+    const hasTagsFilter = Object.keys(templateFilterCheckBox?.tags).length > 0;
+    const hasGoalsFilter =
+      Object.keys(templateFilterCheckBox?.goals).length > 0;
+
+    const res = templateListCopy.filter((template) => {
+      return template?.subTemplates?.some((subTemplate) => {
+        const tagMatch = hasTagsFilter
+          ? subTemplate?.tags
+              ?.split(",")
+              .some((tag) => templateFilterCheckBox.tags[formatTag(tag)])
+          : true; // If no tag filter, match all
+
+        const goalMatch = hasGoalsFilter
+          ? subTemplate?.goals
+              ?.split(",")
+              .some((goal) => templateFilterCheckBox.goals[formatTag(goal)])
+          : true; // If no goal filter, match all
+
+        return tagMatch && goalMatch; // Both filters must pass
       });
-      setTemplateList(res);
-    } else {
-      setTemplateList(templateListCopy);
-    }
+    });
+
+    setTemplateList(res.length > 0 ? res : templateListCopy); // Set filtered or full list
   };
 
   const RenderCheckboxes = ({ items, type, showMoreKey }) => (
@@ -257,7 +280,18 @@ const TemplateList = () => {
       <span className="p-2 text-sm text-black mb-3">
         Apply solutions to improve your store and derive results
       </span>
-      <FilterBar keywords={keywords} setFilterKeyword={setFilterKeyword} />
+      <FilterBar
+        selectedGoals={selectedGoals}
+        setSelectedGoals={setSelectedGoals}
+        goals={goals}
+        selectedTags={selectedTags}
+        setSelectedTags={setSelectedTags}
+        tags={tags}
+        formatTag={formatTag}
+        handleCheckboxChange={handleCheckboxChange}
+        keywords={keywords}
+        setFilterKeyword={setFilterKeyword}
+      />
       <div className="flex">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10 my-10 w-full">
           {/* Left side content occupying 2/3 of the space */}
@@ -267,21 +301,13 @@ const TemplateList = () => {
             <RenderCheckboxes
               items={tags}
               type="tags"
-              showMoreKey="showMoreGoal"
+              showMoreKey="showMoreTags"
             />
             <h2 className="text-lg font-bold text-graydark my-4">Goal</h2>
             <RenderCheckboxes
-              items={goalCheckboxes}
-              type="checkedGoals"
+              items={goals}
+              type="goals"
               showMoreKey="showMoreGoal"
-            />
-            <h2 className="text-lg font-bold text-graydark my-4">
-              Message type
-            </h2>
-            <RenderCheckboxes
-              items={messageTypeCheckboxes}
-              type="checkedMessageTypes"
-              showMoreKey="showMoreMessageType"
             />
           </div>{" "}
           <div className="md:col-span-4 w-full ">
