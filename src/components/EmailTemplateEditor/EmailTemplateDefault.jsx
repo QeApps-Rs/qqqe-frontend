@@ -173,8 +173,7 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
           <tr
             style={{
               backgroundColor:
-                emailTemplateJSON.cart_banner_style.background_color ||
-                "#e1f2f6",
+                emailTemplateJSON.cart_banner_style.background_color,
               padding: "30px",
               borderRadius: "10px",
               width: "100%",
@@ -383,7 +382,7 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
         <tfoot
           style={{
             backgroundColor:
-              emailTemplateJSON?.footer_banner_style?.background_color || "#e1f2f6",
+              emailTemplateJSON?.footer_banner_style?.background_color ,
             padding: "20px",
             textAlign: "center",
             display: "flex",

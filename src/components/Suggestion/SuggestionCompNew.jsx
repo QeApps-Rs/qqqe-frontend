@@ -22,7 +22,7 @@ const SuggestionCompNew = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const categoryParam = searchParams.get("category");
-  
+
   const defaultAccordionState = {
     icon: "",
     content: "block",
@@ -131,7 +131,9 @@ const SuggestionCompNew = () => {
   const confirmClickEvent = () => {
     // if (JSON.stringify(discountObj) === JSON.stringify(updatedDiscountObj)) {
     if (true) {
-      navigate(`/template/list/${id}s${suggestionId}?category=${categoryParam}`);
+      navigate(
+        `/template/list/${id}s${suggestionId}?category=${categoryParam}`
+      );
     } else {
       setAnalyticsModal(true);
       setIsModalOpen(false);
@@ -511,45 +513,45 @@ const SuggestionCompNew = () => {
               </h4>
             </div>
           </button>
-<div className="max-h-[180px] custom-scrollbar overflow-auto pr-2">
-          {suggestion?.data?.length > 0 &&
-            suggestion?.data?.map((dataItem, i) => {
-              return (
-                <div
-                  key={i}
-                  className={`mt-5 ml-16.5 duration-200 ease-in-out ${manageAccordions?.[index]?.content}`}
-                >
-                  {dataItem.Customer_ID != "all" && (
-                    <div className="rounded-md border border-stroke shadow-9 dark:border-strokedark dark:shadow-none p-4">
-                      <button
-                        className="flex w-full items-center justify-between gap-2 "
-                        onClick={() => handlePlusMinus(i, dataItem)}
-                      >
-                        {/* {renderTabTitle(dataItem)} */}
-                        Open Detail
-                        <div className="flex h-9 w-full max-w-9 items-center justify-center rounded-full bg-blue-700 text-white">
-                          <PlusSvg plusMinus={plusMinus?.[i]} />
-                          <MinusSvg plusMinus={plusMinus?.[i]} />
-                        </div>
-                      </button>
-                      <div
-                        className={`mt-5 duration-200 ease-in-out ${
-                          plusMinus?.[i].minus == "" ? "" : "hidden"
-                        }`}
-                      >
-                        <div className="rounded-sm">
-                          <div className="mb-6 flex flex-wrap gap-5 border-b border-stroke dark:border-strokedark sm:gap-10">
-                            {renderAccordionTabs(dataItem)}
+          <div className="max-h-[180px] custom-scrollbar overflow-auto pr-2">
+            {suggestion?.data?.length > 0 &&
+              suggestion?.data?.map((dataItem, i) => {
+                return (
+                  <div
+                    key={i}
+                    className={`mt-5 ml-16.5 duration-200 ease-in-out ${manageAccordions?.[index]?.content}`}
+                  >
+                    {dataItem.Customer_ID != "all" && (
+                      <div className="rounded-md border border-stroke shadow-9 dark:border-strokedark dark:shadow-none p-4">
+                        <button
+                          className="flex w-full items-center justify-between gap-2 "
+                          onClick={() => handlePlusMinus(i, dataItem)}
+                        >
+                          {/* {renderTabTitle(dataItem)} */}
+                          Open Detail
+                          <div className="flex h-9 w-full max-w-9 items-center justify-center rounded-full bg-blue-700 text-white">
+                            <PlusSvg plusMinus={plusMinus?.[i]} />
+                            <MinusSvg plusMinus={plusMinus?.[i]} />
                           </div>
-                          {renderAccordionContent(dataItem)}
+                        </button>
+                        <div
+                          className={`mt-5 duration-200 ease-in-out ${
+                            plusMinus?.[i].minus == "" ? "" : "hidden"
+                          }`}
+                        >
+                          <div className="rounded-sm">
+                            <div className="mb-6 flex flex-wrap gap-5 border-b border-stroke dark:border-strokedark sm:gap-10">
+                              {renderAccordionTabs(dataItem)}
+                            </div>
+                            {renderAccordionContent(dataItem)}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-            </div>
+                    )}
+                  </div>
+                );
+              })}
+          </div>
         </div>
       </>
     );
@@ -595,7 +597,21 @@ const SuggestionCompNew = () => {
   // Function to render the status for each problem/suggestion
   // const renderStatusTd = (problemId, statementId, is_applied, is_active) => {
   const renderStatusTd = (problemId, suggestion) => {
-    const { is_applied, customer_template_id, service_status } = suggestion;
+    const {
+      is_applied,
+      customer_template_id,
+      email_template_id,
+      service_status,
+    } = suggestion;
+    let url = ``;
+    if (customer_template_id) {
+      url = `/campaigns-details/${customer_template_id}?type=suggestion`;
+    } else if (email_template_id) {
+      url = `/campaigns-details/${email_template_id}?type=email_template`;
+    }
+    let campaignId = customer_template_id
+      ? customer_template_id
+      : email_template_id;
     const statementId = suggestion.id;
     const currentStatus =
       toggleState[`${problemId}-${statementId}`] ?? service_status;
@@ -622,7 +638,7 @@ const SuggestionCompNew = () => {
         </span>
         {currentStatus && (
           <div className="flex items-center">
-            <Link to={`/campaigns-details/${customer_template_id}`}>
+            <Link to={url}>
               <i
                 className="fa fa-bar-chart fa fa-home text-[14px] bg-[#3292a9] text-white p-1 rounded-full h-6 w-6 flex items-center justify-center"
                 aria-hidden="true"

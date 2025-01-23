@@ -397,7 +397,16 @@ const CampaignsDetailsPage = () => {
 
   const colFullWidthGraph =
     "rounded-lg border border-stroke bg-white shadow-md p-4 hover:shadow-xl transition-shadow duration-300 min-h-[450px] ";
-
+  const NoDataFound = () => (
+    <div className="h-[calc(100%-70px)] flex flex-col justify-center items-center text-center text-red-500">
+      <i className="fa fa-exclamation-triangle text-4xl mb-2"></i>{" "}
+      {/* Example using Font Awesome */}
+      <p className="font-bold text-lg">No data available</p>
+      <p className="text-gray-500 text-sm mt-1">
+        Please check back later or adjust your filters.
+      </p>
+    </div>
+  );
   return (
     <>
       {loading && <Loader />}
@@ -416,7 +425,8 @@ const CampaignsDetailsPage = () => {
             <div className="flex">
               <div className="flex items-center">
                 <Link
-                  to={`/master-form/${productDetailsData.pid}s${productDetailsData.sid}`}
+                  // to={`/master-form/${productDetailsData.pid}s${productDetailsData.sid}`}
+                  to={`${productDetailsData.url}`}
                   state={{
                     subTemplateId: productDetailsData.sub_template_id,
                   }}
@@ -643,20 +653,34 @@ const CampaignsDetailsPage = () => {
           <div className={`grid grid-cols-2 gap-4 mt-5`}>
             <div className={colFullWidthGraph}>
               <DashboardTitle title={"Email bar Chart"} />
-              <SalesBarGraph
-                salesBarData={emailSalesBarData}
-                barCategories={EmailBarCategories}
-                baryAxisTitle={emailBaryAxisTitle}
-                title=""
-                tooltipTitle="Count"
-              />
+              {emailSalesBarData[0] != 0 &&
+              emailSalesBarData[1] != 0 &&
+              emailSalesBarData[2] != 0 &&
+              emailSalesBarData[3] != 0 ? (
+                <SalesBarGraph
+                  salesBarData={emailSalesBarData}
+                  barCategories={EmailBarCategories}
+                  baryAxisTitle={emailBaryAxisTitle}
+                  title=""
+                  tooltipTitle="Count"
+                />
+              ) : (
+                <NoDataFound />
+              )}
             </div>
             <div className={colFullWidthGraph}>
               <DashboardTitle title={"Email Pia Chart"} />
-              <SalesPieGraph
-                seriesData={emailSeriesData}
-                labels={emailLabels}
-              />
+              {emailSeriesData[0] != 0 &&
+              emailSeriesData[1] != 0 &&
+              emailSeriesData[2] != 0 &&
+              emailSeriesData[3] != 0 ? (
+                <SalesPieGraph
+                  seriesData={emailSeriesData}
+                  labels={emailLabels}
+                />
+              ) : (
+                <NoDataFound />
+              )}
             </div>
           </div>
         )}
@@ -816,7 +840,7 @@ const CampaignsDetailsPage = () => {
                         }}
                       >
                         <i
-                          class="fa fa-external-link text-blue-600 text-lg"
+                          className="fa fa-external-link text-blue-600 text-lg"
                           aria-hidden="true"
                         ></i>{" "}
                         <span className="text-blue-600 decoration-slice">

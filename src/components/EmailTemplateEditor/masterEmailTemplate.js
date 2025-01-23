@@ -53,7 +53,7 @@ export const emailTemplateEditorDefaults = {
   },
   cart_banner_style: {
     imageIcon: "",
-    background_color: "",
+    background_color: "#e1f2f6",
     btn_background_color: "#207a8b",
     btn_text_color: "#ffffff",
     btn_name: "Complete your order",
@@ -141,7 +141,7 @@ export const emailTemplateEditorDefaults = {
     ],
   },
   footer_banner_style: {
-    background_color: "",
+    background_color: "#e1f2f6",
     imageIcon: "",
     social_media_icon: {
       facebook_url: "www.facebook.com",

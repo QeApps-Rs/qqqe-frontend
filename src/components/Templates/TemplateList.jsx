@@ -21,10 +21,11 @@ const TemplateList = () => {
   const [templateListCopy, setTemplateListCopy] = useState([]);
   const [tags, setTags] = useState([]);
   const [goals, setGoals] = useState([]);
-  const emailTemplateList = [
-    { id: 1, name: "Template 1", imageUrl: emailTemplateImg1 },
-    { id: 2, name: "Template 2", imageUrl: emailTemplateImg2 },
-  ];
+  // const emailTemplateList = [
+  //   { id: 1, name: "Template 1", imageUrl: emailTemplateImg1 },
+  //   { id: 2, name: "Template 2", imageUrl: emailTemplateImg2 },
+  // ];
+  const [emailTemplateList, setEmailTemplateList] = useState([]);
   const [keywords, setKeywords] = useState([]);
   const [filterKeyword, setFilterKeyword] = useState("");
 
@@ -78,6 +79,26 @@ const TemplateList = () => {
       });
   };
 
+  const getEmailTemplateList = async () => {
+    setLoading(true);
+    await FormSubmitHandler({
+      method: "get",
+      url: `email/template/popup`,
+    })
+      .then((res) => {
+        if (res.data) {
+          console.log(["checking", res.data]);
+          setEmailTemplateList(res.data);
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   const getKeywordList = async () => {
     setLoading(true);
     await FormSubmitHandler({
@@ -100,6 +121,7 @@ const TemplateList = () => {
   useEffect(() => {
     getTemplateList();
     getKeywordList();
+    getEmailTemplateList();
   }, []);
 
   const RenderTemplates = ({ templateListProp }) => {
@@ -280,36 +302,40 @@ const TemplateList = () => {
       <span className="p-2 text-sm text-black mb-3">
         Apply solutions to improve your store and derive results
       </span>
-      <FilterBar
-        selectedGoals={selectedGoals}
-        setSelectedGoals={setSelectedGoals}
-        goals={goals}
-        selectedTags={selectedTags}
-        setSelectedTags={setSelectedTags}
-        tags={tags}
-        formatTag={formatTag}
-        handleCheckboxChange={handleCheckboxChange}
-        keywords={keywords}
-        setFilterKeyword={setFilterKeyword}
-      />
+      {categoryParam != "promotion" && (
+        <FilterBar
+          selectedGoals={selectedGoals}
+          setSelectedGoals={setSelectedGoals}
+          goals={goals}
+          selectedTags={selectedTags}
+          setSelectedTags={setSelectedTags}
+          tags={tags}
+          formatTag={formatTag}
+          handleCheckboxChange={handleCheckboxChange}
+          keywords={keywords}
+          setFilterKeyword={setFilterKeyword}
+        />
+      )}
       <div className="flex">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10 my-10 w-full">
           {/* Left side content occupying 2/3 of the space */}
-          <div className="md:col-span-1 bg-white p-6 rounded-lg sticky top-0 h-[calc(100vh-2.5rem)] overflow-y-auto">
-            {" "}
-            <h2 className="text-lg font-bold text-graydark my-4">Tags</h2>
-            <RenderCheckboxes
-              items={tags}
-              type="tags"
-              showMoreKey="showMoreTags"
-            />
-            <h2 className="text-lg font-bold text-graydark my-4">Goal</h2>
-            <RenderCheckboxes
-              items={goals}
-              type="goals"
-              showMoreKey="showMoreGoal"
-            />
-          </div>{" "}
+          {categoryParam != "promotion" && (
+            <div className="md:col-span-1 bg-white p-6 rounded-lg sticky top-0 h-[calc(100vh-2.5rem)] overflow-y-auto">
+              {" "}
+              <h2 className="text-lg font-bold text-graydark my-4">Tags</h2>
+              <RenderCheckboxes
+                items={tags}
+                type="tags"
+                showMoreKey="showMoreTags"
+              />
+              <h2 className="text-lg font-bold text-graydark my-4">Goal</h2>
+              <RenderCheckboxes
+                items={goals}
+                type="goals"
+                showMoreKey="showMoreGoal"
+              />
+            </div>
+          )}
           <div className="md:col-span-4 w-full ">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full">
               <RenderTemplates templateListProp={templateList} />
@@ -336,7 +362,7 @@ const TemplateList = () => {
                     >
                       <div className="px-10 py-6 h-[350px] bg-[url('/src/images/template-background.svg')] bg-no-repeat bg-cover shadow-md shadow-black/28 rounded-lg">
                         <img
-                          src={template.imageUrl} // Dynamically assign the image URL
+                          src={template.image_path} // Dynamically assign the image URL
                           alt={`Template ${template.id}`}
                           className="mb-3 w-full h-full object-contain"
                         />
