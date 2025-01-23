@@ -28,6 +28,13 @@ const EmailTemplateEditorComponent = () => {
   const pid = id.split("s")[0];
   const sid = id.split("s")[1];
   const [success, setSuccess] = useState(false);
+  const [emailTemplateJSON, setEmailTemplateJSON] = useState(
+    emailTemplateEditorDefaults
+  );
+  const [emailTemplate, setEmailTemplate] = useState({
+    isAbandonmentCartFirstDesign: false,
+    isAbandonmentCartSecondDesign: false,
+  });
 
   const [templateHeaderState, setTemplateHeaderState] = useState({
     teaser: true,
@@ -36,33 +43,6 @@ const EmailTemplateEditorComponent = () => {
     desktop: true,
     mobile: true,
   });
-
-  const [emailTemplate, setEmailTemplate] = useState({
-    isAbandonmentCartFirstDesign: false,
-    isAbandonmentCartSecondDesign: false,
-  });
-  const [emailTemplateJSON, setEmailTemplateJSON] = useState(
-    emailTemplateEditorDefaults
-  );
-
-  useEffect(() => {
-    if (templateId === "1") {
-
-      setEmailTemplate({
-        isAbandonmentCartFirstDesign: true,
-        isAbandonmentCartSecondDesign: false,
-      });
-    } else if (templateId === "2") {
-
-      setEmailTemplate({
-        isAbandonmentCartFirstDesign: false,
-        isAbandonmentCartSecondDesign: true,
-      });
-    }
-  }, [templateId]);
-
- 
-
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isView, setView] = useState("Desktop");
@@ -79,6 +59,7 @@ const EmailTemplateEditorComponent = () => {
       },
     }));
   };
+
   const handleFooterIconChange = (newData, styleType) => {
     setEmailTemplateJSON((prev) => ({
       ...prev,
@@ -94,14 +75,18 @@ const EmailTemplateEditorComponent = () => {
 
   const getTemplateList = async () => {
     setLoading(true);
-   
+
     await FormSubmitHandler({
       method: "get",
       url: `customer/template/${sid}?handle_type=${emailTemplateJSON?.handle_type}`,
     })
       .then((res) => {
         if (res.data) {
-          if (res.data?.selected_products.length > 0) {
+          if (res?.data?.json_response) {
+            setEmailTemplateJSON({
+              ...res?.data?.json_response,
+            });
+          } else if (res.data?.selected_products.length > 0) {
             setEmailTemplateJSON({
               ...emailTemplateJSON,
               email_template_products: res.data?.selected_products,
@@ -116,8 +101,40 @@ const EmailTemplateEditorComponent = () => {
         setLoading(false);
       });
   };
+
+  const fetchSubTemplateData = async () => {
+    try {
+      setLoading(true);
+      const template = await FormSubmitHandler({
+        method: "get",
+        url: `sub/template/${templateId}`,
+      });
+
+      if (template.success) {
+        let jsonObject = template?.data?.params;
+        if (jsonObject) {
+          if (template?.data?.keywords == "first") {
+            setEmailTemplate({
+              isAbandonmentCartFirstDesign: true,
+              isAbandonmentCartSecondDesign: false,
+            });
+          } else if (template?.data?.keywords == "second") {
+            setEmailTemplate({
+              isAbandonmentCartFirstDesign: false,
+              isAbandonmentCartSecondDesign: true,
+            });
+          }
+          setEmailTemplateJSON({ ...jsonObject });
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching sub-template:", error);
+    }
+  };
+
   useEffect(() => {
     getTemplateList();
+    fetchSubTemplateData();
   }, []);
   return (
     <>
@@ -180,7 +197,8 @@ const EmailTemplateEditorComponent = () => {
                       handleEmailTemplateChange={handleEmailTemplateChange}
                       setEmailTemplateJSON={setEmailTemplateJSON}
                       isAbandonmentCartSecondDesign={
-                        emailTemplate?.isAbandonmentCartSecondDesign}
+                        emailTemplate?.isAbandonmentCartSecondDesign
+                      }
                     />
                   )}
                 {activeIndex === index &&
