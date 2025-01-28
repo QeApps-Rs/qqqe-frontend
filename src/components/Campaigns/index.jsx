@@ -51,12 +51,15 @@ const Campaigns = () => {
   ]);
   const [toggleState, setToggleState] = useState({});
   const [selectedDeleteId, setSelectedDeleteId] = useState(null);
-  const openModal = (id) => {
+  const [selectedDeleteType, setSelectedDeleteType] = useState(null);
+  const openModal = (id, type) => {
     setSelectedDeleteId(id);
+    setSelectedDeleteType(type);
     setIsModalOpen(true);
   };
   const closeModal = () => {
     setSelectedDeleteId(null);
+    setSelectedDeleteType(null);
     setIsModalOpen(false);
   };
 
@@ -166,11 +169,11 @@ const Campaigns = () => {
     setLoading(true);
     await FormSubmitHandler({
       method: "get",
-      url: `customer/template/delete/${selectedDeleteId}`,
+      url: `customer/template/delete/${selectedDeleteId}?type=${selectedDeleteType}`,
     })
-      .then((res) => {
+      .then(async (res) => {
+        await fetchSuggestionData();
         toast.success(res.message);
-        fetchSuggestionData();
       })
       .catch((err) => {
         toast.error(err.message);
@@ -403,7 +406,7 @@ const Campaigns = () => {
                 <button
                   className="px-4 py-2 rounded-full hover:bg-red-100 focus:outline-none transition duration-300"
                   aria-label="Delete"
-                  onClick={() => openModal(product.id)}
+                  onClick={() => openModal(product.id, product.type)}
                 >
                   <i
                     className="fa fa-trash text-red-500 text-2xl cursor-pointer"
