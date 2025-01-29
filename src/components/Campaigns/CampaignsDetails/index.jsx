@@ -2,7 +2,13 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect, useRef } from "react";
 import SwitcherThree from "../../Switchers/SwitcherThree";
-import { Link, useLocation, useParams } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { defaultBoxClassName } from "../../../pages/forms/masterFormConfig";
 import SalesLineGraph from "../Graphs/SalesLineGraph";
 import SalesPieGraph from "../Graphs/SalesPieGraph";
@@ -18,10 +24,12 @@ import SurveyCampaignCompon from "./SurveyCampaignComponent";
 import NeedHelpPage from "../../NeedHelp";
 import Support from "../../Support/Support";
 import EmailDetailsModal from "./EmailDetailsModal";
+import { BackIcon } from "../../custIcon/svgIcon";
 
 const CampaignsDetailsPage = () => {
   const defaultDayCount = [0, 0, 0, 0, 0, 0, 0];
   const defaultMonthCount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const navigate = useNavigate();
 
   const defaultDayName = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const defaultMonthName = [
@@ -445,6 +453,12 @@ const CampaignsDetailsPage = () => {
                   </Link>
                 </div>
               )}
+              <span
+                onClick={() => navigate(-1)}
+                className="flex items-center gap-x-1 cursor-pointer bg-white border border-gray-300 pt-1.5 pb-1.5 pl-2.5 pr-2.5 text-[15px] rounded-md mr-4 hover:bg-black hover:text-white transition-colors duration-300"
+              >
+                <BackIcon /> Back
+              </span>
             </div>
           </div>
         </div>
@@ -624,7 +638,11 @@ const CampaignsDetailsPage = () => {
         )}
 
         {type === "suggestion" && (
-          <div className={`grid grid-cols-3 gap-4 mt-5`}>
+          <div
+            className={`grid grid-cols-${
+              countryWiseCustomerChart.seriesData.length > 0 ? 3 : 2
+            } gap-4 mt-5`}
+          >
             {countryWiseCustomerChart.seriesData.length > 0 && (
               <div className={colFullWidthGraph}>
                 <DashboardTitle title={"Country wise customers"} />

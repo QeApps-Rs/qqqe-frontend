@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Checkbox from "../components/higherOrderComponent/Checkboxes/Checkbox";
 import activityLogImg from "../images/change-log-img.jpg";
 import toast from "react-hot-toast";
 import Loader from "../common/Loader";
@@ -9,6 +8,8 @@ import noDataAnimationIcon from "../images/no-data.png";
 const ActivityLog = () => {
   const [loading, setLoading] = useState(false);
   const [stepsData, setStepsData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
     const fetchActivityLogs = async () => {
       try {
@@ -36,71 +37,8 @@ const ActivityLog = () => {
     fetchActivityLogs();
   }, []);
 
-  const [filterCheckBox, setFilterCheckBox] = useState([
-    { id: 1, label: "Improvement", checked: false },
-    { id: 2, label: "Feature", checked: false },
-    { id: 3, label: "New", checked: false },
-    { id: 4, label: "Bug Fix", checked: false },
-    { id: 5, label: "UI Update", checked: false },
-    { id: 6, label: "Performance", checked: false },
-    { id: 7, label: "Other", checked: false },
-  ]);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3;
-
-  const handleCheckboxChange = (id) => {
-    setFilterCheckBox((prev) =>
-      prev.map((checkbox) =>
-        checkbox.id === id
-          ? { ...checkbox, checked: !checkbox.checked }
-          : checkbox
-      )
-    );
-  };
-
-  const handleClearFilter = () => {
-    setFilterCheckBox((prev) =>
-      prev.map((checkbox) => ({
-        ...checkbox,
-        checked: false,
-      }))
-    );
-  };
-  // const filteredData = stepsData.filter((step) => {
-  //   const activeFilters = filterCheckBox
-  //     .filter((checkbox) => checkbox.checked)
-  //     .map((checkbox) => checkbox.label);
-
-  //   return (
-  //     activeFilters.length === 0 || activeFilters.includes(step.activity_log_type)
-  //   );
-  // });
-
-  // const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  // const paginatedData = filteredData.slice(
-  //   (currentPage - 1) * itemsPerPage,
-  //   currentPage * itemsPerPage
-  // );
-
-  // const handlePageChange = (newPage) => {
-  //   setCurrentPage(newPage);
-  // };
-
-  // Step 1: Filter data based on the active filters
-  const filteredData = stepsData.filter((step) => {
-    const activeFilters = filterCheckBox
-      .filter((checkbox) => checkbox.checked)
-      .map((checkbox) => checkbox.label);
-
-    return (
-      activeFilters.length === 0 ||
-      activeFilters.includes(step.activity_log_type)
-    );
-  });
-
   // Step 2: Group data by date
-  const groupedByDate = filteredData.reduce((acc, step) => {
+  const groupedByDate = stepsData.reduce((acc, step) => {
     if (!acc[step.date]) {
       acc[step.date] = [];
     }
@@ -108,13 +46,15 @@ const ActivityLog = () => {
     return acc;
   }, {});
 
-  const groupedData = Object.entries(groupedByDate).map(([date, items]) => ({
+  let groupedData = Object.entries(groupedByDate).map(([date, items]) => ({
     date,
     items,
   }));
 
   // Step 3: Pagination logic based on grouped data
+  groupedData = groupedData.slice(0, 5);
   const totalPages = groupedData.length;
+
   const paginatedData = groupedData[currentPage - 1] || { date: "", items: [] };
 
   const handlePageChange = (newPage) => {
@@ -129,12 +69,7 @@ const ActivityLog = () => {
       <div className="block ">
         <div className="w-full bg-activity_log_bg_gradient flex justify-between items-center shadow-[0_0_11px_#ccc]">
           <div className="block sm:pl-10 sm:p-0 p-4">
-            <span className="text-lg font-medium text-whiter">
-              Activity Log
-            </span>
-            <h1 className="text-3xl font-bold text-whiter">
-              What’s New at QQQE?{" "}
-            </h1>
+            <h1 className="text-3xl font-bold text-whiter">Activity Log</h1>
           </div>
           <img src={activityLogImg} alt="" className="w-60 sm:block hidden" />
         </div>
@@ -219,31 +154,6 @@ const ActivityLog = () => {
                   {i + 1}
                 </button>
               ))}
-            </div>
-          </div>
-          <div className="lg:col-span-3 md:col-span-4 sm:col-span-5 col-span-12 border-r-0 md:border-r-2 border-dashed border-white sm:block hidden">
-            <div className="bg-[#212940e6] p-4 rounded-lg text-whiter">
-              <h4 className="text-lg font-extrabold mb-4">Filter</h4>
-              {filterCheckBox.map(({ id, label, checked }) => (
-                <div
-                  className="flex items-center mb-4 transition-transform duration-200 hover:scale-105"
-                  key={id}
-                >
-                  <Checkbox
-                    id={`filter-${id}`}
-                    label={label}
-                    checked={checked}
-                    onChange={() => handleCheckboxChange(id)}
-                  />
-                </div>
-              ))}
-              <button
-                type="button"
-                className="py-2 px-4 font-medium bg-transparent border border-white hover:bg-white hover:text-black w-full text-gray-800 rounded"
-                onClick={handleClearFilter}
-              >
-                Clear Filter
-              </button>
             </div>
           </div>
         </div>

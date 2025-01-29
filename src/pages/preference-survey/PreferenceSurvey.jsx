@@ -29,12 +29,14 @@ const PreferenceSurvey = ({
 
   const listPreferenceList = async () => {
     setLoading(false);
+    console.log(['test1']);
+    
     await FormSubmitHandler({
       method: "get",
       url: "preference/list",
     })
       .then((res) => {
-        toast.success(res.message);
+        // toast.success(res.message);
         const data = res.data;
         setCheckedItems(data);
 
