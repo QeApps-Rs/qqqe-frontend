@@ -40,6 +40,10 @@ const EmailTemplateControllerComponent = ({
   };
 
   const addButton = () => {
+    if (newButtonName.length > 10) {
+      toast.error("Button name cannot exceed 10 characters.");
+      return;
+    }
     if (newButtonName.trim() === "" || newButtonUrl.trim() === "") {
       toast.error("Please fill out both fields before adding.");
       return;
@@ -68,6 +72,10 @@ const EmailTemplateControllerComponent = ({
   };
 
   const saveEditButton = () => {
+    if (newButtonName.length > 10) {
+      toast.error("Button name cannot exceed 10 characters.");
+      return;
+    }
     setEmailTemplateJSON((prev) => {
       const updatedNavLinks = [...prev.header_banner_style.nav_links];
       updatedNavLinks[editingButtonIndex] = {
@@ -216,7 +224,7 @@ const EmailTemplateControllerComponent = ({
                       </div>
                     ) : (
                       <div>
-                        <span className="block text-gray-800 dark:text-gray-300 font-semibold">
+                        <span className="block text-gray-800 dark:text-gray-300 font-semibold break-words">
                           {button.navName}
                         </span>
                         <span className="text-gray-500 dark:text-gray-400 text-sm">

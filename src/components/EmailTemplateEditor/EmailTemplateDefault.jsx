@@ -12,7 +12,7 @@ const EmailTemplateDefault = ({ emailTemplateJSON }) => {
 
   const ProductRow = ({ product }) => (
     <td
-      className="flex w-4/12 flex-wrap justify-center mb-4 "
+      className="flex w-4/12 flex-wrap justify-center mb-auto "
       data-product-handle={product.variantHandle}
     >
       <img
